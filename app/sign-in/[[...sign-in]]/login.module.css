@@ -1,0 +1,20 @@
+.container{
+  display: flex;
+  color: white;
+  height: 100vh;
+}
+.details{
+  flex: 1;
+  background-color: var(--bg);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.loginForm{
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: scale(.9);
+}
