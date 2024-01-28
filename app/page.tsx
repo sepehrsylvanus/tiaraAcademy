@@ -1,6 +1,7 @@
+"use client";
 import Image from "next/image";
 import styles from "./page.module.css";
-import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { SignedIn, SignedOut, UserButton, useUser } from "@clerk/nextjs";
 import { Avatar } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import GridViewIcon from "@mui/icons-material/GridView";
@@ -9,13 +10,27 @@ import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium";
 import PeopleIcon from "@mui/icons-material/People";
 import NoteAltIcon from "@mui/icons-material/NoteAlt";
 import Link from "next/link";
+import { useEffect } from "react";
+import FeaturedCourse from "@/components/featuredCourses/FeaturedCourse";
 export default function Home() {
+  const { user } = useUser();
+  useEffect(() => {
+    if (user) {
+      console.log(user.primaryEmailAddress?.emailAddress);
+    }
+  }, [user]);
   return (
     <div className={styles.container}>
       <div className={styles.sidebar}>
         <div className={styles.userContainer}>
           <SignedIn>
-            <UserButton afterSignOutUrl="/" />
+            <div className={styles.accountInfo}>
+              <UserButton afterSignOutUrl="/" />
+              <div className={styles.accountInfoDetails}>
+                <span>{user?.fullName}</span>
+                <span>{user?.primaryEmailAddress?.emailAddress}</span>
+              </div>
+            </div>
           </SignedIn>
           <SignedOut>
             <Link href={"/sign-in"}>
@@ -27,24 +42,34 @@ export default function Home() {
         </div>
 
         <div className={styles.iconsContainer}>
-          <div className={styles.iconContainer}>
+          <Link href={"#"} className={styles.iconContainer}>
             <GridViewIcon />
-          </div>
-          <div className={styles.iconContainer}>
+            <p className={styles.menuText}>Overview</p>
+          </Link>
+          <Link href={"#"} className={styles.iconContainer}>
             <AccessTimeIcon />
-          </div>
-          <div className={styles.iconContainer}>
+            <p className={styles.menuText}>Classes</p>
+          </Link>
+          <Link href={"#"} className={styles.iconContainer}>
             <WorkspacePremiumIcon />
-          </div>
-          <div className={styles.iconContainer}>
+            <p className={styles.menuText}>Grades</p>
+          </Link>
+          <Link href={"#"} className={styles.iconContainer}>
             <PeopleIcon />
-          </div>
-          <div className={styles.iconContainer}>
+            <p className={styles.menuText}>Teachers</p>
+          </Link>
+          <Link href={"#"} className={styles.iconContainer}>
             <NoteAltIcon />
-          </div>
+            <p className={styles.menuText}>Notes</p>
+          </Link>
         </div>
       </div>
-      <div className={styles.main}>main content</div>
+      <div className={styles.main}>
+       <section className={styles.featuredCourses}>
+     <FeaturedCourse/>
+
+       </section>
+      </div>
     </div>
   );
 }

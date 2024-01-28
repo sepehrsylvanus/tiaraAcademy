@@ -3,6 +3,7 @@
   --mainBg: white;
   --color: black;
   --softBg: #f0f0f0;
+  --animation: .3s all;
 }
 
 * {
