@@ -12,6 +12,7 @@ import NoteAltIcon from "@mui/icons-material/NoteAlt";
 import Link from "next/link";
 import { useEffect } from "react";
 import FeaturedCourse from "@/components/featuredCourses/FeaturedCourse";
+import Categories from "@/components/categories/Categories";
 export default function Home() {
   const { user } = useUser();
   useEffect(() => {
@@ -65,10 +66,12 @@ export default function Home() {
         </div>
       </div>
       <div className={styles.main}>
-       <section className={styles.featuredCourses}>
-     <FeaturedCourse/>
-
-       </section>
+        <section className={styles.featuredCourses}>
+          <FeaturedCourse />
+        </section>
+        <section className={styles.categories}>
+          <Categories/>
+        </section>
       </div>
     </div>
   );

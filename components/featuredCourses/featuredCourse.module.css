@@ -1,3 +1,70 @@
-.container{
-  
+.container {
+  padding: 0 1.5em;
+  margin-top: 1em;
+}
+.cardContainer {
+  margin-top: 1em;
+  display: flex;
+  gap: 1em;
+}
+.eachCard {
+  background-color: var(--softBg) !important;
+  position: relative;
+  width: 500px;
+}
+.classStuff {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.icon {
+  position: relative;
+  top: 6px;
+}
+.enrollBtn {
+  padding: 0.5em 1em;
+  border: none;
+  background-color: var(--bg);
+  color: white;
+  font-weight: bold;
+  transition: var(--animation);
+}
+.enrollBtn:hover {
+  box-shadow: 0.4px 2.8px 7.4px rgba(0, 0, 0, 0.076),
+    1px 6.7px 17.8px rgba(0, 0, 0, 0.109),
+    1.9px 12.5px 33.6px rgba(0, 0, 0, 0.135),
+    3.4px 22.3px 59.9px rgba(0, 0, 0, 0.161),
+    6.3px 41.8px 112px rgba(0, 0, 0, 0.194),
+    15px 100px 268px rgba(0, 0, 0, 0.27);
+  position: relative;
+  bottom: 1px;
+  right: 1px;
+}
+.bookmarkLink {
+  border: 1px solid black;
+  padding: 2px 5px;
+  border-radius: 5px;
+  position: absolute;
+  top: 13px;
+  right: 14px;
+  transition: var(--animation);
+}
+
+.bookmarkLink:hover {
+  background-color: rgba(255, 255, 255, 0.485);
+}
+.instructure {
+  display: flex;
+  background-color: var(--mainBg);
+  align-items: center;
+  gap: 1em;
+  width: 80%;
+  padding: 0.5em;
+  box-shadow: 0.5px 3.4px 12px rgba(0, 0, 0, 0.059),
+    1.4px 8.7px 30.4px rgba(0, 0, 0, 0.084),
+    2.8px 17.7px 62px rgba(0, 0, 0, 0.106),
+    5.8px 36.5px 127.8px rgba(0, 0, 0, 0.131),
+    16px 100px 350px rgba(0, 0, 0, 0.19);
+  position: relative;
+  bottom: 2em;
 }
