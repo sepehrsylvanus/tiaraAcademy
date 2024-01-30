@@ -1,6 +1,6 @@
-
 export const courses = [
   {
+    id: 1,
     img: "https://images.pexels.com/photos/301926/pexels-photo-301926.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     instructor: "خشایار محمدی",
     instructorImg: "/instructorImg.jpg",
@@ -9,6 +9,7 @@ export const courses = [
     rating: "4.9",
   },
   {
+    id: 2,
     img: "https://images.pexels.com/photos/301920/pexels-photo-301920.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     instructor: "خشایار محمدی",
     instructorImg: "/instructorImg.jpg",
@@ -17,6 +18,7 @@ export const courses = [
     rating: "4.3",
   },
   {
+    id: 3,
     img: "https://images.pexels.com/photos/159711/books-bookstore-book-reading-159711.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     instructor: "خشایار محمدی",
     instructorImg: "/instructorImg.jpg",
@@ -25,6 +27,7 @@ export const courses = [
     rating: "4.8",
   },
   {
+    id: 4,
     img: "https://images.pexels.com/photos/256417/pexels-photo-256417.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     instructor: "خشایار محمدی",
     instructorImg: "/instructorImg.jpg",
@@ -34,3 +37,167 @@ export const courses = [
   },
 ];
 
+export const myCourses = [
+  {
+    img: "https://images.pexels.com/photos/716276/pexels-photo-716276.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    title: "Writing Assignments",
+    instructure: "خشایار محمدی",
+    progress: 75,
+  },
+  {
+    img: "https://images.pexels.com/photos/256395/pexels-photo-256395.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    title: "Speaking practice",
+    instructure: "خشایار محمدی",
+    progress: 86,
+  },
+  {
+    img: "https://images.pexels.com/photos/256395/pexels-photo-256395.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    title: "Speaking practice",
+    instructure: "خشایار محمدی",
+    progress: 86,
+  },
+  {
+    img: "https://images.pexels.com/photos/256395/pexels-photo-256395.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    title: "Speaking practice",
+    instructure: "خشایار محمدی",
+    progress: 86,
+  },
+  {
+    img: "https://images.pexels.com/photos/256395/pexels-photo-256395.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    title: "Speaking practice",
+    instructure: "خشایار محمدی",
+    progress: 86,
+  },
+  {
+    img: "https://images.pexels.com/photos/256395/pexels-photo-256395.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    title: "Speaking practice",
+    instructure: "خشایار محمدی",
+    progress: 86,
+  },
+  {
+    img: "https://images.pexels.com/photos/256395/pexels-photo-256395.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    title: "Speaking practice",
+    instructure: "خشایار محمدی",
+    progress: 86,
+  },
+  {
+    img: "https://images.pexels.com/photos/256395/pexels-photo-256395.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    title: "Speaking practice",
+    instructure: "خشایار محمدی",
+    progress: 86,
+  },
+  {
+    img: "https://images.pexels.com/photos/256395/pexels-photo-256395.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    title: "Speaking practice",
+    instructure: "خشایار محمدی",
+    progress: 86,
+  },
+  {
+    img: "https://images.pexels.com/photos/256395/pexels-photo-256395.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    title: "Speaking practice",
+    instructure: "خشایار محمدی",
+    progress: 86,
+  },
+  {
+    img: "https://images.pexels.com/photos/256395/pexels-photo-256395.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    title: "Speaking practice",
+    instructure: "خشایار محمدی",
+    progress: 86,
+  },
+  {
+    img: "https://images.pexels.com/photos/256395/pexels-photo-256395.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    title: "Speaking practice",
+    instructure: "خشایار محمدی",
+    progress: 86,
+  },
+  {
+    img: "https://images.pexels.com/photos/256395/pexels-photo-256395.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    title: "Speaking practice",
+    instructure: "خشایار محمدی",
+    progress: 86,
+  },
+  {
+    img: "https://images.pexels.com/photos/256395/pexels-photo-256395.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    title: "Speaking practice",
+    instructure: "خشایار محمدی",
+    progress: 86,
+  },
+  {
+    img: "https://images.pexels.com/photos/256395/pexels-photo-256395.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    title: "Speaking practice",
+    instructure: "خشایار محمدی",
+    progress: 86,
+  },
+  {
+    img: "https://images.pexels.com/photos/256395/pexels-photo-256395.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    title: "Speaking practice",
+    instructure: "خشایار محمدی",
+    progress: 86,
+  },
+  {
+    img: "https://images.pexels.com/photos/256395/pexels-photo-256395.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    title: "Speaking practice",
+    instructure: "خشایار محمدی",
+    progress: 86,
+  },
+  {
+    img: "https://images.pexels.com/photos/256395/pexels-photo-256395.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    title: "Speaking practice",
+    instructure: "خشایار محمدی",
+    progress: 86,
+  },
+  {
+    img: "https://images.pexels.com/photos/256395/pexels-photo-256395.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    title: "Speaking practice",
+    instructure: "خشایار محمدی",
+    progress: 86,
+  },
+  {
+    img: "https://images.pexels.com/photos/256395/pexels-photo-256395.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    title: "Speaking practice",
+    instructure: "خشایار محمدی",
+    progress: 86,
+  },
+  {
+    img: "https://images.pexels.com/photos/256395/pexels-photo-256395.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    title: "Speaking practice",
+    instructure: "خشایار محمدی",
+    progress: 86,
+  },
+  {
+    img: "https://images.pexels.com/photos/256395/pexels-photo-256395.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    title: "Speaking practice",
+    instructure: "خشایار محمدی",
+    progress: 86,
+  },
+  {
+    img: "https://images.pexels.com/photos/256395/pexels-photo-256395.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    title: "Speaking practice",
+    instructure: "خشایار محمدی",
+    progress: 86,
+  },
+  {
+    img: "https://images.pexels.com/photos/256395/pexels-photo-256395.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    title: "Speaking practice",
+    instructure: "خشایار محمدی",
+    progress: 86,
+  },
+  {
+    img: "https://images.pexels.com/photos/256395/pexels-photo-256395.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    title: "Speaking practice",
+    instructure: "خشایار محمدی",
+    progress: 86,
+  },
+  {
+    img: "https://images.pexels.com/photos/256395/pexels-photo-256395.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    title: "Speaking practice",
+    instructure: "خشایار محمدی",
+    progress: 86,
+  },
+  {
+    img: "https://images.pexels.com/photos/256395/pexels-photo-256395.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    title: "Speaking practice",
+    instructure: "خشایار محمدی",
+    progress: 86,
+  },
+];

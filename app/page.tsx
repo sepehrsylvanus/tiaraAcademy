@@ -13,6 +13,7 @@ import Link from "next/link";
 import { useEffect } from "react";
 import FeaturedCourse from "@/components/featuredCourses/FeaturedCourse";
 import Categories from "@/components/categories/Categories";
+import MyCourses from "@/components/myCourses/MyCourses";
 export default function Home() {
   const { user } = useUser();
   useEffect(() => {
@@ -71,6 +72,9 @@ export default function Home() {
         </section>
         <section className={styles.categories}>
           <Categories/>
+        </section>
+        <section className={styles.myCourses}>
+          <MyCourses/>
         </section>
       </div>
     </div>

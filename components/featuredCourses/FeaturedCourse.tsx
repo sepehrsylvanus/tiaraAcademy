@@ -13,29 +13,26 @@ const FeaturedCourse = () => {
       <h3>کلاس‌های جدید</h3>
       <div className={styles.cardContainer}>
         {courses.map((eachClass) => (
-          <Card
-            className={styles.eachCard}
-            sx={{ maxWidth: 300, padding: ".5em" }}
-          >
+          <Card className={styles.eachCard} key={eachClass.id} sx={{ padding: ".5em" }}>
             <Link className={styles.bookmarkLink} href={"#"}>
               <BookmarkIcon style={{ position: "relative", top: 2 }} />
             </Link>
-            <CardMedia
-              sx={{ height: 140 }}
-              image="https://images.pexels.com/photos/1595385/pexels-photo-1595385.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-            />
+            <CardMedia sx={{ height: 140 }} image={eachClass.img} />
             <CardContent style={{ position: "relative", bottom: "1em" }}>
               <div className={styles.instructure}>
-                <Avatar src="/instructorImg.jpg" /> خشایار محمدی
+                <Avatar src={eachClass.instructorImg} /> {eachClass.instructor}
               </div>
-              <h5 style={{ fontSize: 18, fontWeight: "light" }}>A test</h5>
+              <h5 style={{ fontSize: 18, fontWeight: "light" }}>
+                {eachClass.title}
+              </h5>
               <div className={styles.classStuff}>
                 <div className={styles.iconsContainer}>
                   <span>
-                    <AccessTimeIcon className={styles.icon} /> 1h 53m
+                    <AccessTimeIcon className={styles.icon} /> {eachClass.time}
                   </span>
                   <span>
-                    <StarIcon className={styles.icon} /> <span>4.9</span>/5
+                    <StarIcon className={styles.icon} />{" "}
+                    <span>{eachClass.rating}</span>/5
                   </span>
                 </div>
                 <button className={styles.enrollBtn}>ثبت نام</button>

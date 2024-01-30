@@ -4,13 +4,14 @@
 }
 .cardContainer {
   margin-top: 1em;
-  display: flex;
-  gap: 1em;
+ display: grid;
+ grid-template: repeat(1,1fr)/repeat(4,1fr);
+ gap: 1em;
 }
 .eachCard {
   background-color: var(--softBg) !important;
   position: relative;
-  width: 500px;
+  
 }
 .classStuff {
   display: flex;
@@ -22,12 +23,13 @@
   top: 6px;
 }
 .enrollBtn {
-  padding: 0.5em 1em;
+  padding: 1em 2em;
   border: none;
   background-color: var(--bg);
   color: white;
   font-weight: bold;
   transition: var(--animation);
+  font-size: 16px;
 }
 .enrollBtn:hover {
   box-shadow: 0.4px 2.8px 7.4px rgba(0, 0, 0, 0.076),

@@ -1,0 +1,19 @@
+.container{
+  margin-top: 1em;
+padding: 0 1.5em;
+}
+.coursesContainer{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2em;
+}
+.eachCard{
+  display: flex;
+}
+.cardMedia{
+  flex: 1 0 auto;
+  min-width: 250px;
+}
+.cardContent{
+  flex: 3;
+}

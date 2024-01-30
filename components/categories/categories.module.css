@@ -2,3 +2,19 @@
 margin-top: 1em;
 padding: 0 1.5em;
 }
+.categoryCards{
+  margin-top: 1em;
+  display: grid;
+  grid-template: repeat(1,1fr) / repeat(7, 1fr);
+  gap: 1em;
+
+}
+.eachCard{
+  text-align: center;
+border: 1px solid var(--softBg);
+border-radius: 5px;
+padding: .5em 1.5em;
+}
+.disabledCard{
+  background-color: var(--softBg);
+}
