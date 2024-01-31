@@ -1,0 +1,65 @@
+.sidebar {
+  position: fixed;
+
+  background-color: var(--softBg);
+  padding-top: 2em;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  align-items: center;
+  transition: var(--animation);
+  height: 100vh;
+  z-index: 10;
+}
+.sidebar:hover .accountInfo {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  padding: 0.5em 1em;
+  background-color: white;
+}
+.sidebar:hover .accountInfo span {
+  display: inline;
+}
+.sidebar:hover {
+  flex: 14;
+  align-items: flex-start;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+.sidebar:hover .menuText {
+  display: block;
+}
+.sidebar:hover .iconsContainer {
+  align-items: flex-start;
+}
+.accountInfo span {
+  display: none;
+}
+.accountInfoDetails {
+  display: flex;
+  flex-direction: column;
+}
+.iconContainer {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  padding: 0.5em 1em;
+  transition: var(--animation);
+}
+.iconContainer:hover {
+  background-color: white;
+  width: 100%;
+}
+
+.iconsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1em;
+  width: 100%;
+}
+.menuText {
+  display: none;
+  transition: var(--animation);
+}

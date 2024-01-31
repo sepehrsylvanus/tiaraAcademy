@@ -1,66 +1,10 @@
 .container {
   display: flex;
   height: 100vh;
+  padding-left: 4em;
 }
-.sidebar {
-  flex: 4;
-  background-color: var(--softBg);
-  padding-top: 2em;
-  display: flex;
-  flex-direction: column;
-  gap: 1em;
-  align-items: center;
-  transition: var(--animation);
-}
-.accountInfo span {
-  display: none;
-}
-.accountInfoDetails {
-  display: flex;
-  flex-direction: column;
-}
-.sidebar:hover .accountInfo {
-  display: flex;
-  align-items: center;
-  gap: 1em;
-  padding: 0.5em 1em;
-  background-color: white;
-}
-.sidebar:hover .accountInfo span {
-  display: inline;
-}
-.iconContainer {
-  display: flex;
-  align-items: center;
-  gap: 1em;
-  padding: 0.5em 1em;
-  transition: var(--animation);
-}
-.menuText {
-  display: none;
-  transition: var(--animation);
-}
-.sidebar:hover {
-  flex: 14;
-  align-items: flex-start;
-  padding-left: 1em;
-  padding-right: 1em;
-}
-.iconContainer:hover {
-  background-color: white;
-  width: 100%;
-}
-.sidebar:hover .menuText {
-  display: block;
-}
-.iconsContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 1em;
-  width: 100%;
-}
+
+
 .main {
   flex: 96;
-
 }

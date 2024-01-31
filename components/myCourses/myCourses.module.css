@@ -1,6 +1,7 @@
 .container{
   margin-top: 1em;
 padding: 0 1.5em;
+
 }
 .coursesContainer{
   display: grid;
@@ -9,6 +10,8 @@ padding: 0 1.5em;
 }
 .eachCard{
   display: flex;
+  background-color: var(--softBg) !important;
+  position: relative;
 }
 .cardMedia{
   flex: 1 0 auto;
@@ -16,4 +19,26 @@ padding: 0 1.5em;
 }
 .cardContent{
   flex: 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  gap: 1em;
+}
+.bookmarkLink {
+  outline: 1px solid black;
+  padding: 2px 5px;
+  border-radius: 5px;
+  position: absolute;
+  top: 13px;
+  right: 14px;
+  transition: var(--animation);
+}
+
+.bookmarkLink:hover {
+  background-color: var(--bg);
+  color:white ;
+  outline: none;
+}
+.progress{
+  margin-bottom: .5em;
 }
