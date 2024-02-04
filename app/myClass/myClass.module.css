@@ -1,0 +1,82 @@
+.container {
+
+  height: 100vh;
+  padding-left: 5em;
+  padding-right: 1.5em;
+}
+.header{
+  display: flex;
+  flex-direction: column;
+  padding-top: 1em;
+ text-align: center;
+}
+.title{
+  margin-top: 3em;
+  font-size: 52px;
+  font-weight: 300;
+}
+.navbar{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  
+}
+.manageClass {
+  padding: 1em 2em;
+  border: none;
+  background-color: var(--bg);
+  color: white;
+  font-weight: bold;
+  transition: var(--animation);
+  font-size: 16px;
+}
+.manageClass:hover {
+  box-shadow: 0.4px 2.8px 7.4px rgba(0, 0, 0, 0.076),
+    1px 6.7px 17.8px rgba(0, 0, 0, 0.109),
+    1.9px 12.5px 33.6px rgba(0, 0, 0, 0.135),
+    3.4px 22.3px 59.9px rgba(0, 0, 0, 0.161),
+    6.3px 41.8px 112px rgba(0, 0, 0, 0.194),
+    15px 100px 268px rgba(0, 0, 0, 0.27);
+  position: relative;
+  bottom: 1px;
+  right: 1px;
+}
+.desc{
+  text-align: center;
+  margin-top: 2em;
+  margin-bottom: 3em;
+}
+.classDetailsContainer{
+  text-align: center;
+}
+.nextClassContainer{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5em;
+}
+.eachClassDetailsContiner{
+  display: flex;
+  align-items: center;
+  gap: .5em
+}
+.sessionLinkOrPlaceTitle{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  margin-top: 1em;
+}
+.accessContainer{
+  display: flex;
+  flex-direction: column;
+align-items: center;
+}
+.accessToClass{
+
+  margin-top: .5em;
+  border: 1px solid #d8b1af;
+  padding: 1em 5em;
+width: fit-content;
+
+}
