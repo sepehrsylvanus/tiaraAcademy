@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./myClass.module.css";
-import { Button, Divider } from "@mui/material";
+import { Button, Divider, InputLabel, Select } from "@mui/material";
 import Link from "next/link";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import EmojiPeopleIcon from "@mui/icons-material/EmojiPeople";
@@ -8,6 +8,26 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 
 import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
 import SchoolIcon from "@mui/icons-material/School";
+import ClassesDate from "@/components/classesDate/ClassesDate";
+import CustomSelect from "@/components/customSelect/CustomSelect";
+
+const privateTimes = [
+  "9",
+  "10",
+  "11",
+  "12",
+  "14",
+  "15",
+  "16",
+  "17",
+  "18",
+  "19",
+  "20",
+  "21",
+];
+
+const publicTimes = ['9','10:45','14','15:45', '17:30','19:15']
+
 const MyClass = () => {
   return (
     <div className={styles.container}>
@@ -53,14 +73,34 @@ const MyClass = () => {
             {/* EACH DETAIL */}
             <div className={styles.eachClassDetailsContiner}>
               <AccessTimeIcon />
-              <span>No time Selected</span>
+              <span>
+                ساعت <span>4</span>
+              </span>
             </div>
           </div>
           <div className={styles.accessContainer}>
             <div className={styles.sessionLinkOrPlaceTitle}>
               <MeetingRoomIcon /> / <SchoolIcon />
             </div>
-            <Link className={styles.accessToClass} style={{textDecoration: 'underline'}} href={"#"}>Meeting Link (click here!)</Link>
+            <Link
+              className={styles.accessToClass}
+              style={{ textDecoration: "underline" }}
+              href={"#"}
+            >
+              Meeting Link (click here!)
+            </Link>
+            <ClassesDate />
+            <div className={styles.chooseClassTime}>
+              <div
+                style={{ display: "flex", alignItems: "center", gap: "1em" }}
+              >
+                <AccessTimeIcon />
+                <span>زمانی انتخاب نشده است</span>
+              </div>
+              <div>
+                <CustomSelect times={privateTimes} />
+              </div>
+            </div>
           </div>
         </div>
       </section>

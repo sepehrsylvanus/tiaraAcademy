@@ -3,6 +3,9 @@
   height: 100vh;
   padding-left: 5em;
   padding-right: 1.5em;
+
+
+
 }
 .header{
   display: flex;
@@ -71,6 +74,10 @@
   display: flex;
   flex-direction: column;
 align-items: center;
+display: flex;
+flex-direction: column;
+gap: 1em;
+
 }
 .accessToClass{
 
@@ -79,4 +86,11 @@ align-items: center;
   padding: 1em 5em;
 width: fit-content;
 
+
 }
+.chooseClassTime{
+  padding-bottom: 2em;
+}
+
+/* 9 - 10 - 11 -12 - 2 - 3 - 4 - 5 - 6 - 7- 8 - 9 خصوصی*/ 
+/* 9 - 10:45 - 2 - 3:45 - 5:30 - 7:15 */

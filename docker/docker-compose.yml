@@ -1,0 +1,13 @@
+services:
+
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: tiara-kh-sepehr
+      POSTGRES_USER: tiaraAcademy
+      POSTGRES_DB: tiaraDb
+    ports:
+      - 5432:5432
+
+ 

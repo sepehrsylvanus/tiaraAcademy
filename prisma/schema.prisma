@@ -1,0 +1,46 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Class {
+  id            String      @id @default(cuid())
+  title         String
+  link          String
+  instructure   Instructure? @relation(fields: [instructureId], references: [id])
+  instructureId String?
+  classTime     String
+  duration      String
+  rating        Float
+  img           String?
+  featured      Boolean
+  students      Student?     @relation(fields: [studentId], references: [id])
+  studentId     String?
+  isPublic      Boolean
+  isPrivate     Boolean
+}
+
+model Instructure {
+  id         String  @id @default(cuid())
+  classes    Class[]
+  name       String
+  profileImg String
+  isAdmin    Boolean
+  studentId  String?
+  students   Student? @relation(fields: [studentId], references: [id])
+}
+
+model Student {
+  id           String        @id @default(cuid())
+  classes      Class[]
+  instructures Instructure[]
+  name         String 
+  createdAt    DateTime      @default(now())
+}

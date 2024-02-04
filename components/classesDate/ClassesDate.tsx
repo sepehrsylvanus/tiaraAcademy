@@ -1,37 +1,44 @@
-'use state'
-import React, { useState } from 'react'
-import styles from './classesDate.module.css'
-import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers'
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { TextField, TextFieldProps } from '@mui/material';
+"use client";
+import React, { useState } from "react";
+import styles from "./classesDate.module.css";
+import { AdapterDateFnsJalali } from "@mui/x-date-pickers/AdapterDateFnsJalali";
+import {
+  DateCalendar,
+  DatePicker,
+  LocalizationProvider,
+} from "@mui/x-date-pickers";
+import { format } from "date-fns-jalali";
+import { Badge, styled } from "@mui/material";
+import AccessibleIcon from "@mui/icons-material/Accessible";
 const ClassesDate = () => {
-  const [value, setValue] = useState<Date | null>(null)
+  const [value, setValue] = useState<Date | null>(null);
 
-// ALREADY SCHEDULED
-const bookedDates : Date[] = [new Date(2024, 4, 5), new Date(2024, 4, 15), new Date(2024, 4, 20)];
+  // ALREADY SCHEDULED
+  const bookedDates = ["1402/11/10", "1402/11/05", "1402/11/07"];
 
-const handleDateChange = (dateValue: Date | null)=>{
-  setValue(dateValue)
-}
+  const handleDateChange = (dateValue: Date | null) => {
+    setValue(dateValue);
+  };
 
-const reserveClass = () =>{
-  'use server'
-}
-  
+  const disableSpecificDate = (date: Date) => {
+    const jalaliDate = format(date, "yyyy/MM/dd");
+
+    return bookedDates.some((bookedDate) => bookedDate === jalaliDate);
+  };
+
   return (
     <div className={styles.container}>
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-<DatePicker
-  label="Class date"
-  value={value}
-  onChange={handleDateChange}
- 
-  // Disable the dates when classes are already scheduled
-  shouldDisableDate={(date) => bookedDates.some((d) => d.getTime() === date.getTime())}
-/>
+      <LocalizationProvider dateAdapter={AdapterDateFnsJalali}>
+        <DatePicker
+          label="انتخاب تاریخ"
+          value={value}
+          onChange={handleDateChange}
+          shouldDisableDate={disableSpecificDate}
+        />
+        <DateCalendar shouldDisableDate={disableSpecificDate} />
       </LocalizationProvider>
     </div>
-  )
-}
+  );
+};
 
-export default ClassesDate
+export default ClassesDate;
