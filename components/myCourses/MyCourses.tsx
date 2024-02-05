@@ -1,4 +1,4 @@
-
+'use client'
 import React, { useState } from "react";
 import styles from "./myCourses.module.css";
 import {

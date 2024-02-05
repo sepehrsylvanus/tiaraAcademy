@@ -1,4 +1,4 @@
-"use client";
+
 import styles from "./page.module.css";
 import FeaturedCourse from "@/components/featuredCourses/FeaturedCourse";
 import Categories from "@/components/categories/Categories";

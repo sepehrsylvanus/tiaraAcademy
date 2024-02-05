@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./myClass.module.css";
+import styles from "./singleClass.module.css";
 import { Button, Divider, InputLabel, Select } from "@mui/material";
 import Link from "next/link";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";

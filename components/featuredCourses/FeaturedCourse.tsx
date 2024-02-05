@@ -6,21 +6,30 @@ import StarIcon from "@mui/icons-material/Star";
 import { light } from "@mui/material/styles/createPalette";
 import Link from "next/link";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
-import { courses } from "@/utils/fakeData";
-const FeaturedCourse = () => {
+import { getFeaturedClasses } from "@/actions/actions";
+import { Class } from "@/utils/types";
+const FeaturedCourse = async () => {
+  const featuredCourses: Class[] = await getFeaturedClasses();
+  console.log(featuredCourses);
   return (
     <div className={styles.container}>
       <h3>کلاس‌های جدید</h3>
       <div className={styles.cardContainer}>
-        {courses.map((eachClass) => (
-          <Card className={styles.eachCard} key={eachClass.id} sx={{ padding: ".5em" }}>
+        {/* {featuredCourses.map((eachClass) => (
+          <Card
+            className={styles.eachCard}
+            key={eachClass.id}
+            sx={{ padding: ".5em" }}
+          >
             <Link className={styles.bookmarkLink} href={"#"}>
               <BookmarkIcon style={{ position: "relative", top: 2 }} />
             </Link>
-            <CardMedia sx={{ height: 140 }} image={eachClass.img} />
+            {eachClass.img && (
+              <CardMedia sx={{ height: 140 }} image={eachClass.img} />
+            )}
             <CardContent style={{ position: "relative", bottom: "1em" }}>
               <div className={styles.instructure}>
-                <Avatar src={eachClass.instructorImg} /> {eachClass.instructor}
+                <Avatar src={eachClass.classInstructors[0].instructor.profileImg} /> {eachClass.instructor}
               </div>
               <h5 style={{ fontSize: 18, fontWeight: "light" }}>
                 {eachClass.title}
@@ -39,7 +48,7 @@ const FeaturedCourse = () => {
               </div>
             </CardContent>
           </Card>
-        ))}
+        ))} */}
       </div>
     </div>
   );

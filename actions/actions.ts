@@ -1,10 +1,15 @@
 "use server";
-
-import { title } from "process";
-
-const getClass = async(className: string)=>{
-  const resultClass = await prisma?.class.findFirst({
-    where:{title: className},
-  })
-  console.log(resultClass)
-}
+import prisma from "@/utils/db";
+export const getFeaturedClasses = async () => {
+  const result = await prisma.class.findMany({
+    where: { featured: true },
+    include: {
+      classInstructors:{
+        include:{
+          instructor: true
+        }
+      }
+    }
+  });
+  return result;
+};

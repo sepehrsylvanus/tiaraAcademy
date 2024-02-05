@@ -6,41 +6,53 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
+
 model Class {
-  id            String      @id @default(cuid())
+  id            String        @id @default(cuid()) @map("_id")
   title         String
   link          String
-  instructure   Instructure? @relation(fields: [instructureId], references: [id])
-  instructureId String?
-  classTime     String
+  classTime     String?
   duration      String
   rating        Float
   img           String?
   featured      Boolean
-  students      Student?     @relation(fields: [studentId], references: [id])
-  studentId     String?
   isPublic      Boolean
   isPrivate     Boolean
+  classInstructors ClassInstructor[]
+  classStudents ClassStudent[]
 }
 
 model Instructure {
-  id         String  @id @default(cuid())
-  classes    Class[]
+  id         String   @id @default(cuid()) @map("_id")
   name       String
   profileImg String
   isAdmin    Boolean
-  studentId  String?
-  students   Student? @relation(fields: [studentId], references: [id])
+  classInstructors ClassInstructor[]
 }
 
 model Student {
-  id           String        @id @default(cuid())
-  classes      Class[]
-  instructures Instructure[]
-  name         String 
+  id           String        @id @default(cuid()) @map("_id")
+  name         String
   createdAt    DateTime      @default(now())
+  classStudents ClassStudent[]
+}
+
+model ClassInstructor {
+  id           String        @id @default(cuid()) @map("_id")
+  classId      String
+  class        Class         @relation(fields: [classId], references: [id])
+  instructorId String
+  instructor   Instructure  @relation(fields: [instructorId], references: [id])
+}
+
+model ClassStudent {
+  id           String        @id @default(cuid()) @map("_id")
+  classId      String
+  class        Class         @relation(fields: [classId], references: [id])
+  studentId    String
+  student      Student       @relation(fields: [studentId], references: [id])
 }
