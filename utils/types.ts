@@ -2,16 +2,15 @@ export interface Class {
   id: string;
   title: string;
   link: string;
-
+  dates?: string[];
   classTime?: string | null;
   duration: string;
   rating: number;
   img?: string | null;
   featured: boolean;
 
-  isPublic: boolean;
   isPrivate: boolean;
-  classInstructors: ClassInstructor[]
+  classInstructors: ClassInstructor[];
 }
 
 export interface Instructure {
@@ -28,10 +27,12 @@ export interface Student {
 }
 
 interface ClassInstructor {
-  
-    id: string,
-    classId: string,
-    instructorId: string,
-    instructor: Instructure
-  
+  id: string;
+  classId: string;
+  instructorId: string;
+  instructor: Instructure;
+}
+export interface ClassProps {
+  params: { class: string };
+  searchParams: { teacher: string; id: string };
 }

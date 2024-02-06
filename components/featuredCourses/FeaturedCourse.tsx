@@ -59,9 +59,9 @@ const FeaturedCourse = async () => {
                       .replace(
                         /\s+/g,
                         "-"
-                      )}?${eachClass.classInstructors[0].instructor.name
+                      )}?teacher=${eachClass.classInstructors[0].instructor.name
                       .toLowerCase()
-                      .replace(/\s+/g, "-")}`}
+                      .replace(/\s+/g, "-")}&id=${eachClass.id}`}
                     className={styles.enrollBtn}
                   >
                     ثبت نام

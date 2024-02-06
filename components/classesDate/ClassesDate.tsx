@@ -10,20 +10,22 @@ import {
 import { format } from "date-fns-jalali";
 import { Badge, styled } from "@mui/material";
 import AccessibleIcon from "@mui/icons-material/Accessible";
-const ClassesDate = () => {
+const ClassesDate = ({ classDates }: { classDates: string[] | undefined }) => {
   const [value, setValue] = useState<Date | null>(null);
 
   // ALREADY SCHEDULED
-  const bookedDates = ["1402/11/10", "1402/11/05", "1402/11/07"];
-
+  console.log(classDates);
   const handleDateChange = (dateValue: Date | null) => {
     setValue(dateValue);
   };
 
   const disableSpecificDate = (date: Date) => {
     const jalaliDate = format(date, "yyyy/MM/dd");
-
-    return bookedDates.some((bookedDate) => bookedDate === jalaliDate);
+    if (classDates) {
+      return classDates.some((classDate) => classDate === jalaliDate);
+    } else {
+      return false;
+    }
   };
 
   return (

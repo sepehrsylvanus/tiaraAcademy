@@ -10,6 +10,8 @@ import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
 import SchoolIcon from "@mui/icons-material/School";
 import ClassesDate from "@/components/classesDate/ClassesDate";
 import CustomSelect from "@/components/customSelect/CustomSelect";
+import { ClassProps } from "@/utils/types";
+import { getSingleClass } from "@/actions/actions";
 
 const privateTimes = [
   "9",
@@ -26,9 +28,14 @@ const privateTimes = [
   "21",
 ];
 
-const publicTimes = ['9','10:45','14','15:45', '17:30','19:15']
+const publicTimes = ["9", "10:45", "14", "15:45", "17:30", "19:15"];
 
-const MyClass = () => {
+const MyClass = async (details: ClassProps) => {
+  const { params, searchParams } = details;
+  const singleClass = await getSingleClass(searchParams.id);
+  console.log(singleClass);
+  console.log("params: ", params);
+  console.log("searchParams: ", searchParams);
   return (
     <div className={styles.container}>
       <section className={styles.header}>
@@ -38,7 +45,13 @@ const MyClass = () => {
             تغییر کلاس جاری
           </Link>
         </div>
-        <h2 className={styles.title}>Session Details</h2>
+        <h2 className={styles.title}>{`${params.class
+          .split("-")
+          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(" ")} - ${searchParams.teacher
+          .split("-")
+          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(" ")}`}</h2>
       </section>
       <Divider sx={{ marginTop: "1em" }} />
       <section className={styles.body}>
@@ -89,7 +102,7 @@ const MyClass = () => {
             >
               Meeting Link (click here!)
             </Link>
-            <ClassesDate />
+            <ClassesDate classDates={singleClass?.dates} />
             <div className={styles.chooseClassTime}>
               <div
                 style={{ display: "flex", alignItems: "center", gap: "1em" }}
@@ -98,9 +111,18 @@ const MyClass = () => {
                 <span>زمانی انتخاب نشده است</span>
               </div>
               <div>
-                <CustomSelect times={privateTimes} />
+                <CustomSelect
+                  times={singleClass?.isPrivate ? privateTimes : publicTimes}
+                />
               </div>
             </div>
+            <Link
+              style={{ marginBottom: "1em" }}
+              className={styles.manageClass}
+              href={"#"}
+            >
+              رزرو کلاس
+            </Link>
           </div>
         </div>
       </section>
