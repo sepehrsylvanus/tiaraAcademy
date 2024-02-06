@@ -11,6 +11,7 @@ export interface Class {
 
   isPublic: boolean;
   isPrivate: boolean;
+  classInstructors: ClassInstructor[]
 }
 
 export interface Instructure {
@@ -24,4 +25,18 @@ export interface Student {
   id: string;
   name: string;
   createdAt: Date;
+}
+
+interface ClassInstructor {
+  
+    id: string,
+    classId: string,
+    instructorId: string,
+    instructor: {
+      id: string,
+      name: string,
+      profileImg: string,
+      isAdmin: boolean
+    }
+  
 }
