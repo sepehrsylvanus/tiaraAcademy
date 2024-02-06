@@ -32,11 +32,6 @@ interface ClassInstructor {
     id: string,
     classId: string,
     instructorId: string,
-    instructor: {
-      id: string,
-      name: string,
-      profileImg: string,
-      isAdmin: boolean
-    }
+    instructor: Instructure
   
 }
