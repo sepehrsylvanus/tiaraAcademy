@@ -1,0 +1,13 @@
+.container {
+  display: flex;
+  height: 100vh;
+  padding-left: 4em;
+}
+
+
+.main {
+  flex: 96;
+}
+.myCourses{
+  padding-bottom: 2em;
+}

@@ -1,5 +1,6 @@
 "use server";
 import prisma from "@/utils/db";
+import { clerkClient } from "@clerk/nextjs";
 export const getFeaturedClasses = async () => {
   const result = await prisma.class.findMany({
     where: { featured: true },
@@ -21,4 +22,14 @@ export const getSingleClass = async (id: string) => {
     },
   });
   return singleClass;
+};
+
+export const retrieveAdminStatus = async (userId: string) => {
+  const isAdmin = (await clerkClient.users.getUser(userId)).privateMetadata
+    .isAdmin;
+  if (isAdmin) {
+    return true;
+  } else {
+    return false;
+  }
 };

@@ -22,26 +22,7 @@
   position: relative;
   top: 6px;
 }
-.enrollBtn {
-  padding: 1em 2em;
-  border: none;
-  background-color: var(--bg);
-  color: white;
-  font-weight: bold;
-  transition: var(--animation);
-  font-size: 16px;
-}
-.enrollBtn:hover {
-  box-shadow: 0.4px 2.8px 7.4px rgba(0, 0, 0, 0.076),
-    1px 6.7px 17.8px rgba(0, 0, 0, 0.109),
-    1.9px 12.5px 33.6px rgba(0, 0, 0, 0.135),
-    3.4px 22.3px 59.9px rgba(0, 0, 0, 0.161),
-    6.3px 41.8px 112px rgba(0, 0, 0, 0.194),
-    15px 100px 268px rgba(0, 0, 0, 0.27);
-  position: relative;
-  bottom: 1px;
-  right: 1px;
-}
+
 .bookmarkLink {
   outline: 1px solid black;
   padding: 2px 5px;

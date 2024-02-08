@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React, { useState } from "react";
 import styles from "./myCourses.module.css";
 import {
@@ -12,12 +12,14 @@ import Link from "next/link";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import { CustomLinearProgress } from "../stylesComponents";
 import { myCourses } from "@/utils/fakeData";
+import { useUser } from "@clerk/nextjs";
+import CustomButton from "../reusableComponents/customButton/customButton";
 
 const MyCourses = () => {
   const [visibleCourses, setVisibleCourses] = useState(2); // Initial number of visible courses
 
   const loadMoreCourses = () => {
-    setVisibleCourses(prev => prev + 2); // Increase the number of visible courses by 2
+    setVisibleCourses((prev) => prev + 2); // Increase the number of visible courses by 2
   };
 
   return (
@@ -59,16 +61,7 @@ const MyCourses = () => {
       </div>
       {visibleCourses < myCourses.length && (
         <div style={{ textAlign: "center", marginTop: "1em" }}>
-          <Button
-            variant="contained"
-            sx={{
-              backgroundColor: "#81403e",
-              "&:hover": { backgroundColor: "#915e5c" },
-            }}
-            onClick={loadMoreCourses}
-          >
-            View More
-          </Button>
+          <CustomButton name='View More' handleClick={loadMoreCourses}/>
         </div>
       )}
     </div>

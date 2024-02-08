@@ -1,3 +1,4 @@
+
 import React from "react";
 import styles from "./singleClass.module.css";
 import { Button, Divider, InputLabel, Select } from "@mui/material";
@@ -12,6 +13,7 @@ import ClassesDate from "@/components/classesDate/ClassesDate";
 import CustomSelect from "@/components/customSelect/CustomSelect";
 import { ClassProps } from "@/utils/types";
 import { getSingleClass } from "@/actions/actions";
+import { clerkClient } from "@clerk/nextjs";
 
 const privateTimes = [
   "9",
@@ -31,6 +33,7 @@ const privateTimes = [
 const publicTimes = ["9", "10:45", "14", "15:45", "17:30", "19:15"];
 
 const MyClass = async (details: ClassProps) => {
+
   const { params, searchParams } = details;
   const singleClass = await getSingleClass(searchParams.id);
   return (

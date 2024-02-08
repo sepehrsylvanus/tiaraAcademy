@@ -8,6 +8,7 @@ import Link from "next/link";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import { getFeaturedClasses } from "@/actions/actions";
 import { Class } from "@/utils/types";
+import BrownLink from "../reusableComponents/brownLink/BrownLink";
 const FeaturedCourse = async () => {
   const featuredCourses: Class[] = await getFeaturedClasses();
 
@@ -52,8 +53,7 @@ const FeaturedCourse = async () => {
                       <span>{eachClass.rating}</span>/5
                     </span>
                   </div>
-                  <Link
-                    href={`/classes/${eachClass.title
+                <BrownLink href={`/classes/${eachClass.title
                       .toLowerCase()
                       .replace(
                         /\s+/g,
@@ -61,10 +61,8 @@ const FeaturedCourse = async () => {
                       )}?teacher=${eachClass.classInstructors[0].instructor.name
                       .toLowerCase()
                       .replace(/\s+/g, "-")}&id=${eachClass.id}`}
-                    className={styles.enrollBtn}
-                  >
-                    ثبت نام
-                  </Link>
+                      title='register'
+                      />
                 </div>
               </CardContent>
             </Card>
