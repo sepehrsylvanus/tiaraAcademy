@@ -14,7 +14,7 @@ const ClassesDate = ({ classDates }: { classDates: string[] | undefined }) => {
   const [value, setValue] = useState<Date | null>(null);
 
   // ALREADY SCHEDULED
-  console.log(classDates);
+ 
   const handleDateChange = (dateValue: Date | null) => {
     setValue(dateValue);
   };

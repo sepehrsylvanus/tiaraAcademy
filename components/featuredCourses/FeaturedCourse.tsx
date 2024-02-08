@@ -10,7 +10,6 @@ import { getFeaturedClasses } from "@/actions/actions";
 import { Class } from "@/utils/types";
 const FeaturedCourse = async () => {
   const featuredCourses: Class[] = await getFeaturedClasses();
-  console.log(featuredCourses);
 
   return (
     <div className={styles.container}>

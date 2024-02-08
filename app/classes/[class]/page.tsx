@@ -33,9 +33,6 @@ const publicTimes = ["9", "10:45", "14", "15:45", "17:30", "19:15"];
 const MyClass = async (details: ClassProps) => {
   const { params, searchParams } = details;
   const singleClass = await getSingleClass(searchParams.id);
-  console.log(singleClass);
-  console.log("params: ", params);
-  console.log("searchParams: ", searchParams);
   return (
     <div className={styles.container}>
       <section className={styles.header}>
