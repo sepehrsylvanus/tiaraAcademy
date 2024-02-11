@@ -4,12 +4,10 @@
   padding-left: 4em;
   flex-direction: column;
 }
-.container section:not(section.navbar)  {
-  box-shadow:
-  14px 16px 0px -7px rgba(0, 0, 0, 0.05)
-;
-width: 97%;
-margin: 0 auto;
+.container section:not(section.navbar) {
+  box-shadow: 14px 16px 0px -7px rgba(0, 0, 0, 0.05);
+  width: 97%;
+  margin: 0 auto;
 }
 /* NAVBAR */
 .navbar {
@@ -42,7 +40,9 @@ margin: 0 auto;
   padding: 1em 6em 0 8em;
 }
 .leftHeader,
-.joinComLeft,.secondServiceRight ,.leftThirdService{
+.joinComLeft,
+.secondServiceRight,
+.leftThirdService {
   display: flex;
   flex-direction: column;
   gap: 1em;
@@ -55,11 +55,13 @@ margin: 0 auto;
   align-items: center;
   justify-content: space-between;
 }
-.joinComLeft, .secondServiceRight, .leftThirdService {
+.joinComLeft,
+.secondServiceRight,
+.leftThirdService {
   width: 40%;
 }
 /* SECOND SERVICE */
-.secondService{
+.secondService {
   display: flex;
   width: 100%;
   padding: 1em 6em 0 8em;
@@ -67,10 +69,11 @@ margin: 0 auto;
   justify-content: space-between;
 }
 /* THIRD SERVICE */
-.thirdService{
+.thirdService {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 1em 6em 0 8em;
-
 }
+
+/* LEVELS */

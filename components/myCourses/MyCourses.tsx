@@ -13,7 +13,7 @@ import BookmarkIcon from "@mui/icons-material/Bookmark";
 import { CustomLinearProgress } from "../stylesComponents";
 import { myCourses } from "@/utils/fakeData";
 import { useUser } from "@clerk/nextjs";
-import CustomButton from "../reusableComponents/customButton/customButton";
+import CustomButton from "../reusableComponents/customButton/CustomButton";
 
 const MyCourses = () => {
   const [visibleCourses, setVisibleCourses] = useState(2); // Initial number of visible courses

@@ -152,7 +152,9 @@ export default async function Home() {
           <Image src={'/smartEdu.jpeg'} alt="Smart Education" width={400} height={400}/>
         </div>
       </section>
-      <section className={styles.levels}>levels</section>
+      <section className={styles.levels}>
+        
+      </section>
       <section className={styles.testimonials}>testimonials</section>
       <section className={styles.enterMain}>enterMain</section>
       <section className={styles.footer}>footer</section>

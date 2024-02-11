@@ -16,7 +16,7 @@ const CustomButton = ({
   handleClick?: () => void;
   href?: string;
   variant?:'contained' | 'outlined' | 'text'
-  styles: {[key: string]: string | number | {[key: string]: string}}
+  styles?: {[key: string]: string | number | {[key: string]: string}}
 }) => {
   return (
     <Button
