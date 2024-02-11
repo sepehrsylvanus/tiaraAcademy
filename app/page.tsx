@@ -3,7 +3,7 @@ import styles from "./page.module.css";
 import BrownLink from "@/components/reusableComponents/brownLink/BrownLink";
 import { Button, Divider } from "@mui/material";
 import Image from "next/image";
-
+import StarIcon from "@mui/icons-material/Star";
 export default async function Home() {
   return (
     <div className={styles.container}>
@@ -123,10 +123,12 @@ export default async function Home() {
           </Button>
         </div>
       </section>
-      <Divider sx={{ margin: "1em 0" }}/>
+      <Divider sx={{ margin: "1em 0" }} />
       <section className={styles.thirdService}>
         <div className={styles.leftThirdService}>
-        <p style={{ marginBottom: "2em", fontWeight: 700 }}>Smart education</p>
+          <p style={{ marginBottom: "2em", fontWeight: 700 }}>
+            Smart education
+          </p>
           <h4 style={{ fontWeight: 700, fontSize: 30 }}>
             Taking your IELTS is guaranteed with us
           </h4>
@@ -149,13 +151,102 @@ export default async function Home() {
           </Button>
         </div>
         <div className={styles.rightThirdService}>
-          <Image src={'/smartEdu.jpeg'} alt="Smart Education" width={400} height={400}/>
+          <Image
+            src={"/smartEdu.jpeg"}
+            alt="Smart Education"
+            width={400}
+            height={400}
+          />
         </div>
       </section>
+      <Divider sx={{ margin: "1em 0" }} />
       <section className={styles.levels}>
-        
+        <div className={styles.leftLevels}>
+          <Image
+            src={"/levels.jpeg"}
+            alt="Levels"
+            width={200}
+            height={200}
+            className={styles.levelsImg}
+          />
+          <h3 style={{ fontWeight: 700, fontSize: 30 }}>
+            How to join our community
+          </h3>
+          <p>Just 3 simple steps to join our fantastic english community!</p>
+          <BrownLink href="/sign-up" title="Sign up now" />
+        </div>
+        <div className={styles.rightLevels}>
+          <div className={styles.eachLevel}>
+            <h4>Step 1</h4>
+            <p>
+              Make an account for yourself using{" "}
+              <span className={styles.miniBrownLink}>Sign up now</span> button
+            </p>
+          </div>
+          <Divider />
+          <div className={styles.eachLevel}>
+            <h4>Step 2</h4>
+            <p>Choose your class and time and reserve it</p>
+          </div>
+          <Divider />
+          <div className={styles.eachLevel}>
+            <h4>Step 3</h4>
+            <p>Use and enjoy our fantastic services</p>
+          </div>
+        </div>
       </section>
-      <section className={styles.testimonials}>testimonials</section>
+      <Divider sx={{ margin: "1em 0" }} />
+      <section className={styles.testimonials}>
+        <h3 style={{ fontSize: 40, marginBottom: ".5em" }}>Testimonials</h3>
+        <p>People love what we do and we want to let your know</p>
+        <div className={styles.commentsContainer}>
+          <div className={styles.eachComment}>
+            <p>
+              Since implementing Lando our business has seen significant growth.
+            </p>
+
+            <div style={{ display: "flex" }}>
+              <StarIcon />
+              <StarIcon />
+              <StarIcon />
+              <StarIcon />
+              <StarIcon />
+            </div>
+            <p>Jack Sibire</p>
+            <p>Lead Manager, Growio</p>
+          </div>
+          <div className={styles.eachComment}>
+            <p>
+              Since implementing Lando our business has seen significant growth.
+            </p>
+
+            <div style={{ display: "flex" }}>
+              <StarIcon />
+              <StarIcon />
+              <StarIcon />
+              <StarIcon />
+              <StarIcon />
+            </div>
+            <p>Jack Sibire</p>
+            <p>Lead Manager, Growio</p>
+          </div>
+          <div className={styles.eachComment}>
+            <p>
+              Since implementing Lando our business has seen significant growth.
+            </p>
+
+            <div style={{ display: "flex" }}>
+              <StarIcon />
+              <StarIcon />
+              <StarIcon />
+              <StarIcon />
+              <StarIcon />
+            </div>
+            <p>Jack Sibire</p>
+            <p>Lead Manager, Growio</p>
+          </div>
+        </div>
+      </section>
       <section className={styles.enterMain}>enterMain</section>
       <section className={styles.footer}>footer</section>
     </div>

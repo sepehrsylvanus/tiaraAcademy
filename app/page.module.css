@@ -4,10 +4,11 @@
   padding-left: 4em;
   flex-direction: column;
 }
-.container section:not(section.navbar) {
+.container section:not(section.navbar, section.testimonials) {
   box-shadow: 14px 16px 0px -7px rgba(0, 0, 0, 0.05);
   width: 97%;
   margin: 0 auto;
+  background-color: rgb(253, 249, 243);
 }
 /* NAVBAR */
 .navbar {
@@ -42,7 +43,8 @@
 .leftHeader,
 .joinComLeft,
 .secondServiceRight,
-.leftThirdService {
+.leftThirdService,
+.leftLevels {
   display: flex;
   flex-direction: column;
   gap: 1em;
@@ -57,7 +59,9 @@
 }
 .joinComLeft,
 .secondServiceRight,
-.leftThirdService {
+.leftThirdService,
+.leftLevels,
+.leftLevels {
   width: 40%;
 }
 /* SECOND SERVICE */
@@ -77,3 +81,70 @@
 }
 
 /* LEVELS */
+.levels {
+  background-color: var(--softBg) !important;
+  display: flex;
+  width: 97%;
+  padding: 1em 6em 0 8em;
+  align-items: center;
+  justify-content: space-around;
+  box-shadow: none !important;
+  padding-bottom: 1.5em;
+}
+.levelsImg {
+  position: relative;
+  bottom: 4em;
+  left: 5em;
+}
+.rightLevels {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-around;
+}
+.eachLevel h4 {
+  font-size: 25px;
+  margin-bottom: 0.5em;
+}
+.miniBrownLink {
+  display: inline-block;
+  padding: 0.5em 1em;
+  border: none;
+  background-color: var(--bg);
+  color: white;
+  font-weight: bold;
+  transition: var(--animation);
+  font-size: 12px;
+  width: fit-content;
+  cursor: default;
+}
+
+.testimonials {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+.commentsContainer {
+  display: flex;
+  padding: 1em 6em 0 8em;
+}
+.commentsContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1em;
+}
+.eachComment {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  padding: 2em;
+  background-color: var(--softBg);
+  gap: 1em;
+}
+.eachComment :first-child,
+.eachComment :nth-child(3) {
+  font-weight: 600;
+}
+
