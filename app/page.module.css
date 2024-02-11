@@ -4,10 +4,11 @@
   padding-left: 4em;
   flex-direction: column;
 }
+/* NAVBAR */
 .navbar {
   display: flex;
   width: 100%;
-  padding: 1em 1.5em 0 1em;
+  padding: 1em 1.5em 1em 1em;
   align-items: center;
 }
 .navLinks {
@@ -25,4 +26,16 @@
   display: flex;
   gap: 1em;
   align-items: center;
+}
+/* HEADER */
+.header{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+   padding: 1em 6em 0 8em;
+}
+.leftHeader{
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
 }
