@@ -6,6 +6,7 @@
   font-weight: bold;
   transition: var(--animation);
   font-size: 16px;
+  width: fit-content;
 }
 .enrollBtn:hover {
   box-shadow: 0.4px 2.8px 7.4px rgba(0, 0, 0, 0.076),

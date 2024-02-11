@@ -3,7 +3,6 @@ import styles from "./page.module.css";
 import BrownLink from "@/components/reusableComponents/brownLink/BrownLink";
 import { Button, Divider } from "@mui/material";
 import Image from "next/image";
-import CustomButton from "@/components/reusableComponents/customButton/customButton";
 
 export default async function Home() {
   return (
@@ -30,7 +29,7 @@ export default async function Home() {
       <Divider />
       <section className={styles.header}>
         <div className={styles.leftHeader}>
-          <p style={{ marginBottom: "2em" }}>- Benefits</p>
+          <p style={{ marginBottom: "2em", fontWeight: 700 }}>- Benefits</p>
           <p style={{ fontWeight: 700, fontSize: 70 }}>
             The Best Way
             <br />
@@ -67,10 +66,92 @@ export default async function Home() {
           />
         </div>
       </section>
+      <Divider sx={{ margin: "1em 0" }} />
 
-      <section className={styles.servicesFirst}>servicesFirst</section>
-      <section className={styles.serviceSecond}>serviceSecond</section>
-      <section className={styles.serviceThird}>serviceThird</section>
+      <section className={styles.joinCommunity}>
+        <div className={styles.joinComLeft}>
+          <h4 style={{ fontWeight: 700, fontSize: 40 }}>
+            Introducing good solution
+          </h4>
+          <p>Join our community and experience the benefits today!</p>
+          <BrownLink href="#" title="Try for free" />
+        </div>
+        <div className={styles.joinComRight}>
+          <Image
+            src={
+              "https://images.pexels.com/photos/8618062/pexels-photo-8618062.jpeg?auto=compress&cs=tinysrgb&w=600"
+            }
+            alt="Join Community"
+            width={400}
+            height={400}
+          />
+        </div>
+      </section>
+      <Divider sx={{ margin: "1em 0" }} />
+      <section className={styles.secondService}>
+        <div className={styles.secondServiceLeft}>
+          <Image
+            src={
+              "https://images.pexels.com/photos/8617981/pexels-photo-8617981.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+            }
+            alt="Certification guarantee"
+            width={400}
+            height={400}
+          />
+        </div>
+        <div className={styles.secondServiceRight}>
+          <p style={{ marginBottom: "2em", fontWeight: 700 }}>Better IELTS</p>
+          <h4 style={{ fontWeight: 700, fontSize: 30 }}>
+            Taking your IELTS is guaranteed with us
+          </h4>
+          <p>
+            With the best methods in the world, you will pass your IELTS exam
+            with the best score
+          </p>
+          <Button
+            variant="outlined"
+            sx={{
+              "&.MuiButton-root": {
+                borderRadius: "2px",
+                color: "black",
+                borderColor: "black",
+              },
+              width: "fit-content",
+            }}
+          >
+            Try now
+          </Button>
+        </div>
+      </section>
+      <Divider sx={{ margin: "1em 0" }}/>
+      <section className={styles.thirdService}>
+        <div className={styles.leftThirdService}>
+        <p style={{ marginBottom: "2em", fontWeight: 700 }}>Smart education</p>
+          <h4 style={{ fontWeight: 700, fontSize: 30 }}>
+            Taking your IELTS is guaranteed with us
+          </h4>
+          <p>
+            With the best methods in the world, you will pass your IELTS exam
+            with the best score
+          </p>
+          <Button
+            variant="outlined"
+            sx={{
+              "&.MuiButton-root": {
+                borderRadius: "2px",
+                color: "black",
+                borderColor: "black",
+              },
+              width: "fit-content",
+            }}
+          >
+            Try now
+          </Button>
+        </div>
+        <div className={styles.rightThirdService}>
+          <Image src={'/smartEdu.jpeg'} alt="Smart Education" width={400} height={400}/>
+        </div>
+      </section>
       <section className={styles.levels}>levels</section>
       <section className={styles.testimonials}>testimonials</section>
       <section className={styles.enterMain}>enterMain</section>
