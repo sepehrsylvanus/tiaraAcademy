@@ -35,7 +35,7 @@ const Sidebar = () => {
       </div>
 
       <div className={styles.iconsContainer}>
-        <Link href={"/"} className={styles.iconContainer}>
+        <Link href={"/home"} className={styles.iconContainer}>
           <GridViewIcon />
           <p className={styles.menuText}>Overview</p>
         </Link>
