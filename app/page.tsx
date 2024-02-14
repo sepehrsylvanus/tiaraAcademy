@@ -1,9 +1,14 @@
 import Link from "next/link";
 import styles from "./page.module.css";
 import BrownLink from "@/components/reusableComponents/brownLink/BrownLink";
-import { Button, Divider } from "@mui/material";
+import { Button, Divider, TextField } from "@mui/material";
 import Image from "next/image";
 import StarIcon from "@mui/icons-material/Star";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import XIcon from "@mui/icons-material/X";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import YouTubeIcon from "@mui/icons-material/YouTube";
 export default async function Home() {
   return (
     <div className={styles.container}>
@@ -196,6 +201,7 @@ export default async function Home() {
         </div>
       </section>
       <Divider sx={{ margin: "1em 0" }} />
+
       <section className={styles.testimonials}>
         <h3 style={{ fontSize: 40, marginBottom: ".5em" }}>Testimonials</h3>
         <p>People love what we do and we want to let your know</p>
@@ -247,8 +253,85 @@ export default async function Home() {
           </div>
         </div>
       </section>
-      <section className={styles.enterMain}>enterMain</section>
-      <section className={styles.footer}>footer</section>
+      <Divider sx={{ margin: "1em 0" }} />
+
+      <section className={styles.footer}>
+        <div className={styles.footerSectionsContainer}>
+          <div className={styles.eachCol}>
+            <h4 style={{ fontSize: 30 }}>Tiara Academy</h4>
+            <p>
+              Join our newsletter to stay up to date on features and releases.
+            </p>
+            <form className={styles.newsletterForm} action="">
+              <TextField
+                sx={{
+                  "&.MuiInputBase-root": {
+                    "&.MuiOutlinedInput-root": {
+                      borderRadius: 0,
+                      borderColor: "black",
+                    },
+                  },
+                }}
+              />
+              <Button
+                variant="outlined"
+                sx={{
+                  "&.MuiButton-outlined": {
+                    borderRadius: 0,
+                    borderColor: "black",
+                    color: "black",
+                  },
+                  marginLeft: "1em",
+                }}
+              >
+                Subscribe
+              </Button>
+            </form>
+          </div>
+
+          <div className={styles.eachCol}>
+            <h5>Contact with us</h5>
+            <Link href={"#"}>Contact with our manager</Link>
+            <Link href={"#"}>Contact with our teachers</Link>
+            <Link href={"#"}>Contact with SSH development</Link>
+          </div>
+          <div className={styles.eachCol}>
+            <h5>Website map</h5>
+            <Link href={"#"}>Classes</Link>
+            <Link href={"#"}>Writing center</Link>
+            <Link href={"#"}>Teachers</Link>
+            <Link href={"#"}>Notes</Link>
+            <Link href={"#"}>Video center</Link>
+          </div>
+          <div className={styles.eachCol}>
+            <h5>Follow Us</h5>
+            <Link href={"#"}>
+              <FacebookIcon />
+              Facebook
+            </Link>
+            <Link href={"#"}>
+              <InstagramIcon />
+              Instagram
+            </Link>
+            <Link href={"#"}>
+              <XIcon />X
+            </Link>
+            <Link href={"#"}>
+              <LinkedInIcon />
+              Linkedin
+            </Link>
+            <Link href={"#"}>
+              <YouTubeIcon />
+              Youtube
+            </Link>
+          </div>
+        </div>
+        <p style={{ textAlign: "center", marginTop: "1.5em" }}>
+          {" "}
+          © 2024 Tiara Academy. All rights reserved. Content for educational use
+          only. Website by SSH Development.
+        </p>
+      </section>
     </div>
   );
 }
