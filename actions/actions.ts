@@ -1,4 +1,5 @@
 "use server";
+
 import prisma from "@/utils/db";
 import { clerkClient } from "@clerk/nextjs";
 export const getFeaturedClasses = async () => {
@@ -33,3 +34,4 @@ export const retrieveAdminStatus = async (userId: string) => {
     return false;
   }
 };
+

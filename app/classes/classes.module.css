@@ -1,0 +1,28 @@
+.container{
+    display: flex;
+  height: 100vh;
+  padding-left: 5em;
+  flex-direction: column;
+  padding-right: 2em;
+}
+.classesHeader{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 2em;
+}
+.eachSearchbar{
+  display: flex;
+  align-items: center;
+  gap: 1em;
+}
+.searchBarContainer{
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+.titleContainer{
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
