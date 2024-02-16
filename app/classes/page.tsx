@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import TextField from "@mui/material/TextField";
 import styles from "./classes.module.css";
 import {
@@ -7,6 +8,7 @@ import {
   CardActions,
   CardContent,
   CardMedia,
+  CircularProgress,
   Divider,
   FormControl,
   IconButton,
@@ -20,11 +22,33 @@ import CategoryIcon from "@mui/icons-material/Category";
 import { CustomClassTextField } from "./styledComponents";
 import { retrieveAllClasses, retrieveTeacherName } from "@/actions/actions";
 import BrownLink from "@/components/reusableComponents/brownLink/BrownLink";
-const page = async () => {
-  const teachersName = await retrieveTeacherName();
+import { Class } from "@/utils/types";
+const page = () => {
+  const [classes, setClasses] = useState<Class[]>([]);
+  const [teachersName, setTeachersName] = useState<string[]>([]);
+  const [loading, setLoading] = useState(true);
+  // START FILTER DATA
+  const [className, setClassName] = useState("");
+  const [whichTeacher, setWhichTeacher] = useState("");
+  useEffect(() => {
+    const fetchData = async () => {
+      const teacherNames = await retrieveTeacherName();
+      const allClasses = await retrieveAllClasses();
+      setTeachersName(teacherNames);
+      setClasses(allClasses);
+      setLoading(false);
+    };
+    fetchData();
+  }, []);
 
-  const allClasses = await retrieveAllClasses();
-  console.log(allClasses);
+  const filterData = () => {
+    const filteredClasses = classes.filter((item) => item.title !== className);
+
+    setClasses(filteredClasses);
+  };
+
+  // END FILTER DATA
+
   return (
     <div className={styles.container}>
       <div className={styles.classesHeader}>
@@ -42,6 +66,12 @@ const page = async () => {
               name="class-name"
               variant="outlined"
               label="Class name"
+              onChange={(e) => {
+                setClassName(e.target.value);
+                console.log(className);
+                filterData();
+                console.log(classes);
+              }}
             />
           </div>
           <div className={styles.eachSearchbar}>
@@ -60,49 +90,49 @@ const page = async () => {
               </CustomClassTextField>
             </FormControl>
           </div>
-          <div className={styles.eachSearchbar}>
-            <IconButton>
-              <CategoryIcon />
-            </IconButton>
-            <CustomClassTextField variant="outlined" label="Category" />
-          </div>
         </div>
       </div>
-      <Divider sx={{margin: '1em 0'}}/>
+      <Divider sx={{ margin: "1em 0" }} />
       <div className={styles.classesBody}>
-        {allClasses.map((eachClass) => {
-          const hours = Math.floor(Number(eachClass.duration) / 1000 / 60 / 60);
-          if(eachClass.classInstructors.length === 1){
-            return (
+        {loading ? (
+          <div className={styles.loaderContainer}>
+            <CircularProgress sx={{ color: "#81403e" }} />
+          </div>
+        ) : (
+          classes.map((eachClass) => {
+            const hours = Math.floor(
+              Number(eachClass.duration) / 1000 / 60 / 60
+            );
+            return eachClass.classInstructors.map((teacher) => (
               <Card key={eachClass.id} className={styles.eachClassCard}>
-              {eachClass.img && (
-                <CardMedia
-                  title={eachClass.title}
-                  sx={{ height: 150 }}
-                  image={eachClass.img}
-                />
-              )}
-              <CardContent className={styles.eachCardContent}>
-                <div className={styles.classDetailsLeft}>
-                  <h4>{eachClass.title}</h4>
-                  <p>Teacher's name</p>
-                  <h4>{`${(eachClass.price * 10)
-                    .toString()
-                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")} IRR`}</h4>
-                </div>
-                <div className={styles.classDetailsRight}>
-                  <p>{`${hours > 0 ? hours + 'hr' : ''} ${(Number(eachClass.duration) / 1000 / 60) % 60} m`}</p>
-                </div>
-              </CardContent>
-              <CardActions>
-                <BrownLink title="Register" href={`/${eachClass.link}`} />
-              </CardActions>
-            </Card>
-            )
-          }else{
-            
-          }
-        })}
+                {eachClass.img && (
+                  <CardMedia
+                    title={eachClass.title}
+                    sx={{ height: 150 }}
+                    image={eachClass.img}
+                  />
+                )}
+                <CardContent className={styles.eachCardContent}>
+                  <div className={styles.classDetailsLeft}>
+                    <h4>{eachClass.title}</h4>
+                    <p>{teacher.instructor.name}</p>
+                    <h4>{`${(eachClass.price * 10)
+                      .toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")} IRR`}</h4>
+                  </div>
+                  <div className={styles.classDetailsRight}>
+                    <p>{`${hours > 0 ? hours + "hr" : ""} ${
+                      (Number(eachClass.duration) / 1000 / 60) % 60
+                    } m`}</p>
+                  </div>
+                </CardContent>
+                <CardActions>
+                  <BrownLink title="Register" href={`/${eachClass.link}`} />
+                </CardActions>
+              </Card>
+            ));
+          })
+        )}
       </div>
     </div>
   );
