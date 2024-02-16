@@ -1,28 +1,45 @@
-.container{
-    display: flex;
+.container {
+  display: flex;
   height: 100vh;
   padding-left: 5em;
   flex-direction: column;
   padding-right: 2em;
 }
-.classesHeader{
+.classesHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-top: 2em;
 }
-.eachSearchbar{
+.eachSearchbar {
   display: flex;
   align-items: center;
   gap: 1em;
 }
-.searchBarContainer{
+.searchBarContainer {
   display: flex;
   flex-direction: column;
   gap: 1em;
 }
-.titleContainer{
+.titleContainer {
   display: flex;
   flex-direction: column;
   gap: 1em;
+}
+.classesBody {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1em;
+  grid-auto-flow: dense;
+}
+
+.eachCardContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.classDetailsLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
 }

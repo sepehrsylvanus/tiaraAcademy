@@ -8,7 +8,7 @@ export interface Class {
   rating: number;
   img?: string | null;
   featured: boolean;
-
+  price: number;
   isPrivate: boolean;
   classInstructors: ClassInstructor[];
 }
@@ -17,7 +17,7 @@ export interface Instructure {
   id: string;
   name: string;
   profileImg: string;
-  isAdmin: boolean;
+
 }
 
 export interface Student {
@@ -36,4 +36,3 @@ export interface ClassProps {
   params: { class: string };
   searchParams: { teacher: string; id: string };
 }
-

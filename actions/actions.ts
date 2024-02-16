@@ -35,3 +35,24 @@ export const retrieveAdminStatus = async (userId: string) => {
   }
 };
 
+export const retrieveTeacherName = async ()=>{
+  const teachers = await prisma.instructure.findMany()
+
+const teachersName = teachers ? teachers.map(teacher => teacher.name) : []
+
+return teachersName
+}
+
+export const retrieveAllClasses = async()=>{
+  const classes = await prisma.class.findMany({
+    include: {
+      classInstructors: {
+        include: {
+          instructor: true,
+        },
+      },
+    },
+  });
+
+  return classes
+}

@@ -11,3 +11,4 @@ export const CustomLinearProgress = styled(LinearProgress)(() => ({
     backgroundColor: '#f0f0f0',
   },
 }));
+

@@ -21,6 +21,7 @@ model Class {
   featured         Boolean
   dates            String[]
   isPrivate        Boolean
+  price            Int
   classInstructors ClassInstructor[]
   classStudents    ClassStudent[]
 }
@@ -29,7 +30,6 @@ model Instructure {
   id               String            @id @default(cuid()) @map("_id")
   name             String
   profileImg       String
-  isAdmin          Boolean
   classInstructors ClassInstructor[]
 }
 
