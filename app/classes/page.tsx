@@ -28,24 +28,46 @@ const page = () => {
   const [teachersName, setTeachersName] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   // START FILTER DATA
-  const [className, setClassName] = useState("");
-  const [whichTeacher, setWhichTeacher] = useState("");
+  const [filteredClasses, setFilteredClasses] = useState<Class[]>();
   useEffect(() => {
     const fetchData = async () => {
       const teacherNames = await retrieveTeacherName();
       const allClasses = await retrieveAllClasses();
+      console.log(allClasses);
       setTeachersName(teacherNames);
       setClasses(allClasses);
+      setFilteredClasses(allClasses);
       setLoading(false);
     };
     fetchData();
   }, []);
 
-  const filterData = () => {
-    const filteredClasses = classes.filter((item) => item.title !== className);
+  const filterData = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const filtered = classes.filter((eachClass) => {
+      const nameToFilter = eachClass.title
+        .split("")
+        .filter((item) => item !== " ")
+        .join("")
+        .toLowerCase();
 
-    setClasses(filteredClasses);
+      const inputToFilter = e.target.value.toLowerCase();
+
+      console.log("Name: ", nameToFilter);
+      console.log("Input: ", inputToFilter);
+
+      const result = nameToFilter.startsWith(inputToFilter);
+      console.log(result);
+
+      return result;
+    });
+
+    console.log(filtered);
+    setFilteredClasses(filtered);
   };
+
+  useEffect(() => {
+    console.log(classes);
+  }, [classes]);
 
   // END FILTER DATA
 
@@ -54,7 +76,7 @@ const page = () => {
       <div className={styles.classesHeader}>
         <div className={styles.titleContainer}>
           <h4>Tiara Academy</h4>
-          <h1>Products</h1>
+          <h1>All Classes</h1>
           <p>Here you can see all of available classes</p>
         </div>
         <div className={styles.searchBarContainer}>
@@ -66,12 +88,7 @@ const page = () => {
               name="class-name"
               variant="outlined"
               label="Class name"
-              onChange={(e) => {
-                setClassName(e.target.value);
-                console.log(className);
-                filterData();
-                console.log(classes);
-              }}
+              onChange={filterData}
             />
           </div>
           <div className={styles.eachSearchbar}>
@@ -99,38 +116,74 @@ const page = () => {
             <CircularProgress sx={{ color: "#81403e" }} />
           </div>
         ) : (
-          classes.map((eachClass) => {
+          filteredClasses?.map((eachClass) => {
             const hours = Math.floor(
               Number(eachClass.duration) / 1000 / 60 / 60
             );
-            return eachClass.classInstructors.map((teacher) => (
-              <Card key={eachClass.id} className={styles.eachClassCard}>
-                {eachClass.img && (
-                  <CardMedia
-                    title={eachClass.title}
-                    sx={{ height: 150 }}
-                    image={eachClass.img}
-                  />
-                )}
-                <CardContent className={styles.eachCardContent}>
-                  <div className={styles.classDetailsLeft}>
-                    <h4>{eachClass.title}</h4>
-                    <p>{teacher.instructor.name}</p>
-                    <h4>{`${(eachClass.price * 10)
-                      .toString()
-                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")} IRR`}</h4>
-                  </div>
-                  <div className={styles.classDetailsRight}>
-                    <p>{`${hours > 0 ? hours + "hr" : ""} ${
-                      (Number(eachClass.duration) / 1000 / 60) % 60
-                    } m`}</p>
-                  </div>
-                </CardContent>
-                <CardActions>
-                  <BrownLink title="Register" href={`/${eachClass.link}`} />
-                </CardActions>
-              </Card>
-            ));
+
+            if (eachClass.classInstructors.length > 1) {
+              return eachClass.classInstructors.map((clsWithTeacher) => (
+                <Card key={eachClass.id} className={styles.eachClassCard}>
+                  {eachClass.img && (
+                    <CardMedia
+                      title={eachClass.title}
+                      sx={{ height: 150 }}
+                      image={eachClass.img}
+                    />
+                  )}
+                  <CardContent className={styles.eachCardContent}>
+                    <div className={styles.classDetailsLeft}>
+                      <h4>{eachClass.title}</h4>
+                      <p>{clsWithTeacher.instructor.name}</p>
+                      <h4>{`${(eachClass.price * 10)
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")} IRR`}</h4>
+                    </div>
+                    <div className={styles.classDetailsRight}>
+                      <p>{`${hours > 0 ? hours + "hr" : ""} ${
+                        (Number(eachClass.duration) / 1000 / 60) % 60
+                      } m`}</p>
+                    </div>
+                  </CardContent>
+                  <CardActions>
+                    <BrownLink title="Register" href={`/${eachClass.link}`} />
+                  </CardActions>
+                </Card>
+              ));
+            }
+            if (eachClass.classInstructors.length === 1) {
+              return (
+                <Card key={eachClass.id} className={styles.eachClassCard}>
+                  {eachClass.img && (
+                    <CardMedia
+                      title={eachClass.title}
+                      sx={{ height: 150 }}
+                      image={eachClass.img}
+                    />
+                  )}
+                  <CardContent className={styles.eachCardContent}>
+                    <div className={styles.classDetailsLeft}>
+                      <h4>{eachClass.title}</h4>
+                      <p>{eachClass.classInstructors[0].instructor.name}</p>
+                      <h4>{`${(eachClass.price * 10)
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")} IRR`}</h4>
+                    </div>
+                    <div className={styles.classDetailsRight}>
+                      <p>{`${hours > 0 ? hours + "hr" : ""} ${
+                        (Number(eachClass.duration) / 1000 / 60) % 60
+                      } m`}</p>
+                    </div>
+                  </CardContent>
+                  <CardActions>
+                    <BrownLink title="Register" href={`/${eachClass.link}`} />
+                  </CardActions>
+                </Card>
+              );
+            }
+            // return eachClass.classInstructors.map((teacher) => (
+
+            // ));
           })
         )}
       </div>
