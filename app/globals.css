@@ -22,3 +22,18 @@ a{
   text-decoration: none;
   color: var(--color);
 }
+
+.ql-editor{
+  font-size: 16px;
+}
+
+.quill > .ql-container > .ql-editor.ql-blank::before{
+  color: #81403e;
+  opacity:50% ;
+}
+.ql-bubble .ql-tooltip{
+ z-index: 10;
+}
+.ql-bubble .ql-tooltip-editor input[type=text] {
+  left: 0;
+}

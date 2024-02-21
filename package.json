@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev -p 4000",
-  "build": "next build",
-  "start": "next start -p 4000",
+    "build": "next build",
+    "start": "next start -p 4000",
     "lint": "next lint"
   },
   "dependencies": {
@@ -25,6 +25,7 @@
     "prisma": "^5.9.1",
     "react": "^18",
     "react-dom": "^18",
+    "react-quill": "^2.0.0",
     "svix": "^1.17.0",
     "swr": "^2.2.4"
   },

@@ -26,6 +26,7 @@ import { Class } from "@/utils/types";
 const page = () => {
   const [classes, setClasses] = useState<Class[]>([]);
   const [teachersName, setTeachersName] = useState<string[]>([]);
+  const [teacherNameFilter, setTeacherNameFilter] = useState<Class[]>([]);
   const [loading, setLoading] = useState(true);
   // START FILTER DATA
   const [filteredClasses, setFilteredClasses] = useState<Class[]>();
@@ -33,7 +34,7 @@ const page = () => {
     const fetchData = async () => {
       const teacherNames = await retrieveTeacherName();
       const allClasses = await retrieveAllClasses();
-      console.log(allClasses);
+
       setTeachersName(teacherNames);
       setClasses(allClasses);
       setFilteredClasses(allClasses);
@@ -42,32 +43,50 @@ const page = () => {
     fetchData();
   }, []);
 
-  const filterData = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const filterOnClassName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let nameToFilter: string;
+    let inputToFilter: string;
+
     const filtered = classes.filter((eachClass) => {
-      const nameToFilter = eachClass.title
+      nameToFilter = eachClass.title
         .split("")
         .filter((item) => item !== " ")
         .join("")
         .toLowerCase();
 
-      const inputToFilter = e.target.value.toLowerCase();
+      inputToFilter = e.target.value.toLowerCase();
 
-      console.log("Name: ", nameToFilter);
-      console.log("Input: ", inputToFilter);
+      const result = nameToFilter?.startsWith(inputToFilter);
 
-      const result = nameToFilter.startsWith(inputToFilter);
       console.log(result);
 
       return result;
     });
-
     console.log(filtered);
     setFilteredClasses(filtered);
   };
 
-  useEffect(() => {
-    console.log(classes);
-  }, [classes]);
+  const filterOnTeacherName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const teacherName = e.target.value.split(" ").join("").toLowerCase();
+
+    const flatClasses: Class[] = [];
+
+    classes.map((eachClass: Class) => {
+      if (eachClass.classInstructors.length > 1) {
+        eachClass.classInstructors.forEach((item) => {
+          const aimClass = eachClass;
+          console.log(aimClass);
+          console.log(item);
+          aimClass.classInstructors = [item];
+          flatClasses.push(aimClass);
+        });
+      }
+      if(eachClass.classInstructors.length === 1){
+        flatClasses.push(eachClass)
+      }
+    });
+    console.log(flatClasses);
+  };
 
   // END FILTER DATA
 
@@ -88,7 +107,7 @@ const page = () => {
               name="class-name"
               variant="outlined"
               label="Class name"
-              onChange={filterData}
+              onChange={filterOnClassName}
             />
           </div>
           <div className={styles.eachSearchbar}>
@@ -100,6 +119,7 @@ const page = () => {
                 select
                 variant="outlined"
                 label="Choose your teacher"
+                onChange={filterOnTeacherName}
               >
                 {teachersName.map((item) => (
                   <MenuItem value={item}>{item}</MenuItem>

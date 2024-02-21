@@ -43,9 +43,9 @@ const Sidebar = () => {
           <AccessTimeIcon />
           <p className={styles.menuText}>Classes</p>
         </Link>
-        <Link href={"#"} className={styles.iconContainer}>
+        <Link href={"/writing"} className={styles.iconContainer}>
           <EditNoteIcon />
-          <p className={styles.menuText}>Grades</p>
+          <p className={styles.menuText}>Writing</p>
         </Link>
         <Link href={"#"} className={styles.iconContainer}>
           <PeopleIcon />
@@ -53,7 +53,7 @@ const Sidebar = () => {
         </Link>
         <Link href={"#"} className={styles.iconContainer}>
           <NoteAltIcon />
-          <p className={styles.menuText}>Notes</p>
+          <p className={styles.menuText}>Blog</p>
         </Link>
         <Link href={"#"} className={styles.iconContainer}>
           <OndemandVideoIcon />
