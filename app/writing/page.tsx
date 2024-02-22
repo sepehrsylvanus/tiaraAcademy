@@ -1,7 +1,13 @@
 import React from "react";
 import styles from "./writing.module.css";
 import {
+  Box,
   Button,
+  Card,
+  CardContent,
+  CardMedia,
+  Chip,
+  Divider,
   FormControl,
   FormLabel,
   TextField,
@@ -101,8 +107,6 @@ const WritingPage = async () => {
           </Button>
 
           <div className={styles.writingsStatus}>
-
-
             {/* EACH WRITING STATUS */}
             <div
               style={{
@@ -114,14 +118,13 @@ const WritingPage = async () => {
             >
               <p>Subject 1 -</p>
               <Image
-              className={styles.inProgressStatus}
+                className={styles.inProgressStatus}
                 src={"/yellowCircle.png"}
                 alt="In progress status"
                 width={10}
                 height={10}
               />
             </div>
-
 
             {/* EACH WRITING STATUS */}
             <div
@@ -134,7 +137,7 @@ const WritingPage = async () => {
             >
               <p>Subject 2 -</p>
               <Image
-              className={styles.checkedStatus}
+                className={styles.checkedStatus}
                 src={"/greenCircle.png"}
                 alt="In progress status"
                 width={10}
@@ -143,6 +146,45 @@ const WritingPage = async () => {
             </div>
           </div>
         </div>
+      </div>
+      <Divider sx={{ margin: "1em 0" }} />
+      <div className={styles.templates}>
+        {/* EACH CARD */}
+        <Card className={styles.eachTemplateCard}>
+          <CardContent
+            className={styles.cardContent}
+            sx={{ flex: "1 0 auto", textAlign: "right" }}
+          >
+            <Chip label="words" />
+            <h4 style={{ fontSize: "30px" }}>This is title of writing</h4>
+            <p>Write by: a writer</p>
+          </CardContent>
+
+          <CardMedia
+            component="img"
+            sx={{ width: "50px", flex: 1 }}
+            image="/writingTemplate.jpg"
+            alt="Live from space album cover"
+          />
+        </Card>
+
+        {/* EACH CARD */}
+        <Card className={styles.eachTemplateCard}>
+          <CardContent
+            className={styles.cardContent}
+            sx={{ flex: "1 0 auto", textAlign: "left" }}
+          >
+            <Chip label="words" />
+            <h4>This is title of writing</h4>
+            <p>Write by: a writer</p>
+          </CardContent>
+          <CardMedia
+            component="img"
+            sx={{ width: "50px", flex: 1 }}
+            image="/writingTemplate.jpg"
+            alt="Live from space album cover"
+          />
+        </Card>
       </div>
     </div>
   );

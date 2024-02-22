@@ -4,6 +4,7 @@ import TextField from "@mui/material/TextField";
 import styles from "./classes.module.css";
 import {
   Autocomplete,
+  Button,
   Card,
   CardActions,
   CardContent,
@@ -23,10 +24,12 @@ import { CustomClassTextField } from "./styledComponents";
 import { retrieveAllClasses, retrieveTeacherName } from "@/actions/actions";
 import BrownLink from "@/components/reusableComponents/brownLink/BrownLink";
 import { Class } from "@/utils/types";
+import { resourceUsage } from "process";
 const page = () => {
   const [classes, setClasses] = useState<Class[]>([]);
   const [teachersName, setTeachersName] = useState<string[]>([]);
   const [teacherNameFilter, setTeacherNameFilter] = useState<Class[]>([]);
+  const [classNameFilter, setClassNameFilter] = useState<Class[]>([]);
   const [loading, setLoading] = useState(true);
   // START FILTER DATA
   const [filteredClasses, setFilteredClasses] = useState<Class[]>();
@@ -43,49 +46,53 @@ const page = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    console.log({ classes });
+  }, [classes]);
+
   const filterOnClassName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let nameToFilter: string;
-    let inputToFilter: string;
+    const inputToFilter = e.target.value.toLowerCase();
 
     const filtered = classes.filter((eachClass) => {
-      nameToFilter = eachClass.title
+      const nameToFilter = eachClass.title
         .split("")
         .filter((item) => item !== " ")
         .join("")
         .toLowerCase();
 
-      inputToFilter = e.target.value.toLowerCase();
-
-      const result = nameToFilter?.startsWith(inputToFilter);
-
-      console.log(result);
-
-      return result;
+      return nameToFilter.startsWith(inputToFilter);
     });
-    console.log(filtered);
-    setFilteredClasses(filtered);
+
+    setClassNameFilter(filtered);
+    applyFilters({ classNameFilter: filtered });
   };
 
   const filterOnTeacherName = (e: React.ChangeEvent<HTMLInputElement>) => {
     const teacherName = e.target.value.split(" ").join("").toLowerCase();
 
-    const flatClasses: Class[] = [];
+    const filtered = classes.filter((eachClass) =>
+      eachClass.classInstructors.some((instructor) =>
+        instructor.instructor.name.toLowerCase().includes(teacherName)
+      )
+    );
 
-    classes.map((eachClass: Class) => {
-      if (eachClass.classInstructors.length > 1) {
-        eachClass.classInstructors.forEach((item) => {
-          const aimClass = eachClass;
-          console.log(aimClass);
-          console.log(item);
-          aimClass.classInstructors = [item];
-          flatClasses.push(aimClass);
-        });
-      }
-      if(eachClass.classInstructors.length === 1){
-        flatClasses.push(eachClass)
-      }
-    });
-    console.log(flatClasses);
+    setTeacherNameFilter(filtered);
+    applyFilters({ teacherNameFilter: filtered });
+  };
+
+  const applyFilters = ({ classNameFilter, teacherNameFilter }: any) => {
+    if (classNameFilter && teacherNameFilter) {
+      const filtered = classNameFilter.filter((cls: Class) =>
+        teacherNameFilter.includes(cls)
+      );
+      setFilteredClasses(filtered);
+    } else if (classNameFilter) {
+      setFilteredClasses(classNameFilter);
+    } else if (teacherNameFilter) {
+      setFilteredClasses(teacherNameFilter);
+    } else {
+      setFilteredClasses(classes);
+    }
   };
 
   // END FILTER DATA
@@ -127,6 +134,18 @@ const page = () => {
               </CustomClassTextField>
             </FormControl>
           </div>
+
+          <Button
+            variant="contained"
+            sx={{
+              backgroundColor: "#81403e",
+              borderRadius: 0,
+              width: "fit-content",
+              alignSelf: 'flex-end'
+            }}
+          >
+            Filter
+          </Button>
         </div>
       </div>
       <Divider sx={{ margin: "1em 0" }} />
