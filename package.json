@@ -25,6 +25,7 @@
     "prisma": "^5.9.1",
     "react": "^18",
     "react-dom": "^18",
+    "react-hook-form": "^7.50.1",
     "react-quill": "^2.0.0",
     "svix": "^1.17.0",
     "swr": "^2.2.4"

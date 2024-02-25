@@ -24,15 +24,13 @@ import { CustomClassTextField } from "./styledComponents";
 import { retrieveAllClasses, retrieveTeacherName } from "@/actions/actions";
 import BrownLink from "@/components/reusableComponents/brownLink/BrownLink";
 import { Class } from "@/utils/types";
-import { resourceUsage } from "process";
+import { useForm, Controller } from "react-hook-form";
+
 const page = () => {
   const [classes, setClasses] = useState<Class[]>([]);
   const [teachersName, setTeachersName] = useState<string[]>([]);
-  const [teacherNameFilter, setTeacherNameFilter] = useState<Class[]>([]);
-  const [classNameFilter, setClassNameFilter] = useState<Class[]>([]);
+
   const [loading, setLoading] = useState(true);
-  // START FILTER DATA
-  const [filteredClasses, setFilteredClasses] = useState<Class[]>();
   useEffect(() => {
     const fetchData = async () => {
       const teacherNames = await retrieveTeacherName();
@@ -45,82 +43,59 @@ const page = () => {
     };
     fetchData();
   }, []);
+  // START FILTER DATA
 
-  useEffect(() => {
-    console.log({ classes });
-  }, [classes]);
-
-  const filterOnClassName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputToFilter = e.target.value.toLowerCase();
-
-    const filtered = classes.filter((eachClass) => {
-      const nameToFilter = eachClass.title
-        .split("")
-        .filter((item) => item !== " ")
-        .join("")
-        .toLowerCase();
-
-      return nameToFilter.startsWith(inputToFilter);
-    });
-
-    setClassNameFilter(filtered);
-    applyFilters({ classNameFilter: filtered });
+  type FormInputs = {
+    className: string;
+    teacherName: string;
   };
 
-  const filterOnTeacherName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const teacherName = e.target.value.split(" ").join("").toLowerCase();
-    console.log({ teacherName });
+  const [filteredClasses, setFilteredClasses] = useState<Class[]>();
+
+  const { control, handleSubmit } = useForm<FormInputs>();
+
+  const filterData = (data: FormInputs) => {
+    const { className, teacherName } = data;
+    const classNameToFilter = className?.split(" ").join("").toLowerCase();
+
+    const teacherNameToFilter = teacherName?.split(" ").join("").toLowerCase();
 
     const flatClasses: Class[] = [];
 
     classes.map((eachClass: Class) => {
       if (eachClass.classInstructors.length > 1) {
         eachClass.classInstructors.forEach((item) => {
-          // Create a new object for each iteration
           const flatClass = { ...eachClass };
           flatClass.classInstructors = [item];
           flatClasses.push(flatClass);
         });
       } else {
-        const flatClass = { ...eachClass };
-        flatClasses.push(flatClass);
+        flatClasses.push(eachClass);
       }
     });
 
-  
-    const filtered = flatClasses.filter((eachClass) =>
-      eachClass.classInstructors.some((instructor) =>
-        instructor.instructor.name
-          .split(" ")
-          .join("")
-          .toLowerCase()
-          .includes(teacherName)
-      )
-    );
-    
-    setTeacherNameFilter(filtered);
-    applyFilters({ teacherNameFilter: filtered });
+    const result = flatClasses.filter((item) => {
+      const lowerTitle = item.title.split(" ").join("").toLowerCase();
+      const lowerTeacher = item.classInstructors[0].instructor.name
+        .split(" ")
+        .join("")
+        .toLowerCase();
+
+      if (classNameToFilter && teacherNameToFilter) {
+        return (
+          lowerTitle.startsWith(classNameToFilter) &&
+          lowerTeacher === teacherNameToFilter
+        );
+      } else if (classNameToFilter) {
+        return lowerTitle.startsWith(classNameToFilter);
+      } else if (teacherNameToFilter) {
+        return lowerTeacher === teacherNameToFilter;
+      }
+    });
+
+    console.log({ result });
+    setFilteredClasses(result);
   };
-  const applyFilters = ({ classNameFilter , teacherNameFilter }: any) => {
-    if (classNameFilter && teacherNameFilter) {
-      const filtered = classNameFilter.filter((cls: Class) =>
-        teacherNameFilter.some((teacherCls: Class) =>
-          cls.classInstructors.some((instructor) =>
-            instructor.instructor.name.toLowerCase() ===
-            teacherCls.classInstructors[0].instructor.name.toLowerCase()
-          )
-        )
-      );
-      setFilteredClasses(filtered);
-    } else if (classNameFilter) {
-      setFilteredClasses(classNameFilter);
-    } else if (teacherNameFilter) {
-      setFilteredClasses(teacherNameFilter);
-    } else {
-      setFilteredClasses(classes);
-    }
-  };
-  
 
   // END FILTER DATA
 
@@ -137,11 +112,16 @@ const page = () => {
             <IconButton>
               <ClassIcon />
             </IconButton>
-            <CustomClassTextField
-              name="class-name"
-              variant="outlined"
-              label="Class name"
-              onChange={filterOnClassName}
+            <Controller
+              name="className"
+              control={control}
+              render={({ field }) => (
+                <CustomClassTextField
+                  {...field}
+                  variant="outlined"
+                  label="Class name"
+                />
+              )}
             />
           </div>
           <div className={styles.eachSearchbar}>
@@ -149,16 +129,22 @@ const page = () => {
               <SchoolIcon />
             </IconButton>
             <FormControl fullWidth>
-              <CustomClassTextField
-                select
-                variant="outlined"
-                label="Choose your teacher"
-                onChange={filterOnTeacherName}
-              >
-                {teachersName.map((item) => (
-                  <MenuItem value={item}>{item}</MenuItem>
-                ))}
-              </CustomClassTextField>
+              <Controller
+                name="teacherName"
+                control={control}
+                render={({ field }) => (
+                  <CustomClassTextField
+                    {...field}
+                    select
+                    variant="outlined"
+                    label="Choose your teacher"
+                  >
+                    {teachersName.map((item) => (
+                      <MenuItem value={item}>{item}</MenuItem>
+                    ))}
+                  </CustomClassTextField>
+                )}
+              />
             </FormControl>
           </div>
 
@@ -170,6 +156,7 @@ const page = () => {
               width: "fit-content",
               alignSelf: "flex-end",
             }}
+            onClick={handleSubmit(filterData)}
           >
             Filter
           </Button>
