@@ -69,21 +69,47 @@ const page = () => {
 
   const filterOnTeacherName = (e: React.ChangeEvent<HTMLInputElement>) => {
     const teacherName = e.target.value.split(" ").join("").toLowerCase();
+    console.log({ teacherName });
 
-    const filtered = classes.filter((eachClass) =>
+    const flatClasses: Class[] = [];
+
+    classes.map((eachClass: Class) => {
+      if (eachClass.classInstructors.length > 1) {
+        eachClass.classInstructors.forEach((item) => {
+          // Create a new object for each iteration
+          const flatClass = { ...eachClass };
+          flatClass.classInstructors = [item];
+          flatClasses.push(flatClass);
+        });
+      } else {
+        const flatClass = { ...eachClass };
+        flatClasses.push(flatClass);
+      }
+    });
+
+  
+    const filtered = flatClasses.filter((eachClass) =>
       eachClass.classInstructors.some((instructor) =>
-        instructor.instructor.name.toLowerCase().includes(teacherName)
+        instructor.instructor.name
+          .split(" ")
+          .join("")
+          .toLowerCase()
+          .includes(teacherName)
       )
     );
-
+    
     setTeacherNameFilter(filtered);
     applyFilters({ teacherNameFilter: filtered });
   };
-
-  const applyFilters = ({ classNameFilter, teacherNameFilter }: any) => {
+  const applyFilters = ({ classNameFilter , teacherNameFilter }: any) => {
     if (classNameFilter && teacherNameFilter) {
       const filtered = classNameFilter.filter((cls: Class) =>
-        teacherNameFilter.includes(cls)
+        teacherNameFilter.some((teacherCls: Class) =>
+          cls.classInstructors.some((instructor) =>
+            instructor.instructor.name.toLowerCase() ===
+            teacherCls.classInstructors[0].instructor.name.toLowerCase()
+          )
+        )
       );
       setFilteredClasses(filtered);
     } else if (classNameFilter) {
@@ -94,6 +120,7 @@ const page = () => {
       setFilteredClasses(classes);
     }
   };
+  
 
   // END FILTER DATA
 
@@ -141,7 +168,7 @@ const page = () => {
               backgroundColor: "#81403e",
               borderRadius: 0,
               width: "fit-content",
-              alignSelf: 'flex-end'
+              alignSelf: "flex-end",
             }}
           >
             Filter
