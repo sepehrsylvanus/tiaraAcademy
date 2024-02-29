@@ -51,7 +51,7 @@ const page = async () => {
                 <Button
                   size="small"
                   sx={{ color: "#81403e", fontWeight: 700, "&:hover": {} }}
-                  href="/teachers/:teacherId"
+                  href={`/teachers/${teacher.id}`}
                 >
                   Read More
                 </Button>
