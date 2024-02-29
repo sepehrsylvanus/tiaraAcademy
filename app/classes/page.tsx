@@ -27,7 +27,7 @@ import { Class } from "@/utils/types";
 import { useForm, Controller } from "react-hook-form";
 
 const page = () => {
-  const [classes, setClasses] = useState<Class[]>([]);
+  const [classes, setClasses] = useState<Class[] | null>([]);
   const [teachersName, setTeachersName] = useState<string[]>([]);
 
   const [loading, setLoading] = useState(true);
@@ -50,7 +50,7 @@ const page = () => {
     teacherName: string;
   };
 
-  const [filteredClasses, setFilteredClasses] = useState<Class[]>();
+  const [filteredClasses, setFilteredClasses] = useState<Class[] | null>();
 
   const { control, handleSubmit } = useForm<FormInputs>();
 
@@ -62,17 +62,20 @@ const page = () => {
 
     const flatClasses: Class[] = [];
 
-    classes.map((eachClass: Class) => {
-      if (eachClass.classInstructors.length > 1) {
-        eachClass.classInstructors.forEach((item) => {
-          const flatClass = { ...eachClass };
-          flatClass.classInstructors = [item];
-          flatClasses.push(flatClass);
+    {
+      classes &&
+        classes.map((eachClass: Class) => {
+          if (eachClass.classInstructors.length > 1) {
+            eachClass.classInstructors.forEach((item) => {
+              const flatClass = { ...eachClass };
+              flatClass.classInstructors = [item];
+              flatClasses.push(flatClass);
+            });
+          } else {
+            flatClasses.push(eachClass);
+          }
         });
-      } else {
-        flatClasses.push(eachClass);
-      }
-    });
+    }
 
     const result = flatClasses.filter((item) => {
       const lowerTitle = item.title.split(" ").join("").toLowerCase();
