@@ -199,7 +199,17 @@ const page = () => {
                     </div>
                   </CardContent>
                   <CardActions>
-                    <BrownLink title="Register" href={`/${eachClass.link}`} />
+                    <BrownLink
+                      title="register"
+                      href={`/classes/${eachClass.title
+                        .toLowerCase()
+                        .replace(
+                          /\s+/g,
+                          "-"
+                        )}?teacher=${clsWithTeacher.instructor.name
+                        .toLowerCase()
+                        .replace(/\s+/g, "-")}&id=${eachClass.id}`}
+                    />
                   </CardActions>
                 </Card>
               ));
@@ -229,7 +239,17 @@ const page = () => {
                     </div>
                   </CardContent>
                   <CardActions>
-                    <BrownLink title="Register" href={`/${eachClass.link}`} />
+                    <BrownLink
+                      title="register"
+                      href={`/classes/${eachClass.title
+                        .toLowerCase()
+                        .replace(
+                          /\s+/g,
+                          "-"
+                        )}?teacher=${eachClass.classInstructors[0].instructor.name
+                        .toLowerCase()
+                        .replace(/\s+/g, "-")}&id=${eachClass.id}`}
+                    />
                   </CardActions>
                 </Card>
               );

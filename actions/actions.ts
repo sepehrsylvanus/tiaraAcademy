@@ -75,3 +75,9 @@ export const retrieveAllClasses = async (
 
   return classes;
 };
+
+export const retrieveTeachers = async () => {
+  const teachers = await prisma.instructure.findMany();
+
+  return teachers;
+};

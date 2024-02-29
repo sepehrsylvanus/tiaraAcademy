@@ -61,7 +61,7 @@ const MyCourses = () => {
       </div>
       {visibleCourses < myCourses.length && (
         <div style={{ textAlign: "center", marginTop: "1em" }}>
-          <CustomButton name='View More' handleClick={loadMoreCourses}/>
+          <CustomButton name="View More" handleClick={loadMoreCourses} />
         </div>
       )}
     </div>

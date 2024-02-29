@@ -47,7 +47,7 @@ const Sidebar = () => {
           <EditNoteIcon />
           <p className={styles.menuText}>Writing</p>
         </Link>
-        <Link href={"#"} className={styles.iconContainer}>
+        <Link href={"/teachers"} className={styles.iconContainer}>
           <PeopleIcon />
           <p className={styles.menuText}>Teachers</p>
         </Link>
