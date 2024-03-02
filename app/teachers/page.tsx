@@ -16,48 +16,34 @@ import TelegramIcon from "@mui/icons-material/Telegram";
 import Image from "next/image";
 import BrownLink from "@/components/reusableComponents/brownLink/BrownLink";
 import { retrieveTeachers } from "@/actions/actions";
+import { Controller } from "react-hook-form";
+import { CustomClassTextField } from "../classes/styledComponents";
+import StarIcon from "@mui/icons-material/Star";
 const page = async () => {
   const teachers = await retrieveTeachers();
   console.log({ teachers });
   return (
     <div className={styles.container}>
-      <h1>Teacher's Introduction</h1>
+      <div className={styles.head}>
+        <h1>Find a teacher</h1>
+        <CustomClassTextField label="Teacher's name" />
+      </div>
       <div className={styles.teachersCardContainer}>
-        {teachers &&
-          teachers.map((teacher) => (
-            <Card key={teacher.id} className={styles.eachTeacherCard}>
-              <CardMedia
-                sx={{ position: "relative", height: 250, width: "100%" }}
-              >
-                <Image
-                  src={teacher.profileImg}
-                  alt={`${teacher.name} image`}
-                  fill
-                  style={{
-                    position: "absolute",
-                    objectFit: "cover",
-                    objectPosition: "top",
-                  }}
-                />
-              </CardMedia>
-
-              <CardContent>
-                <span style={{ fontWeight: 700, fontSize: 18 }}>
-                  {teacher.name}
-                </span>{" "}
-                {teacher.bio}
-              </CardContent>
-              <CardActions>
-                <Button
-                  size="small"
-                  sx={{ color: "#81403e", fontWeight: 700, "&:hover": {} }}
-                  href={`/teachers/${teacher.id}`}
-                >
-                  Read More
-                </Button>
-              </CardActions>
-            </Card>
-          ))}
+        <div className={styles.eachTeacerCard}>
+          <div className={styles.details}>
+            <div className={styles.info}>
+              <p>Teacher</p>
+              <p>
+                <StarIcon /> <span>4.98 </span> | <span>6353 </span>reviews
+              </p>
+              <p>Tutor since 2020</p>
+            </div>
+            <Avatar src="/khashayar.jpg" sx={{ width: 54, height: 54 }} />
+          </div>
+          <div className={styles.bio}></div>
+          <div className={styles.extra}></div>
+          <Button>See Classes</Button>
+        </div>
       </div>
     </div>
   );

@@ -29,10 +29,12 @@ model Class {
 model Instructure {
   id               String            @id @default(cuid()) @map("_id")
   name             String
-  profileImg       String?
-  introductionImg  String?
+  profileImg       String
+  rating           Float
   classInstructors ClassInstructor[]
   bio              String
+  startDate        Int
+  reviews          Int
 }
 
 model Student {

@@ -7,10 +7,29 @@
   flex-direction: column;
 }
 .teachersCardContainer {
-  display: flex;
-  gap: 1em;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(300px, 1fr));
+  gap: 2em;
 }
-.eachTeacherCard {
-  flex: 1;
-  max-width: 500px;
+.head {
+  display: flex;
+  justify-content: space-between;
+  padding-right: 2em;
+}
+
+.eachTeacerCard {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5em;
+}
+
+.details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
 }
