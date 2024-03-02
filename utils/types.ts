@@ -17,9 +17,8 @@ export interface Instructure {
   id: string;
   name: string;
   profileImg: string;
-  rating: number | null;
-  startDate: number;
-  reviews: number;
+  role: string;
+  job: string;
 }
 
 export interface Student {

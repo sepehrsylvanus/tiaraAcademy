@@ -1,9 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 :root {
   --bg: #81403e;
   --mainBg: white;
   --color: black;
   --softBg: #f0f0f0;
-  --animation: .3s all;
+  --animation: 0.3s all;
 }
 
 * {
@@ -12,28 +15,27 @@
   box-sizing: border-box;
 }
 
-body{
+body {
   height: 100vh;
   background: var(--mainBg);
-
 }
 
-a{
+a {
   text-decoration: none;
   color: var(--color);
 }
 
-.ql-editor{
+.ql-editor {
   font-size: 16px;
 }
 
-.quill > .ql-container > .ql-editor.ql-blank::before{
+.quill > .ql-container > .ql-editor.ql-blank::before {
   color: #81403e;
-  opacity:50% ;
+  opacity: 50%;
 }
-.ql-bubble .ql-tooltip{
- z-index: 10;
+.ql-bubble .ql-tooltip {
+  z-index: 10;
 }
-.ql-bubble .ql-tooltip-editor input[type=text] {
+.ql-bubble .ql-tooltip-editor input[type="text"] {
   left: 0;
 }

@@ -8,13 +8,14 @@
 }
 .teachersCardContainer {
   display: grid;
-  grid-template-columns: repeat(3, minmax(300px, 1fr));
+  grid-template-columns: repeat(3, minmax(200px, 1fr));
   gap: 2em;
 }
 .head {
   display: flex;
   justify-content: space-between;
   padding-right: 2em;
+  align-items: center;
 }
 
 .eachTeacerCard {
@@ -23,13 +24,16 @@
   gap: 1.5em;
 }
 
-.details {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.info {
+.eachTeacerCard {
   display: flex;
   flex-direction: column;
-  gap: 0.5em;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 0px 2.2px rgba(0, 0, 0, 0.02),
+    0px 0px 5.3px rgba(0, 0, 0, 0.028), 0px 0px 10px rgba(0, 0, 0, 0.035),
+    0px 0px 17.9px rgba(0, 0, 0, 0.042), 0px 0px 33.4px rgba(0, 0, 0, 0.05),
+    0px 0px 80px rgba(0, 0, 0, 0.07);
+  border-radius: 10px;
+  padding: 1em;
+  width: 100%;
 }

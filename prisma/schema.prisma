@@ -30,11 +30,9 @@ model Instructure {
   id               String            @id @default(cuid()) @map("_id")
   name             String
   profileImg       String
-  rating           Float
+  role             String
+  job              String
   classInstructors ClassInstructor[]
-  bio              String
-  startDate        Int
-  reviews          Int
 }
 
 model Student {

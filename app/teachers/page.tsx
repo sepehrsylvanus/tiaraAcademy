@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import styles from "./teacher.module.css";
 import {
   Avatar,
@@ -19,31 +20,49 @@ import { retrieveTeachers } from "@/actions/actions";
 import { Controller } from "react-hook-form";
 import { CustomClassTextField } from "../classes/styledComponents";
 import StarIcon from "@mui/icons-material/Star";
-const page = async () => {
-  const teachers = await retrieveTeachers();
-  console.log({ teachers });
+import { Instructure } from "@/utils/types";
+const page = () => {
+  const [teachers, setTeachers] = useState<Instructure[]>([]);
+  useEffect(() => {
+    const fetchTeachers = async () => {
+      const teachers = await retrieveTeachers();
+      setTeachers(teachers);
+    };
+    fetchTeachers();
+  }, []);
+
+  // START OF FILTER
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const nameToFilter = e.target.value;
+    console.log({ nameToFilter });
+  };
+
+  // END OF FILTER
+
   return (
     <div className={styles.container}>
       <div className={styles.head}>
-        <h1>Find a teacher</h1>
-        <CustomClassTextField label="Teacher's name" />
+        <h1 className=" font-bold text-3xl">Find a teacher</h1>
+        <CustomClassTextField onChange={handleChange} label="Teacher's name" />
       </div>
       <div className={styles.teachersCardContainer}>
-        <div className={styles.eachTeacerCard}>
-          <div className={styles.details}>
-            <div className={styles.info}>
-              <p>Teacher</p>
-              <p>
-                <StarIcon /> <span>4.98 </span> | <span>6353 </span>reviews
-              </p>
-              <p>Tutor since 2020</p>
-            </div>
-            <Avatar src="/khashayar.jpg" sx={{ width: 54, height: 54 }} />
+        {teachers.map((teacher) => (
+          <div className={styles.eachTeacerCard}>
+            <Avatar src={teacher.profileImg} sx={{ width: 54, height: 54 }} />
+            <p className=" font-bold ">{teacher.name}</p>
+            <p>{teacher.job}</p>
+            <p>{teacher.role}</p>
+            <Link
+              href={`/teachers/${teacher.id}`}
+              className=" text-blue-300 underline ml-auto"
+            >
+              View profile
+            </Link>
+            <Button style={{ width: "100%" }} variant="contained">
+              See Classes
+            </Button>
           </div>
-          <div className={styles.bio}></div>
-          <div className={styles.extra}></div>
-          <Button>See Classes</Button>
-        </div>
+        ))}
       </div>
     </div>
   );
