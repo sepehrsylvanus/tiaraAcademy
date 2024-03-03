@@ -23,10 +23,14 @@ import StarIcon from "@mui/icons-material/Star";
 import { Instructure } from "@/utils/types";
 const page = () => {
   const [teachers, setTeachers] = useState<Instructure[]>([]);
+  const [filteredTeachers, setFilteredTeachers] = useState(teachers);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     const fetchTeachers = async () => {
       const teachers = await retrieveTeachers();
       setTeachers(teachers);
+      setFilteredTeachers(teachers);
+      setLoading(false);
     };
     fetchTeachers();
   }, []);
@@ -34,7 +38,14 @@ const page = () => {
   // START OF FILTER
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const nameToFilter = e.target.value;
-    console.log({ nameToFilter });
+
+    const result = teachers.filter((teacher) => {
+      const teacherName = teacher.name.split(" ").join("").toLowerCase();
+
+      return teacherName.startsWith(nameToFilter);
+    });
+    console.log(result);
+    setFilteredTeachers(result);
   };
 
   // END OF FILTER
@@ -46,23 +57,27 @@ const page = () => {
         <CustomClassTextField onChange={handleChange} label="Teacher's name" />
       </div>
       <div className={styles.teachersCardContainer}>
-        {teachers.map((teacher) => (
-          <div className={styles.eachTeacerCard}>
-            <Avatar src={teacher.profileImg} sx={{ width: 54, height: 54 }} />
-            <p className=" font-bold ">{teacher.name}</p>
-            <p>{teacher.job}</p>
-            <p>{teacher.role}</p>
-            <Link
-              href={`/teachers/${teacher.id}`}
-              className=" text-blue-300 underline ml-auto"
-            >
-              View profile
-            </Link>
-            <Button style={{ width: "100%" }} variant="contained">
-              See Classes
-            </Button>
-          </div>
-        ))}
+        {loading ? (
+          <CircularProgress />
+        ) : (
+          filteredTeachers.map((teacher) => (
+            <div className={styles.eachTeacerCard}>
+              <Avatar src={teacher.profileImg} sx={{ width: 54, height: 54 }} />
+              <p className=" font-bold ">{teacher.name}</p>
+              <p>{teacher.job}</p>
+              <p>{teacher.role}</p>
+              <Link
+                href={`/teachers/${teacher.id}`}
+                className=" text-blue-300 underline ml-auto hover:text-blue-600 transition"
+              >
+                View profile
+              </Link>
+              <button className="  bg-blue-500 w-full py-4 rounded-md text-white hover:bg-blue-800 transition">
+                See Classes
+              </button>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );
