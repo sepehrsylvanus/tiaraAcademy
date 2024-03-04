@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 :root {
   --bg: #81403e;
   --mainBg: white;
@@ -38,4 +39,16 @@ a {
 }
 .ql-bubble .ql-tooltip-editor input[type="text"] {
   left: 0;
+}
+
+@layer components {
+  .h1 {
+    @apply font-bold text-3xl;
+  }
+  .h3 {
+    @apply font-bold text-xl;
+  }
+  .formInput {
+    @apply bg-slate-100 px-2 py-2 rounded-md;
+  }
 }
