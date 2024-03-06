@@ -18,9 +18,14 @@
     "@mui/material": "^5.15.6",
     "@mui/x-date-pickers": "^6.19.3",
     "@prisma/client": "^5.9.1",
+    "@radix-ui/react-slot": "^1.0.2",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.0",
     "date-fns": "^3.3.1",
     "date-fns-jalali": "^2.13.0-0",
     "dayjs": "^1.11.10",
+    "embla-carousel-react": "^8.0.0",
+    "lucide-react": "^0.344.0",
     "micro": "^10.0.1",
     "next": "14.1.0",
     "prisma": "^5.9.1",
@@ -30,6 +35,8 @@
     "react-quill": "^2.0.0",
     "svix": "^1.17.0",
     "swr": "^2.2.4",
+    "tailwind-merge": "^2.2.1",
+    "tailwindcss-animate": "^1.0.7",
     "zod": "^3.22.4"
   },
   "devDependencies": {

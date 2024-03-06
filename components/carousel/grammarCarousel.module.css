@@ -1,0 +1,9 @@
+.carousItemContainer {
+  background: rgb(148, 103, 236);
+  background: linear-gradient(
+    144deg,
+    rgba(148, 103, 236, 1) 8%,
+    rgba(231, 63, 212, 1) 49%,
+    rgba(218, 110, 232, 1) 65%
+  );
+}

@@ -10,7 +10,7 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import PeopleIcon from "@mui/icons-material/People";
 import NoteAltIcon from "@mui/icons-material/NoteAlt";
 import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
-import EditNoteIcon from '@mui/icons-material/EditNote';
+import EditNoteIcon from "@mui/icons-material/EditNote";
 const Sidebar = () => {
   const { user } = useUser();
   return (
@@ -51,7 +51,7 @@ const Sidebar = () => {
           <PeopleIcon />
           <p className={styles.menuText}>Teachers</p>
         </Link>
-        <Link href={"#"} className={styles.iconContainer}>
+        <Link href={"/blogs"} className={styles.iconContainer}>
           <NoteAltIcon />
           <p className={styles.menuText}>Blog</p>
         </Link>

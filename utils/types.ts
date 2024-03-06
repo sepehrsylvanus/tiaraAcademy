@@ -37,3 +37,9 @@ export interface ClassProps {
   params: { class: string };
   searchParams: { teacher: string; id: string };
 }
+
+export interface Slide {
+  title: string;
+  subtitle: string;
+  link: string;
+}
