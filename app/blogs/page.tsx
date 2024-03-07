@@ -16,17 +16,20 @@ const Blogs = () => {
         </p>
       </div>
       <Divider sx={{ border: "1px solid #b2bec3" }} />
-      <div className="trending flex gap-5">
-        <div className=" flex-1">
-          <Card>
+      <div className="trending grid grid-cols-2 gap-5">
+        <div>
+          <Card className="h-full">
             <CardMedia
               sx={{ height: 200 }}
               image="/article.jpg"
               title="article"
             />
             <CardContent
-              sx={{ backgroundColor: "#1C294B", color: "white" }}
-              className=" flex flex-col gap-7"
+              sx={{
+                backgroundColor: "#1C294B",
+                color: "white",
+              }}
+              className=" flex flex-col gap-7 justify-between"
             >
               <Chip
                 sx={{ color: "white" }}
@@ -34,21 +37,23 @@ const Blogs = () => {
                 variant="outlined"
                 className=" w-fit"
               />
-              <h4 className=" font-bold text-2xl">
-                Unraveling the Mysteries of Grammar: A Deep Dive into Language
-                Structure
-              </h4>
-              <p className="text-sm">
-                Deciphering the Code of Communication: The Role of Grammar in
-                Enhancing Clarity and Cohesion in Language
-              </p>
+              <div className="flex flex-col gap-4">
+                <h4 className=" font-bold text-2xl">
+                  Unraveling the Mysteries of Grammar: A Deep Dive into Language
+                  Structure
+                </h4>
+                <p className="text-sm">
+                  Deciphering the Code of Communication: The Role of Grammar in
+                  Enhancing Clarity and Cohesion in Language
+                </p>
+              </div>
               <p className="text-xs flex gap-2">
                 <span>Khashayar Mohammadi</span>•<span>03 March 2020</span>
               </p>
             </CardContent>
           </Card>
         </div>
-        <div className=" flex-1  grid grid-rows-3 gap-5">
+        <div className=" grid grid-rows-3 gap-5">
           <div className="eacHeadBlog flex gap-4">
             <Image
               src={"/article.jpg"}

@@ -36,7 +36,10 @@ const GrammarCarousel = () => {
                     <div className="bg-white p-2 rounded-md ">
                       <p className=" h3 mb-3">{slide.title}</p>
                       <p className=" text-sm mb-[3em]">{slide.subtitle}</p>
-                      <Link className=" font-bold" href={slide.link}>
+                      <Link
+                        className=" font-bold transition hover:text-blue-500"
+                        href="/blogs/123456"
+                      >
                         Read more
                       </Link>
                     </div>

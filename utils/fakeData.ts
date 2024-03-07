@@ -329,7 +329,29 @@ export const slides = [
     author: "Khashayar Mohammadi",
     createDate: getRandomDate(),
   },
-  // Add more data items with author and createDate
+];
+
+export const sections = [
+  {
+    title: "Read Widely and Actively",
+    body: "The foundation of a robust vocabulary lies in extensive reading. Dive into diverse genres, from fiction to non-fiction, newspapers to academic journals. Expose yourself to a variety of writing styles and topics. While reading, actively engage with unfamiliar words. Keep a dictionary handy to look up meanings and jot down new terms. Contextual understanding reinforces retention, so pay attention to how words are used in sentences.",
+  },
+  {
+    title: "Utilize Vocabulary Expansion Tools",
+    body: " Leverage technology to facilitate vocabulary growth. Language learning apps like Quizlet, Anki, or Duolingo offer interactive exercises and flashcards tailored to your proficiency level. Websites like Vocabulary.com provide personalized learning experiences with quizzes and word lists. Additionally, audiobooks and podcasts allow you to absorb vocabulary passively while multitasking.",
+  },
+  {
+    title: "Practice Word Application",
+    body: " Merely memorizing words isn't enough; applying them in context is crucial for mastery. Incorporate new vocabulary into your everyday conversations, writing, and social media posts. Challenge yourself to use recently acquired words multiple times throughout the day. Engage in debates, discussions, or public speaking events to actively employ your expanding lexicon. Writing essays, stories, or even keeping a journal can serve as platforms for experimentation with language.",
+  },
+  {
+    title: "Create Personalized Study Aids",
+    body: "Develop mnemonic devices, word associations, or visual aids to reinforce memory retention. Group words thematically or alphabetically to streamline learning. Create flashcards with the word on one side and its definition, synonym, antonym, and usage on the other. Incorporate these tools into your daily study routine to reinforce vocabulary acquisition systematically.",
+  },
+  {
+    title: "Review and Reinforce Regularly",
+    body: " Consistent review is key to retaining newly acquired vocabulary. Set aside dedicated time each day or week to revisit words you've learned. Quiz yourself using flashcards or online quizzes to gauge your progress. Engage in activities like crossword puzzles, word games, or word-of-the-day challenges to keep your mind sharp and vocabulary active. Surround yourself with language-rich environments by joining book clubs, attending language workshops, or participating in online forums.",
+  },
 ];
 
 function getRandomDate() {
