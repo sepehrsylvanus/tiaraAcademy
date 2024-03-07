@@ -5,6 +5,7 @@ import Image from "next/image";
 import GrammarCarousel from "@/components/carousel/GrammarCarousel";
 
 import OtherBlogs from "@/components/otherBlogs/OtherBlogs";
+import Link from "next/link";
 const Blogs = () => {
   return (
     <div className={styles.container}>
@@ -18,43 +19,45 @@ const Blogs = () => {
       <Divider sx={{ border: "1px solid #b2bec3" }} />
       <div className="trending grid grid-cols-2 gap-5">
         <div>
-          <Card className="h-full">
-            <CardMedia
-              sx={{ height: 200 }}
-              image="/article.jpg"
-              title="article"
-            />
-            <CardContent
-              sx={{
-                backgroundColor: "#1C294B",
-                color: "white",
-              }}
-              className=" flex flex-col gap-7 justify-between"
-            >
-              <Chip
-                sx={{ color: "white" }}
-                label="Grammer"
-                variant="outlined"
-                className=" w-fit"
+          <Link href={"/blogs/123465"}>
+            <Card className="h-full  transition hover:shadow-2xl ">
+              <CardMedia
+                sx={{ height: 200 }}
+                image="/article.jpg"
+                title="article"
               />
-              <div className="flex flex-col gap-4">
-                <h4 className=" font-bold text-2xl">
-                  Unraveling the Mysteries of Grammar: A Deep Dive into Language
-                  Structure
-                </h4>
-                <p className="text-sm">
-                  Deciphering the Code of Communication: The Role of Grammar in
-                  Enhancing Clarity and Cohesion in Language
+              <CardContent
+                sx={{
+                  backgroundColor: "#1C294B",
+                  color: "white",
+                }}
+                className=" flex flex-col gap-7 justify-between"
+              >
+                <Chip
+                  sx={{ color: "white" }}
+                  label="Grammer"
+                  variant="outlined"
+                  className=" w-fit"
+                />
+                <div className="flex flex-col gap-4">
+                  <h4 className=" font-bold text-2xl">
+                    Unraveling the Mysteries of Grammar: A Deep Dive into
+                    Language Structure
+                  </h4>
+                  <p className="text-sm">
+                    Deciphering the Code of Communication: The Role of Grammar
+                    in Enhancing Clarity and Cohesion in Language
+                  </p>
+                </div>
+                <p className="text-xs flex gap-2">
+                  <span>Khashayar Mohammadi</span>•<span>03 March 2020</span>
                 </p>
-              </div>
-              <p className="text-xs flex gap-2">
-                <span>Khashayar Mohammadi</span>•<span>03 March 2020</span>
-              </p>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          </Link>
         </div>
         <div className=" grid grid-rows-3 gap-5">
-          <div className="eacHeadBlog flex gap-4">
+          <div className="eacHeadBlog flex gap-4 transition hover:shadow-xl hover:-translate-y-1">
             <Image
               src={"/article.jpg"}
               alt="article"
@@ -75,7 +78,7 @@ const Blogs = () => {
               </div>
             </div>
           </div>
-          <div className="eacHeadBlog flex gap-4">
+          <div className="eacHeadBlog flex gap-4 transition hover:shadow-xl hover:-translate-y-1">
             <Image
               src={"/article.jpg"}
               alt="article"
@@ -96,7 +99,7 @@ const Blogs = () => {
               </div>
             </div>
           </div>
-          <div className="eacHeadBlog flex gap-4">
+          <div className="eacHeadBlog flex gap-4 transition hover:shadow-xl hover:-translate-y-1">
             <Image
               src={"/article.jpg"}
               alt="article"

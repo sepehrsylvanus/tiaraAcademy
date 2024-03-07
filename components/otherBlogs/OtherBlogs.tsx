@@ -24,7 +24,7 @@ const OtherBlogs = () => {
                   ))}
                 </div>
 
-                <p className="h3">{slide.title}</p>
+                <p className="h3 text-start">{slide.title}</p>
 
                 <p className="text-sm flex gap-2">
                   <span>{slide.author}</span>&bull;

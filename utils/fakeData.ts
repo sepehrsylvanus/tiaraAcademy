@@ -210,7 +210,7 @@ export const slides = [
     link: "#",
     tags: ["Listening", "Vocabulary"],
     author: "Khashayar Mohammadi",
-    createDate: getRandomDate(),
+    createDate: "11 Feb 2024",
   },
   {
     title: "This is the second card",
@@ -219,7 +219,7 @@ export const slides = [
     link: "#",
     tags: ["Reading", "Comprehension"],
     author: "Khashayar Mohammadi",
-    createDate: getRandomDate(),
+    createDate: "15 Feb 2024",
   },
   {
     title: "This is the third card",
@@ -228,106 +228,88 @@ export const slides = [
     link: "#",
     tags: ["Writing", "Composition"],
     author: "Khashayar Mohammadi",
-    createDate: getRandomDate(),
+    createDate: "20 Feb 2024",
   },
   {
-    title: "This is the third card",
+    title: "This is the fourth card",
     subtitle:
       "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eaque beatae enim, ducimus aspernatur sequi dicta quis eius minus quaerat possimus nihil voluptas aperiam, fugit reprehenderit dolorem, rerum temporibus consequuntur molestias.",
     link: "#",
     tags: ["Writing", "Composition"],
     author: "Khashayar Mohammadi",
-    createDate: getRandomDate(),
+    createDate: "25 Feb 2024",
   },
   {
-    title: "This is the third card",
+    title: "This is the fifth card",
     subtitle:
       "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eaque beatae enim, ducimus aspernatur sequi dicta quis eius minus quaerat possimus nihil voluptas aperiam, fugit reprehenderit dolorem, rerum temporibus consequuntur molestias.",
     link: "#",
     tags: ["Writing", "Composition"],
     author: "Khashayar Mohammadi",
-    createDate: getRandomDate(),
+    createDate: "1 Mar 2024",
   },
   {
-    title: "This is the third card",
+    title: "This is the fifth card",
     subtitle:
       "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eaque beatae enim, ducimus aspernatur sequi dicta quis eius minus quaerat possimus nihil voluptas aperiam, fugit reprehenderit dolorem, rerum temporibus consequuntur molestias.",
     link: "#",
     tags: ["Writing", "Composition"],
     author: "Khashayar Mohammadi",
-    createDate: getRandomDate(),
+    createDate: "1 Mar 2024",
   },
   {
-    title: "This is the third card",
+    title: "This is the fifth card",
     subtitle:
       "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eaque beatae enim, ducimus aspernatur sequi dicta quis eius minus quaerat possimus nihil voluptas aperiam, fugit reprehenderit dolorem, rerum temporibus consequuntur molestias.",
     link: "#",
     tags: ["Writing", "Composition"],
     author: "Khashayar Mohammadi",
-    createDate: getRandomDate(),
+    createDate: "1 Mar 2024",
   },
   {
-    title: "This is the third card",
+    title: "This is the fifth card",
     subtitle:
       "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eaque beatae enim, ducimus aspernatur sequi dicta quis eius minus quaerat possimus nihil voluptas aperiam, fugit reprehenderit dolorem, rerum temporibus consequuntur molestias.",
     link: "#",
     tags: ["Writing", "Composition"],
     author: "Khashayar Mohammadi",
-    createDate: getRandomDate(),
+    createDate: "1 Mar 2024",
   },
   {
-    title: "This is the third card",
+    title: "This is the fifth card",
     subtitle:
       "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eaque beatae enim, ducimus aspernatur sequi dicta quis eius minus quaerat possimus nihil voluptas aperiam, fugit reprehenderit dolorem, rerum temporibus consequuntur molestias.",
     link: "#",
     tags: ["Writing", "Composition"],
     author: "Khashayar Mohammadi",
-    createDate: getRandomDate(),
+    createDate: "1 Mar 2024",
   },
   {
-    title: "This is the third card",
+    title: "This is the fifth card",
     subtitle:
       "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eaque beatae enim, ducimus aspernatur sequi dicta quis eius minus quaerat possimus nihil voluptas aperiam, fugit reprehenderit dolorem, rerum temporibus consequuntur molestias.",
     link: "#",
     tags: ["Writing", "Composition"],
     author: "Khashayar Mohammadi",
-    createDate: getRandomDate(),
+    createDate: "1 Mar 2024",
   },
   {
-    title: "This is the third card",
+    title: "This is the fifth card",
     subtitle:
       "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eaque beatae enim, ducimus aspernatur sequi dicta quis eius minus quaerat possimus nihil voluptas aperiam, fugit reprehenderit dolorem, rerum temporibus consequuntur molestias.",
     link: "#",
     tags: ["Writing", "Composition"],
     author: "Khashayar Mohammadi",
-    createDate: getRandomDate(),
+    createDate: "1 Mar 2024",
   },
   {
-    title: "This is the third card",
+    title: "This is the fifth card",
     subtitle:
       "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eaque beatae enim, ducimus aspernatur sequi dicta quis eius minus quaerat possimus nihil voluptas aperiam, fugit reprehenderit dolorem, rerum temporibus consequuntur molestias.",
     link: "#",
     tags: ["Writing", "Composition"],
     author: "Khashayar Mohammadi",
-    createDate: getRandomDate(),
-  },
-  {
-    title: "This is the third card",
-    subtitle:
-      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eaque beatae enim, ducimus aspernatur sequi dicta quis eius minus quaerat possimus nihil voluptas aperiam, fugit reprehenderit dolorem, rerum temporibus consequuntur molestias.",
-    link: "#",
-    tags: ["Writing", "Composition"],
-    author: "Khashayar Mohammadi",
-    createDate: getRandomDate(),
-  },
-  {
-    title: "This is the third card",
-    subtitle:
-      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eaque beatae enim, ducimus aspernatur sequi dicta quis eius minus quaerat possimus nihil voluptas aperiam, fugit reprehenderit dolorem, rerum temporibus consequuntur molestias.",
-    link: "#",
-    tags: ["Writing", "Composition"],
-    author: "Khashayar Mohammadi",
-    createDate: getRandomDate(),
+    createDate: "1 Mar 2024",
   },
 ];
 
