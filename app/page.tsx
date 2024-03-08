@@ -1,7 +1,7 @@
 import Link from "next/link";
 import styles from "./page.module.css";
 import BrownLink from "@/components/reusableComponents/brownLink/BrownLink";
-import { Button, Divider, TextField } from "@mui/material";
+import { Divider, TextField } from "@mui/material";
 import Image from "next/image";
 import StarIcon from "@mui/icons-material/Star";
 import FacebookIcon from "@mui/icons-material/Facebook";
@@ -9,61 +9,114 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import XIcon from "@mui/icons-material/X";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import YouTubeIcon from "@mui/icons-material/YouTube";
-
+import CustomHamburger from "@/components/hamburger/CustomHamburger";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
+import {
+  AccessTime,
+  EditNote,
+  GridView,
+  NoteAlt,
+  OndemandVideo,
+  People,
+} from "@mui/icons-material";
 export default async function Home() {
   return (
     <div className={styles.container}>
       <section className={styles.navbar}>
-        <h3 style={{ width: "13%" }}>Tiara Academy</h3>
-        <div className={styles.navLinks}>
-          <div className={styles.navbarLeft}>
-            {" "}
-            <Link href={"/home"}>Services</Link>
-            <Divider orientation="vertical" style={{ height: "20px" }} />
-            <Link href={"/home"}>Levels</Link>
-            <Divider orientation="vertical" style={{ height: "20px" }} />
-            <Link href={"/home"}>Testimonials</Link>
-            <Divider orientation="vertical" style={{ height: "20px" }} />
-            <Link href={"/home"}>Enter Main Website</Link>
-          </div>
-          <div className={styles.navbarRight}>
-            <span>FAQs</span>
-            <BrownLink title="Sign in / Sign up" href="/sign-in" />
-          </div>
+        <h3 className="h3">Tiara Academy</h3>
+        <div className={styles.navbarLeft}>
+          {" "}
+          <Link href={"/home"}>Services</Link>
+          <Divider orientation="vertical" style={{ height: "20px" }} />
+          <Link href={"/home"}>Levels</Link>
+          <Divider orientation="vertical" style={{ height: "20px" }} />
+          <Link href={"/home"}>Testimonials</Link>
+          <Divider orientation="vertical" style={{ height: "20px" }} />
+          <Link href={"/home"}>Enter Main Website</Link>
         </div>
+        <div className={styles.navbarRight}>
+          <BrownLink title="Sign in / Sign up" href="/sign-in" />
+        </div>
+        <Popover>
+          <PopoverTrigger>
+            <div className="block lg:hidden">
+              <CustomHamburger />
+            </div>
+          </PopoverTrigger>
+          <PopoverContent>
+            <div className="flex flex-col  border-b-2 border-dashed mb-2 pb-2 gap-1 text-base md:gap-3  md:text-xl">
+              {" "}
+              <Link href={"/home"}>Services</Link>
+              <Divider className="my-2" />
+              <Link href={"/home"}>Levels</Link>
+              <Divider className="my-2" />
+              <Link href={"/home"}>Testimonials</Link>
+              <Divider className="my-2" />
+              <Link href={"/home"}>Enter Main Website</Link>
+            </div>
+
+            <div className="mt-7 mb-3">
+              <Link
+                href={"/sign-in"}
+                className="bg-[#81403e] text-white px-2 py-4 font-bold w-fit "
+              >
+                Sign in / Sign up
+              </Link>
+            </div>
+
+            <div className="flex w-full justify-around mt-8 border-t border-dashed pt-4 gap-2">
+              <Link href={"/home"} className="navLinkContainer">
+                <GridView />
+              </Link>
+              <Link href={"/classes"} className="navLinkContainer">
+                <AccessTime />
+              </Link>
+              <Link href={"/writing"} className="navLinkContainer">
+                <EditNote />
+              </Link>
+              <Link href={"/teachers"} className="navLinkContainer">
+                <People />
+              </Link>
+              <Link href={"/blogs"} className="navLinkContainer">
+                <NoteAlt />
+              </Link>
+              <Link href={"#"} className="navLinkContainer">
+                <OndemandVideo />
+              </Link>
+            </div>
+          </PopoverContent>
+        </Popover>
       </section>
       <Divider />
       <section className={styles.header}>
         <div className={styles.leftHeader}>
-          <p style={{ marginBottom: "2em", fontWeight: 700 }}>- Benefits</p>
-          <p style={{ fontWeight: 700, fontSize: 70 }}>
-            The Best Way
-            <br />
-            to showcase
-            <br />
-            your project.
+          <p style={{ marginBottom: "2em", fontWeight: 700 }}> Benefits</p>
+          <p className=" text-4xl font-bold md:text-5xl lg:text-6xl">
+            <span> The Best Way</span>
+            <br className="hidden md:block" />
+            <span> to showcase </span>
+            <br className="hidden md:block" />
+            <span> your project.</span>
           </p>
           <p style={{ marginBottom: "1em" }}>
             Here you can put a short description about your project.
           </p>
-          <div style={{ display: "flex", gap: "1em" }}>
-            <BrownLink title="Try for free" href="#" />
-            <Button
-              variant="outlined"
-              sx={{
-                "&.MuiButton-root": {
-                  borderRadius: "2px",
-                  color: "black",
-                  borderColor: "black",
-                },
-              }}
-            >
+          <div className="flex gap-4 flex-col md:flex-row ">
+            <Link href={"#"} className=" text-white bg-[#81403e] px-1 py-3">
+              Try for free
+            </Link>
+            <Button className="border rounded border-black bg-transparent text-black">
               See how it works
             </Button>
           </div>
         </div>
 
-        <div className={styles.rightHeader}>
+        <div className=" hidden md:block">
           <Image
             src="https://images.pexels.com/photos/5676740/pexels-photo-5676740.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
             alt="Hero image"
@@ -82,7 +135,7 @@ export default async function Home() {
           <p>Join our community and experience the benefits today!</p>
           <BrownLink href="#" title="Try for free" />
         </div>
-        <div className={styles.joinComRight}>
+        <div className="hidden md:block">
           <Image
             src={
               "https://images.pexels.com/photos/8618062/pexels-photo-8618062.jpeg?auto=compress&cs=tinysrgb&w=600"
@@ -95,7 +148,7 @@ export default async function Home() {
       </section>
       <Divider sx={{ margin: "1em 0" }} />
       <section className={styles.secondService}>
-        <div className={styles.secondServiceLeft}>
+        <div className="hidden md:block">
           <Image
             src={
               "https://images.pexels.com/photos/8617981/pexels-photo-8617981.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
@@ -114,19 +167,7 @@ export default async function Home() {
             With the best methods in the world, you will pass your IELTS exam
             with the best score
           </p>
-          <Button
-            variant="outlined"
-            sx={{
-              "&.MuiButton-root": {
-                borderRadius: "2px",
-                color: "black",
-                borderColor: "black",
-              },
-              width: "fit-content",
-            }}
-          >
-            Try now
-          </Button>
+          <Button>Try now</Button>
         </div>
       </section>
       <Divider sx={{ margin: "1em 0" }} />
@@ -142,21 +183,9 @@ export default async function Home() {
             With the best methods in the world, you will pass your IELTS exam
             with the best score
           </p>
-          <Button
-            variant="outlined"
-            sx={{
-              "&.MuiButton-root": {
-                borderRadius: "2px",
-                color: "black",
-                borderColor: "black",
-              },
-              width: "fit-content",
-            }}
-          >
-            Try now
-          </Button>
+          <Button>Try now</Button>
         </div>
-        <div className={styles.rightThirdService}>
+        <div className="hidden md:block">
           <Image
             src={"/smartEdu.jpeg"}
             alt="Smart Education"
@@ -182,20 +211,20 @@ export default async function Home() {
           <BrownLink href="/sign-up" title="Sign up now" />
         </div>
         <div className={styles.rightLevels}>
-          <div className={styles.eachLevel}>
+          <div className={`${styles.eachLevel}`}>
             <h4>Step 1</h4>
             <p>
               Make an account for yourself using{" "}
               <span className={styles.miniBrownLink}>Sign up now</span> button
             </p>
           </div>
-          <Divider />
-          <div className={styles.eachLevel}>
+
+          <div className={`${styles.eachLevel}`}>
             <h4>Step 2</h4>
             <p>Choose your class and time and reserve it</p>
           </div>
-          <Divider />
-          <div className={styles.eachLevel}>
+
+          <div className={`${styles.eachLevel}`}>
             <h4>Step 3</h4>
             <p>Use and enjoy our fantastic services</p>
           </div>
@@ -274,19 +303,7 @@ export default async function Home() {
                   },
                 }}
               />
-              <Button
-                variant="outlined"
-                sx={{
-                  "&.MuiButton-outlined": {
-                    borderRadius: 0,
-                    borderColor: "black",
-                    color: "black",
-                  },
-                  marginLeft: "1em",
-                }}
-              >
-                Subscribe
-              </Button>
+              <Button>Subscribe</Button>
             </form>
           </div>
 
@@ -327,7 +344,7 @@ export default async function Home() {
             </Link>
           </div>
         </div>
-        <p style={{ textAlign: "center", marginTop: "1.5em" }}>
+        <p className="text-center mt-[1.5em] text-sm">
           {" "}
           © 2024 Tiara Academy. All rights reserved. Content for educational use
           only. Website by SSH Development.

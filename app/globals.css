@@ -51,4 +51,7 @@ a {
   .formInput {
     @apply bg-slate-100 px-2 py-2 rounded-md outline-none;
   }
+  .navLinkContainer {
+    @apply rounded-full bg-gray-300 p-2;
+  }
 }

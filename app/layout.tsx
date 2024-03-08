@@ -20,7 +20,9 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={inter.className}>
-          <Sidebar />
+          <div className="hidden md:block">
+            <Sidebar />
+          </div>
           {children}
         </body>
       </html>
