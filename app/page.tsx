@@ -27,72 +27,74 @@ import {
 export default async function Home() {
   return (
     <div className={styles.container}>
-      <section className={styles.navbar}>
-        <h3 className="h3">Tiara Academy</h3>
-        <div className={styles.navbarLeft}>
-          {" "}
-          <Link href={"/home"}>Services</Link>
-          <Divider orientation="vertical" style={{ height: "20px" }} />
-          <Link href={"/home"}>Levels</Link>
-          <Divider orientation="vertical" style={{ height: "20px" }} />
-          <Link href={"/home"}>Testimonials</Link>
-          <Divider orientation="vertical" style={{ height: "20px" }} />
-          <Link href={"/home"}>Enter Main Website</Link>
-        </div>
-        <div className={styles.navbarRight}>
-          <BrownLink title="Sign in / Sign up" href="/sign-in" />
-        </div>
-        <Popover>
-          <PopoverTrigger>
-            <div className="block lg:hidden">
-              <CustomHamburger />
-            </div>
-          </PopoverTrigger>
-          <PopoverContent>
-            <div className="flex flex-col  border-b-2 border-dashed mb-2 pb-2 gap-1 text-base md:gap-3  md:text-xl">
-              {" "}
-              <Link href={"/home"}>Services</Link>
-              <Divider className="my-2" />
-              <Link href={"/home"}>Levels</Link>
-              <Divider className="my-2" />
-              <Link href={"/home"}>Testimonials</Link>
-              <Divider className="my-2" />
-              <Link href={"/home"}>Enter Main Website</Link>
-            </div>
+      <div className="fixed top-0">
+        <section className={styles.navbar}>
+          <h3 className="h3">Tiara Academy</h3>
+          <div className={styles.navbarLeft}>
+            {" "}
+            <Link href={"/home"}>Services</Link>
+            <Divider orientation="vertical" style={{ height: "20px" }} />
+            <Link href={"/home"}>Levels</Link>
+            <Divider orientation="vertical" style={{ height: "20px" }} />
+            <Link href={"/home"}>Testimonials</Link>
+            <Divider orientation="vertical" style={{ height: "20px" }} />
+            <Link href={"/home"}>Enter Main Website</Link>
+          </div>
+          <div className={styles.navbarRight}>
+            <BrownLink title="Sign in / Sign up" href="/sign-in" />
+          </div>
+          <Popover>
+            <PopoverTrigger>
+              <div className="block lg:hidden">
+                <CustomHamburger />
+              </div>
+            </PopoverTrigger>
+            <PopoverContent>
+              <div className="flex flex-col  border-b-2 border-dashed mb-2 pb-2 gap-1 text-base md:gap-3  md:text-xl">
+                {" "}
+                <Link href={"/home"}>Services</Link>
+                <Divider className="my-2" />
+                <Link href={"/home"}>Levels</Link>
+                <Divider className="my-2" />
+                <Link href={"/home"}>Testimonials</Link>
+                <Divider className="my-2" />
+                <Link href={"/home"}>Enter Main Website</Link>
+              </div>
 
-            <div className="mt-7 mb-3">
-              <Link
-                href={"/sign-in"}
-                className="bg-[#81403e] text-white px-2 py-4 font-bold w-fit "
-              >
-                Sign in / Sign up
-              </Link>
-            </div>
+              <div className="mt-7 mb-3">
+                <Link
+                  href={"/sign-in"}
+                  className="bg-[#81403e] text-white px-2 py-4 font-bold w-fit "
+                >
+                  Sign in / Sign up
+                </Link>
+              </div>
 
-            <div className="flex w-full justify-around mt-8 border-t border-dashed pt-4 gap-2">
-              <Link href={"/home"} className="navLinkContainer">
-                <GridView />
-              </Link>
-              <Link href={"/classes"} className="navLinkContainer">
-                <AccessTime />
-              </Link>
-              <Link href={"/writing"} className="navLinkContainer">
-                <EditNote />
-              </Link>
-              <Link href={"/teachers"} className="navLinkContainer">
-                <People />
-              </Link>
-              <Link href={"/blogs"} className="navLinkContainer">
-                <NoteAlt />
-              </Link>
-              <Link href={"#"} className="navLinkContainer">
-                <OndemandVideo />
-              </Link>
-            </div>
-          </PopoverContent>
-        </Popover>
-      </section>
-      <Divider />
+              <div className="flex w-full justify-around mt-8 border-t border-dashed pt-4 gap-2">
+                <Link href={"/home"} className="navLinkContainer">
+                  <GridView />
+                </Link>
+                <Link href={"/classes"} className="navLinkContainer">
+                  <AccessTime />
+                </Link>
+                <Link href={"/writing"} className="navLinkContainer">
+                  <EditNote />
+                </Link>
+                <Link href={"/teachers"} className="navLinkContainer">
+                  <People />
+                </Link>
+                <Link href={"/blogs"} className="navLinkContainer">
+                  <NoteAlt />
+                </Link>
+                <Link href={"#"} className="navLinkContainer">
+                  <OndemandVideo />
+                </Link>
+              </div>
+            </PopoverContent>
+          </Popover>
+        </section>
+        <Divider />
+      </div>
       <section className={styles.header}>
         <div className={styles.leftHeader}>
           <p style={{ marginBottom: "2em", fontWeight: 700 }}> Benefits</p>
