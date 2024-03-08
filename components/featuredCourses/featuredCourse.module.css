@@ -4,14 +4,13 @@
 }
 .cardContainer {
   margin-top: 1em;
- display: grid;
- grid-template: repeat(1,1fr)/repeat(4,1fr);
- gap: 1em;
+  display: grid;
+  grid-template: repeat(1, 1fr) / repeat(4, 1fr);
+  gap: 1em;
 }
 .eachCard {
   background-color: var(--softBg) !important;
   position: relative;
-  
 }
 .classStuff {
   display: flex;
@@ -35,7 +34,7 @@
 
 .bookmarkLink:hover {
   background-color: var(--bg);
-  color:white ;
+  color: white;
   outline: none;
 }
 .instructure {
@@ -52,4 +51,8 @@
     16px 100px 350px rgba(0, 0, 0, 0.19);
   position: relative;
   bottom: 2em;
+}
+.iconsContainer {
+  display: flex;
+  align-items: center;
 }

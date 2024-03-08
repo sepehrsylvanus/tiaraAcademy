@@ -237,8 +237,9 @@
 .newsletterForm {
   display: flex;
   align-items: center;
+
+  gap: 1em;
   @media (max-width: 1214px) {
     flex-direction: column;
-    gap: 1em;
   }
 }

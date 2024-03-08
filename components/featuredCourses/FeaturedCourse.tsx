@@ -38,7 +38,10 @@ const FeaturedCourse = async () => {
                   />{" "}
                   {eachClass.classInstructors[0].instructor.name}
                 </div>
-                <h5 style={{ fontSize: 18, fontWeight: "light" }}>
+                <h5
+                  className="font-bold"
+                  style={{ fontSize: 18, fontWeight: "light" }}
+                >
                   {eachClass.title}
                 </h5>
                 <div className={styles.classStuff}>
@@ -53,7 +56,8 @@ const FeaturedCourse = async () => {
                       <span>{eachClass.rating}</span>/5
                     </span>
                   </div>
-                <BrownLink href={`/classes/${eachClass.title
+                  <BrownLink
+                    href={`/classes/${eachClass.title
                       .toLowerCase()
                       .replace(
                         /\s+/g,
@@ -61,8 +65,8 @@ const FeaturedCourse = async () => {
                       )}?teacher=${eachClass.classInstructors[0].instructor.name
                       .toLowerCase()
                       .replace(/\s+/g, "-")}&id=${eachClass.id}`}
-                      title='register'
-                      />
+                    title="register"
+                  />
                 </div>
               </CardContent>
             </Card>

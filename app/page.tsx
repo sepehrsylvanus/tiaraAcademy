@@ -111,8 +111,8 @@ export default async function Home() {
           <p style={{ marginBottom: "1em" }}>
             Here you can put a short description about your project.
           </p>
-          <div className="flex gap-4 flex-col md:flex-row ">
-            <Link href={"#"} className=" text-white bg-[#81403e] px-1 py-3">
+          <div className="flex gap-4 items-center flex-col md:flex-row ">
+            <Link href={"#"} className="brownLink">
               Try for free
             </Link>
             <Button className="border rounded border-black bg-transparent text-black">
@@ -172,7 +172,9 @@ export default async function Home() {
             With the best methods in the world, you will pass your IELTS exam
             with the best score
           </p>
-          <Button>Try now</Button>
+          <Button className="border rounded border-black bg-transparent text-black">
+            Try now
+          </Button>
         </div>
       </section>
       <Divider sx={{ margin: "1em 0" }} />
@@ -188,7 +190,9 @@ export default async function Home() {
             With the best methods in the world, you will pass your IELTS exam
             with the best score
           </p>
-          <Button>Try now</Button>
+          <Button className="border rounded border-black bg-transparent text-black">
+            Try now
+          </Button>
         </div>
         <div className="hidden md:block">
           <Image
@@ -308,7 +312,9 @@ export default async function Home() {
                   },
                 }}
               />
-              <Button>Subscribe</Button>
+              <Button className="border rounded border-black bg-transparent text-black">
+                Subscribe
+              </Button>
             </form>
           </div>
 
