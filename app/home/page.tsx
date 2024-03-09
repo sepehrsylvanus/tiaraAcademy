@@ -1,13 +1,8 @@
 import styles from "./home.module.css";
 import FeaturedCourse from "@/components/featuredCourses/FeaturedCourse";
-import Categories from "@/components/categories/Categories";
 import MyCourses from "@/components/myCourses/MyCourses";
 
 export default async function Home() {
-
-
-
-
   return (
     <div className={styles.container}>
       <div className={styles.main}>

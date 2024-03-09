@@ -1,23 +1,28 @@
-.container{
+.container {
   margin-top: 1em;
-padding: 0 1.5em;
-
+  padding: 0 1.5em;
 }
-.coursesContainer{
+.coursesContainer {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 2em;
+  @media (max-width: 1262px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
 }
-.eachCard{
+.eachCard {
   display: flex;
   background-color: var(--softBg) !important;
   position: relative;
+  @media (max-width: 611px) {
+    flex-direction: column;
+  }
 }
-.cardMedia{
+.cardMedia {
   flex: 1 0 auto;
   min-width: 250px;
 }
-.cardContent{
+.cardContent {
   flex: 3;
   display: flex;
   flex-direction: column;
@@ -36,9 +41,9 @@ padding: 0 1.5em;
 
 .bookmarkLink:hover {
   background-color: var(--bg);
-  color:white ;
+  color: white;
   outline: none;
 }
-.progress{
-  margin-bottom: .5em;
+.progress {
+  margin-bottom: 0.5em;
 }

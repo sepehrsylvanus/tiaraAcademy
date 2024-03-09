@@ -9,12 +9,59 @@ import BookmarkIcon from "@mui/icons-material/Bookmark";
 import { getFeaturedClasses } from "@/actions/actions";
 import { Class } from "@/utils/types";
 import BrownLink from "../reusableComponents/brownLink/BrownLink";
+
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import CustomHamburger from "../hamburger/CustomHamburger";
+import {
+  AccessTime,
+  EditNote,
+  GridView,
+  NoteAlt,
+  OndemandVideo,
+  People,
+} from "@mui/icons-material";
+
 const FeaturedCourse = async () => {
   const featuredCourses: Class[] = await getFeaturedClasses();
 
   return (
     <div className={styles.container}>
-      <h3>کلاس‌های جدید</h3>
+      <div className="flex justify-between">
+        <h3 className="h3">New classes</h3>
+        <Popover>
+          <PopoverTrigger>
+            <div className="block md:hidden">
+              <CustomHamburger />
+            </div>
+          </PopoverTrigger>
+          <PopoverContent>
+            <div className="flex w-full justify-around  gap-2">
+              <Link href={"/home"} className="navLinkContainer">
+                <GridView />
+              </Link>
+              <Link href={"/classes"} className="navLinkContainer">
+                <AccessTime />
+              </Link>
+              <Link href={"/writing"} className="navLinkContainer">
+                <EditNote />
+              </Link>
+              <Link href={"/teachers"} className="navLinkContainer">
+                <People />
+              </Link>
+              <Link href={"/blogs"} className="navLinkContainer">
+                <NoteAlt />
+              </Link>
+              <Link href={"#"} className="navLinkContainer">
+                <OndemandVideo />
+              </Link>
+            </div>
+          </PopoverContent>
+        </Popover>
+      </div>
       <div className={styles.cardContainer}>
         {featuredCourses.map((eachClass) => {
           const hours = Math.floor(Number(eachClass.duration) / 1000 / 60 / 60);
@@ -31,7 +78,7 @@ const FeaturedCourse = async () => {
               {eachClass.img && (
                 <CardMedia sx={{ height: 140 }} image={eachClass.img} />
               )}
-              <CardContent style={{ position: "relative", bottom: "1em" }}>
+              <CardContent className=" relative bottom-[1em] text-center min-[350px]:text-start">
                 <div className={styles.instructure}>
                   <Avatar
                     src={eachClass.classInstructors[0].instructor.profileImg}
@@ -46,12 +93,15 @@ const FeaturedCourse = async () => {
                 </h5>
                 <div className={styles.classStuff}>
                   <div className={styles.iconsContainer}>
-                    <span>
+                    <p className="flex items-center gap-1">
                       <AccessTimeIcon className={styles.icon} />
-                      {hours > 0 && `${hours}hr  `}{" "}
-                      {(Number(eachClass.duration) / 1000 / 60) % 60}m
-                    </span>
-                    <span>
+                      <span>
+                        {" "}
+                        {hours > 0 && `${hours}hr  `}{" "}
+                        {(Number(eachClass.duration) / 1000 / 60) % 60}m
+                      </span>
+                    </p>
+                    <span className="flex items-center gap-1">
                       <StarIcon className={styles.icon} />{" "}
                       <span>{eachClass.rating}</span>/5
                     </span>

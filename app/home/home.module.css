@@ -1,12 +1,15 @@
 .container {
-  display: flex;
   height: 100vh;
   padding-left: 4em;
   overflow-x: hidden;
+  @media (max-width: 765px) {
+    padding: 0;
+  }
 }
-
-.main {
-  flex: 96;
+.featuredCourses {
+  @media (max-width: 850px) {
+    padding-bottom: 43em;
+  }
 }
 .myCourses {
   padding-bottom: 2em;
