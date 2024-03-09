@@ -4,7 +4,6 @@ import TextField from "@mui/material/TextField";
 import styles from "./classes.module.css";
 import {
   Autocomplete,
-  Button,
   Card,
   CardActions,
   CardContent,
@@ -19,13 +18,27 @@ import {
 } from "@mui/material";
 import ClassIcon from "@mui/icons-material/Class";
 import SchoolIcon from "@mui/icons-material/School";
-import CategoryIcon from "@mui/icons-material/Category";
 import { CustomClassTextField } from "./styledComponents";
 import { retrieveAllClasses, retrieveTeacherName } from "@/actions/actions";
 import BrownLink from "@/components/reusableComponents/brownLink/BrownLink";
 import { Class } from "@/utils/types";
 import { useForm, Controller } from "react-hook-form";
-
+import { Button } from "@/components/ui/button";
+import CustomHamburger from "@/components/hamburger/CustomHamburger";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import Link from "next/link";
+import {
+  AccessTime,
+  EditNote,
+  GridView,
+  NoteAlt,
+  OndemandVideo,
+  People,
+} from "@mui/icons-material";
 const page = () => {
   const [classes, setClasses] = useState<Class[] | null>([]);
   const [teachersName, setTeachersName] = useState<string[]>([]);
@@ -104,10 +117,61 @@ const page = () => {
 
   return (
     <div className={styles.container}>
+      <div className="ml-auto md:hidden">
+        <Popover>
+          <PopoverTrigger>
+            <div className="block lg:hidden">
+              <CustomHamburger />
+            </div>
+          </PopoverTrigger>
+          <PopoverContent>
+            <div className="flex flex-col  border-b-2 border-dashed mb-2 pb-2 gap-1 text-base md:gap-3  md:text-xl">
+              {" "}
+              <Link href={"/home"}>Services</Link>
+              <Divider className="my-2" />
+              <Link href={"/home"}>Levels</Link>
+              <Divider className="my-2" />
+              <Link href={"/home"}>Testimonials</Link>
+              <Divider className="my-2" />
+              <Link href={"/home"}>Enter Main Website</Link>
+            </div>
+
+            <div className="mt-7 mb-3">
+              <Link
+                href={"/sign-in"}
+                className="bg-[#81403e] text-white px-2 py-4 font-bold w-fit "
+              >
+                Sign in / Sign up
+              </Link>
+            </div>
+
+            <div className="flex w-full justify-around mt-8 border-t border-dashed pt-4 gap-2">
+              <Link href={"/home"} className="navLinkContainer">
+                <GridView />
+              </Link>
+              <Link href={"/classes"} className="navLinkContainer">
+                <AccessTime />
+              </Link>
+              <Link href={"/writing"} className="navLinkContainer">
+                <EditNote />
+              </Link>
+              <Link href={"/teachers"} className="navLinkContainer">
+                <People />
+              </Link>
+              <Link href={"/blogs"} className="navLinkContainer">
+                <NoteAlt />
+              </Link>
+              <Link href={"#"} className="navLinkContainer">
+                <OndemandVideo />
+              </Link>
+            </div>
+          </PopoverContent>
+        </Popover>
+      </div>
       <div className={styles.classesHeader}>
         <div className={styles.titleContainer}>
-          <h4>Tiara Academy</h4>
-          <h1>All Classes</h1>
+          <h4 className="h3">Tiara Academy</h4>
+          <h1 className="h1">All Classes</h1>
           <p>Here you can see all of available classes</p>
         </div>
         <div className={styles.searchBarContainer}>
@@ -152,14 +216,8 @@ const page = () => {
           </div>
 
           <Button
-            variant="contained"
-            sx={{
-              backgroundColor: "#81403e",
-              borderRadius: 0,
-              width: "fit-content",
-              alignSelf: "flex-end",
-            }}
             onClick={handleSubmit(filterData)}
+            className="bg-[#81403e] rounded-none sm:self-end sm:w-fit"
           >
             Filter
           </Button>
