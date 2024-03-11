@@ -3,11 +3,10 @@
   height: 100vh;
   padding-left: 4em;
   flex-direction: column;
-
+  padding-top: 5em;
   @media (max-width: 765px) {
     overflow-x: hidden;
     padding-left: unset;
-    padding-top: 5em;
   }
 }
 .container section:not(section.navbar, section.testimonials, section.footer) {

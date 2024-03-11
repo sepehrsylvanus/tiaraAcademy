@@ -39,7 +39,14 @@ import {
   OndemandVideo,
   People,
 } from "@mui/icons-material";
+import { useSearchParams } from "next/navigation";
+import { Skeleton } from "@/components/ui/skeleton";
+
 const page = () => {
+  const searchParams = useSearchParams();
+
+  const teacherName = searchParams.get("teacher");
+  const className = searchParams.get("className");
   const [classes, setClasses] = useState<Class[] | null>([]);
   const [teachersName, setTeachersName] = useState<string[]>([]);
 
@@ -50,9 +57,35 @@ const page = () => {
       const allClasses = await retrieveAllClasses();
 
       setTeachersName(teacherNames);
-      setClasses(allClasses);
-      setFilteredClasses(allClasses);
-      setLoading(false);
+      if (searchParams.size === 0) {
+        setClasses(allClasses);
+        setFilteredClasses(allClasses);
+        setLoading(false);
+      } else {
+        const flatClasses: Class[] = [];
+        allClasses.forEach((eachClass) => {
+          if (eachClass.classInstructors.length > 1) {
+            eachClass.classInstructors.forEach((eachClassInstructor) => {
+              const flatClass = { ...eachClass };
+              flatClass.classInstructors = [eachClassInstructor];
+              flatClasses.push(flatClass);
+            });
+          } else {
+            flatClasses.push(eachClass);
+          }
+          const result = flatClasses.filter(
+            (item) =>
+              item.classInstructors[0].instructor.name ===
+                searchParams.get("teacher") &&
+              item.title
+                .toLowerCase()
+                .startsWith(searchParams.get("className")!)
+          );
+
+          setFilteredClasses(result);
+          setLoading(false);
+        });
+      }
     };
     fetchData();
   }, []);
@@ -65,30 +98,35 @@ const page = () => {
 
   const [filteredClasses, setFilteredClasses] = useState<Class[] | null>();
 
-  const { control, handleSubmit } = useForm<FormInputs>();
+  const { control, handleSubmit } = useForm<FormInputs>({
+    defaultValues: {
+      className: searchParams.get("className") || "",
+      teacherName: searchParams.get("teacher") || "",
+    },
+  });
+
+  const flatClasses: Class[] = [];
+  {
+    classes &&
+      classes.map((eachClass: Class) => {
+        if (eachClass.classInstructors.length > 1) {
+          eachClass.classInstructors.forEach((item) => {
+            const flatClass = { ...eachClass };
+            flatClass.classInstructors = [item];
+            flatClasses.push(flatClass);
+          });
+        } else {
+          flatClasses.push(eachClass);
+        }
+      });
+  }
 
   const filterData = (data: FormInputs) => {
     const { className, teacherName } = data;
+
     const classNameToFilter = className?.split(" ").join("").toLowerCase();
 
     const teacherNameToFilter = teacherName?.split(" ").join("").toLowerCase();
-
-    const flatClasses: Class[] = [];
-
-    {
-      classes &&
-        classes.map((eachClass: Class) => {
-          if (eachClass.classInstructors.length > 1) {
-            eachClass.classInstructors.forEach((item) => {
-              const flatClass = { ...eachClass };
-              flatClass.classInstructors = [item];
-              flatClasses.push(flatClass);
-            });
-          } else {
-            flatClasses.push(eachClass);
-          }
-        });
-    }
 
     const result = flatClasses.filter((item) => {
       const lowerTitle = item.title.split(" ").join("").toLowerCase();
@@ -112,12 +150,32 @@ const page = () => {
     console.log({ result });
     setFilteredClasses(result);
   };
+  useEffect(() => {
+    if (searchParams.size !== 0) {
+      const result = flatClasses.filter(
+        (eachClass) =>
+          eachClass.classInstructors[0].instructor.name ===
+            searchParams.get("teacher") &&
+          eachClass.title === searchParams.get("className")
+      );
+
+      console.log(result);
+
+      setFilteredClasses(result);
+    }
+  }, []);
+
+  // useEffect(() => {
+  //   if (searchParams) {
+  //     const result = filteredClasses
+  //   }
+  // }, []);
 
   // END FILTER DATA
 
   return (
     <div className={styles.container}>
-      <div className="ml-auto md:hidden">
+      <div className="ml-auto absolute top-0 right-0 md:hidden">
         <Popover>
           <PopoverTrigger>
             <div className="block lg:hidden">
@@ -226,9 +284,16 @@ const page = () => {
       <Divider sx={{ margin: "1em 0" }} />
       <div className={styles.classesBody}>
         {loading ? (
-          <div className={styles.loaderContainer}>
-            <CircularProgress sx={{ color: "#81403e" }} />
-          </div>
+          <>
+            <Skeleton className="w-[261px] h-[366px] rounded-md" />
+            <Skeleton className="w-[261px] h-[366px] rounded-md" />
+            <Skeleton className="w-[261px] h-[366px] rounded-md" />
+            <Skeleton className="w-[261px] h-[366px] rounded-md" />
+            <Skeleton className="w-[261px] h-[366px] rounded-md" />
+            <Skeleton className="w-[261px] h-[366px] rounded-md" />
+            <Skeleton className="w-[261px] h-[366px] rounded-md" />
+            <Skeleton className="w-[261px] h-[366px] rounded-md" />
+          </>
         ) : (
           filteredClasses?.map((eachClass) => {
             const hours = Math.floor(
