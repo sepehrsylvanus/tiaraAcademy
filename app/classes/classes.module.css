@@ -53,9 +53,3 @@
   flex-direction: column;
   gap: 0.5em;
 }
-.loaderContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transform: scale(1.5);
-}

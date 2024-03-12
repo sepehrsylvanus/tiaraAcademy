@@ -52,7 +52,7 @@ a {
     @apply bg-slate-100 px-2 py-2 rounded-md outline-none;
   }
   .navLinkContainer {
-    @apply rounded-full bg-gray-300 p-2;
+    @apply rounded-full bg-gray-300 p-2 flex justify-between;
   }
   .brownLink {
     @apply text-white bg-[#81403e] px-1 py-3 md:px-3 md:py-3;

@@ -36,44 +36,33 @@ export default async function RootLayout({
               <CustomHamburger />
             </div>
           </PopoverTrigger>
-          <PopoverContent>
-            <div className="flex flex-col  border-b-2 border-dashed mb-2 pb-2 gap-1 text-base md:gap-3  md:text-xl">
-              {" "}
-              <Link href={"/home"}>Services</Link>
-              <Divider className="my-2" />
-              <Link href={"/home"}>Levels</Link>
-              <Divider className="my-2" />
-              <Link href={"/home"}>Testimonials</Link>
-              <Divider className="my-2" />
-              <Link href={"/home"}>Enter Main Website</Link>
-            </div>
-
-            <div className="mt-7 mb-3">
-              <Link
-                href={"/sign-in"}
-                className="bg-[#81403e] text-white px-2 py-4 font-bold w-fit "
-              >
-                Sign in / Sign up
-              </Link>
-            </div>
-
-            <div className="flex w-full justify-around mt-8 border-t border-dashed pt-4 gap-2">
+          <PopoverContent
+            className="w-fit
+          "
+          >
+            <div className="flex flex-col w-fit justify-around px-6 gap-2">
               <Link href={"/home"} className="navLinkContainer">
+                <span>Profile</span>
                 <GridView />
               </Link>
               <Link href={"/classes"} className="navLinkContainer">
+                <span>Classes</span>
                 <AccessTime />
               </Link>
               <Link href={"/writing"} className="navLinkContainer">
+                <span>Writing</span>
                 <EditNote />
               </Link>
               <Link href={"/teachers"} className="navLinkContainer">
+                <span>Teachers</span>
                 <People />
               </Link>
               <Link href={"/blogs"} className="navLinkContainer">
+                <span>Blogs</span>
                 <NoteAlt />
               </Link>
               <Link href={"#"} className="navLinkContainer">
+                <span>Videos</span>
                 <OndemandVideo />
               </Link>
             </div>

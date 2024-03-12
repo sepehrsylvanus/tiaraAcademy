@@ -2,38 +2,34 @@
   display: flex;
   gap: 3em;
   height: 100vh;
-  padding-left: 5em;
   padding-top: 1em;
   flex-direction: column;
+
+  overflow-x: hidden;
+  @media (min-width: 768px) {
+    padding-left: 1em;
+  }
 }
 .teachersCardContainer {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(200px, 1fr));
-  gap: 2em;
-}
-.head {
-  display: flex;
-  justify-content: space-between;
-  padding-right: 2em;
-  align-items: center;
+  padding: 0 4em;
+  @media (min-width: 768px) {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(200px, 1fr));
+    gap: 2em;
+  }
 }
 
 .eachTeacerCard {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5em;
-}
+  display: none;
+  @media (min-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5em;
+    text-align: center;
+    justify-content: center;
 
-.eachTeacerCard {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0px 0px 2.2px rgba(0, 0, 0, 0.02),
-    0px 0px 5.3px rgba(0, 0, 0, 0.028), 0px 0px 10px rgba(0, 0, 0, 0.035),
-    0px 0px 17.9px rgba(0, 0, 0, 0.042), 0px 0px 33.4px rgba(0, 0, 0, 0.05),
-    0px 0px 80px rgba(0, 0, 0, 0.07);
-  border-radius: 10px;
-  padding: 1em;
-  width: 100%;
+    border-radius: 10px;
+    padding: 1em;
+    width: 100%;
+  }
 }
