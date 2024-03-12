@@ -6,18 +6,73 @@ import GrammarCarousel from "@/components/carousel/GrammarCarousel";
 
 import OtherBlogs from "@/components/otherBlogs/OtherBlogs";
 import Link from "next/link";
+import {
+  AccessTime,
+  EditNote,
+  GridView,
+  NoteAlt,
+  OndemandVideo,
+  People,
+} from "@mui/icons-material";
+import CustomHamburger from "@/components/hamburger/CustomHamburger";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+
 const Blogs = () => {
   return (
     <div className={styles.container}>
-      <div className="header flex items-center justify-between">
+      <div className="ml-auto fixed top-0 right-0 md:hidden bg-white  rounded-md m-2">
+        <Popover>
+          <PopoverTrigger>
+            <div className="block lg:hidden">
+              <CustomHamburger />
+            </div>
+          </PopoverTrigger>
+          <PopoverContent
+            className="w-fit
+          "
+          >
+            <div className="flex flex-col w-fit justify-around px-6 gap-2">
+              <Link href={"/home"} className="navLinkContainer">
+                <span>Profile</span>
+                <GridView />
+              </Link>
+              <Link href={"/classes"} className="navLinkContainer">
+                <span>Classes</span>
+                <AccessTime />
+              </Link>
+              <Link href={"/writing"} className="navLinkContainer">
+                <span>Writing</span>
+                <EditNote />
+              </Link>
+              <Link href={"/teachers"} className="navLinkContainer">
+                <span>Teachers</span>
+                <People />
+              </Link>
+              <Link href={"/blogs"} className="navLinkContainer">
+                <span>Blogs</span>
+                <NoteAlt />
+              </Link>
+              <Link href={"#"} className="navLinkContainer">
+                <span>Videos</span>
+                <OndemandVideo />
+              </Link>
+            </div>
+          </PopoverContent>
+        </Popover>
+      </div>
+      <div className="header flex flex-col items-center md:items-center md:justify-between text-center gap-4">
         <h3 className="h1 text-4xl ">Trending Articles</h3>
-        <p className=" w-[30rem]">
+        <p className=" w-fit md:w-[30rem]">
           Discover Our Curated Collection of the Most Trending and Insightful
           Articles: From Educational Insights to Practical Tips
         </p>
       </div>
       <Divider sx={{ border: "1px solid #b2bec3" }} />
-      <div className="trending grid grid-cols-2 gap-5">
+      <div className="trending grid grid-cols-1 md:grid-cols-2 gap-5">
         <div>
           <Link href={"/blogs/123465"}>
             <Card className="h-full  transition hover:shadow-2xl ">
@@ -57,7 +112,7 @@ const Blogs = () => {
           </Link>
         </div>
         <div className=" grid grid-rows-3 gap-5">
-          <div className="eacHeadBlog flex gap-4 transition hover:shadow-xl hover:-translate-y-1">
+          <div className="eacHeadBlog flex flex-col md:flex-row gap-4 transition hover:shadow-xl hover:-translate-y-1 items-center">
             <Image
               src={"/article.jpg"}
               alt="article"
@@ -65,20 +120,20 @@ const Blogs = () => {
               height={90}
               className=" rounded-lg"
             />
-            <div className="flex flex-col justify-between">
+            <div className="flex flex-col justify-between gap-4 md:gap-0 items-center md:items-start">
               <Chip variant="outlined" label="Vocabulary" className=" w-fit" />
               <div>
-                <h4 className=" mb-2 font-extrabold">
+                <h4 className=" mb-2 font-extrabold text-center md:text-start">
                   Mastering the Lexicon: Unlocking the Power of Words for
                   Effective Communication and Learning
                 </h4>
-                <p className="text-xs flex gap-2">
+                <p className="text-xs flex gap-2 justify-center md:justify-start">
                   <span>Khashayar Mohammadi</span>•<span>03 March 2020</span>
                 </p>
               </div>
             </div>
           </div>
-          <div className="eacHeadBlog flex gap-4 transition hover:shadow-xl hover:-translate-y-1">
+          <div className="eacHeadBlog flex flex-col md:flex-row gap-4 transition hover:shadow-xl hover:-translate-y-1 items-center">
             <Image
               src={"/article.jpg"}
               alt="article"
@@ -86,20 +141,20 @@ const Blogs = () => {
               height={90}
               className=" rounded-lg"
             />
-            <div className="flex flex-col justify-between">
+            <div className="flex flex-col justify-between gap-4 md:gap-0 items-center md:items-start">
               <Chip variant="outlined" label="Vocabulary" className=" w-fit" />
               <div>
-                <h4 className=" mb-2 font-extrabold">
+                <h4 className=" mb-2 font-extrabold text-center md:text-start">
                   Mastering the Lexicon: Unlocking the Power of Words for
                   Effective Communication and Learning
                 </h4>
-                <p className="text-xs flex gap-2">
+                <p className="text-xs flex gap-2 justify-center md:justify-start">
                   <span>Khashayar Mohammadi</span>•<span>03 March 2020</span>
                 </p>
               </div>
             </div>
           </div>
-          <div className="eacHeadBlog flex gap-4 transition hover:shadow-xl hover:-translate-y-1">
+          <div className="eacHeadBlog flex flex-col md:flex-row gap-4 transition hover:shadow-xl hover:-translate-y-1 items-center">
             <Image
               src={"/article.jpg"}
               alt="article"
@@ -107,14 +162,14 @@ const Blogs = () => {
               height={90}
               className=" rounded-lg"
             />
-            <div className="flex flex-col justify-between">
+            <div className="flex flex-col justify-between gap-4 md:gap-0 items-center md:items-start">
               <Chip variant="outlined" label="Vocabulary" className=" w-fit" />
               <div>
-                <h4 className=" mb-2 font-extrabold">
+                <h4 className=" mb-2 font-extrabold text-center md:text-start">
                   Mastering the Lexicon: Unlocking the Power of Words for
                   Effective Communication and Learning
                 </h4>
-                <p className="text-xs flex gap-2">
+                <p className="text-xs flex gap-2 justify-center md:justify-start">
                   <span>Khashayar Mohammadi</span>•<span>03 March 2020</span>
                 </p>
               </div>
