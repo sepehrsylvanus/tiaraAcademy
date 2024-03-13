@@ -2,8 +2,13 @@
   display: flex;
   gap: 3em;
   height: 100vh;
-  padding-left: 5em;
+
   padding-top: 1em;
   flex-direction: column;
   padding-bottom: 2em;
+
+  padding: 1em 2em 2em;
+  @media (min-width: 768px) {
+    padding-left: 5em;
+  }
 }
