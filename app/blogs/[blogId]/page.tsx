@@ -7,10 +7,22 @@ import { sections } from "@/utils/fakeData";
 import { useEffect, useRef, useState } from "react";
 import { TracingBeam } from "@/components/ui/tracing-beam";
 
-interface Section {
-  title: string;
-  body: string;
-}
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+
+import {
+  AccessTime,
+  EditNote,
+  GridView,
+  NoteAlt,
+  OndemandVideo,
+  People,
+} from "@mui/icons-material";
+import CustomHamburger from "@/components/hamburger/CustomHamburger";
+import Link from "next/link";
 
 const SingleBlog = () => {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
@@ -18,9 +30,49 @@ const SingleBlog = () => {
 
   return (
     <div className={styles.container}>
+      <div className="ml-auto fixed top-0 right-0 md:hidden">
+        <Popover>
+          <PopoverTrigger>
+            <div className="block lg:hidden">
+              <CustomHamburger />
+            </div>
+          </PopoverTrigger>
+          <PopoverContent
+            className="w-fit
+          "
+          >
+            <div className="flex flex-col w-fit justify-around px-6 gap-2">
+              <Link href={"/home"} className="navLinkContainer">
+                <span>Profile</span>
+                <GridView />
+              </Link>
+              <Link href={"/classes"} className="navLinkContainer">
+                <span>Classes</span>
+                <AccessTime />
+              </Link>
+              <Link href={"/writing"} className="navLinkContainer">
+                <span>Writing</span>
+                <EditNote />
+              </Link>
+              <Link href={"/teachers"} className="navLinkContainer">
+                <span>Teachers</span>
+                <People />
+              </Link>
+              <Link href={"/blogs"} className="navLinkContainer">
+                <span>Blogs</span>
+                <NoteAlt />
+              </Link>
+              <Link href={"#"} className="navLinkContainer">
+                <span>Videos</span>
+                <OndemandVideo />
+              </Link>
+            </div>
+          </PopoverContent>
+        </Popover>
+      </div>
       <TracingBeam className="px-6 h-fit">
         <div>
-          <div className="header antialiased  text-center flex flex-col gap-5 mb-4">
+          <div className="header   text-center flex flex-col gap-5 mb-4">
             <Chip className="w-fit mx-auto" label="Grammar" />
             <h1 className="font-bold  md:h1">
               How we can learn grammars more

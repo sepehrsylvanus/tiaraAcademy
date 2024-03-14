@@ -55,7 +55,7 @@ const Sidebar = () => {
           <NoteAltIcon />
           <p className={styles.menuText}>Blog</p>
         </Link>
-        <Link href={"#"} className={styles.iconContainer}>
+        <Link href={"/videos"} className={styles.iconContainer}>
           <OndemandVideoIcon />
           <p className={styles.menuText}>Videos</p>
         </Link>

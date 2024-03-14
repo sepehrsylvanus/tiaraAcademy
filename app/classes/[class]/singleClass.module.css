@@ -1,28 +1,24 @@
 .container {
-
   height: 100vh;
   padding-left: 5em;
   padding-right: 1.5em;
-
-
-
 }
-.header{
+.header {
   display: flex;
   flex-direction: column;
   padding-top: 1em;
- text-align: center;
+  text-align: center;
 }
-.title{
+.title {
   margin-top: 3em;
   font-size: 52px;
   font-weight: 300;
 }
-.navbar{
+.navbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  
+  gap: 1em;
 }
 .manageClass {
   padding: 1em 2em;
@@ -44,53 +40,49 @@
   bottom: 1px;
   right: 1px;
 }
-.desc{
+.desc {
   text-align: center;
   margin-top: 2em;
   margin-bottom: 3em;
 }
-.classDetailsContainer{
+.classDetailsContainer {
   text-align: center;
 }
-.nextClassContainer{
+.nextClassContainer {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 1.5em;
 }
-.eachClassDetailsContiner{
+.eachClassDetailsContiner {
   display: flex;
   align-items: center;
-  gap: .5em
+  gap: 0.5em;
 }
-.sessionLinkOrPlaceTitle{
+.sessionLinkOrPlaceTitle {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.5em;
   margin-top: 1em;
 }
-.accessContainer{
+.accessContainer {
   display: flex;
   flex-direction: column;
-align-items: center;
-display: flex;
-flex-direction: column;
-gap: 1em;
-
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
 }
-.accessToClass{
-
-  margin-top: .5em;
+.accessToClass {
+  margin-top: 0.5em;
   border: 1px solid #d8b1af;
   padding: 1em 5em;
-width: fit-content;
-
-
+  width: fit-content;
 }
-.chooseClassTime{
+.chooseClassTime {
   padding-bottom: 2em;
 }
 
-/* 9 - 10 - 11 -12 - 2 - 3 - 4 - 5 - 6 - 7- 8 - 9 خصوصی*/ 
+/* 9 - 10 - 11 -12 - 2 - 3 - 4 - 5 - 6 - 7- 8 - 9 خصوصی*/
 /* 9 - 10:45 - 2 - 3:45 - 5:30 - 7:15 */

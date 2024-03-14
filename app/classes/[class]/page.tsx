@@ -1,4 +1,3 @@
-
 import React from "react";
 import styles from "./singleClass.module.css";
 import { Button, Divider, InputLabel, Select } from "@mui/material";
@@ -33,15 +32,17 @@ const privateTimes = [
 const publicTimes = ["9", "10:45", "14", "15:45", "17:30", "19:15"];
 
 const MyClass = async (details: ClassProps) => {
-
   const { params, searchParams } = details;
   const singleClass = await getSingleClass(searchParams.id);
   return (
     <div className={styles.container}>
       <section className={styles.header}>
         <div className={styles.navbar}>
-          <h1>English Lessons</h1>
-          <Link className={styles.manageClass} href={"#"}>
+          <h1 className="font-bold text-2xl md:h1">English Lessons</h1>
+          <Link
+            className="px-4 py-8 border-none bg-[#81403e] text-white font-bold transition text-base"
+            href={"#"}
+          >
             تغییر کلاس جاری
           </Link>
         </div>

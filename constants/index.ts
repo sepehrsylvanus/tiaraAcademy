@@ -62,3 +62,86 @@ export const howTooStudy = [
     desc: "Learning to write proficiently in English is a gradual process that requires consistent effort and patience. Stay committed to your goals, practice regularly, and don't be discouraged by setbacks. Celebrate your progress along the way and remember that every word written is a step forward in your journey toward mastery.",
   },
 ];
+
+export const videoTags = [
+  {
+    name: "English Learning",
+    link: "#",
+  },
+  {
+    name: "Language Education",
+    link: "#",
+  },
+  {
+    name: "ESL (English as a Second Language)",
+    link: "#",
+  },
+  {
+    name: "Grammar Lessons",
+    link: "#",
+  },
+  {
+    name: "Vocabulary Building",
+    link: "#",
+  },
+  {
+    name: "Writing Skills",
+    link: "#",
+  },
+  {
+    name: "Reading Comprehension",
+    link: "#",
+  },
+  {
+    name: "Listening Practice",
+    link: "#",
+  },
+  {
+    name: "Speaking Skills",
+    link: "#",
+  },
+  {
+    name: "Language Tips",
+    link: "#",
+  },
+  {
+    name: "English Grammar",
+    link: "#",
+  },
+  {
+    name: "Language Resources",
+    link: "#",
+  },
+  {
+    name: "English Tutorial",
+    link: "#",
+  },
+  {
+    name: "Language Learning Tools",
+    link: "#",
+  },
+  {
+    name: "Educational Videos",
+    link: "#",
+  },
+  {
+    name: "Language Acquisition",
+    link: "#",
+  },
+  {
+    name: "Language Teaching",
+    link: "#",
+  },
+  {
+    name: "Study Skills",
+    link: "#",
+  },
+  {
+    name: "Exam Preparation",
+    link: "#",
+  },
+  {
+    name: "English Practice",
+    link: "#",
+  },
+];
