@@ -77,45 +77,10 @@ const page = () => {
 
   return (
     <div className={styles.container}>
-      <div className="ml-auto fixed top-0 right-0 md:hidden">
-        <Popover>
-          <PopoverTrigger>
-            <div className="block lg:hidden">
-              <CustomHamburger />
-            </div>
-          </PopoverTrigger>
-          <PopoverContent
-            className="w-fit
-          "
-          >
-            <div className="flex flex-col w-fit justify-around px-6 gap-2">
-              <Link href={"/home"} className="navLinkContainer">
-                <span>Profile</span>
-                <GridView />
-              </Link>
-              <Link href={"/classes"} className="navLinkContainer">
-                <span>Classes</span>
-                <AccessTime />
-              </Link>
-              <Link href={"/writing"} className="navLinkContainer">
-                <span>Writing</span>
-                <EditNote />
-              </Link>
-              <Link href={"/teachers"} className="navLinkContainer">
-                <span>Teachers</span>
-                <People />
-              </Link>
-              <Link href={"/blogs"} className="navLinkContainer">
-                <span>Blogs</span>
-                <NoteAlt />
-              </Link>
-              <Link href={"#"} className="navLinkContainer">
-                <span>Videos</span>
-                <OndemandVideo />
-              </Link>
-            </div>
-          </PopoverContent>
-        </Popover>
+      <div className="ml-auto z-20 fixed top-0 right-0 md:hidden">
+        <div className="block lg:hidden">
+          <CustomHamburger navbar={false} sidebar={true} />
+        </div>
       </div>
       <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-between sm:px-4 md:pl-[3em]">
         <h1 className=" font-bold text-3xl">Find a teacher</h1>
@@ -158,7 +123,7 @@ const page = () => {
                         <p>{teacher.job}</p>
                         <p>{teacher.role}</p>
                         <Link
-                          href={`/teachers/${teacher.id}`}
+                          href={`/hub/teachers/${teacher.id}`}
                           className=" text-blue-300 underline  hover:text-blue-600 transition"
                         >
                           View profile
@@ -188,7 +153,7 @@ const page = () => {
                   <p>{teacher.job}</p>
                   <p>{teacher.role}</p>
                   <Link
-                    href={`/teachers/${teacher.id}`}
+                    href={`/hub/teachers/${teacher.id}`}
                     className=" text-blue-300 underline  hover:text-blue-600 transition"
                   >
                     View profile

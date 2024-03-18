@@ -5,16 +5,18 @@ import DetailCard from "./DetailCard";
 import DoneIcon from "@mui/icons-material/Done";
 import HourglassBottomIcon from "@mui/icons-material/HourglassBottom";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
-import MessageForm from "@/app/teachers/[teacher]/MessageForm";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import CloseIcon from "@mui/icons-material/Close";
 
 import {} from "@mui/icons-material";
+import MessageForm from "./MessageForm";
 const SingleTeacher = () => {
   return (
-    <div className={`${styles.container}  py-5`}>
+    <div
+      className={`flex flex-col md:flex-row gap-[3em] h-full px-[1em] md:pl-[5em] pt-[1em]  py-5`}
+    >
       <div className="right flex-1 flex flex-col justify-between">
-        <div className="introduction flex gap-10 items-center justify-around">
+        <div className="introduction flex flex-col  gap-10 items-center justify-around">
           <Avatar src="/khashayar.jpg" sx={{ width: 250, height: 250 }} />
           <div className="introDetails flex flex-col gap-4">
             <h1 className=" h1 ">Khashayar Mohammadi</h1>
@@ -37,9 +39,12 @@ const SingleTeacher = () => {
             </div>
           </div>
         </div>
-        <div className="details">
+        <div className="details mt-4">
           <h3 className=" h3 mb-6 text-center">Details</h3>
-          <div className=" flex gap-4 justify-around">
+          <div
+            className=" grid grid-cols-1 sm:grid-cols-3
+           gap-4 justify-around"
+          >
             <DetailCard title="English Courses" value={2} icon={<DoneIcon />} />
             <DetailCard
               title="Teaching Hours"

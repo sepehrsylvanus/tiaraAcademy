@@ -7,10 +7,12 @@
   }
 }
 .featuredCourses {
+  z-index: 1;
   @media (max-width: 850px) {
     padding-bottom: 43em;
   }
 }
 .myCourses {
+  z-index: 1;
   padding-bottom: 2em;
 }

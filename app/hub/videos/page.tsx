@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/card";
 import Image from "next/image";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import CustomHamburger from "@/components/hamburger/CustomHamburger";
 
 interface videoTag {
   name: string;
@@ -36,8 +37,11 @@ console.log(chunkedTags);
 const Videos = () => {
   return (
     <div className="flex flex-col px-4 md:pl-[4em]">
+      <div className="ml-auto z-10 fixed top-0 right-0 md:hidden bg-white  rounded-md m-2">
+        <CustomHamburger navbar={false} sidebar={true} />
+      </div>
       <div>
-        <div className="flex justify-between items-center gap-4 mt-4">
+        <div className="flex justify-between items-center gap-4 mt-4 pt-[3em]">
           <h1 className="h1 ">Videos</h1>
           <Input
             type="text"

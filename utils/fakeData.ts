@@ -42,7 +42,7 @@ export const myCourses = [
     img: "https://images.pexels.com/photos/716276/pexels-photo-716276.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     title: "Writing Assignments",
     instructure: "خشایار محمدی",
-    progress: 75,
+    progress: 100,
   },
   {
     img: "https://images.pexels.com/photos/256395/pexels-photo-256395.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",

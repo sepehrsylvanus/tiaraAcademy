@@ -24,6 +24,7 @@ import {
   OndemandVideo,
   People,
 } from "@mui/icons-material";
+import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 export default async function Home() {
   return (
     <div className={styles.container}>
@@ -40,62 +41,35 @@ export default async function Home() {
           <Link href={"/home"}>Enter Main Website</Link>
         </div>
         <div className={styles.navbarRight}>
-          <Link
-            href={"/sign-in"}
-            className="bg-[#81403e] text-white px-2 py-4 font-bold w-fit text-xs lg:text-base"
-          >
-            Sign in / Sign up
-          </Link>
+          <div className=" scale-75 lg:scale-100">
+            <SignedOut>
+              <div className=" mb-3 pt-6  ">
+                <Link
+                  href={"/sign-in"}
+                  className="bg-[#81403e]   text-white px-2 py-4 font-bold w-fit "
+                >
+                  Sign in / Sign up
+                </Link>
+              </div>
+            </SignedOut>
+
+            <SignedIn>
+              <div className=" pt-4 mb-3 gap-8 flex items-center justify-between">
+                <Link
+                  href={"/hub"}
+                  className="bg-[#81403e] text-white px-2 py-4 font-bold w-fit "
+                >
+                  Enter Hub
+                </Link>
+
+                <div className=" scale-150">
+                  <UserButton afterSignOutUrl="/" />
+                </div>
+              </div>
+            </SignedIn>
+          </div>
         </div>
-        <Popover>
-          <PopoverTrigger>
-            <div className="block lg:hidden">
-              <CustomHamburger />
-            </div>
-          </PopoverTrigger>
-          <PopoverContent>
-            <div className="flex flex-col  border-b-2 border-dashed mb-2 pb-2 gap-1 text-base md:gap-3  md:text-xl">
-              {" "}
-              <Link href={"/home"}>Services</Link>
-              <Divider className="my-2" />
-              <Link href={"/home"}>Levels</Link>
-              <Divider className="my-2" />
-              <Link href={"/home"}>Testimonials</Link>
-              <Divider className="my-2" />
-              <Link href={"/home"}>Enter Main Website</Link>
-            </div>
-
-            <div className="mt-7 mb-3">
-              <Link
-                href={"/sign-in"}
-                className="bg-[#81403e] text-white px-2 py-4 font-bold w-fit "
-              >
-                Sign in / Sign up
-              </Link>
-            </div>
-
-            <div className="flex w-full justify-around mt-8 border-t border-dashed pt-4 gap-2">
-              <Link href={"/home"} className="navLinkContainer">
-                <GridView />
-              </Link>
-              <Link href={"/classes"} className="navLinkContainer">
-                <AccessTime />
-              </Link>
-              <Link href={"/writing"} className="navLinkContainer">
-                <EditNote />
-              </Link>
-              <Link href={"/teachers"} className="navLinkContainer">
-                <People />
-              </Link>
-              <Link href={"/blogs"} className="navLinkContainer">
-                <NoteAlt />
-              </Link>
-              <Link href={"#"} className="navLinkContainer">
-                <OndemandVideo />
-              </Link>
-            </div>
-          </PopoverContent>
-        </Popover>
+        <CustomHamburger navbar={true} sidebar={false} />
       </section>
 
       <section className={styles.header}>

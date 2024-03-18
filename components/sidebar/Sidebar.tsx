@@ -35,27 +35,27 @@ const Sidebar = () => {
       </div>
 
       <div className={styles.iconsContainer}>
-        <Link href={"/home"} className={styles.iconContainer}>
+        <Link href={"/hub"} className={styles.iconContainer}>
           <GridViewIcon />
-          <p className={styles.menuText}>Overview</p>
+          <p className={styles.menuText}>Panel</p>
         </Link>
-        <Link href={"/classes"} className={styles.iconContainer}>
+        <Link href={"/hub/classes"} className={styles.iconContainer}>
           <AccessTimeIcon />
           <p className={styles.menuText}>Classes</p>
         </Link>
-        <Link href={"/writing"} className={styles.iconContainer}>
+        <Link href={"/hub/writing"} className={styles.iconContainer}>
           <EditNoteIcon />
           <p className={styles.menuText}>Writing</p>
         </Link>
-        <Link href={"/teachers"} className={styles.iconContainer}>
+        <Link href={"/hub/teachers"} className={styles.iconContainer}>
           <PeopleIcon />
           <p className={styles.menuText}>Teachers</p>
         </Link>
-        <Link href={"/blogs"} className={styles.iconContainer}>
+        <Link href={"/hub/blogs"} className={styles.iconContainer}>
           <NoteAltIcon />
           <p className={styles.menuText}>Blog</p>
         </Link>
-        <Link href={"/videos"} className={styles.iconContainer}>
+        <Link href={"/hub/videos"} className={styles.iconContainer}>
           <OndemandVideoIcon />
           <p className={styles.menuText}>Videos</p>
         </Link>

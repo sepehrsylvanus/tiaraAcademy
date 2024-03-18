@@ -176,55 +176,9 @@ const page = () => {
   return (
     <div className={styles.container}>
       <div className="ml-auto absolute top-0 right-0 md:hidden">
-        <Popover>
-          <PopoverTrigger>
-            <div className="block lg:hidden">
-              <CustomHamburger />
-            </div>
-          </PopoverTrigger>
-          <PopoverContent>
-            <div className="flex flex-col  border-b-2 border-dashed mb-2 pb-2 gap-1 text-base md:gap-3  md:text-xl">
-              {" "}
-              <Link href={"/home"}>Services</Link>
-              <Divider className="my-2" />
-              <Link href={"/home"}>Levels</Link>
-              <Divider className="my-2" />
-              <Link href={"/home"}>Testimonials</Link>
-              <Divider className="my-2" />
-              <Link href={"/home"}>Enter Main Website</Link>
-            </div>
-
-            <div className="mt-7 mb-3">
-              <Link
-                href={"/sign-in"}
-                className="bg-[#81403e] text-white px-2 py-4 font-bold w-fit "
-              >
-                Sign in / Sign up
-              </Link>
-            </div>
-
-            <div className="flex w-full justify-around mt-8 border-t border-dashed pt-4 gap-2">
-              <Link href={"/home"} className="navLinkContainer">
-                <GridView />
-              </Link>
-              <Link href={"/classes"} className="navLinkContainer">
-                <AccessTime />
-              </Link>
-              <Link href={"/writing"} className="navLinkContainer">
-                <EditNote />
-              </Link>
-              <Link href={"/teachers"} className="navLinkContainer">
-                <People />
-              </Link>
-              <Link href={"/blogs"} className="navLinkContainer">
-                <NoteAlt />
-              </Link>
-              <Link href={"#"} className="navLinkContainer">
-                <OndemandVideo />
-              </Link>
-            </div>
-          </PopoverContent>
-        </Popover>
+        <div className="block lg:hidden">
+          <CustomHamburger navbar={false} sidebar={true} />
+        </div>
       </div>
       <div className={styles.classesHeader}>
         <div className={styles.titleContainer}>
