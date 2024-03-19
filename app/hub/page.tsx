@@ -1,71 +1,75 @@
-import { Card, CardContent } from "@/components/ui/card";
+import { exampleRetireveStudents } from "@/actions/actions";
+import StudentHub from "@/components/studentHub/StudentHub";
+import { columns } from "@/components/studentsTable/columns";
+import { DataTable } from "@/components/studentsTable/data-table";
+import { Button } from "@/components/ui/button";
 
-import { Star, AccessTime } from "@mui/icons-material";
-import { Avatar } from "@mui/material";
-import { getFeaturedClasses } from "@/actions/actions";
+import { currentUser } from "@clerk/nextjs";
+import { Avatar, Divider } from "@mui/material";
+import React from "react";
 
-import MyCourses from "@/components/MyCourses";
+const Hub = async () => {
+  const user = await currentUser();
+  const isAdmin = user?.privateMetadata.isAdmin!;
+  const isTeacher = user?.privateMetadata.isTeacher!;
+  const students = await exampleRetireveStudents();
+  console.log(students);
 
-export default async function Home() {
-  const featuredClasses = await getFeaturedClasses();
-  console.log(featuredClasses);
   return (
-    <div className="px-2 pb-4">
-      <div className="featuredClasses">
-        <h2 className="font-bold text-2xl mb-2 border-b border-dashed">
-          Featured Classes
-        </h2>
-        <div className="featuredContainer grid grid-cols-1 gap-4">
-          {featuredClasses.map((featuredClass) => {
-            console.log(featuredClass.duration);
-            const seconds = Math.floor(Number(featuredClass.duration) / 1000);
-            const minutes = Math.floor(seconds / 60);
-            const hours = Math.floor(minutes / 60);
-            const remainingMinutes = minutes % 60;
+    <div>
+      {isAdmin || isTeacher ? (
+        <div className="container px-4 mt-4 pb-4 ">
+          {/* ========== */}
 
-            return (
-              <Card
-                key={featuredClass.id}
-                className="eachFeatured bg-slate-300 p-2"
-              >
-                <img
-                  src="/article.jpg"
-                  alt="featuredCourseImg"
-                  width={"100%"}
-                  height={200}
-                  className="rounded-md"
-                />
-                <div className="teacherPaper flex px-4  justify-between items-center bg-white w-[90%] shadow-lg rounded-md relative bottom-6 left-2">
-                  <Avatar
-                    src={
-                      featuredClass.classInstructors[0].instructor.profileImg
-                    }
-                    sx={{ width: 54, height: 54 }}
-                  />
-                  <span className="text-sm">
-                    {" "}
-                    {featuredClass.classInstructors[0].instructor.name}
-                  </span>
+          <div className="space-y-6" id="students-videos">
+            <div className="flex gap-4 items-center justify-center">
+              <Avatar src="/khashayar.jpg" sx={{ width: 80, height: 80 }} />
+              <div className=" space-y-2">
+                <p className="font-bold">Admin | Teacher</p>
+                <h1 className="font-bold text-xl">Khashayar Mohammadi</h1>
+              </div>
+            </div>
+
+            {/* ========== */}
+
+            <div className="space-y-2">
+              <p className="font-semibold">Students</p>
+              <DataTable columns={columns} data={students} />
+            </div>
+
+            {/* ========== */}
+            <div className="space-y-4 text-center border shadow-md rounded-md p-4">
+              <p>
+                Click button below You will be redirect to videos page with
+                extra options
+              </p>
+              <Button>Take me to videos</Button>
+            </div>
+          </div>
+          {/* ========== */}
+          <div className="my-6">
+            <Divider />
+          </div>
+          <div id="pdf-article-classes">
+            <div className="pdfs rounded-md shadow-md">
+              <p className="text-2xl">PDF Section</p>
+              <p className="my-2">Send and view PDFs.</p>
+              <Divider />
+              <div className="flex px-2 gap-3 items-center py-3 m-2  rounded-md shadow-md">
+                <Avatar sx={{ width: 50, height: 50 }} />
+                <div>
+                  <p>Sepehr</p>
+                  <p>Section 1</p>
+                  <Button>Open</Button>
                 </div>
-                <CardContent className="">
-                  <h4>{featuredClass.title}</h4>
-                  <div className="flex gap-8 mt-4">
-                    <p className="flex gap-2">
-                      <AccessTime />
-                      {`${hours > 0 ? `${hours}hr` : ""} ${remainingMinutes}m`}
-                    </p>
-                    <p className="flex gap-2">
-                      <Star />
-                      {featuredClass.rating}/5
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-            );
-          })}
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-      <MyCourses />
+      ) : null}
+      {!isAdmin && !isTeacher && <StudentHub />}
     </div>
   );
-}
+};
+
+export default Hub;

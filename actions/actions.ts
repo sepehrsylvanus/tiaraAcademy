@@ -81,3 +81,9 @@ export const retrieveTeachers = async () => {
 
   return teachers;
 };
+
+export const exampleRetireveStudents = async () => {
+  const students = await prisma.student.findMany();
+
+  return students;
+};

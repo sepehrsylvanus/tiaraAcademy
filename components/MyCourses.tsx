@@ -3,6 +3,8 @@ import { myCourses } from "@/utils/fakeData";
 import { LinearProgress, linearProgressClasses, styled } from "@mui/material";
 import { Card, CardContent } from "@/components/ui/card";
 import { Bookmark } from "@mui/icons-material";
+import { useState } from "react";
+import { Button } from "./ui/button";
 export const CustomLinearProgress = styled(LinearProgress)(() => ({
   height: 10,
   borderRadius: 50,
@@ -14,13 +16,17 @@ export const CustomLinearProgress = styled(LinearProgress)(() => ({
   },
 }));
 const MyCourses = () => {
+  const [displayCount, setDisplayCount] = useState(3);
+  const handleShowMore = () => {
+    setDisplayCount((prev: number) => prev + 2);
+  };
   return (
     <div>
       <h2 className="font-bold text-2xl mb-2 border-b border-dashed">
         My Classes
       </h2>
-      <div className="featuredContainer grid grid-cols-1 gap-4">
-        {myCourses.map((myCourse, index) => (
+      <div className="featuredContainer grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {myCourses?.slice(0, displayCount).map((myCourse, index) => (
           <Card
             key={index}
             className="eachFeatured bg-slate-300 p-2 flex flex-col"
@@ -50,6 +56,13 @@ const MyCourses = () => {
           </Card>
         ))}
       </div>
+      {myCourses && myCourses.length > displayCount && (
+        <div className="w-full flex justify-center">
+          <Button className="w-full my-4 sm:w-[50%] " onClick={handleShowMore}>
+            Show More
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

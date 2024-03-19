@@ -23,7 +23,9 @@ export interface Instructure {
 
 export interface Student {
   id: string;
-  name: string;
+  firstName: string;
+  lastName: string;
+  email: string;
   createdAt: Date;
 }
 

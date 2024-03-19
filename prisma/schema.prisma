@@ -37,7 +37,9 @@ model Instructure {
 
 model Student {
   id            String         @id @default(cuid()) @map("_id")
-  name          String
+  firstName     String
+  lastName      String
+  email         String
   createdAt     DateTime       @default(now())
   classStudents ClassStudent[]
 }
