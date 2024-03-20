@@ -1,30 +1,27 @@
 "use client";
-import { z } from "zod";
+import { ZodObject, ZodType, z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
-const formSchema = z.object({
-  band: z.number().min(1),
-  writing: z.string().min(10, { message: "Realy?! This short?!" }),
-});
-const TeacherWriting = () => {
+const ReuableForm = () => {
+  const formSchema = z.object({
+    band: z.string().min(1),
+    writing: z.string().min(10, { message: "Realy?! This short?!" }),
+  });
   // FORM FUNCTIONS
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      band: 0,
       writing: "",
     },
   });
@@ -44,9 +41,9 @@ const TeacherWriting = () => {
           control={form.control}
           name="band"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="w-[30%]">
               <FormControl>
-                <Input placeholder="shadcn" {...field} />
+                <Input placeholder="Band..." {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -58,7 +55,7 @@ const TeacherWriting = () => {
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Textarea placeholder="shadcn" {...field} />
+                <Textarea placeholder="Write your writing here..." {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -70,4 +67,4 @@ const TeacherWriting = () => {
   );
 };
 
-export default TeacherWriting;
+export default ReuableForm;

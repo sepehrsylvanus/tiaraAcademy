@@ -9,11 +9,17 @@ import { Avatar, Divider } from "@mui/material";
 import Link from "next/link";
 import React from "react";
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import TeacherWriting from "@/components/reusableComponents/teacherWriting/TeacherWriting";
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import TeacherWriting from "@/components/reusableComponents/teacherWriting/ReuableForm";
+import ReuableForm from "@/components/reusableComponents/teacherWriting/ReuableForm";
+import { z } from "zod";
+import DeleteArticle from "@/components/reusableComponents/DeleteArticle";
+import CreateArticle from "@/components/reusableComponents/CreateArticle";
 
 const Hub = async () => {
   const user = await currentUser();
@@ -21,6 +27,11 @@ const Hub = async () => {
   const isTeacher = user?.privateMetadata.isTeacher!;
   const students = await exampleRetireveStudents();
   console.log(students);
+
+  const teacherWritingSchema = z.object({
+    band: z.string().min(1),
+    writing: z.string().min(10, { message: "Really this short?!" }),
+  });
 
   return (
     <div>
@@ -58,7 +69,7 @@ const Hub = async () => {
             <Divider />
           </div>
           <div id="pdf-article-classes">
-            <div className="pdfs rounded-md shadow-md">
+            <div className="pdfs rounded-md shadow-md p-2">
               <p className="text-2xl">PDF Section</p>
               <p className="my-2">Send and view PDFs.</p>
               <Divider />
@@ -68,19 +79,36 @@ const Hub = async () => {
                   <p>Sepehr</p>
                   <p>Section 1</p>
 
-                  <Popover>
-                    <PopoverTrigger>
+                  <Dialog>
+                    <DialogTrigger>
                       <Button className="mr-2">Open</Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="relative left-[1em]">
-                      <TeacherWriting />
-                    </PopoverContent>
-                  </Popover>
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>Teacher Writing Form</DialogTitle>
+                      </DialogHeader>
+                      <ReuableForm />
+                    </DialogContent>
+                  </Dialog>
 
                   <Link href={"#"}>
                     <Button>Download</Button>
                   </Link>
                 </div>
+              </div>
+            </div>
+            {/* ========== */}
+            <div className="articles rounded-md shadow-md p-2">
+              <p className="text-2xl">Article Section</p>
+              <p className="my-2">Write or delete articles</p>
+
+              <div>
+                <p className="font-bold mb-1">Delete Article</p>
+                <DeleteArticle />
+              </div>
+              <div className="mt-4">
+                <p className="font-bold mb-1">Create Article</p>
+                <CreateArticle />
               </div>
             </div>
           </div>
