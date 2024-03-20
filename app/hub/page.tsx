@@ -6,7 +6,14 @@ import { Button } from "@/components/ui/button";
 
 import { currentUser } from "@clerk/nextjs";
 import { Avatar, Divider } from "@mui/material";
+import Link from "next/link";
 import React from "react";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import TeacherWriting from "@/components/reusableComponents/teacherWriting/TeacherWriting";
 
 const Hub = async () => {
   const user = await currentUser();
@@ -57,10 +64,22 @@ const Hub = async () => {
               <Divider />
               <div className="flex px-2 gap-3 items-center py-3 m-2  rounded-md shadow-md">
                 <Avatar sx={{ width: 50, height: 50 }} />
-                <div>
+                <div className="space-y-2">
                   <p>Sepehr</p>
                   <p>Section 1</p>
-                  <Button>Open</Button>
+
+                  <Popover>
+                    <PopoverTrigger>
+                      <Button className="mr-2">Open</Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="relative left-[1em]">
+                      <TeacherWriting />
+                    </PopoverContent>
+                  </Popover>
+
+                  <Link href={"#"}>
+                    <Button>Download</Button>
+                  </Link>
                 </div>
               </div>
             </div>
