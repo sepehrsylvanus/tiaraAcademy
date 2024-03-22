@@ -12,6 +12,10 @@ export type StudentsShow = {
 
 export const columns: ColumnDef<StudentsShow>[] = [
   {
+    accessorKey: "id",
+    header: "ID",
+  },
+  {
     accessorKey: "firstName",
     header: "First Name",
   },

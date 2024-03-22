@@ -14,15 +14,14 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "../ui/textarea";
+
 const createArticleForm = z.object({
   title: z.string(),
-  subtitle: z.string().optional(),
-  image: z.any(),
-  article: z.string().min(10, { message: "This is too short for an article" }),
+  time: z.string(),
+  video: z.any(),
 });
 
-const DeleteArticle = () => {
+const CreateVideo = () => {
   const form = useForm<z.infer<typeof createArticleForm>>({
     resolver: zodResolver(createArticleForm),
   });
@@ -53,11 +52,11 @@ const DeleteArticle = () => {
         />
         <FormField
           control={form.control}
-          name="subtitle"
+          name="time"
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Input placeholder="Subtitle..." {...field} />
+                <Input placeholder="Time..." {...field} />
               </FormControl>
 
               <FormMessage />
@@ -66,7 +65,7 @@ const DeleteArticle = () => {
         />
         <FormField
           control={form.control}
-          name="image"
+          name="video"
           render={({ field }) => (
             <FormItem>
               <FormControl>
@@ -81,23 +80,11 @@ const DeleteArticle = () => {
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="article"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <Textarea placeholder="Enter Your article title" {...field} />
-              </FormControl>
 
-              <FormMessage />
-            </FormItem>
-          )}
-        />
         <Button type="submit">Create</Button>
       </form>
     </Form>
   );
 };
 
-export default DeleteArticle;
+export default CreateVideo;

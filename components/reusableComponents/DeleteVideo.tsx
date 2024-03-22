@@ -14,16 +14,16 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-const deleeteArticleForm = z.object({
+const deleteVideo = z.object({
   id: z.string(),
 });
 
-const DeleteArticle = () => {
-  const form = useForm<z.infer<typeof deleeteArticleForm>>({
-    resolver: zodResolver(deleeteArticleForm),
+const DeleteVideo = () => {
+  const form = useForm<z.infer<typeof deleteVideo>>({
+    resolver: zodResolver(deleteVideo),
   });
 
-  function onSubmit(values: z.infer<typeof deleeteArticleForm>) {
+  function onSubmit(values: z.infer<typeof deleteVideo>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     console.log(values);
@@ -40,11 +40,7 @@ const DeleteArticle = () => {
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Input
-                  className="w-full"
-                  placeholder="Enter Your article id"
-                  {...field}
-                />
+                <Input placeholder="Enter Your Video id" {...field} />
               </FormControl>
 
               <FormMessage />
@@ -57,4 +53,4 @@ const DeleteArticle = () => {
   );
 };
 
-export default DeleteArticle;
+export default DeleteVideo;

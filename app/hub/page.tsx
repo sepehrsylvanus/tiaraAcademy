@@ -20,6 +20,10 @@ import ReuableForm from "@/components/reusableComponents/teacherWriting/ReuableF
 import { z } from "zod";
 import DeleteArticle from "@/components/reusableComponents/DeleteArticle";
 import CreateArticle from "@/components/reusableComponents/CreateArticle";
+import DeleteVideo from "@/components/reusableComponents/DeleteVideo";
+import CreateVideo from "@/components/reusableComponents/teacherWriting/CreateVideo";
+import DeleteClass from "@/components/reusableComponents/DeleteClass";
+import CreateClass from "@/components/reusableComponents/CreateClass";
 
 const Hub = async () => {
   const user = await currentUser();
@@ -28,90 +32,100 @@ const Hub = async () => {
   const students = await exampleRetireveStudents();
   console.log(students);
 
-  const teacherWritingSchema = z.object({
-    band: z.string().min(1),
-    writing: z.string().min(10, { message: "Really this short?!" }),
-  });
-
   return (
     <div>
       {isAdmin || isTeacher ? (
-        <div className="container px-4 mt-4 pb-4 ">
-          {/* ========== */}
-
-          <div className="space-y-6" id="students-videos">
-            <div className="flex gap-4 items-center justify-center">
+        <div className="container px-4 pt-4 pb-4 flex flex-col sm:grid grid-cols-1 sm:grid-cols-3 md:grid-rows-2 sm:gap-4 md:pl-[4em] space-y-4">
+          <div className="avatar-video grid grid-rows-1 gap-2 col-span-1 ">
+            {/* ========= */}
+            <div className="avatrContainer flex gap-4 items-center justify-center">
               <Avatar src="/khashayar.jpg" sx={{ width: 80, height: 80 }} />
-              <div className=" space-y-2">
+              <div className="space-y-2">
                 <p className="font-bold">Admin | Teacher</p>
                 <h1 className="font-bold text-xl">Khashayar Mohammadi</h1>
               </div>
             </div>
+            {/* =========== */}
 
-            {/* ========== */}
+            <div className="space-y-4 text-center border shadow-md rounded-md p-4">
+              <p className="text-2xl">Videos Section</p>
+              <p className="my-2">Post or delete videos</p>
 
-            <div className="space-y-2">
+              <div>
+                <p className="mb-2 text-start font-bold">Delete video</p>
+                <DeleteVideo />
+              </div>
+              <div>
+                <p className="mb-2 text-start font-bold">Create Video</p>
+                <CreateVideo />
+              </div>
+            </div>
+            {/* ============= */}
+          </div>
+          <div className="student-sections sm:col-span-2 grid grid-cols-1 md:grid-rows-2 overflow-auto">
+            {/* ========= */}
+            <div className="space-y-2 flex-grow">
               <p className="font-semibold">Students</p>
               <DataTable columns={columns} data={students} />
             </div>
 
-            {/* ========== */}
-            <div className="space-y-4 text-center border shadow-md rounded-md p-4">
-              <p>
-                Click button below You will be redirect to videos page with
-                extra options
-              </p>
-              <Button>Take me to videos</Button>
-            </div>
-          </div>
-          {/* ========== */}
-          <div className="my-6">
-            <Divider />
-          </div>
-          <div id="pdf-article-classes">
-            <div className="pdfs rounded-md shadow-md p-2">
-              <p className="text-2xl">PDF Section</p>
-              <p className="my-2">Send and view PDFs.</p>
-              <Divider />
-              <div className="flex px-2 gap-3 items-center py-3 m-2  rounded-md shadow-md">
-                <Avatar sx={{ width: 50, height: 50 }} />
-                <div className="space-y-2">
-                  <p>Sepehr</p>
-                  <p>Section 1</p>
+            {/* ========= */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2 flex-grow sm:col-span-2">
+              {/* ============== */}
+              <div className="pdfs rounded-md shadow-md p-2 flex flex-col">
+                <p className="text-2xl">PDF Section</p>
+                <p className="my-2">Send and view PDFs.</p>
+                <Divider />
+                <div className="flex flex-col px-2 gap-3 items-center py-3 m-2 rounded-md shadow-md">
+                  <div className="w-full flex flex-col gap-2 items-center">
+                    <Avatar sx={{ width: 50, height: 50 }} />
+                    <div className="flex justify-between w-full md:space-y-2 ">
+                      <p>Sepehr</p>
+                      <p>Section 1</p>
+                    </div>
+                    <div className="w-full flex flex-col gap-2">
+                      <Dialog>
+                        <DialogTrigger className=" w-full md:mr-2">
+                          <Button className="w-full">Open</Button>
+                        </DialogTrigger>
+                        <DialogContent>
+                          <DialogHeader>
+                            <DialogTitle>Teacher Writing Form</DialogTitle>
+                          </DialogHeader>
+                          <ReuableForm />
+                        </DialogContent>
+                      </Dialog>
 
-                  <Dialog>
-                    <DialogTrigger>
-                      <Button className="mr-2">Open</Button>
-                    </DialogTrigger>
-                    <DialogContent>
-                      <DialogHeader>
-                        <DialogTitle>Teacher Writing Form</DialogTitle>
-                      </DialogHeader>
-                      <ReuableForm />
-                    </DialogContent>
-                  </Dialog>
-
-                  <Link href={"#"}>
-                    <Button>Download</Button>
-                  </Link>
+                      <Link href={"#"}>
+                        <Button className="w-full">Download</Button>
+                      </Link>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-            {/* ========== */}
-            <div className="articles rounded-md shadow-md p-2">
-              <p className="text-2xl">Article Section</p>
-              <p className="my-2">Write or delete articles</p>
+              {/* ============== */}
 
-              <div>
-                <p className="font-bold mb-1">Delete Article</p>
-                <DeleteArticle />
+              <div className="rounded-md shadow-md p-2 space-y-2 flex flex-col">
+                <p className="text-2xl">Classes Section</p>
+                <DeleteClass />
+                <Divider />
+                <CreateClass />
+
+                <p></p>
               </div>
-              <div className="mt-4">
-                <p className="font-bold mb-1">Create Article</p>
-                <CreateArticle />
-              </div>
+
+              {/* ============== */}
             </div>
           </div>
+
+          {isAdmin && (
+            <div className="col-span-3 row-span-1 overflow-auto">
+              <div className="space-y-2">
+                <p className="font-semibold">Teachers</p>
+                <DataTable columns={columns} data={students} />
+              </div>
+            </div>
+          )}
         </div>
       ) : null}
       {!isAdmin && !isTeacher && <StudentHub />}

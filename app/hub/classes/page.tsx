@@ -281,7 +281,7 @@ const page = () => {
                   <CardActions>
                     <BrownLink
                       title="register"
-                      href={`/classes/${eachClass.title
+                      href={`/hub/classes/${eachClass.title
                         .toLowerCase()
                         .replace(
                           /\s+/g,
@@ -321,7 +321,7 @@ const page = () => {
                   <CardActions>
                     <BrownLink
                       title="register"
-                      href={`/classes/${eachClass.title
+                      href={`/hub/classes/${eachClass.title
                         .toLowerCase()
                         .replace(
                           /\s+/g,

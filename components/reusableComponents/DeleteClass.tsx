@@ -18,7 +18,7 @@ const deleeteArticleForm = z.object({
   id: z.string(),
 });
 
-const DeleteArticle = () => {
+const DeleteClass = () => {
   const form = useForm<z.infer<typeof deleeteArticleForm>>({
     resolver: zodResolver(deleeteArticleForm),
   });
@@ -42,7 +42,7 @@ const DeleteArticle = () => {
               <FormControl>
                 <Input
                   className="w-full"
-                  placeholder="Enter Your article id"
+                  placeholder="Enter Your class id"
                   {...field}
                 />
               </FormControl>
@@ -57,4 +57,4 @@ const DeleteArticle = () => {
   );
 };
 
-export default DeleteArticle;
+export default DeleteClass;
