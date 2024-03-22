@@ -9,6 +9,7 @@
     display: grid;
     place-content: center;
   }
+  background-color: red;
 }
 .details {
   flex: 1;
