@@ -9,7 +9,6 @@
     display: grid;
     place-content: center;
   }
-  background-color: red;
 }
 .details {
   flex: 1;
@@ -18,9 +17,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  @media (max-width: 788px) {
-    display: none;
-  }
 }
 .loginForm {
   flex: 1;
@@ -28,4 +24,9 @@
   justify-content: center;
   align-items: center;
   transform: scale(0.9);
+}
+@media screen and (max-width: 788px) {
+  .details {
+    display: none;
+  }
 }
