@@ -1,20 +1,30 @@
-.container{
+.container {
   display: flex;
   color: white;
-  height: 100vh;
+  height: fit-content;
+  width: fit-content;
+
+  overflow-x: hidden;
+  @media (max-width: 788px) {
+    display: grid;
+    place-content: center;
+  }
 }
-.details{
+.details {
   flex: 1;
   background-color: var(--bg);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  @media (max-width: 788px) {
+    display: none;
+  }
 }
-.loginForm{
+.loginForm {
   flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
-  transform: scale(.9);
+  transform: scale(0.9);
 }
