@@ -35,7 +35,7 @@ const Hub = async () => {
   return (
     <div>
       {isAdmin || isTeacher ? (
-        <div className="container px-4 pt-4 pb-4 flex flex-col sm:grid grid-cols-1 sm:grid-cols-3 md:grid-rows-2 sm:gap-4 md:pl-[4em] space-y-4">
+        <div className="container px-4 pt-4 pb-4 flex flex-col sm:grid grid-cols-1 sm:grid-cols-3 md:grid-rows-2 sm:gap-4 md:pl-[4em] space-y-4 text-lightText">
           <div className="avatar-video grid grid-rows-1 gap-2 col-span-1 ">
             {/* ========= */}
             <div className="avatrContainer flex gap-4 items-center justify-center">
@@ -47,7 +47,7 @@ const Hub = async () => {
             </div>
             {/* =========== */}
 
-            <div className="space-y-4 text-center border shadow-md rounded-md p-4">
+            <div className="space-y-4 text-center border shadow-md rounded-md p-4 bg-cardBg">
               <p className="text-2xl">Videos Section</p>
               <p className="my-2">Post or delete videos</p>
 
@@ -62,9 +62,9 @@ const Hub = async () => {
             </div>
             {/* ============= */}
           </div>
-          <div className="student-sections sm:col-span-2 grid grid-cols-1 md:grid-rows-2 overflow-auto">
+          <div className="student-sections sm:col-span-2 grid grid-cols-1 md:grid-rows-2 overflow-auto ">
             {/* ========= */}
-            <div className="space-y-2 flex-grow">
+            <div className="space-y-2 flex-grow ">
               <p className="font-semibold">Students</p>
               <DataTable columns={columns} data={students} />
             </div>
@@ -72,7 +72,7 @@ const Hub = async () => {
             {/* ========= */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2 flex-grow sm:col-span-2">
               {/* ============== */}
-              <div className="pdfs rounded-md shadow-md p-2 flex flex-col">
+              <div className="pdfs rounded-md shadow-md p-2 flex flex-col bg-cardBg">
                 <p className="text-2xl">PDF Section</p>
                 <p className="my-2">Send and view PDFs.</p>
                 <Divider />
@@ -105,7 +105,7 @@ const Hub = async () => {
               </div>
               {/* ============== */}
 
-              <div className="rounded-md shadow-md p-2 space-y-2 flex flex-col">
+              <div className="rounded-md shadow-md p-2 space-y-2 flex flex-col  bg-cardBg">
                 <p className="text-2xl">Classes Section</p>
                 <DeleteClass />
                 <Divider />

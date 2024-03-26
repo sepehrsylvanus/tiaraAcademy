@@ -1,12 +1,12 @@
 import React from "react";
-import styles from '../../sign-in/[[...sign-in]]/login.module.css'
+import styles from "../../sign-in/[[...sign-in]]/login.module.css";
 import Image from "next/image";
-import TextField from '@mui/material/TextField';
+import TextField from "@mui/material/TextField";
 import { SignUp } from "@clerk/nextjs";
 const Login = () => {
   return (
     <div className={styles.container}>
-      <div className={styles.details}>
+      <div className={`${styles.details} bg-lightText`}>
         <Image
           src="/login.png"
           alt="Login page"
@@ -19,8 +19,7 @@ const Login = () => {
         <p>دسترسی به ویدیوها، برنامه‌ی هفتگی، آپلود تکالیف و غیره</p>
       </div>
       <div className={styles.loginForm}>
-       <SignUp/>
-       
+        <SignUp />
       </div>
     </div>
   );

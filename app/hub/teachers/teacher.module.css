@@ -15,7 +15,7 @@
   @media (min-width: 768px) {
     display: grid;
     grid-template-columns: repeat(3, minmax(200px, 1fr));
-    gap: 2em;
+    gap: 1em;
   }
 }
 

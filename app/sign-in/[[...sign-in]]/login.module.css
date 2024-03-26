@@ -1,18 +1,18 @@
 .container {
   display: flex;
   color: white;
-  height: fit-content;
-  width: fit-content;
 
+  height: 100vh;
   overflow-x: hidden;
   @media (max-width: 788px) {
     display: grid;
     place-content: center;
+    height: fit-content;
   }
 }
 .details {
   flex: 1;
-  background-color: var(--bg);
+
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -23,7 +23,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  transform: scale(0.9);
+  transform: scale(0.8);
+  @media (max-width: 788px) {
+    transform: scale(1);
+  }
 }
 @media screen and (max-width: 788px) {
   .details {

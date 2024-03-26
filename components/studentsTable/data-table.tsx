@@ -43,9 +43,9 @@ export function DataTable<TData, TValue>({
   });
 
   return (
-    <div className="rounded-md border shadow-md">
-      <div className="flex items-center py-4">
-        <Input
+    <div className="rounded-md border shadow-md p-2 bg-cardBg">
+      <div className="flex items-center py-4 ">
+        <input
           placeholder="Filter names..."
           value={
             (table.getColumn("firstName")?.getFilterValue() as string) ?? ""
@@ -53,13 +53,13 @@ export function DataTable<TData, TValue>({
           onChange={(event) =>
             table.getColumn("firstName")?.setFilterValue(event.target.value)
           }
-          className="max-w-sm border-none"
+          className=" max-w-sm border-none formInput"
         />
       </div>
-      <Table className="rounded-md border">
+      <Table className="rounded-md border ">
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
+            <TableRow className="bg-[#c6d9e6] rounded-md" key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
                   <TableHead key={header.id}>
@@ -79,6 +79,7 @@ export function DataTable<TData, TValue>({
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
               <TableRow
+                className="bg-[#c6d9e6] rounded-md"
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
               >
@@ -90,7 +91,7 @@ export function DataTable<TData, TValue>({
               </TableRow>
             ))
           ) : (
-            <TableRow>
+            <TableRow className="bg-[#c6d9e6]">
               <TableCell colSpan={columns.length} className="h-24 text-center">
                 No results.
               </TableCell>

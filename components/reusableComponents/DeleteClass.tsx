@@ -40,8 +40,8 @@ const DeleteClass = () => {
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Input
-                  className="w-full"
+                <input
+                  className="w-full formInput"
                   placeholder="Enter Your class id"
                   {...field}
                 />

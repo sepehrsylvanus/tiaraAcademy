@@ -33,13 +33,16 @@ const MessageForm = () => {
   });
   console.log({ errors });
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex flex-col gap-4  p-4 rounded-md ring-1 ring-slate-400"
+    >
       <Controller
         name="name"
         control={control}
         render={({ field }) => (
           <input
-            className=" formInput"
+            className=" formInput shadow-md"
             {...field}
             type="text"
             placeholder="Name"
@@ -51,7 +54,7 @@ const MessageForm = () => {
         control={control}
         render={({ field }) => (
           <input
-            className=" formInput"
+            className=" formInput shadow-md"
             {...field}
             type="text"
             placeholder="Email"
@@ -63,7 +66,7 @@ const MessageForm = () => {
         control={control}
         render={({ field }) => (
           <textarea
-            className=" formInput resize-none"
+            className=" formInput resize-none shadow-md"
             {...field}
             rows={5}
             placeholder="Write your message"

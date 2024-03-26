@@ -4,7 +4,7 @@
 
   flex-direction: column;
 
-  padding: 5em 1em 0;
+  padding: 6.5em 0;
   @media (max-width: 765px) {
     overflow-x: hidden;
     padding-left: unset;
@@ -12,9 +12,8 @@
 }
 .container section:not(section.navbar, section.testimonials, section.footer) {
   box-shadow: 14px 16px 0px -7px rgba(0, 0, 0, 0.05);
-  width: 97%;
+
   margin: 0 auto;
-  background-color: rgb(253, 249, 243);
 }
 /* NAVBAR */
 .navbar {
@@ -23,7 +22,6 @@
   padding: 1em 1.5em 1em 1em;
   align-items: center;
   justify-content: space-between;
-  background-color: white;
   border-bottom: 1px solid rgb(176, 176, 176);
   width: 100%;
   position: fixed;
@@ -120,7 +118,6 @@
 
 /* LEVELS */
 .levels {
-  background-color: var(--softBg) !important;
   display: flex;
   width: 97%;
   padding: 1em 6em 0 8em;
@@ -161,7 +158,6 @@
   display: inline-block;
   padding: 0.5em 1em;
   border: none;
-  background-color: var(--bg);
   color: white;
   font-weight: bold;
   transition: var(--animation);
@@ -196,7 +192,6 @@
   align-items: center;
   justify-content: space-around;
   padding: 2em;
-  background-color: var(--softBg);
   gap: 1em;
 }
 .eachComment :first-child,
@@ -205,7 +200,6 @@
 }
 /* FOOTER */
 .footer {
-  background-color: var(--softBg);
   padding: 0.5em 1.5em;
 }
 .footerSectionsContainer {

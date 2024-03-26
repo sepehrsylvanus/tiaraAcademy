@@ -29,20 +29,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 
-import {
-  AccessTime,
-  EditNote,
-  GridView,
-  NoteAlt,
-  OndemandVideo,
-  People,
-} from "@mui/icons-material";
 import CustomHamburger from "@/components/hamburger/CustomHamburger";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -143,28 +130,30 @@ const page = () => {
             </Carousel>
 
             {filteredTeachers.map((teacher) => (
-              <Card className={styles.eachTeacerCard}>
-                <CardContent className="flex flex-col items-center gap-4">
-                  <Avatar
-                    src={teacher.profileImg}
-                    sx={{ width: 54, height: 54 }}
-                  />
-                  <p className=" font-bold ">{teacher.name}</p>
-                  <p>{teacher.job}</p>
-                  <p>{teacher.role}</p>
-                  <Link
-                    href={`/hub/teachers/${teacher.id}`}
-                    className=" text-blue-300 underline  hover:text-blue-600 transition"
-                  >
-                    View profile
-                  </Link>
-                </CardContent>
-                <CardFooter className="p-0">
-                  <button className="  bg-blue-500 w-full py-4 rounded-md text-white hover:bg-blue-800 transition">
-                    See Classes
-                  </button>
-                </CardFooter>
-              </Card>
+              <div className="flex basis-full flex-col p-4 tracking-tight text-slate-100/50 sm:basis-1/2 w-[20rem] h-[20rem]">
+                <Card className={styles.eachTeacerCard}>
+                  <CardContent className="flex flex-col items-center gap-4">
+                    <Avatar
+                      src={teacher.profileImg}
+                      sx={{ width: 54, height: 54 }}
+                    />
+                    <p className=" font-bold ">{teacher.name}</p>
+                    <p>{teacher.job}</p>
+                    <p>{teacher.role}</p>
+                    <Link
+                      href={`/hub/teachers/${teacher.id}`}
+                      className=" text-blue-300 underline  hover:text-blue-600 transition"
+                    >
+                      View profile
+                    </Link>
+                  </CardContent>
+                  <CardFooter className="p-0">
+                    <button className="  bg-blue-500 w-full py-4 rounded-md text-white hover:bg-blue-800 transition">
+                      See Classes
+                    </button>
+                  </CardFooter>
+                </Card>
+              </div>
             ))}
           </>
         )}

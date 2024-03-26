@@ -42,7 +42,7 @@ const Links = ({ teachers }: { teachers: Instructure[] }) => {
                   <>
                     <Link
                       key={index}
-                      href={`/classes?teacher=${teacher.name}&className=writing`}
+                      href={`/hub/classes?teacher=${teacher.name}&className=writing`}
                       className={
                         index !== teachers.length - 1
                           ? "border-b border-slate-300 pb-2"

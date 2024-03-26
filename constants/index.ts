@@ -1,7 +1,7 @@
 export const writingIcons = [
   {
     title: "How to study",
-    link: "/writing",
+    link: "/hub/writing",
   },
   {
     type: "popover",
@@ -9,7 +9,7 @@ export const writingIcons = [
   },
   {
     title: "Write here",
-    link: "/writing/writeHere",
+    link: "/hub/writing/writeHere",
   },
   {
     title: "Upload one",

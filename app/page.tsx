@@ -25,29 +25,35 @@ import {
   People,
 } from "@mui/icons-material";
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+
 export default async function Home() {
   return (
-    <div className={styles.container}>
-      <section className={styles.navbar}>
-        <h3 className="h3">Tiara Academy</h3>
-        <div className={styles.navbarLeft}>
+    <div className={`${styles.container} bg-lightPrime `}>
+      <section className={`${styles.navbar} bg-lightPrime text-extraText`}>
+        <h3 className="h3 ">Tiara Academy</h3>
+        <div className={`${styles.navbarLeft} bg-lightPrime text-lightText`}>
           {" "}
-          <Link href={"/home"}>Services</Link>
+          <Link className="text-lightText" href={"#services"}>
+            Services
+          </Link>
           <Divider orientation="vertical" style={{ height: "20px" }} />
-          <Link href={"/home"}>Levels</Link>
+          <Link className="text-lightText" href={"#levels"}>
+            Levels
+          </Link>
           <Divider orientation="vertical" style={{ height: "20px" }} />
-          <Link href={"/home"}>Testimonials</Link>
+          <Link className="text-lightText" href={"#testimonials"}>
+            Testimonials
+          </Link>
           <Divider orientation="vertical" style={{ height: "20px" }} />
-          <Link href={"/home"}>Enter Main Website</Link>
+          <Link className="text-lightText" href={"/hub"}>
+            Enter Hub
+          </Link>
         </div>
-        <div className={styles.navbarRight}>
+        <div className={`${styles.navbarRight} bg-lightPrime`}>
           <div className=" scale-75 lg:scale-100">
             <SignedOut>
               <div className=" mb-3 pt-6  ">
-                <Link
-                  href={"/sign-in"}
-                  className="bg-[#81403e]   text-white px-2 py-4 font-bold w-fit "
-                >
+                <Link href={"/sign-in"} className="brownLink">
                   Sign in / Sign up
                 </Link>
               </div>
@@ -55,10 +61,7 @@ export default async function Home() {
 
             <SignedIn>
               <div className=" pt-4 mb-3 gap-8 flex items-center justify-between">
-                <Link
-                  href={"/hub"}
-                  className="bg-[#81403e] text-white px-2 py-4 font-bold w-fit "
-                >
+                <Link href={"/hub"} className="brownLink">
                   Enter Hub
                 </Link>
 
@@ -72,9 +75,15 @@ export default async function Home() {
         <CustomHamburger navbar={true} sidebar={false} />
       </section>
 
-      <section className={styles.header}>
-        <div className={styles.leftHeader}>
-          <p style={{ marginBottom: "2em", fontWeight: 700 }}> Benefits</p>
+      <section id="services" className={`${styles.header} bg-lightPrime`}>
+        <div className={`${styles.leftHeader} bg-lightPrime text-extraText`}>
+          <p
+            style={{ marginBottom: "2em", fontWeight: 700 }}
+            className=" text-lightText"
+          >
+            {" "}
+            Benefits
+          </p>
           <p className=" text-4xl font-bold md:text-5xl lg:text-6xl">
             <span> The Best Way</span>
             <br className="hidden md:block" />
@@ -82,14 +91,14 @@ export default async function Home() {
             <br className="hidden md:block" />
             <span> your project.</span>
           </p>
-          <p style={{ marginBottom: "1em" }}>
+          <p style={{ marginBottom: "1em" }} className="text-lightText">
             Here you can put a short description about your project.
           </p>
           <div className="flex gap-4 items-center flex-col md:flex-row ">
             <Link href={"#"} className="brownLink">
               Try for free
             </Link>
-            <Button className="border rounded border-black bg-transparent text-black">
+            <Button className="border rounded border-lightText bg-transparent text-lightText">
               See how it works
             </Button>
           </div>
@@ -106,13 +115,18 @@ export default async function Home() {
       </section>
       <Divider sx={{ margin: "1em 0" }} />
 
-      <section className={styles.joinCommunity}>
+      <section className={`${styles.joinCommunity} bg-lightPrime`}>
         <div className={styles.joinComLeft}>
-          <h4 style={{ fontWeight: 700, fontSize: 40 }}>
+          <h4
+            style={{ fontWeight: 700, fontSize: 40 }}
+            className=" text-extraText"
+          >
             Introducing good solution
           </h4>
           <p>Join our community and experience the benefits today!</p>
-          <BrownLink href="#" title="Try for free" />
+          <Link href={"#"} className="brownLink w-fit">
+            Try for free
+          </Link>
         </div>
         <div className="hidden md:block">
           <Image
@@ -139,14 +153,17 @@ export default async function Home() {
         </div>
         <div className={styles.secondServiceRight}>
           <p style={{ marginBottom: "2em", fontWeight: 700 }}>Better IELTS</p>
-          <h4 style={{ fontWeight: 700, fontSize: 30 }}>
+          <h4
+            style={{ fontWeight: 700, fontSize: 30 }}
+            className=" text-extraText"
+          >
             Taking your IELTS is guaranteed with us
           </h4>
           <p>
             With the best methods in the world, you will pass your IELTS exam
             with the best score
           </p>
-          <Button className="border rounded border-black bg-transparent text-black">
+          <Button className="border rounded border-lightText bg-transparent text-lightText">
             Try now
           </Button>
         </div>
@@ -157,14 +174,17 @@ export default async function Home() {
           <p style={{ marginBottom: "2em", fontWeight: 700 }}>
             Smart education
           </p>
-          <h4 style={{ fontWeight: 700, fontSize: 30 }}>
+          <h4
+            style={{ fontWeight: 700, fontSize: 30 }}
+            className="text-extraText"
+          >
             Taking your IELTS is guaranteed with us
           </h4>
           <p>
             With the best methods in the world, you will pass your IELTS exam
             with the best score
           </p>
-          <Button className="border rounded border-black bg-transparent text-black">
+          <Button className="border rounded border-lightText bg-transparent text-lightText">
             Try now
           </Button>
         </div>
@@ -177,8 +197,9 @@ export default async function Home() {
           />
         </div>
       </section>
+
       <Divider sx={{ margin: "1em 0" }} />
-      <section className={styles.levels}>
+      <section id="levels" className={styles.levels}>
         <div className={styles.leftLevels}>
           <Image
             src={"/levels.jpeg"}
@@ -187,18 +208,26 @@ export default async function Home() {
             height={200}
             className={styles.levelsImg}
           />
-          <h3 style={{ fontWeight: 700, fontSize: 30 }}>
+          <h3
+            style={{ fontWeight: 700, fontSize: 30 }}
+            className="text-extraText"
+          >
             How to join our community
           </h3>
           <p>Just 3 simple steps to join our fantastic english community!</p>
-          <BrownLink href="/sign-up" title="Sign up now" />
+          <Link href={"/sign-up"} className="brownLink w-fit">
+            Sign up now
+          </Link>
         </div>
         <div className={styles.rightLevels}>
           <div className={`${styles.eachLevel}`}>
             <h4>Step 1</h4>
             <p>
               Make an account for yourself using{" "}
-              <span className={styles.miniBrownLink}>Sign up now</span> button
+              <span className="bg-lightText text-lightPrime px-4 py-2 rounded-md">
+                Sign up now
+              </span>{" "}
+              button
             </p>
           </div>
 
@@ -215,11 +244,18 @@ export default async function Home() {
       </section>
       <Divider sx={{ margin: "1em 0" }} />
 
-      <section className={styles.testimonials}>
-        <h3 style={{ fontSize: 40, marginBottom: ".5em" }}>Testimonials</h3>
+      <section id="testimonials" className={styles.testimonials}>
+        <h3
+          style={{ fontSize: 40, marginBottom: ".5em" }}
+          className="text-extraText"
+        >
+          Testimonials
+        </h3>
         <p>People love what we do and we want to let your know</p>
         <div className={styles.commentsContainer}>
-          <div className={styles.eachComment}>
+          <div
+            className={`${styles.eachComment} bg-extraBg text-lightPrime shadow-md rounded-md`}
+          >
             <p>
               Since implementing Lando our business has seen significant growth.
             </p>
@@ -234,7 +270,9 @@ export default async function Home() {
             <p>Jack Sibire</p>
             <p>Lead Manager, Growio</p>
           </div>
-          <div className={styles.eachComment}>
+          <div
+            className={`${styles.eachComment} bg-extraBg text-lightPrime shadow-md rounded-md`}
+          >
             <p>
               Since implementing Lando our business has seen significant growth.
             </p>
@@ -249,7 +287,9 @@ export default async function Home() {
             <p>Jack Sibire</p>
             <p>Lead Manager, Growio</p>
           </div>
-          <div className={styles.eachComment}>
+          <div
+            className={`${styles.eachComment} bg-extraBg text-lightPrime shadow-md rounded-md`}
+          >
             <p>
               Since implementing Lando our business has seen significant growth.
             </p>
@@ -268,10 +308,12 @@ export default async function Home() {
       </section>
       <Divider sx={{ margin: "1em 0" }} />
 
-      <section className={styles.footer}>
-        <div className={styles.footerSectionsContainer}>
+      <section className={`${styles.footer} !bg-lightPrime  `}>
+        <div className={`${styles.footerSectionsContainer} bg-lightPrime`}>
           <div className={styles.eachCol}>
-            <h4 style={{ fontSize: 30 }}>Tiara Academy</h4>
+            <h4 style={{ fontSize: 30 }} className="text-extraText">
+              Tiara Academy
+            </h4>
             <p>
               Join our newsletter to stay up to date on features and releases.
             </p>

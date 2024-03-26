@@ -33,7 +33,7 @@
     "date-fns-jalali": "^2.13.0-0",
     "dayjs": "^1.11.10",
     "embla-carousel-react": "^8.0.0",
-    "framer-motion": "^11.0.12",
+    "framer-motion": "^11.0.22",
     "hamburger-react": "^2.5.0",
     "lucide-react": "^0.344.0",
     "micro": "^10.0.1",
@@ -46,7 +46,7 @@
     "react-quill": "^2.0.0",
     "svix": "^1.17.0",
     "swr": "^2.2.4",
-    "tailwind-merge": "^2.2.1",
+    "tailwind-merge": "^2.2.2",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.22.4"
   },

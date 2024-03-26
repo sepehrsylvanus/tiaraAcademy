@@ -18,8 +18,10 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html lang="en">
-        <body className={inter.className}>{children}</body>
+      <html lang="en" className=" scroll-smooth">
+        <body className={`${inter.className} bg-lightPrime text-lightText `}>
+          {children}
+        </body>
       </html>
     </ClerkProvider>
   );

@@ -9,7 +9,7 @@
   align-items: center;
   transition: var(--animation);
   height: 100vh;
-  z-index: 10;
+  z-index: 10000;
 }
 .sidebar:hover .accountInfo {
   display: flex;

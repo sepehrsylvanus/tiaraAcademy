@@ -19,6 +19,7 @@ const config = {
         "2xl": "1400px",
       },
     },
+
     extend: {
       keyframes: {
         "accordion-down": {
@@ -34,8 +35,17 @@ const config = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
+      colors: {
+        lightPrime: "#D0D7E1",
+        lightText: "#072d44",
+        extraItem: "#9ccddb",
+        extraText: "#5790AB",
+        extraBg: "#064469",
+        cardBg: "#BCC4CE ",
+      },
     },
   },
+
   plugins: [require("tailwindcss-animate"), addVariablesForColors],
 } satisfies Config;
 

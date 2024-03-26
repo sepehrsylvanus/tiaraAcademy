@@ -25,9 +25,6 @@ import CustomHamburger from "@/components/hamburger/CustomHamburger";
 import Link from "next/link";
 
 const SingleBlog = () => {
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  const sectionRefs = useRef<Array<HTMLDivElement | null>>([]);
-
   return (
     <div className={styles.container}>
       <div className="ml-auto z-10 fixed top-0 right-0 md:hidden bg-white  rounded-md m-2">

@@ -40,7 +40,11 @@ const DeleteVideo = () => {
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Input placeholder="Enter Your Video id" {...field} />
+                <input
+                  className="formInput"
+                  placeholder="Enter Your Video id"
+                  {...field}
+                />
               </FormControl>
 
               <FormMessage />

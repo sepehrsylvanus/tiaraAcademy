@@ -43,7 +43,11 @@ const CreateVideo = () => {
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Input placeholder="Title..." {...field} />
+                <input
+                  className="formInput w-full"
+                  placeholder="Title..."
+                  {...field}
+                />
               </FormControl>
 
               <FormMessage />
@@ -56,7 +60,11 @@ const CreateVideo = () => {
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Input placeholder="Time..." {...field} />
+                <input
+                  className="formInput w-full"
+                  placeholder="Time..."
+                  {...field}
+                />
               </FormControl>
 
               <FormMessage />
@@ -69,7 +77,8 @@ const CreateVideo = () => {
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Input
+                <input
+                  className="formInput w-full "
                   type="file"
                   placeholder="Enter Your article title"
                   {...field}

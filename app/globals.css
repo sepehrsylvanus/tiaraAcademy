@@ -18,12 +18,11 @@
 
 body {
   height: 100vh;
-  background: var(--mainBg);
 }
 
 a {
   text-decoration: none;
-  color: var(--color);
+  color: #072d44;
 }
 
 .ql-editor {
@@ -49,13 +48,13 @@ a {
     @apply font-bold text-2xl;
   }
   .formInput {
-    @apply bg-slate-100 px-2 py-2 rounded-md outline-none;
+    @apply bg-[#c6d9e6] text-lightText px-2 py-2 rounded-md outline-none;
   }
   .navLinkContainer {
     @apply rounded-full bg-gray-300 p-2 flex justify-between;
   }
   .brownLink {
-    @apply text-white bg-[#81403e] px-1 py-3 md:px-3 md:py-3;
+    @apply text-lightPrime rounded-md bg-lightText hover:bg-extraText transition px-1 py-3 md:px-3 md:py-3;
   }
   .customDarkBtn {
     @apply border rounded border-black bg-transparent text-black;

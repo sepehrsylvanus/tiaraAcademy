@@ -6,7 +6,7 @@ import { SignIn, SignUp } from "@clerk/nextjs";
 const Login = () => {
   return (
     <div className={styles.container}>
-      <div className={styles.details}>
+      <div className={`${styles.details} bg-lightText text-lightPrime`}>
         <Image
           src="/login.png"
           alt="Login page"

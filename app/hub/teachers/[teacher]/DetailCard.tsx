@@ -10,7 +10,7 @@ const DetailCard = ({
   icon: React.ReactNode;
 }) => {
   return (
-    <div className=" shadow-md text-center min-w-[150px]">
+    <div className=" shadow-md text-center min-w-[150px] bg-[#c6d9e6] rounded-md">
       <div className=" shadow-sm text-center p-4 mx-2">{icon}</div>
       <div className=" p-6">
         <p className=" font-bold text-sm">{title}</p>

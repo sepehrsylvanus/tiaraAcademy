@@ -18,14 +18,14 @@ const SingleTeacher = () => {
       <div className="right flex-1 flex flex-col justify-between">
         <div className="introduction flex flex-col  gap-10 items-center justify-around">
           <Avatar src="/khashayar.jpg" sx={{ width: 250, height: 250 }} />
-          <div className="introDetails flex flex-col gap-4">
+          <div className="introDetails flex flex-col gap-4 ">
             <h1 className=" h1 ">Khashayar Mohammadi</h1>
             <p className="flex items-center gap-2">
               <LocationOnIcon /> Tehran
             </p>
-            <div className={`${styles.outerInfo} p-2 rounded-sm`}>
+            <div className={`${styles.outerInfo} p-2  bg-[#c6d9e6] rounded-md`}>
               <div
-                className={`${styles.innerInfo} rounded-sm flex justify-around py-2`}
+                className={`${styles.innerInfo} rounded-sm flex justify-around py-2 bg-[#c6d9e6]`}
               >
                 <div className="eachInfo flex flex-col items-center">
                   <p>0</p>
@@ -63,7 +63,7 @@ const SingleTeacher = () => {
       <div className="left flex-1">
         <div className="blogs ">
           <h2 className="h3 mb-4">Blogs</h2>
-          <div className="blogsCard shadow-lg p-3 mr-3">
+          <div className="blogsCard shadow-lg p-3 mr-3 bg-[#c6d9e6] rounded-md">
             <div className="eachBlog flex justify-between">
               <div className="flex items-center gap-7">
                 <Avatar
@@ -91,7 +91,7 @@ const SingleTeacher = () => {
         </div>
         <div className="mt-8 ">
           <h2 className="h3 mb-4">Colleagues</h2>
-          <div className="blogsCard shadow-lg p-3 mr-3">
+          <div className="blogsCard shadow-lg p-3 mr-3 bg-[#c6d9e6] rounded-md">
             <div className="eachBlog flex justify-between">
               <div className="flex items-center gap-7">
                 <Avatar

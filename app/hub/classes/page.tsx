@@ -41,7 +41,7 @@ import {
 } from "@mui/icons-material";
 import { useSearchParams } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
-
+import { Meteors } from "@/components/ui/meteors";
 const page = () => {
   const searchParams = useSearchParams();
 
@@ -51,6 +51,7 @@ const page = () => {
   const [teachersName, setTeachersName] = useState<string[]>([]);
 
   const [loading, setLoading] = useState(true);
+  const [filterDisable, setFilterDisable] = useState(true);
   useEffect(() => {
     const fetchData = async () => {
       const teacherNames = await retrieveTeacherName();
@@ -98,12 +99,16 @@ const page = () => {
 
   const [filteredClasses, setFilteredClasses] = useState<Class[] | null>();
 
-  const { control, handleSubmit } = useForm<FormInputs>({
+  const { control, handleSubmit, watch } = useForm<FormInputs>({
     defaultValues: {
       className: searchParams.get("className") || "",
       teacherName: searchParams.get("teacher") || "",
     },
   });
+  const classNameInput = watch("className", "");
+  const teacherNameInput = watch("teacherName", "");
+
+  const isButtonDisabled = !classNameInput && !teacherNameInput;
 
   const flatClasses: Class[] = [];
   {
@@ -195,11 +200,7 @@ const page = () => {
               name="className"
               control={control}
               render={({ field }) => (
-                <CustomClassTextField
-                  {...field}
-                  variant="outlined"
-                  label="Class name"
-                />
+                <CustomClassTextField {...field} label="Class name" />
               )}
             />
           </div>
@@ -229,7 +230,8 @@ const page = () => {
 
           <Button
             onClick={handleSubmit(filterData)}
-            className="bg-[#81403e] rounded-none sm:self-end sm:w-fit"
+            className=" bg-lightText !text-lightPrime text- sm:self-end sm:w-fit"
+            disabled={isButtonDisabled}
           >
             Filter
           </Button>
@@ -256,7 +258,10 @@ const page = () => {
 
             if (eachClass.classInstructors.length > 1) {
               return eachClass.classInstructors.map((clsWithTeacher) => (
-                <Card key={eachClass.id} className={styles.eachClassCard}>
+                <Card
+                  key={eachClass.id}
+                  className={`${styles.eachClassCard} bg-extraBg text-lightPrime relative`}
+                >
                   {eachClass.img && (
                     <CardMedia
                       title={eachClass.title}
@@ -279,24 +284,32 @@ const page = () => {
                     </div>
                   </CardContent>
                   <CardActions>
-                    <BrownLink
-                      title="register"
-                      href={`/hub/classes/${eachClass.title
-                        .toLowerCase()
-                        .replace(
-                          /\s+/g,
-                          "-"
-                        )}?teacher=${clsWithTeacher.instructor.name
-                        .toLowerCase()
-                        .replace(/\s+/g, "-")}&id=${eachClass.id}`}
-                    />
+                    <div className="brownLink">
+                      <Link
+                        className="text-lightPrime "
+                        href={`/hub/classes/${eachClass.title
+                          .toLowerCase()
+                          .replace(
+                            /\s+/g,
+                            "-"
+                          )}?teacher=${clsWithTeacher.instructor.name
+                          .toLowerCase()
+                          .replace(/\s+/g, "-")}&id=${eachClass.id}`}
+                      >
+                        Register
+                      </Link>
+                    </div>
                   </CardActions>
+                  <Meteors number={20} />
                 </Card>
               ));
             }
             if (eachClass.classInstructors.length === 1) {
               return (
-                <Card key={eachClass.id} className={styles.eachClassCard}>
+                <Card
+                  key={eachClass.id}
+                  className={`${styles.eachClassCard} bg-extraBg text-lightPrime relative`}
+                >
                   {eachClass.img && (
                     <CardMedia
                       title={eachClass.title}
@@ -319,18 +332,23 @@ const page = () => {
                     </div>
                   </CardContent>
                   <CardActions>
-                    <BrownLink
-                      title="register"
-                      href={`/hub/classes/${eachClass.title
-                        .toLowerCase()
-                        .replace(
-                          /\s+/g,
-                          "-"
-                        )}?teacher=${eachClass.classInstructors[0].instructor.name
-                        .toLowerCase()
-                        .replace(/\s+/g, "-")}&id=${eachClass.id}`}
-                    />
+                    <div className="brownLink">
+                      <Link
+                        className="text-lightPrime "
+                        href={`/hub/classes/${eachClass.title
+                          .toLowerCase()
+                          .replace(
+                            /\s+/g,
+                            "-"
+                          )}?teacher=${eachClass.classInstructors[0].instructor.name
+                          .toLowerCase()
+                          .replace(/\s+/g, "-")}&id=${eachClass.id}`}
+                      >
+                        Register
+                      </Link>
+                    </div>
                   </CardActions>
+                  <Meteors number={20} />
                 </Card>
               );
             }
