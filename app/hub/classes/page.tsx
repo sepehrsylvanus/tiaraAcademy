@@ -163,10 +163,8 @@ const page = () => {
 
   return (
     <div className={styles.container}>
-      <div className="ml-auto absolute top-0 right-0 md:hidden">
-        <div className="block lg:hidden">
-          <CustomHamburger navbar={false} sidebar={true} />
-        </div>
+      <div className="ml-auto z-10 fixed top-0 right-0 md:hidden bg-white  rounded-md m-2">
+        <CustomHamburger navbar={false} sidebar={true} />
       </div>
       <div className={styles.classesHeader}>
         <div className={styles.titleContainer}>

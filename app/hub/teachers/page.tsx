@@ -64,10 +64,8 @@ const page = () => {
 
   return (
     <div className={styles.container}>
-      <div className="ml-auto z-20 fixed top-0 right-0 md:hidden">
-        <div className="block lg:hidden">
-          <CustomHamburger navbar={false} sidebar={true} />
-        </div>
+      <div className="ml-auto z-10 fixed top-0 right-0 md:hidden bg-white  rounded-md m-2">
+        <CustomHamburger navbar={false} sidebar={true} />
       </div>
       <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-between sm:px-4 md:pl-[3em]">
         <h1 className=" font-bold text-3xl">Find a teacher</h1>

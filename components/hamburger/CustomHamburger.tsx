@@ -61,7 +61,7 @@ const CustomHamburger = ({
           <div
             className={` mb-3 ${
               navbar ? "border-t-2 border-dashed pt-4" : ""
-            } flex items-center justify-between`}
+            } flex items-center justify-between gap-6`}
           >
             <Link href={"/hub"} className="brownLink">
               Enter Hub

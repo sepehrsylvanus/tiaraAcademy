@@ -1,7 +1,10 @@
 .container {
   height: 100vh;
-  padding-left: 5em;
-  padding-right: 1.5em;
+
+  padding: 0 1.5em;
+  @media (min-width: 768px) {
+    padding-left: 5em;
+  }
 }
 .header {
   display: flex;
@@ -76,9 +79,10 @@
 }
 .accessToClass {
   margin-top: 0.5em;
-  border: 1px solid #d8b1af;
+  border: 1px solid #5790ab;
   padding: 1em 5em;
   width: fit-content;
+  border-radius: 5px;
 }
 .chooseClassTime {
   padding-bottom: 2em;

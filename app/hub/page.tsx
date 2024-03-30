@@ -35,10 +35,8 @@ const Hub = async () => {
 
   return (
     <div>
-      <div className="ml-auto z-20 fixed top-0 right-0 md:hidden">
-        <div className="block lg:hidden">
-          <CustomHamburger navbar={false} sidebar={true} />
-        </div>
+      <div className="ml-auto z-10 fixed top-0 right-0 md:hidden bg-white  rounded-md m-2">
+        <CustomHamburger navbar={false} sidebar={true} />
       </div>
       {isAdmin || isTeacher ? (
         <div className="container px-4 pt-4 pb-4 flex flex-col sm:grid grid-cols-1 sm:grid-cols-3 md:grid-rows-2 sm:gap-4 md:pl-[4em] space-y-4 text-lightText">

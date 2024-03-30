@@ -31,7 +31,9 @@ export default function StudentHub() {
     <div className="px-2 pb-4  md:pl-[4em]">
       <div className="featuredClasses">
         <div className=" mb-2 border-b border-dashed flex justify-between flex-row-reverse items-center md:justify-end">
-          <CustomHamburger navbar={true} sidebar={false} />
+          <div className="ml-auto z-10 fixed top-0 right-0 md:hidden bg-white  rounded-md m-2">
+            <CustomHamburger navbar={false} sidebar={true} />
+          </div>
           <h2 className="font-bold text-2xl ">Featured Classes</h2>
         </div>
         <div className="featuredContainer grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">

@@ -29,10 +29,8 @@ export default async function RootLayout({
   const teachers = await retrieveTeachers();
   return (
     <div className="flex flex-col px-4 md:pl-[5em] pb-6">
-      <div className="ml-auto fixed top-0 right-0 md:hidden">
-        <div className="block lg:hidden">
-          <CustomHamburger navbar={false} sidebar={true} />
-        </div>
+      <div className="ml-auto z-10 fixed top-0 right-0 md:hidden bg-white  rounded-md m-2">
+        <CustomHamburger navbar={false} sidebar={true} />
       </div>
       <h1 className="my-4 h1 text-center text-2xl">Writing Section</h1>
       <p className="text-center">
