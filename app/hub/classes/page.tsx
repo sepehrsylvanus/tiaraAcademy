@@ -1,44 +1,27 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import TextField from "@mui/material/TextField";
 import styles from "./classes.module.css";
 import {
-  Autocomplete,
   Card,
   CardActions,
   CardContent,
   CardMedia,
-  CircularProgress,
   Divider,
   FormControl,
   IconButton,
-  InputLabel,
   MenuItem,
-  Select,
 } from "@mui/material";
 import ClassIcon from "@mui/icons-material/Class";
 import SchoolIcon from "@mui/icons-material/School";
 import { CustomClassTextField } from "./styledComponents";
 import { retrieveAllClasses, retrieveTeacherName } from "@/actions/actions";
-import BrownLink from "@/components/reusableComponents/brownLink/BrownLink";
 import { Class } from "@/utils/types";
 import { useForm, Controller } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import CustomHamburger from "@/components/hamburger/CustomHamburger";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+
 import Link from "next/link";
-import {
-  AccessTime,
-  EditNote,
-  GridView,
-  NoteAlt,
-  OndemandVideo,
-  People,
-} from "@mui/icons-material";
+
 import { useSearchParams } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Meteors } from "@/components/ui/meteors";
@@ -284,7 +267,7 @@ const page = () => {
                     </div>
                   </CardContent>
                   <CardActions>
-                    <div className="brownLink">
+                    <div className="brownLinkLight">
                       <Link
                         className="text-lightPrime "
                         href={`/hub/classes/${eachClass.title
@@ -332,7 +315,7 @@ const page = () => {
                     </div>
                   </CardContent>
                   <CardActions>
-                    <div className="brownLink">
+                    <div className="brownLinkLight">
                       <Link
                         className="text-lightPrime "
                         href={`/hub/classes/${eachClass.title

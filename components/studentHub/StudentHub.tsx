@@ -28,7 +28,7 @@ export default function StudentHub() {
   }, []);
 
   return (
-    <div className="px-2 pb-4 md:pl-[4em]">
+    <div className="px-2 pb-4  md:pl-[4em]">
       <div className="featuredClasses">
         <div className=" mb-2 border-b border-dashed flex justify-between flex-row-reverse items-center md:justify-end">
           <CustomHamburger navbar={true} sidebar={false} />
@@ -46,7 +46,7 @@ export default function StudentHub() {
               return (
                 <Card
                   key={featuredClass.id}
-                  className="eachFeatured bg-slate-300 p-2"
+                  className="eachFeatured bg-extraBg text-lightPrime p-2"
                 >
                   <img
                     src="/article.jpg"

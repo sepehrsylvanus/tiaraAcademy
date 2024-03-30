@@ -96,24 +96,25 @@ const WriteHere = () => {
     if (mainWritingSecond) {
       wordCountSecond = mainWritingSecond.trim().split(/\s+/).length;
     }
-
+    const formInput =
+      "bg-[#c6d9e6] text-lightText px-2 py-2 rounded-md outline-none";
     return (
       <div>
         {user && (
           <Tabs
             defaultValue="chart"
-            className=" mx-auto flex flex-col items-center"
+            className=" mx-auto flex flex-col items-center "
           >
-            <TabsList className="w-[20rem] sm:w-[25rem] md:w-[40rem] lg:w-[50rem]">
+            <TabsList className="w-[20rem] sm:w-[25rem] md:w-[40rem] lg:w-[50rem] bg-extraText text-lightPrime">
               <TabsTrigger value="chart">First Section</TabsTrigger>
               <TabsTrigger value="essay">Second Section</TabsTrigger>
             </TabsList>
             <TabsContent value="chart">
-              <Card className="w-[20rem] sm:w-[25rem] md:w-[40rem] lg:w-[50rem] p-4">
+              <Card className="w-[20rem] sm:w-[25rem] md:w-[40rem] lg:w-[50rem] p-4 bg-extraText text-lightPrime">
                 <Form {...firstForm}>
                   <form
                     onSubmit={firstForm.handleSubmit(onSubmitFirst)}
-                    className="space-y-2"
+                    className="space-y-2 "
                   >
                     <p className="h3 text-center">
                       Here you can write and send your first section writing
@@ -126,7 +127,11 @@ const WriteHere = () => {
                         <FormItem>
                           <FormLabel>Name</FormLabel>
                           <FormControl>
-                            <Input placeholder="Write your name" {...field} />
+                            <Input
+                              className={formInput}
+                              placeholder="Write your name"
+                              {...field}
+                            />
                           </FormControl>
 
                           <FormMessage />
@@ -140,7 +145,11 @@ const WriteHere = () => {
                         <FormItem>
                           <FormLabel>Email</FormLabel>
                           <FormControl>
-                            <Input placeholder="Write your email" {...field} />
+                            <Input
+                              className={formInput}
+                              placeholder="Write your email"
+                              {...field}
+                            />
                           </FormControl>
 
                           <FormMessage />
@@ -155,6 +164,7 @@ const WriteHere = () => {
                           <FormLabel>Subject title</FormLabel>
                           <FormControl>
                             <Input
+                              className={formInput}
                               placeholder="Write your subject"
                               {...field}
                             />
@@ -172,6 +182,7 @@ const WriteHere = () => {
                           <FormLabel>Subject image</FormLabel>
                           <FormControl>
                             <Input
+                              className={formInput}
                               accept="image/jpg, image/jpeg, image/png"
                               type="file"
                               placeholder="Write your subject"
@@ -191,6 +202,7 @@ const WriteHere = () => {
                           <FormLabel>Main writing</FormLabel>
                           <FormControl>
                             <Textarea
+                              className={formInput}
                               placeholder="Write your writing..."
                               {...field}
                             />
@@ -208,7 +220,7 @@ const WriteHere = () => {
               </Card>
             </TabsContent>
             <TabsContent value="essay">
-              <Card className="w-[20rem] sm:w-[25rem] md:w-[40rem] lg:w-[50rem] p-4">
+              <Card className="w-[20rem] sm:w-[25rem] md:w-[40rem] lg:w-[50rem] p-4 bg-extraText text-lightPrime">
                 <Form {...secondForm}>
                   <form
                     onSubmit={secondForm.handleSubmit(onSubmitSecond)}
@@ -224,7 +236,11 @@ const WriteHere = () => {
                         <FormItem>
                           <FormLabel>Name</FormLabel>
                           <FormControl>
-                            <Input placeholder="Write your name" {...field} />
+                            <Input
+                              className={formInput}
+                              placeholder="Write your name"
+                              {...field}
+                            />
                           </FormControl>
 
                           <FormMessage />
@@ -238,7 +254,11 @@ const WriteHere = () => {
                         <FormItem>
                           <FormLabel>Email</FormLabel>
                           <FormControl>
-                            <Input placeholder="Write your email" {...field} />
+                            <Input
+                              className={formInput}
+                              placeholder="Write your email"
+                              {...field}
+                            />
                           </FormControl>
 
                           <FormMessage />
@@ -253,6 +273,7 @@ const WriteHere = () => {
                           <FormLabel>Subject title</FormLabel>
                           <FormControl>
                             <Input
+                              className={formInput}
                               placeholder="Write your subject"
                               {...field}
                             />
@@ -271,6 +292,7 @@ const WriteHere = () => {
                           <FormLabel>Main writing</FormLabel>
                           <FormControl>
                             <Input
+                              className={formInput}
                               placeholder="Write your writing"
                               {...field}
                             />

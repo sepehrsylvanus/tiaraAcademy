@@ -56,13 +56,16 @@ export function DataTable<TData, TValue>({
           className=" max-w-sm border-none formInput"
         />
       </div>
-      <Table className="rounded-md border ">
+      <Table className="rounded-md border  ">
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow className="bg-[#c6d9e6] rounded-md" key={headerGroup.id}>
+            <TableRow
+              className="bg-extraText text-lightPrime hover:bg-extraText rounded-md"
+              key={headerGroup.id}
+            >
               {headerGroup.headers.map((header) => {
                 return (
-                  <TableHead key={header.id}>
+                  <TableHead key={header.id} className="text-lightPrime">
                     {header.isPlaceholder
                       ? null
                       : flexRender(
@@ -79,7 +82,7 @@ export function DataTable<TData, TValue>({
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
               <TableRow
-                className="bg-[#c6d9e6] rounded-md"
+                className="bg-extraText text-lightPrime hover:bg-extraText rounded-md"
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
               >

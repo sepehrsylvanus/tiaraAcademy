@@ -52,7 +52,7 @@ const CreateClass = () => {
   return (
     <form action="" className="grid items-center grid-cols-2 gap-4 grid-rows-2">
       <input
-        className="border p-4 rounded-md"
+        className="border p-4 rounded-md formInput"
         type="text"
         name="title"
         placeholder="Title"
@@ -65,6 +65,7 @@ const CreateClass = () => {
           multiple
           label="Select your days"
           name="days"
+          sx={{ backgroundColor: "#c6d9e6" }}
         >
           {days.map((day) => (
             <MenuItem key={day.value} value={day.value}>
@@ -74,7 +75,7 @@ const CreateClass = () => {
         </Select>
       </FormControl>
       <input
-        className="border p-4 rounded-md"
+        className="border p-4 rounded-md formInput"
         type="text"
         name=""
         id=""

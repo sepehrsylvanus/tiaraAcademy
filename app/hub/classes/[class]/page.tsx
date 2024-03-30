@@ -39,10 +39,7 @@ const MyClass = async (details: ClassProps) => {
       <section className={styles.header}>
         <div className={styles.navbar}>
           <h1 className="font-bold text-2xl md:h1">English Lessons</h1>
-          <Link
-            className="px-4 py-8 border-none bg-[#81403e] text-white font-bold transition text-base"
-            href={"#"}
-          >
+          <Link className="brownLink" href={"#"}>
             تغییر کلاس جاری
           </Link>
         </div>
@@ -119,7 +116,7 @@ const MyClass = async (details: ClassProps) => {
             </div>
             <Link
               style={{ marginBottom: "1em" }}
-              className={styles.manageClass}
+              className="brownLink"
               href={"#"}
             >
               رزرو کلاس

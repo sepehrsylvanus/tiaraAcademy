@@ -23,9 +23,9 @@ const SingleTeacher = () => {
             <p className="flex items-center gap-2">
               <LocationOnIcon /> Tehran
             </p>
-            <div className={`${styles.outerInfo} p-2  bg-[#c6d9e6] rounded-md`}>
+            <div className={`${styles.outerInfo} p-2  bg-extraItem rounded-md`}>
               <div
-                className={`${styles.innerInfo} rounded-sm flex justify-around py-2 bg-[#c6d9e6]`}
+                className={`${styles.innerInfo} rounded-sm flex justify-around py-2 bg-extraItem`}
               >
                 <div className="eachInfo flex flex-col items-center">
                   <p>0</p>

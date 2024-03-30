@@ -1,8 +1,11 @@
 "use client";
 import { slides } from "@/utils/fakeData";
-import { Card, CardContent, CardMedia, Chip } from "@mui/material";
+import { CardMedia, Chip } from "@mui/material";
+import { Card, CardContent } from "@/components/ui/card";
+
 import Link from "next/link";
 import React, { useState } from "react";
+import { Button } from "../ui/button";
 
 const OtherBlogs = () => {
   const [itemsToShow, setItemsToShow] = useState(3);
@@ -15,12 +18,20 @@ const OtherBlogs = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {slides.slice(0, itemsToShow).map((slide, index) => (
           <Link href={"/blogs/26458973"}>
-            <Card className="transition hover:shadow-xl" key={index}>
+            <Card
+              className="transition hover:shadow-xl bg-extraBg text-lightPrime"
+              key={index}
+            >
               <CardMedia sx={{ height: 140 }} image="/article.jpg" />
-              <CardContent className="flex flex-col items-center md:items-start gap-4">
+              <CardContent className="flex flex-col mt-4 items-center md:items-start gap-4">
                 <div className="flex items-center gap-5">
                   {slide.tags.map((tag, index) => (
-                    <Chip variant="outlined" key={index} label={tag} />
+                    <Chip
+                      sx={{ color: "#D0D7E1" }}
+                      variant="outlined"
+                      key={index}
+                      label={tag}
+                    />
                   ))}
                 </div>
 
@@ -36,12 +47,12 @@ const OtherBlogs = () => {
         ))}
       </div>
       {slides.length > itemsToShow && (
-        <button
-          className=" my-5 px-4 py-2 rounded-md  bg-blue-600 text-white transition hover:bg-blue-800"
+        <Button
+          className=" my-5 px-4 py-2 rounded-md  bg-slate-900/90 text-[#c6d9e6] hover:bg-[#c6d9e6] hover:ring-1 hover:ring-slate-900/90 hover:text-slate-900/90"
           onClick={handleLoadMore}
         >
           Load More
-        </button>
+        </Button>
       )}
     </div>
   );

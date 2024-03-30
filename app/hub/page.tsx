@@ -24,6 +24,7 @@ import DeleteVideo from "@/components/reusableComponents/DeleteVideo";
 import CreateVideo from "@/components/reusableComponents/teacherWriting/CreateVideo";
 import DeleteClass from "@/components/reusableComponents/DeleteClass";
 import CreateClass from "@/components/reusableComponents/CreateClass";
+import CustomHamburger from "@/components/hamburger/CustomHamburger";
 
 const Hub = async () => {
   const user = await currentUser();
@@ -34,6 +35,11 @@ const Hub = async () => {
 
   return (
     <div>
+      <div className="ml-auto z-20 fixed top-0 right-0 md:hidden">
+        <div className="block lg:hidden">
+          <CustomHamburger navbar={false} sidebar={true} />
+        </div>
+      </div>
       {isAdmin || isTeacher ? (
         <div className="container px-4 pt-4 pb-4 flex flex-col sm:grid grid-cols-1 sm:grid-cols-3 md:grid-rows-2 sm:gap-4 md:pl-[4em] space-y-4 text-lightText">
           <div className="avatar-video grid grid-rows-1 gap-2 col-span-1 ">
@@ -47,7 +53,7 @@ const Hub = async () => {
             </div>
             {/* =========== */}
 
-            <div className="space-y-4 text-center border shadow-md rounded-md p-4 bg-cardBg">
+            <div className="space-y-4 text-center border shadow-md rounded-md p-4 bg-extraText text-lightPrime">
               <p className="text-2xl">Videos Section</p>
               <p className="my-2">Post or delete videos</p>
 
@@ -72,11 +78,11 @@ const Hub = async () => {
             {/* ========= */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2 flex-grow sm:col-span-2">
               {/* ============== */}
-              <div className="pdfs rounded-md shadow-md p-2 flex flex-col bg-cardBg">
+              <div className="pdfs rounded-md shadow-md p-2 flex flex-col bg-extraText text-lightPrime">
                 <p className="text-2xl">PDF Section</p>
                 <p className="my-2">Send and view PDFs.</p>
                 <Divider />
-                <div className="flex flex-col px-2 gap-3 items-center py-3 m-2 rounded-md shadow-md">
+                <div className="flex flex-col px-2 gap-3 items-center py-3 m-2 rounded-md ring-1 ring-lightPrime">
                   <div className="w-full flex flex-col gap-2 items-center">
                     <Avatar sx={{ width: 50, height: 50 }} />
                     <div className="flex justify-between w-full md:space-y-2 ">
@@ -105,7 +111,7 @@ const Hub = async () => {
               </div>
               {/* ============== */}
 
-              <div className="rounded-md shadow-md p-2 space-y-2 flex flex-col  bg-cardBg">
+              <div className="rounded-md shadow-md p-2 space-y-2 flex flex-col  bg-extraText text-lightPrime">
                 <p className="text-2xl">Classes Section</p>
                 <DeleteClass />
                 <Divider />

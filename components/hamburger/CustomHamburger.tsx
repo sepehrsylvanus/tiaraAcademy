@@ -28,7 +28,7 @@ const CustomHamburger = ({
       <div
         className={` ${
           openMenu ? "block" : "hidden"
-        } absolute bg-white p-6 rounded-md shadow-xl right-0 transition flex flex-col z-[999]`}
+        } absolute bg-extraText p-6 rounded-md shadow-xl right-0 transition flex flex-col z-[999]`}
       >
         <div
           className={`   pb-2 gap-1 text-base md:gap-3  md:text-xl ${
@@ -36,13 +36,13 @@ const CustomHamburger = ({
           }`}
         >
           {" "}
-          <Link href={"/home"}>Services</Link>
+          <Link href={"#services"}>Services</Link>
           <Divider className="my-2" />
-          <Link href={"/home"}>Levels</Link>
+          <Link href={"#levels"}>Levels</Link>
           <Divider className="my-2" />
-          <Link href={"/home"}>Testimonials</Link>
+          <Link href={"#testimonials"}>Testimonials</Link>
           <Divider className="my-2" />
-          <Link href={"/home"}>Enter Main Website</Link>
+          <Link href={"/hub"}>Enter Hub</Link>
         </div>
 
         <SignedOut>
@@ -51,10 +51,7 @@ const CustomHamburger = ({
               navbar ? "border-t-2 border-dashed" : ""
             } `}
           >
-            <Link
-              href={"/sign-in"}
-              className="bg-[#81403e]   text-white px-2 py-4 font-bold w-fit "
-            >
+            <Link href={"/sign-in"} className="brownLink">
               Sign in / Sign up
             </Link>
           </div>
@@ -66,10 +63,7 @@ const CustomHamburger = ({
               navbar ? "border-t-2 border-dashed pt-4" : ""
             } flex items-center justify-between`}
           >
-            <Link
-              href={"/hub"}
-              className="bg-[#81403e] text-white px-2 py-4 font-bold w-fit "
-            >
+            <Link href={"/hub"} className="brownLink">
               Enter Hub
             </Link>
 
@@ -83,7 +77,7 @@ const CustomHamburger = ({
             sidebar ? "flex" : "hidden"
           } w-full justify-around border-t border-dashed   pt-4 gap-2`}
         >
-          <Link href={"/hub/home"} className="navLinkContainer">
+          <Link href={"/hub"} className="navLinkContainer">
             <GridView />
           </Link>
           <Link href={"/hub/classes"} className="navLinkContainer">

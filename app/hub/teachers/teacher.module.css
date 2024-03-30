@@ -12,10 +12,10 @@
 }
 .teachersCardContainer {
   padding: 0 4em;
+  gap: 7em;
   @media (min-width: 768px) {
     display: grid;
-    grid-template-columns: repeat(3, minmax(200px, 1fr));
-    gap: 1em;
+    grid-template-columns: repeat(6, minmax(200px, auto));
   }
 }
 

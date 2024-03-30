@@ -4,8 +4,8 @@ import Image from "next/image";
 import React from "react";
 const WritingPage = async () => {
   return (
-    <TracingBeam className=" h-fit">
-      <div className="px-[12em]">
+    <TracingBeam className="h-[1240px]">
+      <div className="px-[1em] ">
         <div className="w-[18rem] h-[11rem] sm:w-[28rem] sm:h-[17rem] lg:w-[35rem] lg:h-[20rem]   relative my-4 mx-auto">
           <Image
             src={"/article.jpg"}
@@ -18,7 +18,7 @@ const WritingPage = async () => {
           Mastering English Writing: A Comprehensive Guide
         </h1>
 
-        <p className=" text-slate-400">
+        <p className=" text-extraBg">
           In today's globalized world, proficiency in English writing is a
           valuable skill that opens doors to countless opportunities in
           education, career, and personal development. Whether you're a
@@ -31,7 +31,7 @@ const WritingPage = async () => {
         {howTooStudy.map((section, index) => (
           <section className="flex flex-col gap-4 my-6" key={index}>
             <h4 className="font-bold text-2xl">{section.title}</h4>
-            <p className=" text-slate-400">{section.desc}</p>
+            <p className=" text-extraBg">{section.desc}</p>
           </section>
         ))}
 

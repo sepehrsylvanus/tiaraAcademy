@@ -51,7 +51,7 @@ const Videos = () => {
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 grid-flow-dense mt-2">
           {videoTags.map((tag) => (
-            <Badge className="w-fit bg-slate-300 text-black cursor-pointer">
+            <Badge className="w-fit bg-lightText text-lightPrime cursor-pointer">
               {tag.name}
             </Badge>
           ))}
@@ -59,7 +59,7 @@ const Videos = () => {
 
         <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {howTooStudy.map((eachCard, index) => (
-            <Card className="p-4" key={index}>
+            <Card className="p-4 bg-extraBg text-lightPrime" key={index}>
               <CardContent className="p-0">
                 <div className=" relative w-full h-[200px]">
                   <Image

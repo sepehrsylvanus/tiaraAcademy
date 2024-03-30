@@ -9,10 +9,10 @@ export const CustomLinearProgress = styled(LinearProgress)(() => ({
   height: 10,
   borderRadius: 50,
   [`&.${linearProgressClasses.colorPrimary}`]: {
-    backgroundColor: "#d7d7d7",
+    backgroundColor: "#D0D7E1",
   },
   [`& .${linearProgressClasses.bar}`]: {
-    backgroundColor: "#f0f0f0",
+    backgroundColor: "#9ccddb",
   },
 }));
 const MyCourses = () => {
@@ -29,7 +29,7 @@ const MyCourses = () => {
         {myCourses?.slice(0, displayCount).map((myCourse, index) => (
           <Card
             key={index}
-            className="eachFeatured bg-slate-300 p-2 flex flex-col"
+            className="eachFeatured bg-extraBg text-lightPrime p-2 flex flex-col"
           >
             <div className="relative">
               <img

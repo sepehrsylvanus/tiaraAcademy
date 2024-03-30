@@ -100,7 +100,7 @@ const page = () => {
               <CarouselContent>
                 {filteredTeachers.map((teacher) => (
                   <CarouselItem>
-                    <Card className="flex flex-col gap-6 text-center justify-center rounded-md p-4 w-full">
+                    <Card className="flex flex-col gap-6 text-center justify-center rounded-md p-4 w-full bg-extraBg text-lightPrime">
                       <CardContent className="flex flex-col items-center gap-4">
                         <Avatar
                           src={teacher.profileImg}
@@ -111,13 +111,13 @@ const page = () => {
                         <p>{teacher.role}</p>
                         <Link
                           href={`/hub/teachers/${teacher.id}`}
-                          className=" text-blue-300 underline  hover:text-blue-600 transition"
+                          className=" text-extraItem underline  hover:text-lightPrime transition"
                         >
                           View profile
                         </Link>
                       </CardContent>
                       <CardFooter className="p-0">
-                        <button className="  bg-blue-500 w-full py-4 rounded-md text-white hover:bg-blue-800 transition">
+                        <button className="  bg-extraText w-full py-4 rounded-md text-white hover:bg-lightPrime hover:text-extraBg transition">
                           See Classes
                         </button>
                       </CardFooter>
@@ -131,7 +131,9 @@ const page = () => {
 
             {filteredTeachers.map((teacher) => (
               <div className="flex basis-full flex-col p-4 tracking-tight text-slate-100/50 sm:basis-1/2 w-[20rem] h-[20rem]">
-                <Card className={styles.eachTeacerCard}>
+                <Card
+                  className={`${styles.eachTeacerCard} bg-extraBg text-lightPrime`}
+                >
                   <CardContent className="flex flex-col items-center gap-4">
                     <Avatar
                       src={teacher.profileImg}
@@ -142,13 +144,13 @@ const page = () => {
                     <p>{teacher.role}</p>
                     <Link
                       href={`/hub/teachers/${teacher.id}`}
-                      className=" text-blue-300 underline  hover:text-blue-600 transition"
+                      className=" text-extraItem underline  hover:text-white transition"
                     >
                       View profile
                     </Link>
                   </CardContent>
                   <CardFooter className="p-0">
-                    <button className="  bg-blue-500 w-full py-4 rounded-md text-white hover:bg-blue-800 transition">
+                    <button className="  bg-extraText w-full py-4 rounded-md text-white hover:bg-lightPrime hover:text-extraBg transition">
                       See Classes
                     </button>
                   </CardFooter>
