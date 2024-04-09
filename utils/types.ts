@@ -1,47 +1,17 @@
+export interface User {
+  id: string;
+  fName: string;
+  lName?: string;
+  email: string;
+  password: string;
+}
+
 export interface Class {
   id: string;
   title: string;
-  link: string;
-  dates?: string[];
-  classTime?: string | null;
-  duration: string;
-  rating: number;
-  img?: string | null;
-  featured: boolean;
-  price: number;
-  isPrivate: boolean;
-  classInstructors: ClassInstructor[];
-}
-
-export interface Instructure {
-  id: string;
-  name: string;
-  profileImg: string;
-  role: string;
-  job: string;
-}
-
-export interface Student {
-  id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  createdAt: Date;
-}
-
-interface ClassInstructor {
-  id: string;
-  classId: string;
-  instructorId: string;
-  instructor: Instructure;
-}
-export interface ClassProps {
-  params: { class: string };
-  searchParams: { teacher: string; id: string };
-}
-
-export interface Slide {
-  title: string;
-  subtitle: string;
-  link: string;
+  days: string[];
+  price: string;
+  type: string;
+  tutorID?: string;
+  tutor: User[];
 }

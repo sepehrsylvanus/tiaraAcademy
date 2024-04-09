@@ -25,7 +25,7 @@ const MyCourses = () => {
       <h2 className="font-bold text-2xl mb-2 border-b border-dashed">
         My Classes
       </h2>
-      <div className="featuredContainer grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="featuredContainer grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
         {myCourses?.slice(0, displayCount).map((myCourse, index) => (
           <Card
             key={index}
@@ -58,7 +58,7 @@ const MyCourses = () => {
       </div>
       {myCourses && myCourses.length > displayCount && (
         <div className="w-full flex justify-center">
-          <Button className="w-full my-4 sm:w-[50%] " onClick={handleShowMore}>
+          <Button className="w-full my-4 sm:w-[30%] " onClick={handleShowMore}>
             Show More
           </Button>
         </div>

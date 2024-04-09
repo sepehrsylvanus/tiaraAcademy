@@ -10,62 +10,30 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Class {
-  id               String            @id @default(cuid()) @map("_id")
-  title            String
-  link             String
-  classTime        String?
-  duration         String
-  rating           Float
-  img              String?
-  featured         Boolean
-  dates            String[]
-  isPrivate        Boolean
-  price            Int
-  classInstructors ClassInstructor[]
-  classStudents    ClassStudent[]
-}
-
-model Instructure {
-  id               String            @id @default(cuid()) @map("_id")
-  name             String
-  profileImg       String
-  role             String
-  job              String
-  classInstructors ClassInstructor[]
-}
-
-model Student {
-  id            String         @id @default(cuid()) @map("_id")
-  firstName     String
-  lastName      String
-  email         String
-  createdAt     DateTime       @default(now())
-  classStudents ClassStudent[]
-}
-
-model ClassInstructor {
-  id           String      @id @default(cuid()) @map("_id")
-  classId      String
-  class        Class       @relation(fields: [classId], references: [id])
-  instructorId String
-  instructor   Instructure @relation(fields: [instructorId], references: [id])
-}
-
-model ClassStudent {
-  id        String  @id @default(cuid()) @map("_id")
-  classId   String
-  class     Class   @relation(fields: [classId], references: [id])
-  studentId String
-  student   Student @relation(fields: [studentId], references: [id])
+enum Role {
+  teacher
+  admin
+  student
+  adminTeacher
 }
 
 model User {
-  id        String @id @default(cuid()) @map("_id")
-  clerkId   String @unique
-  email     String
-  username  String
-  firstName String
-  lastName  String
-  photo     String
+  id       String  @id @default(cuid()) @map("_id")
+  fName    String
+  lName    String?
+  email    String
+  password String
+
+  role  Role    @default(student)
+  class Class[]
+}
+
+model Class {
+  id       String   @id @default(cuid()) @map("_id")
+  title    String
+  days     String[]
+  price    String
+  type     String
+  memberID String?  @unique
+  member   User?    @relation(fields: [memberID], references: [id])
 }

@@ -1,5 +1,4 @@
 "use client";
-import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { Divider, Hidden } from "@mui/material";
 import { Squash as Hamburger } from "hamburger-react";
 import Link from "next/link";
@@ -45,18 +44,15 @@ const CustomHamburger = ({
           <Link href={"/hub"}>Enter Hub</Link>
         </div>
 
-        <SignedOut>
-          <div
-            className={` mb-3 pt-6 ${
-              navbar ? "border-t-2 border-dashed" : ""
-            } `}
-          >
-            <Link href={"/sign-in"} className="brownLink">
-              Sign in / Sign up
-            </Link>
-          </div>
-        </SignedOut>
+        <div
+          className={` mb-3 pt-6 ${navbar ? "border-t-2 border-dashed" : ""} `}
+        >
+          <Link href={"/sign-in"} className="brownLink">
+            Sign in / Sign up
+          </Link>
+        </div>
 
+        {/* 
         <SignedIn>
           <div
             className={` mb-3 ${
@@ -71,7 +67,7 @@ const CustomHamburger = ({
               <UserButton afterSignOutUrl="/" />
             </div>
           </div>
-        </SignedIn>
+        </SignedIn> */}
         <div
           className={` ${
             sidebar ? "flex" : "hidden"

@@ -47,7 +47,7 @@ const page = () => {
         setLoading(false);
       } else {
         const flatClasses: Class[] = [];
-        allClasses.forEach((eachClass) => {
+        allClasses.forEach((eachClass: Class) => {
           if (eachClass.classInstructors.length > 1) {
             eachClass.classInstructors.forEach((eachClassInstructor) => {
               const flatClass = { ...eachClass };

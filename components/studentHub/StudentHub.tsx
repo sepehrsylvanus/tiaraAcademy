@@ -36,7 +36,7 @@ export default function StudentHub() {
           </div>
           <h2 className="font-bold text-2xl ">Featured Classes</h2>
         </div>
-        <div className="featuredContainer grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="featuredContainer grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
           {featuredClasses ? (
             featuredClasses.slice(0, displayCount).map((featuredClass) => {
               console.log(featuredClass.duration);
@@ -97,7 +97,7 @@ export default function StudentHub() {
         {featuredClasses && featuredClasses.length > displayCount && (
           <div className="w-full flex justify-center">
             <Button
-              className="w-full my-4 sm:w-[50%] "
+              className="w-full my-4 sm:w-[30%] "
               onClick={handleShowMore}
             >
               Show More

@@ -24,7 +24,6 @@ import {
   OndemandVideo,
   People,
 } from "@mui/icons-material";
-import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 
 export default async function Home() {
   return (
@@ -51,15 +50,13 @@ export default async function Home() {
         </div>
         <div className={`${styles.navbarRight} bg-lightPrime`}>
           <div className=" scale-75 lg:scale-100">
-            <SignedOut>
-              <div className=" mb-3 pt-6  ">
-                <Link href={"/sign-in"} className="brownLink">
-                  Sign in / Sign up
-                </Link>
-              </div>
-            </SignedOut>
+            <div className=" mb-3 pt-6  ">
+              <Link href={"/sign-in"} className="brownLink">
+                Sign in / Sign up
+              </Link>
+            </div>
 
-            <SignedIn>
+            {/* <SignedIn>
               <div className=" pt-4 mb-3 gap-8 flex items-center justify-between">
                 <Link href={"/hub"} className="brownLink">
                   Enter Hub
@@ -69,7 +66,7 @@ export default async function Home() {
                   <UserButton afterSignOutUrl="/" />
                 </div>
               </div>
-            </SignedIn>
+            </SignedIn> */}
           </div>
         </div>
         <CustomHamburger navbar={true} sidebar={false} />
