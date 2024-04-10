@@ -12,7 +12,6 @@ import ClassesDate from "@/components/classesDate/ClassesDate";
 import CustomSelect from "@/components/customSelect/CustomSelect";
 import { ClassProps } from "@/utils/types";
 import { getSingleClass } from "@/actions/actions";
-import { clerkClient } from "@clerk/nextjs";
 import CustomHamburger from "@/components/hamburger/CustomHamburger";
 
 const privateTimes = [
@@ -104,7 +103,7 @@ const MyClass = async (details: ClassProps) => {
             >
               Meeting Link (click here!)
             </Link>
-            <ClassesDate classDates={singleClass?.dates} />
+            {/* <ClassesDate classDates={singleClass?.dates} /> */}
             <div className={styles.chooseClassTime}>
               <div
                 style={{ display: "flex", alignItems: "center", gap: "1em" }}

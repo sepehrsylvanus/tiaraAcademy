@@ -4,8 +4,8 @@ import { ColumnDef } from "@tanstack/react-table";
 
 export type StudentsShow = {
   id: string;
-  firstName: string;
-  lastName: string;
+  fName: string;
+  lName: string | null;
   email: string;
   createdAt?: Date;
 };
@@ -16,11 +16,11 @@ export const columns: ColumnDef<StudentsShow>[] = [
     header: "ID",
   },
   {
-    accessorKey: "firstName",
+    accessorKey: "fName",
     header: "First Name",
   },
   {
-    accessorKey: "lastName",
+    accessorKey: "lName",
     header: "Last Name",
   },
   {

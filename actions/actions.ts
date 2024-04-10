@@ -14,6 +14,12 @@ export const verifyToken = (token: string) => {
   }
 };
 
+export const exampleRetireveStudents = async () => {
+  const students = await prisma.user.findMany();
+  console.log(students);
+  return students;
+};
+
 import prisma from "@/utils/db";
 import { Instructure } from "@/utils/types";
 import { cookies } from "next/headers";
@@ -97,10 +103,4 @@ export const retrieveTeachers = async () => {
   const teachers = await prisma.instructure.findMany();
 
   return teachers;
-};
-
-export const exampleRetireveStudents = async () => {
-  const students = await prisma.user.findMany();
-  console.log(students);
-  return students;
 };

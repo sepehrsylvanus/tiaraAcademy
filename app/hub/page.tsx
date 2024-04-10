@@ -22,9 +22,10 @@ import CreateClass from "@/components/reusableComponents/CreateClass";
 import CustomHamburger from "@/components/hamburger/CustomHamburger";
 
 const Hub = async () => {
-  const students = await exampleRetireveStudents();
-  console.log(students);
-
+  const users = await exampleRetireveStudents();
+  console.log(users);
+  const students = users.filter((user) => user.role === "student");
+  const teachers = users.filter((user) => user.role === "teacher");
   return (
     <div>
       <div className="ml-auto z-10 fixed top-0 right-0 md:hidden bg-white  rounded-md m-2">
@@ -119,7 +120,7 @@ const Hub = async () => {
         <div className="col-span-3 row-span-1 overflow-auto">
           <div className="space-y-2">
             <p className="font-semibold">Teachers</p>
-            <DataTable columns={columns} data={students} />
+            <DataTable columns={columns} data={teachers} />
           </div>
         </div>
       </div>

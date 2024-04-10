@@ -4,6 +4,7 @@ export interface User {
   lName?: string;
   email: string;
   password: string;
+  classes: Class[];
 }
 
 export interface Class {

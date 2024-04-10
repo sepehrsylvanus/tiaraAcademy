@@ -13,28 +13,11 @@ import { getToken } from "@/actions/actions";
 import { getSingleUser } from "@/actions/userActions";
 import { UserProps } from "@/utils/types";
 
-import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
-import { useRouter } from "next/navigation";
 import ClerkAvatar from "../reusableComponents/ClerkAvatar";
 
 const Sidebar = () => {
   const [token, setToken] = useState<string>();
   const [user, setUser] = useState<UserProps>();
-  const router = useRouter();
-
-  const signout = async () => {
-    axios
-      .get("/api/signout")
-      .then((res) => {
-        console.log(res);
-        toast(res.data);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-    router.refresh();
-  };
 
   useEffect(() => {
     const retrieveToken = async () => {
@@ -63,7 +46,6 @@ const Sidebar = () => {
 
   return (
     <div className={styles.sidebar}>
-      <ToastContainer />
       <div className={styles.userContainer}>
         <div className={styles.accountInfo}>
           <ClerkAvatar />
@@ -73,14 +55,6 @@ const Sidebar = () => {
             <span>{user?.email}</span>
           </div>
         </div>
-
-        {/* <SignedOut>
-          <Link href={"/sign-in"}>
-            <Avatar>
-              <PersonIcon />
-            </Avatar>
-          </Link>
-        </SignedOut> */}
       </div>
 
       <div className={styles.iconsContainer}>

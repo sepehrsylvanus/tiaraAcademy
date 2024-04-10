@@ -13,20 +13,53 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useState } from "react";
+import { CircularProgress } from "@mui/material";
+
 const deleeteArticleForm = z.object({
   id: z.string(),
 });
 
 const DeleteClass = () => {
+  const [sending, setSending] = useState(false);
   const form = useForm<z.infer<typeof deleeteArticleForm>>({
     resolver: zodResolver(deleeteArticleForm),
   });
 
   function onSubmit(values: z.infer<typeof deleeteArticleForm>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+    setSending(true);
+    axios
+      .delete(`/api/classes/${values.id}`)
+      .then((res) => {
+        toast.success(res.data.message, {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        setSending(false);
+      })
+      .catch((e) => {
+        console.log(e);
+        toast.error(e.response.data.message, {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        setSending(false);
+      });
   }
   return (
     <Form {...form}>
@@ -51,7 +84,16 @@ const DeleteClass = () => {
             </FormItem>
           )}
         />
-        <Button type="submit">Delete</Button>
+        <Button type="submit">
+          {sending ? (
+            <div style={{ transform: "scale(.7)" }}>
+              <CircularProgress sx={{ color: "white" }} />
+            </div>
+          ) : (
+            "Delete"
+          )}
+        </Button>
+        <ToastContainer />
       </form>
     </Form>
   );

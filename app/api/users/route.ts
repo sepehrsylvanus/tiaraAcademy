@@ -47,5 +47,3 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
     );
   }
 };
-
-// ============ GET MULTIPLE OR SINGLE USER ============
