@@ -1,7 +1,22 @@
 "use server";
+const { verify } = require("jsonwebtoken");
+export const getToken = () => {
+  const cookieStore = cookies();
+  return cookieStore.get("token");
+};
+
+export const verifyToken = (token: string) => {
+  const validate = verify(token, process.env.TOKEN_SERCRET);
+  if (validate) {
+    return validate;
+  } else {
+    return "The token has problem";
+  }
+};
 
 import prisma from "@/utils/db";
 import { Instructure } from "@/utils/types";
+import { cookies } from "next/headers";
 export const getFeaturedClasses = async () => {
   const result = await prisma.class.findMany({
     where: { featured: true },
@@ -85,7 +100,7 @@ export const retrieveTeachers = async () => {
 };
 
 export const exampleRetireveStudents = async () => {
-  const students = await prisma.student.findMany();
+  const students = await prisma.user.findMany();
   console.log(students);
   return students;
 };

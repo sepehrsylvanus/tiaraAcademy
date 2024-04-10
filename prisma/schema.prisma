@@ -21,7 +21,7 @@ model User {
   id       String  @id @default(cuid()) @map("_id")
   fName    String
   lName    String?
-  email    String
+  email    String  @unique
   password String
 
   role  Role    @default(student)

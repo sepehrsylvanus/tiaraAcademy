@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./sidebar.module.css";
 import Link from "next/link";
 import { Avatar } from "@mui/material";
@@ -10,15 +10,46 @@ import PeopleIcon from "@mui/icons-material/People";
 import NoteAltIcon from "@mui/icons-material/NoteAlt";
 import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
 import EditNoteIcon from "@mui/icons-material/EditNote";
+import { getToken } from "@/actions/actions";
+import { getSingleUser } from "@/actions/userActions";
+import { UserProps } from "@/utils/types";
 const Sidebar = () => {
+  const [token, setToken] = useState<string>();
+  const [user, setUser] = useState<UserProps>();
+
+  useEffect(() => {
+    const retrieveToken = async () => {
+      const token = await getToken();
+      console.log(token?.value);
+      if (token) {
+        setToken(token?.value);
+      }
+    };
+
+    retrieveToken();
+  }, []);
+
+  useEffect(() => {
+    const getUserInformation = async (token: string) => {
+      const userInfo = await getSingleUser(token)!;
+      console.log(userInfo);
+      if (userInfo) {
+        setUser(userInfo);
+      }
+    };
+    if (token) {
+      getUserInformation(token);
+    }
+  }, [token]);
+
   return (
     <div className={styles.sidebar}>
       <div className={styles.userContainer}>
         <div className={styles.accountInfo}>
           <Avatar />
           <div className={styles.accountInfoDetails}>
-            <span>user's name</span>
-            <span>user's email</span>
+            <span>{`${user?.fName} ${user?.lName}`}</span>
+            <span>{user?.email}</span>
           </div>
         </div>
 

@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import styles from "../../sign-in/[[...sign-in]]/login.module.css";
 import Image from "next/image";
 
@@ -13,6 +13,8 @@ import { useForm, Controller } from "react-hook-form";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { CircularProgress } from "@mui/material";
+
 const signupSchema = z.object({
   fName: z.string().min(4, { message: "Please enter a proper name" }),
   lName: z.string().optional(),
@@ -22,6 +24,8 @@ const signupSchema = z.object({
 });
 
 const Login = () => {
+  const [sending, setSending] = useState(false);
+
   const form = useForm<z.infer<typeof signupSchema>>({
     resolver: zodResolver(signupSchema),
     defaultValues: {
@@ -35,32 +39,36 @@ const Login = () => {
   async function signupUser(values: z.infer<typeof signupSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-
+    if (values.password !== values.passwordRepeat) {
+      toast.error("Passwords didn't match!");
+      return;
+    }
     const { passwordRepeat, ...formData } = values;
     console.log(formData);
 
-    try {
-      axios.post("/api/users", formData).then((res) => {
+    setSending(true);
+    axios
+      .post("/api/users", formData)
+      .then((res) => {
         console.log(res);
         if (res.status === 200) {
-          toast.info(
-            `New User succsessfully created => ${values.fName} ${values.lName}`,
-            {
-              position: "bottom-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-            }
-          );
+          toast.info(res.data.message, {
+            position: "bottom-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+          setSending(false);
         }
+      })
+      .catch((e) => {
+        toast.error(e.response.data.error);
+        setSending(false);
       });
-    } catch (error) {
-      console.log(error);
-    }
   }
   return (
     <div className={styles.container}>
@@ -166,10 +174,16 @@ const Login = () => {
               </LabelInputContainer>
 
               <button
-                className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
+                className="bg-extraBg hover:bg-extraText transition w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
                 type="submit"
               >
-                Sign up &rarr;
+                {sending ? (
+                  <div style={{ transform: "scale(.7)" }}>
+                    <CircularProgress sx={{ color: "white" }} />
+                  </div>
+                ) : (
+                  "Sign up"
+                )}
                 <BottomGradient />
               </button>
             </form>

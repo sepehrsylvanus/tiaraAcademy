@@ -96,10 +96,7 @@ export default function StudentHub() {
 
         {featuredClasses && featuredClasses.length > displayCount && (
           <div className="w-full flex justify-center">
-            <Button
-              className="w-full my-4 sm:w-[30%] "
-              onClick={handleShowMore}
-            >
+            <Button className="w-full my-4 sm:w-[30%]" onClick={handleShowMore}>
               Show More
             </Button>
           </div>

@@ -15,3 +15,12 @@ export interface Class {
   tutorID?: string;
   tutor: User[];
 }
+
+export type UserProps = {
+  id: string;
+  fName: string;
+  lName: string | null;
+  email: string;
+  password: string;
+  role: string;
+};

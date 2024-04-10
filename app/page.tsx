@@ -1,7 +1,7 @@
 import Link from "next/link";
 import styles from "./page.module.css";
 import BrownLink from "@/components/reusableComponents/brownLink/BrownLink";
-import { Divider, TextField } from "@mui/material";
+import { Avatar, Divider, TextField } from "@mui/material";
 import Image from "next/image";
 import StarIcon from "@mui/icons-material/Star";
 import FacebookIcon from "@mui/icons-material/Facebook";
@@ -16,16 +16,12 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
-import {
-  AccessTime,
-  EditNote,
-  GridView,
-  NoteAlt,
-  OndemandVideo,
-  People,
-} from "@mui/icons-material";
+import { cookies } from "next/headers";
 
 export default async function Home() {
+  const cookieStore = cookies();
+  const token = cookieStore.get("token");
+
   return (
     <div className={`${styles.container} bg-lightPrime `}>
       <section className={`${styles.navbar} bg-lightPrime text-extraText`}>
@@ -50,23 +46,23 @@ export default async function Home() {
         </div>
         <div className={`${styles.navbarRight} bg-lightPrime`}>
           <div className=" scale-75 lg:scale-100">
-            <div className=" mb-3 pt-6  ">
-              <Link href={"/sign-in"} className="brownLink">
-                Sign in / Sign up
-              </Link>
-            </div>
-
-            {/* <SignedIn>
+            {token ? (
               <div className=" pt-4 mb-3 gap-8 flex items-center justify-between">
                 <Link href={"/hub"} className="brownLink">
                   Enter Hub
                 </Link>
 
                 <div className=" scale-150">
-                  <UserButton afterSignOutUrl="/" />
+                  <Avatar />
                 </div>
               </div>
-            </SignedIn> */}
+            ) : (
+              <div className=" mb-3 pt-6  ">
+                <Link href={"/sign-in"} className="brownLink">
+                  Sign in / Sign up
+                </Link>
+              </div>
+            )}
           </div>
         </div>
         <CustomHamburger navbar={true} sidebar={false} />

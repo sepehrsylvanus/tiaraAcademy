@@ -1,4 +1,4 @@
-import React from "react";
+"use client";
 import styles from "./login.module.css";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
@@ -6,7 +6,43 @@ import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/accInput";
 import { Label } from "@/components/ui/accLabel";
 import Link from "next/link";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm, Controller } from "react-hook-form";
+import axios from "axios";
+import { useState } from "react";
+import { CircularProgress } from "@mui/material";
+import { useRouter } from "next/navigation";
+const formSchema = z.object({
+  email: z.string().min(2).max(50),
+  password: z.string(),
+});
 const Login = () => {
+  const router = useRouter();
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState("");
+  const signinForm = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+  async function signin(values: z.infer<typeof formSchema>) {
+    setSending(true);
+    axios
+      .post("/api/signin", values)
+      .then((res) => {
+        setSending(false);
+        router.push("/hub");
+      })
+      .catch((e) => {
+        setError(e.response.data.error);
+        setSending(false);
+      });
+
+    console.log(values);
+  }
   return (
     <div className={styles.container}>
       <div className={`${styles.details} bg-lightText text-lightPrime`}>
@@ -30,31 +66,62 @@ const Login = () => {
             Login in order to have access to your Hub and extra features
           </p>
 
-          <form className="my-8">
+          <form className="my-8" onSubmit={signinForm.handleSubmit(signin)}>
             <LabelInputContainer className="mb-4">
               <Label htmlFor="email">Email Address | User Name</Label>
-              <Input
-                id="email"
-                placeholder="projectmayhem@fc.com"
-                type="email"
+              <Controller
+                name="email"
+                control={signinForm.control}
+                render={({ field }) => (
+                  <Input
+                    {...field}
+                    id="email"
+                    placeholder="projectmayhem@fc.com"
+                    type="email"
+                  />
+                )}
               />
             </LabelInputContainer>
             <LabelInputContainer className="mb-4">
               <Label htmlFor="password">Password</Label>
-              <Input id="password" placeholder="••••••••" type="password" />
+              <Controller
+                name="password"
+                control={signinForm.control}
+                render={({ field }) => (
+                  <Input
+                    {...field}
+                    id="password"
+                    placeholder="••••••••"
+                    type="password"
+                  />
+                )}
+              />
             </LabelInputContainer>
 
             <button
-              className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
+              className="bg-extraBg hover:bg-extraText transition w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
               type="submit"
             >
-              Sign in &rarr;
+              {sending ? (
+                <div style={{ transform: "scale(.7)" }}>
+                  <CircularProgress sx={{ color: "white" }} />
+                </div>
+              ) : (
+                "Sign in"
+              )}
               <BottomGradient />
             </button>
+            <p className=" text-red-500 font-bold">{error}</p>
           </form>
-          <Link className=" underline text-blue-500" href={"/sign-up"}>
-            Sign up
-          </Link>
+          <p className="text-black flex gap-2">
+            No account?
+            <Link
+              className=" font-bold text-blue-500 hover:scale-110 transition"
+              href={"/sign-up"}
+            >
+              Sign up
+            </Link>
+          </p>
         </div>
       </div>
     </div>

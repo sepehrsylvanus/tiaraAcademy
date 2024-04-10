@@ -1,5 +1,5 @@
 "use client";
-import { Student } from "@/utils/types";
+
 import { ColumnDef } from "@tanstack/react-table";
 
 export type StudentsShow = {
