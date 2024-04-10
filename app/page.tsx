@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { cookies } from "next/headers";
+import ClerkAvatar from "@/components/reusableComponents/ClerkAvatar";
 
 export default async function Home() {
   const cookieStore = cookies();
@@ -53,7 +54,7 @@ export default async function Home() {
                 </Link>
 
                 <div className=" scale-150">
-                  <Avatar />
+                  <ClerkAvatar />
                 </div>
               </div>
             ) : (

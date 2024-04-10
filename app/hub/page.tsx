@@ -3,7 +3,6 @@ import StudentHub from "@/components/studentHub/StudentHub";
 import { columns } from "@/components/studentsTable/columns";
 import { DataTable } from "@/components/studentsTable/data-table";
 import { Button } from "@/components/ui/button";
-import dynamic from "next/dynamic";
 import { Avatar, Divider } from "@mui/material";
 import Link from "next/link";
 import React from "react";
@@ -14,11 +13,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import TeacherWriting from "@/components/reusableComponents/teacherWriting/ReuableForm";
 import ReuableForm from "@/components/reusableComponents/teacherWriting/ReuableForm";
-import { z } from "zod";
-import DeleteArticle from "@/components/reusableComponents/DeleteArticle";
-import CreateArticle from "@/components/reusableComponents/CreateArticle";
+
 import DeleteVideo from "@/components/reusableComponents/DeleteVideo";
 import CreateVideo from "@/components/reusableComponents/teacherWriting/CreateVideo";
 import DeleteClass from "@/components/reusableComponents/DeleteClass";
@@ -37,7 +33,7 @@ const Hub = async () => {
       <div className="container   px-4 pt-4 pb-4 flex flex-col sm:grid grid-cols-1 sm:grid-cols-3 md:grid-rows-2  sm:gap-4 md:pl-[4em] space-y-4 md:space-y-0 text-lightText">
         <div className="avatar-video grid grid-rows-1 ring-1 ring-slate-400 p-4 rounded-md  gap-2 col-span-1 ">
           {/* ========= */}
-          <div className="avatrContainer flex gap-4 items-center justify-center">
+          <div className="avatrContainer  flex gap-4 items-center justify-center">
             <Avatar src="/khashayar.jpg" sx={{ width: 80, height: 80 }} />
             <div className="space-y-2">
               <p className="font-bold">Admin | Teacher</p>

@@ -2,8 +2,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./sidebar.module.css";
 import Link from "next/link";
-import { Avatar } from "@mui/material";
-import PersonIcon from "@mui/icons-material/Person";
+
 import GridViewIcon from "@mui/icons-material/GridView";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import PeopleIcon from "@mui/icons-material/People";
@@ -13,9 +12,29 @@ import EditNoteIcon from "@mui/icons-material/EditNote";
 import { getToken } from "@/actions/actions";
 import { getSingleUser } from "@/actions/userActions";
 import { UserProps } from "@/utils/types";
+
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import { useRouter } from "next/navigation";
+import ClerkAvatar from "../reusableComponents/ClerkAvatar";
+
 const Sidebar = () => {
   const [token, setToken] = useState<string>();
   const [user, setUser] = useState<UserProps>();
+  const router = useRouter();
+
+  const signout = async () => {
+    axios
+      .get("/api/signout")
+      .then((res) => {
+        console.log(res);
+        toast(res.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+    router.refresh();
+  };
 
   useEffect(() => {
     const retrieveToken = async () => {
@@ -44,9 +63,11 @@ const Sidebar = () => {
 
   return (
     <div className={styles.sidebar}>
+      <ToastContainer />
       <div className={styles.userContainer}>
         <div className={styles.accountInfo}>
-          <Avatar />
+          <ClerkAvatar />
+
           <div className={styles.accountInfoDetails}>
             <span>{`${user?.fName} ${user?.lName}`}</span>
             <span>{user?.email}</span>
