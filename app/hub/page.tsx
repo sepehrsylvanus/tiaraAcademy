@@ -1,4 +1,4 @@
-import { exampleRetireveStudents, getToken } from "@/actions/actions";
+import { retieveUsers, getToken } from "@/actions/actions";
 import StudentHub from "@/components/studentHub/StudentHub";
 import { columns } from "@/components/studentsTable/columns";
 import { DataTable } from "@/components/studentsTable/data-table";
@@ -25,7 +25,7 @@ import { usePDF } from "@react-pdf/renderer";
 import MyPdf from "@/components/reusableComponents/myPdf";
 import PdfSection from "@/components/PdfSection";
 const Hub = async () => {
-  const users = await exampleRetireveStudents();
+  const users = await retieveUsers();
   const token = await getToken();
   const currentUser = await getSingleUser(token?.value!);
   console.log(currentUser);

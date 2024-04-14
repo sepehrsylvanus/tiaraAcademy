@@ -4,10 +4,19 @@ const MyPdf = () => {
   // در این قسمت می توانید برای هریک از عناصر پی دی اف، استایل های مختلف را در نظر بگیرید
   const styles = StyleSheet.create({
     page: {
-      padding: 40,
+      backgroundColor: "white",
+
+      padding: 32,
     },
-    CodeNightTitle: {
-      fontSize: 16,
+    title: {
+      backgroundColor: "#F4F1EB",
+
+      paddingTop: 24,
+      paddingBottom: 24,
+      paddingLeft: 16,
+      paddingRight: 16,
+      fontWeight: "bold",
+      fontSize: 20,
     },
   });
 
@@ -16,8 +25,11 @@ const MyPdf = () => {
       {/* استایل های ایجاد شده برای پیج را به شکل زیر به آن اعمال می کنیم */}
       <Page size="A4" style={styles.page}>
         <View>
-          {/* استایل های ایجاد شده برای تایتل کدنایت را به شکل زیر به آن اعمال می کنیم */}
-          <Text style={styles.CodeNightTitle}>سلام</Text>
+          <Text>
+            Sepehr
+            <br />
+            Haghdoust
+          </Text>
         </View>
       </Page>
     </Document>

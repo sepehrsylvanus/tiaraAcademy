@@ -16,8 +16,8 @@ export const verifyToken = (token: string) => {
   }
 };
 
-export const exampleRetireveStudents = async () => {
-  const students = await prisma.user.findMany();
-  console.log(students);
-  return students;
+export const retieveUsers = async () => {
+  const users = await prisma.user.findMany();
+  console.log(users);
+  return users;
 };

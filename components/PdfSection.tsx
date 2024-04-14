@@ -15,7 +15,6 @@ import { usePDF } from "@react-pdf/renderer";
 
 const PdfSection = () => {
   const [{ loading, url, error }] = usePDF({
-    // قالب پی دی اف خود را به عنوان داکیومنت این هوک معرفی می کنیم
     document: <MyPdf />,
   });
   console.log(url);

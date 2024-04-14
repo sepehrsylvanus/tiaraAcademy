@@ -17,16 +17,19 @@ import {
   People,
 } from "@mui/icons-material";
 import CustomHamburger from "@/components/hamburger/CustomHamburger";
-import { retrieveTeachers } from "@/actions/actions";
 
 import Links from "./Links";
+import { retieveUsers } from "@/actions/actions";
 
 export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const teachers = await retrieveTeachers();
+  const teachers = await (
+    await retieveUsers()
+  ).filter((user) => user.role === "teacher");
+  console.log(teachers);
   return (
     <div className="flex flex-col px-4 md:pl-[5em] pb-6">
       <div className="ml-auto z-10 fixed top-0 right-0 md:hidden bg-white  rounded-md m-2">

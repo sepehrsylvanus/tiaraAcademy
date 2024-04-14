@@ -6,12 +6,12 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { writingIcons } from "@/constants";
-import { Instructure } from "@/utils/types";
+import { User } from "@/utils/types";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 
-const Links = ({ teachers }: { teachers: Instructure[] }) => {
+const Links = ({ teachers }: { teachers: User[] }) => {
   const path = usePathname();
   console.log(path);
   return (
@@ -42,14 +42,16 @@ const Links = ({ teachers }: { teachers: Instructure[] }) => {
                   <>
                     <Link
                       key={index}
-                      href={`/hub/classes?teacher=${teacher.name}&className=writing`}
+                      href={`/hub/classes?teacher=${
+                        teacher.fName + "-" + teacher.lName
+                      }&className=writing`}
                       className={
                         index !== teachers.length - 1
                           ? "border-b border-slate-300 pb-2"
                           : ""
                       }
                     >
-                      {teacher.name}
+                      {teacher.fName + " " + teacher.lName}
                     </Link>
                   </>
                 ))}

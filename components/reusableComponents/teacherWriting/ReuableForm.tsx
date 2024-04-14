@@ -14,7 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import axios from "axios";
-
+import ReactQuill from "react-quill";
 const ReuableForm = () => {
   const formSchema = z.object({
     band: z.string().min(1),
