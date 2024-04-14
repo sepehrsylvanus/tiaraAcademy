@@ -52,7 +52,7 @@ const Login = () => {
       .then((res) => {
         console.log(res);
         if (res.status === 200) {
-          toast.info(res.data.message, {
+          toast.success(res.data.message, {
             position: "bottom-right",
             autoClose: 5000,
             hideProgressBar: false,

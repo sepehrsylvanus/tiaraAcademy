@@ -1,5 +1,6 @@
 "use client";
 import {
+  CircularProgress,
   FormControl,
   FormControlLabel,
   InputLabel,
@@ -54,19 +55,20 @@ const days = [
 ];
 
 const CreateClass = () => {
+  const [sending, setSending] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: "",
       days: [],
-      price: "",
+
       type: "public",
     },
   });
 
   async function createClass(values: z.infer<typeof formSchema>) {
     console.log(values);
-
+    setSending(true);
     axios
       .post("/api/classes", values)
       .then((res) => {
@@ -85,8 +87,21 @@ const CreateClass = () => {
         form.setValue("days", [""]);
         form.setValue("price", "");
         form.setValue("type", "public");
+        setSending(false);
       })
-      .catch((e) => console.log(e));
+      .catch((e) => {
+        toast.error(e.response.data.error, {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+        setSending(false);
+      });
   }
   return (
     <form
@@ -172,20 +187,14 @@ const CreateClass = () => {
         />
       </FormControl>
       <Button type="submit" className="col-span-2">
-        Submit
+        {sending ? (
+          <div style={{ transform: "scale(.7)" }}>
+            <CircularProgress sx={{ color: "white" }} />
+          </div>
+        ) : (
+          "Create"
+        )}
       </Button>
-      <ToastContainer
-        position="bottom-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      />
     </form>
   );
 };

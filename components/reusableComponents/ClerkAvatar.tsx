@@ -35,11 +35,11 @@ const ClerkAvatar = () => {
       .then((res) => {
         console.log(res);
         toast(res.data);
+        router.push("/");
       })
       .catch((e) => {
         console.log(e);
       });
-    router.push("/sign-in");
   };
 
   useEffect(() => {
@@ -76,8 +76,12 @@ const ClerkAvatar = () => {
         <div className="flex gap-4">
           <Avatar />
           <div>
-            <p>{`${user?.fName} ${user?.lName}`}</p>
-            <p>{user?.email}</p>
+            {user && (
+              <>
+                <p>{`${user?.fName} ${user?.lName}`}</p>
+                <p>{user?.email}</p>
+              </>
+            )}
           </div>
         </div>
         <div className="flex gap-4 justify-center">

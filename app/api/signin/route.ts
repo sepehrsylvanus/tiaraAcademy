@@ -38,7 +38,7 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
     },
     process.env.TOKEN_SERCRET,
     {
-      expiresIn: "7d",
+      expiresIn: "60d",
     }
   );
 
@@ -50,7 +50,7 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
 
   response.cookies.set("token", token, {
     httpOnly: true,
-    maxAge: 60 * 60 * 60 * 24 * 7,
+    maxAge: 60 * 60 * 60 * 24 * 7 * 8,
   });
 
   return response;

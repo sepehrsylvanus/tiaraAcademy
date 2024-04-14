@@ -1,10 +1,11 @@
 export interface User {
   id: string;
   fName: string;
-  lName?: string;
+  lName: string | null;
   email: string;
   password: string;
-  classes: Class[];
+  role: string;
+  classes?: Class[];
 }
 
 export interface Class {

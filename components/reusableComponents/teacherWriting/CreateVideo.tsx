@@ -14,6 +14,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import axios from "axios";
+import { useState } from "react";
 
 const createArticleForm = z.object({
   title: z.string(),
@@ -22,13 +24,16 @@ const createArticleForm = z.object({
 });
 
 const CreateVideo = () => {
+  const [file, setFile] = useState(null);
   const form = useForm<z.infer<typeof createArticleForm>>({
     resolver: zodResolver(createArticleForm),
   });
 
   function onSubmit(values: z.infer<typeof createArticleForm>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
+    axios
+      .post("/api/videos", { values })
+      .then((res) => console.log(res))
+      .catch((e) => console.log(e));
     console.log(values);
   }
   return (
@@ -71,23 +76,11 @@ const CreateVideo = () => {
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="video"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <input
-                  className="formInput w-full "
-                  type="file"
-                  placeholder="Enter Your article title"
-                  {...field}
-                />
-              </FormControl>
-
-              <FormMessage />
-            </FormItem>
-          )}
+        <input
+          onChange={(e) => setFile(e.target.files[0])}
+          className="formInput w-full "
+          type="file"
+          placeholder="Enter Your article title"
         />
 
         <Button type="submit">Create</Button>

@@ -93,7 +93,6 @@ const DeleteClass = () => {
             "Delete"
           )}
         </Button>
-        <ToastContainer />
       </form>
     </Form>
   );

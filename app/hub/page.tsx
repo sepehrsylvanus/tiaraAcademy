@@ -1,4 +1,4 @@
-import { exampleRetireveStudents } from "@/actions/actions";
+import { exampleRetireveStudents, getToken } from "@/actions/actions";
 import StudentHub from "@/components/studentHub/StudentHub";
 import { columns } from "@/components/studentsTable/columns";
 import { DataTable } from "@/components/studentsTable/data-table";
@@ -20,12 +20,21 @@ import CreateVideo from "@/components/reusableComponents/teacherWriting/CreateVi
 import DeleteClass from "@/components/reusableComponents/DeleteClass";
 import CreateClass from "@/components/reusableComponents/CreateClass";
 import CustomHamburger from "@/components/hamburger/CustomHamburger";
-
+import { getSingleUser } from "@/actions/userActions";
+import { usePDF } from "@react-pdf/renderer";
+import MyPdf from "@/components/reusableComponents/myPdf";
+import PdfSection from "@/components/PdfSection";
 const Hub = async () => {
   const users = await exampleRetireveStudents();
+  const token = await getToken();
+  const currentUser = await getSingleUser(token?.value!);
+  console.log(currentUser);
   console.log(users);
   const students = users.filter((user) => user.role === "student");
-  const teachers = users.filter((user) => user.role === "teacher");
+  const teachers = users.filter(
+    (user) => user.role === "adminTeacher" || user.role === "teacher"
+  );
+
   return (
     <div>
       <div className="ml-auto z-10 fixed top-0 right-0 md:hidden bg-white  rounded-md m-2">
@@ -68,40 +77,7 @@ const Hub = async () => {
           {/* ========= */}
           <div className="grid grid-cols-1  grid-flow-dense sm:grid-cols-2 gap-2 mt-2 flex-grow sm:col-span-2">
             {/* ============== */}
-            <div className="pdfs max-h-[480px] overflow-y-auto rounded-md shadow-md p-2 flex flex-col bg-extraText text-lightPrime">
-              <p className="text-2xl">PDF Section</p>
-              <p className="my-2">Send and view PDFs.</p>
-              <Divider />
-              <div className="flex flex-col px-2 gap-3 items-center py-3 m-2 rounded-md ring-1 ring-lightPrime">
-                <div className="w-full flex flex-col gap-2 items-center">
-                  <Avatar sx={{ width: 50, height: 50 }} />
-                  <div className="flex justify-between w-full md:space-y-2 ">
-                    <p>Sepehr</p>
-                    <p>Section 1</p>
-                  </div>
-                  <div className="w-full flex flex-col gap-2">
-                    <Dialog>
-                      <DialogTrigger
-                        suppressHydrationWarning
-                        className="py-2 rounded-md w-full md:mr-2 bg-slate-900/90 text-lightPrime transition hover:outline hover:outline-1 hover:outline-lightPrime hover:text-[#c6d9e6] dark:bg-slate-900/90 dark:text-[#c6d9e6] dark:hover:bg-slate-50/90"
-                      >
-                        Open
-                      </DialogTrigger>
-                      <DialogContent>
-                        <DialogHeader>
-                          <DialogTitle>Teacher Writing Form</DialogTitle>
-                        </DialogHeader>
-                        <ReuableForm />
-                      </DialogContent>
-                    </Dialog>
-
-                    <Link href={"#"}>
-                      <Button className="w-full">Download</Button>
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <PdfSection />
             {/* ============== */}
 
             <div className="rounded-md h-fit shadow-md p-2 space-y-2 flex flex-col  bg-extraText text-lightPrime">
@@ -117,12 +93,14 @@ const Hub = async () => {
           </div>
         </div>
 
-        <div className="col-span-3 row-span-1 overflow-auto">
-          <div className="space-y-2">
-            <p className="font-semibold">Teachers</p>
-            <DataTable columns={columns} data={teachers} />
+        {currentUser?.role === "admin" && (
+          <div className="col-span-3 row-span-1 overflow-auto">
+            <div className="space-y-2">
+              <p className="font-semibold">Teachers</p>
+              <DataTable columns={columns} data={teachers} />
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       {/* <StudentHub/> */}

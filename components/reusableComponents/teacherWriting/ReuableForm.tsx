@@ -12,6 +12,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { useState } from "react";
+import axios from "axios";
 
 const ReuableForm = () => {
   const formSchema = z.object({
@@ -27,8 +29,10 @@ const ReuableForm = () => {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
+    axios
+      .post("/api/makePdf", { values })
+      .then((res) => console.log(res))
+      .catch((e) => console.log(e));
     console.log(values);
   }
 
