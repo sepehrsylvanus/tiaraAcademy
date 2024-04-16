@@ -21,3 +21,17 @@ export const retieveUsers = async () => {
   console.log(users);
   return users;
 };
+
+export const postWriting = async (data: FormData) => {
+  console.log(data);
+  const name = data.get("name");
+  const email = data.get("email");
+  const subject = data.get("subject");
+  const image = data.get("image");
+  const writing = data.get("writing");
+  console.log(name);
+  console.log(email);
+  console.log(subject);
+  console.log(image);
+  console.log(writing);
+};
