@@ -37,3 +37,13 @@ model Class {
   memberID String?  @unique
   member   User?    @relation(fields: [memberID], references: [id])
 }
+
+model Writing {
+  id            String  @id @default(cuid()) @map("_id")
+  name          String
+  teacherId     String
+  email         String
+  subject       String
+  subjectImgURL String?
+  writing       String
+}

@@ -1,6 +1,9 @@
 .textFieldRoot {
+    border: 1px solid #1313134a;
 }
 .imgLabel{
     color: rgba(0, 0, 0, 0.6);
-    border: 1px solid rgba(0, 0, 0, 0.6);
+    border: 1px solid #1313134a;
+    padding: 1em .8em;
+    border-radius: 4px;
 }

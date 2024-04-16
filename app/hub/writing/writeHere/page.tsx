@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 
 import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { S3 } from "aws-sdk";
 import axios from "axios";
 import { postWriting } from "@/actions/actions";
@@ -18,9 +18,13 @@ import {
   TextField,
 } from "@mui/material";
 import styles from "./writeHere.module.css";
+
 const WriteHere = () => {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [writing, setWriting] = useState<string>();
+useEffect(() => {
+ console.log(selectedImage)
+}, [selectedImage])
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const imageFile = e.target.files ? e.target.files[0] : null;
@@ -43,6 +47,7 @@ const WriteHere = () => {
           </p>
 
           <TextField
+          required
             classes={{
               root: styles.textFieldRoot,
             }}
@@ -50,16 +55,20 @@ const WriteHere = () => {
             name="name"
             placeholder="Write your name here..."
           />
-          <FormControl>
-            <InputLabel htmlFor="component-simple">Name</InputLabel>
-            <OutlinedInput id="component-simple" />
-          </FormControl>
+       
           <TextField
-            label="Email"
-            name="email"
-            placeholder="Write you email here..."
+          required
+            classes={{
+              root: styles.textFieldRoot,
+            }}
+            label="Teacher ID"
+            name="teacherId"
+            placeholder="Write your name here..."
           />
+       
+         
           <TextField
+          required
             label="Subject"
             name="subject"
             placeholder="Write your subject here..."
@@ -69,12 +78,14 @@ const WriteHere = () => {
             type="file"
             name="image"
             sx={{ display: "none" }}
+            onChange={handleImageChange}
           />
           <label htmlFor="writingImg" className={styles.imgLabel}>
-            Choose your Image
+            {`Choosed => ${selectedImage?.name || "Not chosen yet :)"}`}
           </label>
 
           <TextField
+          required
             multiline
             label="Writing"
             placeholder="Write your writing..."
