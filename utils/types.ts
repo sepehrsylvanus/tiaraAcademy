@@ -18,11 +18,21 @@ export interface Class {
   tutor: User[];
 }
 
-export type UserProps = {
+export interface UserProps {
   id: string;
   fName: string;
   lName: string | null;
   email: string;
   password: string;
   role: string;
-};
+}
+
+export interface Writings {
+  id: string;
+  name: string;
+  teacherId: string;
+  email: string;
+  subject: string;
+  subjectImgURL: string;
+  writing: string;
+}

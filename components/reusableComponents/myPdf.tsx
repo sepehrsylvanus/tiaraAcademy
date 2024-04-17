@@ -1,7 +1,16 @@
-import { Page, Text, View, Document, StyleSheet } from "@react-pdf/renderer";
+import { Writings } from "@/utils/types";
+import {
+  Page,
+  Text,
+  View,
+  Document,
+  StyleSheet,
+  Image,
+} from "@react-pdf/renderer";
 
-const MyPdf = () => {
+const MyPdf = ({ details }: { details: Writings }) => {
   // در این قسمت می توانید برای هریک از عناصر پی دی اف، استایل های مختلف را در نظر بگیرید
+  console.log(details);
   const styles = StyleSheet.create({
     page: {
       backgroundColor: "white",
@@ -25,11 +34,11 @@ const MyPdf = () => {
       {/* استایل های ایجاد شده برای پیج را به شکل زیر به آن اعمال می کنیم */}
       <Page size="A4" style={styles.page}>
         <View>
-          <Text>
-            Sepehr
-            <br />
-            Haghdoust
-          </Text>
+          <Text>{details.name}</Text>
+          <Text>{details.email}</Text>
+          <Text>{details.subject}</Text>
+          <Image src={details.subjectImgURL} />
+          <Text>{details.writing}</Text>
         </View>
       </Page>
     </Document>

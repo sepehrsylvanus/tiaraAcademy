@@ -20,7 +20,6 @@ import {
 } from "@/components/ui/table";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ToastContainer } from "react-toastify";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
@@ -135,7 +134,6 @@ export function DataTable<TData, TValue>({
           Next
         </Button>
       </div>
-      <ToastContainer />
     </div>
   );
 }
