@@ -15,77 +15,33 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import axios from "axios";
-import { useState } from "react";
-
-const createArticleForm = z.object({
-  title: z.string(),
-  time: z.string(),
-  video: z.any(),
-});
+import { ChangeEvent, useState } from "react";
+import { postVideo } from "@/actions/actions";
 
 const CreateVideo = () => {
-  const [file, setFile] = useState(null);
-  const form = useForm<z.infer<typeof createArticleForm>>({
-    resolver: zodResolver(createArticleForm),
-  });
+  const [video, setVideo] = useState<File>();
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setVideo(e.target.files[0]);
+    } else {
+      console.log("There is no video");
+    }
+  };
 
-  function onSubmit(values: z.infer<typeof createArticleForm>) {
-    axios
-      .post("/api/videos", { values })
-      .then((res) => console.log(res))
-      .catch((e) => console.log(e));
-    console.log(values);
-  }
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col space-y-3"
-      >
-        <FormField
-          control={form.control}
-          name="title"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <input
-                  className="formInput w-full"
-                  placeholder="Title..."
-                  {...field}
-                />
-              </FormControl>
+    <form action={postVideo} className="flex flex-col space-y-3">
+      <input className="formInput w-full" placeholder="Title..." name="title" />
+      <input
+        onChange={handleChange}
+        className="formInput w-full "
+        type="file"
+        placeholder="Enter Your article title"
+        name="video"
+        accept=".mp4, .mkv"
+      />
 
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="time"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <input
-                  className="formInput w-full"
-                  placeholder="Time..."
-                  {...field}
-                />
-              </FormControl>
-
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <input
-          onChange={(e) => setFile(e.target.files[0])}
-          className="formInput w-full "
-          type="file"
-          placeholder="Enter Your article title"
-        />
-
-        <Button type="submit">Create</Button>
-      </form>
-    </Form>
+      <Button type="submit">Create</Button>
+    </form>
   );
 };
 

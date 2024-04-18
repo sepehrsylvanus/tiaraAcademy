@@ -22,9 +22,9 @@ import styles from "./writeHere.module.css";
 const WriteHere = () => {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [writing, setWriting] = useState<string>();
-useEffect(() => {
- console.log(selectedImage)
-}, [selectedImage])
+  useEffect(() => {
+    console.log(selectedImage);
+  }, [selectedImage]);
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const imageFile = e.target.files ? e.target.files[0] : null;
@@ -46,48 +46,43 @@ useEffect(() => {
             Here you can write and send your first section writing
           </p>
 
-          <TextField
-          required
-            classes={{
-              root: styles.textFieldRoot,
-            }}
-            label="Name"
+          <input
+            required
+            className="formInput w-full py-4"
             name="name"
             placeholder="Write your name here..."
           />
-       
-          <TextField
-          required
-            classes={{
-              root: styles.textFieldRoot,
-            }}
-            label="Teacher ID"
+
+          <input
+            required
+            className="formInput w-full py-4"
             name="teacherId"
             placeholder="Write your name here..."
           />
-       
-         
-          <TextField
-          required
-            label="Subject"
+
+          <input
+            required
+            className="formInput w-full py-4"
             name="subject"
             placeholder="Write your subject here..."
           />
-          <TextField
+          <input
             id="writingImg"
             type="file"
             name="image"
-            sx={{ display: "none" }}
+            style={{ display: "none" }}
             onChange={handleImageChange}
+            accept=".jpg, .jpeg, .png"
           />
-          <label htmlFor="writingImg" className={styles.imgLabel}>
-            {`Choosed => ${selectedImage?.name || "Not chosen yet :)"}`}
+          <label htmlFor="writingImg" className="formInput w-full py-4">
+            {selectedImage?.name && "Choosed => "}
+            {` ${selectedImage?.name || "Not chosen yet :)"}`}
           </label>
 
-          <TextField
-          required
-            multiline
-            label="Writing"
+          <textarea
+            required
+            rows={5}
+            className="formInput w-full py-4 resize-none"
             placeholder="Write your writing..."
             value={writing}
             onChange={(e) => setWriting(e.target.value)}

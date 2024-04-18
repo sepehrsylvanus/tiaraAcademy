@@ -24,18 +24,29 @@ model User {
   email    String  @unique
   password String
 
-  role  Role    @default(student)
-  class Class[]
+  role Role @default(student)
+
+  ClassUsers ClassUsers[]
+  Class      Class[]
 }
 
 model Class {
-  id       String   @id @default(cuid()) @map("_id")
-  title    String
-  days     String[]
-  price    String
-  type     String
-  memberID String?  @unique
-  member   User?    @relation(fields: [memberID], references: [id])
+  id         String       @id @default(cuid()) @map("_id")
+  title      String
+  days       String[]
+  price      String
+  type       String
+  classUsers ClassUsers[]
+  creatorId  String
+  creator    User         @relation(fields: [creatorId], references: [id])
+}
+
+model ClassUsers {
+  id      String @id @default(cuid()) @map("_id")
+  classId String
+  class   Class  @relation(fields: [classId], references: [id])
+  userId  String
+  user    User   @relation(fields: [userId], references: [id])
 }
 
 model Writing {
@@ -46,4 +57,11 @@ model Writing {
   subject       String
   subjectImgURL String?
   writing       String
+}
+
+model Video {
+  id    String @id @default(cuid()) @map("_id")
+  title String
+
+  videoLink String?
 }
