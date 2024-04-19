@@ -15,7 +15,7 @@ const Links = ({ teachers }: { teachers: User[] }) => {
   const path = usePathname();
   console.log(path);
   return (
-    <div className=" grid text-sm grid-cols-2 mx-auto justify-items-center gap-3 mt-4 transition sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 lg:relative left-12">
+    <div className=" grid text-sm grid-cols-2 mx-auto justify-center justify-items-center gap-3 mt-4 transition sm:grid-cols-3 md:grid-cols-4  lg:relative left-12">
       {writingIcons.map((writingIcon, index) => {
         if (writingIcon.link) {
           return (

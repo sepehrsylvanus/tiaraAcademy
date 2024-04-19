@@ -14,8 +14,8 @@ export interface Class {
   days: string[];
   price: string;
   type: string;
-  tutorID?: string;
-  tutor: User[];
+  creatorId?: string;
+  creator: User;
 }
 
 export interface UserProps {

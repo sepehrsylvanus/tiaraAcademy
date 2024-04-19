@@ -10,7 +10,7 @@ import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
 import SchoolIcon from "@mui/icons-material/School";
 import ClassesDate from "@/components/classesDate/ClassesDate";
 import CustomSelect from "@/components/customSelect/CustomSelect";
-import { ClassProps } from "@/utils/types";
+
 import { getSingleClass } from "@/actions/actions";
 import CustomHamburger from "@/components/hamburger/CustomHamburger";
 
@@ -30,10 +30,18 @@ const privateTimes = [
 ];
 
 const publicTimes = ["9", "10:45", "14", "15:45", "17:30", "19:15"];
-
-const MyClass = async (details: ClassProps) => {
-  const { params, searchParams } = details;
-  const singleClass = await getSingleClass(searchParams.id);
+type DetailsProps = {
+  params: {
+    class: string;
+  };
+  searchParams: {};
+};
+const MyClass = async (details: DetailsProps) => {
+  const { params } = details;
+  console.log(details);
+  console.log(params);
+  const singleClass = await getSingleClass(params.class);
+  console.log(singleClass);
   return (
     <div className={styles.container}>
       <div className="ml-auto z-10 fixed top-0  right-0 md:hidden bg-white  rounded-md m-2">
@@ -46,13 +54,12 @@ const MyClass = async (details: ClassProps) => {
             تغییر کلاس جاری
           </Link>
         </div>
-        <h2 className={styles.title}>{`${params.class
+        <h2 className={styles.title}>{`${singleClass?.title
           .split("-")
           .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-          .join(" ")} - ${searchParams.teacher
-          .split("-")
-          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-          .join(" ")}`}</h2>
+          .join(" ")} - ${singleClass?.creator.fName} ${
+          singleClass?.creator.lName
+        }`}</h2>
       </section>
       <Divider sx={{ marginTop: "1em" }} />
       <section className={styles.body}>
@@ -113,7 +120,9 @@ const MyClass = async (details: ClassProps) => {
               </div>
               <div>
                 <CustomSelect
-                  times={singleClass?.isPrivate ? privateTimes : publicTimes}
+                  times={
+                    singleClass?.type === "private" ? privateTimes : publicTimes
+                  }
                 />
               </div>
             </div>

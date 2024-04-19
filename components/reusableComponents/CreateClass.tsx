@@ -72,7 +72,7 @@ const CreateClass = () => {
       .post("/api/classes", values)
       .then((res) => {
         console.log(res);
-        toast.info(res.data.message, {
+        toast.success(res.data.message, {
           position: "bottom-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -83,7 +83,7 @@ const CreateClass = () => {
           theme: "light",
         });
         form.setValue("title", "");
-        form.setValue("days", [""]);
+        form.setValue("days", []);
         form.setValue("price", "");
         form.setValue("type", "public");
         setSending(false);

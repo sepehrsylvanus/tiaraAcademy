@@ -173,3 +173,16 @@ export const deleteVideo = async (data: FormData) => {
 
   console.log("delete");
 };
+
+export const getSingleClass = async (id: string) => {
+  const result = await prisma.class.findUnique({
+    where: {
+      id,
+    },
+    include: {
+      creator: true,
+    },
+  });
+  console.log(result);
+  return result;
+};

@@ -14,10 +14,6 @@ export const writingIcons = [
   {
     title: "Upload one",
   },
-  {
-    title: "Score Band",
-    link: "#",
-  },
 ];
 
 export const howTooStudy = [];

@@ -1,7 +1,13 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import styles from "./classes.module.css";
-import { Divider, FormControl, IconButton, MenuItem } from "@mui/material";
+import {
+  Chip,
+  Divider,
+  FormControl,
+  IconButton,
+  MenuItem,
+} from "@mui/material";
 import ClassIcon from "@mui/icons-material/Class";
 import SchoolIcon from "@mui/icons-material/School";
 import { CustomClassTextField } from "./styledComponents";
@@ -18,17 +24,46 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Meteors } from "@/components/ui/meteors";
 import axios from "axios";
 import { toast } from "react-toastify";
-const page = () => {
-  const [loading, setLoading] = useState(false);
-  const [classes, setClasses] = useState();
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+
+const Classes = () => {
+  const [loading, setLoading] = useState(true);
+  const [classes, setClasses] = useState<Class[]>();
+  const [filteredClasses, setFilteredClasses] = useState(classes);
+  const [teachersname, setTeachersname] = useState<string[]>();
+  useEffect(() => {
+    console.log(teachersname);
+  }, [teachersname]);
+
   const searchParams = useSearchParams();
+  useEffect(() => {
+    console.log(classes);
+  }, [classes]);
 
   useEffect(() => {
-    const classes = axios
+    axios
       .get("/api/classes")
       .then((res) => {
-        setClasses(res.data);
-        console.log(res.data);
+        setClasses(res.data.classes);
+        setFilteredClasses(res.data.classes);
+        console.log(res.data.classes);
+        const teachersNameSet: Set<string> = new Set();
+        res.data.classes.forEach((item: Class) => {
+          const fullName = `${item.creator.fName} ${item.creator.lName}`;
+          teachersNameSet.add(fullName);
+        });
+
+        const uniqueTeachersName: string[] = Array.from(teachersNameSet);
+        console.log(uniqueTeachersName);
+        setTeachersname(uniqueTeachersName);
+        setLoading(false);
       })
       .catch((e) => toast.error(e.response.data.error));
   }, []);
@@ -58,32 +93,46 @@ const page = () => {
 
   const filterData = (data: FormInputs) => {
     const { className, teacherName } = data;
+    console.log(className);
+    console.log(teacherName);
+    const classFilterValue = className.split(" ").join("").toLowerCase();
+    if (className && teacherName) {
+      const result = classes?.filter((eachClass) => {
+        const classToFilter = eachClass.title.split(" ").join("").toLowerCase();
+        const teacherToFilter =
+          `${eachClass.creator.fName} ${eachClass.creator.lName}`
+            .split(" ")
+            .join("")
+            .toLowerCase();
 
-    const classNameToFilter = className?.split(" ").join("").toLowerCase();
-
-    const teacherNameToFilter = teacherName?.split(" ").join("").toLowerCase();
-
-    const result = flatClasses.filter((item) => {
-      const lowerTitle = item.title.split(" ").join("").toLowerCase();
-      const lowerTeacher = item.classInstructors[0].instructor.name
-        .split(" ")
-        .join("")
-        .toLowerCase();
-
-      if (classNameToFilter && teacherNameToFilter) {
         return (
-          lowerTitle.startsWith(classNameToFilter) &&
-          lowerTeacher === teacherNameToFilter
+          classToFilter.startsWith(classFilterValue) &&
+          teacherToFilter === teacherName
         );
-      } else if (classNameToFilter) {
-        return lowerTitle.startsWith(classNameToFilter);
-      } else if (teacherNameToFilter) {
-        return lowerTeacher === teacherNameToFilter;
-      }
-    });
+      });
 
-    console.log({ result });
-    setFilteredClasses(result);
+      setFilteredClasses(result);
+    } else if (className) {
+      const result = classes?.filter((eachClass) => {
+        const classToFilter = eachClass.title.split(" ").join("").toLowerCase();
+
+        return classToFilter.startsWith(classFilterValue);
+      });
+      setFilteredClasses(result);
+    } else if (teacherName) {
+      const result = classes?.filter((eachClass) => {
+        const teacherToFilter =
+          `${eachClass.creator.fName} ${eachClass.creator.lName}`
+            .split(" ")
+            .join("")
+            .toLowerCase();
+
+        return teacherToFilter === teacherName;
+      });
+      setFilteredClasses(result);
+    } else {
+      setFilteredClasses(classes);
+    }
   };
 
   // useEffect(() => {
@@ -133,7 +182,14 @@ const page = () => {
                     variant="outlined"
                     label="Choose your teacher"
                   >
-                    <MenuItem value="{item}">Heelo</MenuItem>
+                    <MenuItem value="">Without filter</MenuItem>
+                    {teachersname?.map((eachName) => (
+                      <MenuItem
+                        value={eachName.split(" ").join("").toLowerCase()}
+                      >
+                        {eachName}
+                      </MenuItem>
+                    ))}
                   </CustomClassTextField>
                 )}
               />
@@ -143,7 +199,6 @@ const page = () => {
           <Button
             onClick={handleSubmit(filterData)}
             className=" bg-lightText !text-lightPrime text- sm:self-end sm:w-fit"
-            disabled={isButtonDisabled}
           >
             Filter
           </Button>
@@ -163,11 +218,41 @@ const page = () => {
             <Skeleton className="w-[261px] h-[366px] rounded-md" />
           </>
         ) : (
-          <p>Class</p>
+          filteredClasses?.map((eachClass) => {
+            let days = eachClass.days.join(" / ");
+
+            return (
+              <Card key={eachClass.id} className="text-center ">
+                <CardHeader>
+                  <CardTitle>{eachClass.title}</CardTitle>
+                </CardHeader>
+                <CardContent className=" relative overflow-hidden">
+                  <Meteors />
+                  <div className="flex items-center justify-around">
+                    <p>{`${eachClass.creator.fName} ${eachClass.creator.lName}`}</p>
+                    <p>{eachClass.price}</p>
+                    <Chip label={eachClass.type} />
+                  </div>
+
+                  <p className=" font-semibold mt-2">
+                    {days || "There is no dedicated day for this class"}
+                  </p>
+                </CardContent>
+                <CardFooter>
+                  <Link
+                    href={`/hub/classes/${eachClass.id}`}
+                    className="w-full"
+                  >
+                    <Button className="w-full">Join</Button>
+                  </Link>
+                </CardFooter>
+              </Card>
+            );
+          })
         )}
       </div>
     </div>
   );
 };
 
-export default page;
+export default Classes;
