@@ -57,7 +57,7 @@ const WriteHere = () => {
             required
             className="formInput w-full py-4"
             name="teacherId"
-            placeholder="Write your name here..."
+            placeholder="Write your teacher ID here..."
           />
 
           <input

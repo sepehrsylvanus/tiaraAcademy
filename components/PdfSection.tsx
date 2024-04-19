@@ -48,8 +48,16 @@ const PdfSection = () => {
       <p className="my-2">Send and view PDFs.</p>
       <Divider />
       <div className="flex flex-col px-2 gap-3 items-center py-3 m-2 rounded-md ring-1 ring-lightPrime">
-        {writings?.map((writing) => (
-          <EachWritingCard writing={writing} />
+        {writings?.map((writing, index) => (
+          <div
+            key={writing.id}
+            className={`${
+              index < writings.length - 1 &&
+              "border-b border-dashed border-slate-200 pb-6 mb-2"
+            } w-full`}
+          >
+            <EachWritingCard writing={writing} />
+          </div>
         ))}
       </div>
     </div>

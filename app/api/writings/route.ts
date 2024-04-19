@@ -15,9 +15,12 @@ export const POST = async (req: NextRequest) => {
 
 export const GET = async () => {
   try {
+    const result = [];
     const writings = await prisma.writing.findMany();
-    console.log(writings);
-    return NextResponse.json(writings);
+    result.push(...writings);
+    const writingFiles = await prisma.writingFile.findMany();
+    result.push(...writingFiles);
+    return NextResponse.json(result);
   } catch (error) {
     return NextResponse.json(
       { message: "There is an error in server" },

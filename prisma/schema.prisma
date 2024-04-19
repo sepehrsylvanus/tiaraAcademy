@@ -59,6 +59,12 @@ model Writing {
   writing       String
 }
 
+model WritingFile {
+  id          String  @id @default(cuid()) @map("_id")
+  teacherId   String
+  writingLink String?
+}
+
 model Video {
   id    String @id @default(cuid()) @map("_id")
   title String

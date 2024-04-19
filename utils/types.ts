@@ -35,4 +35,5 @@ export interface Writings {
   subject: string;
   subjectImgURL: string;
   writing: string;
+  writingLink?: string;
 }

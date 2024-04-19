@@ -20,9 +20,19 @@ const EachWritingCard = ({ writing }: { writing: Writings }) => {
   return (
     <div key={writing.id} className="w-full flex flex-col gap-2 items-center">
       <Avatar sx={{ width: 50, height: 50 }} />
-      <div className="flex justify-between w-full md:space-y-2 ">
-        <p>Sepehr</p>
-        <p>Section 1</p>
+      <div
+        className={`flex  w-full ${
+          !writing.name ? " justify-center" : "justify-between"
+        } md:space-y-2 `}
+      >
+        {writing.name ? (
+          <>
+            <p>{writing.name}</p>
+            <p>{writing.subjectImgURL ? "Section 1" : "Section 2"}</p>
+          </>
+        ) : (
+          <p className="text-center ">This writing uploaded in pdf</p>
+        )}
       </div>
       <div className="w-full flex flex-col gap-2">
         <Dialog>
@@ -40,9 +50,15 @@ const EachWritingCard = ({ writing }: { writing: Writings }) => {
           </DialogContent>
         </Dialog>
 
-        <a href={url!}>
-          <Button className="w-full">Download</Button>
-        </a>
+        {writing.name ? (
+          <a href={url!}>
+            <Button className="w-full">Download</Button>
+          </a>
+        ) : (
+          <a href={writing.writingLink}>
+            <Button className="w-full">Download</Button>
+          </a>
+        )}
       </div>
     </div>
   );
