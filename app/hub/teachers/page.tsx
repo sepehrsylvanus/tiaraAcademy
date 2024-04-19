@@ -17,11 +17,11 @@ import Link from "next/link";
 import TelegramIcon from "@mui/icons-material/Telegram";
 import Image from "next/image";
 import BrownLink from "@/components/reusableComponents/brownLink/BrownLink";
-import { retrieveTeachers } from "@/actions/actions";
+
 import { Controller } from "react-hook-form";
 import { CustomClassTextField } from "../classes/styledComponents";
 import StarIcon from "@mui/icons-material/Star";
-import { Instructure } from "@/utils/types";
+
 import {
   Carousel,
   CarouselContent,
@@ -32,27 +32,46 @@ import {
 
 import CustomHamburger from "@/components/hamburger/CustomHamburger";
 import { Skeleton } from "@/components/ui/skeleton";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { User } from "@/utils/types";
 
 const page = () => {
-  const [teachers, setTeachers] = useState<Instructure[]>([]);
-  const [filteredTeachers, setFilteredTeachers] = useState(teachers);
+  const [teachers, setTeachers] = useState<User[]>([]);
+  const [filteredTeachers, setFilteredTeachers] = useState<User[]>(teachers);
   const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    const fetchTeachers = async () => {
-      const teachers = await retrieveTeachers();
-      setTeachers(teachers);
-      setFilteredTeachers(teachers);
-      setLoading(false);
-    };
-    fetchTeachers();
+    axios
+      .get("/api/users")
+      .then((res) => {
+        const teachers = res.data.filter(
+          (teacher: User) =>
+            teacher.role === "teacher" || teacher.role === "adminTeacher"
+        );
+        setTeachers(teachers);
+        setFilteredTeachers(teachers);
+        setLoading(false);
+      })
+      .catch((e) => console.log(e));
   }, []);
+
+  // useEffect(() => {
+  //   const fetchTeachers = async () => {
+  //     setTeachers(teachers);
+  //     setFilteredTeachers(teachers);
+  //     setLoading(false);
+  //   };
+  //   fetchTeachers();
+  // }, []);
 
   // START OF FILTER
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const nameToFilter = e.target.value;
 
     const result = teachers.filter((teacher) => {
-      const teacherName = teacher.name.split(" ").join("").toLowerCase();
+      const teachersName = `${teacher.fName} ${teacher.lName}`;
+      const teacherName = teachersName.split(" ").join("").toLowerCase();
 
       return teacherName.startsWith(nameToFilter);
     });
@@ -100,12 +119,9 @@ const page = () => {
                   <CarouselItem>
                     <Card className="flex flex-col gap-6 text-center justify-center rounded-md p-4 w-full bg-extraBg text-lightPrime">
                       <CardContent className="flex flex-col items-center gap-4">
-                        <Avatar
-                          src={teacher.profileImg}
-                          sx={{ width: 54, height: 54 }}
-                        />
-                        <p className=" font-bold ">{teacher.name}</p>
-                        <p>{teacher.job}</p>
+                        <Avatar sx={{ width: 54, height: 54 }} />
+                        <p className=" font-bold ">{`${teacher.fName} ${teacher.lName}`}</p>
+
                         <p>{teacher.role}</p>
                         <Link
                           href={`/hub/teachers/${teacher.id}`}
@@ -133,12 +149,9 @@ const page = () => {
                   className={`${styles.eachTeacerCard} bg-extraBg text-lightPrime`}
                 >
                   <CardContent className="flex flex-col items-center gap-4">
-                    <Avatar
-                      src={teacher.profileImg}
-                      sx={{ width: 54, height: 54 }}
-                    />
-                    <p className=" font-bold ">{teacher.name}</p>
-                    <p>{teacher.job}</p>
+                    <Avatar sx={{ width: 54, height: 54 }} />
+                    <p className=" font-bold ">{`${teacher.fName} ${teacher.lName}`}</p>
+
                     <p>{teacher.role}</p>
                     <Link
                       href={`/hub/teachers/${teacher.id}`}
