@@ -18,12 +18,15 @@ const EachWritingCard = ({ writing }: { writing: Writings }) => {
     document: <MyPdf details={writing} />,
   });
   return (
-    <div key={writing.id} className="w-full flex flex-col gap-2 items-center">
+    <div
+      key={writing.id}
+      className="w-full flex flex-col gap-2 lg: items-center"
+    >
       <Avatar sx={{ width: 50, height: 50 }} />
       <div
         className={`flex  w-full ${
           !writing.name ? " justify-center" : "justify-between"
-        } md:space-y-2 `}
+        }  md:space-y-2 `}
       >
         {writing.name ? (
           <>

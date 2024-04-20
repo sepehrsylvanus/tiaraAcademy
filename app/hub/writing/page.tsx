@@ -30,8 +30,8 @@ const WritingPage = async () => {
 
         {howTooStudy.map((section, index) => (
           <section className="flex flex-col gap-4 my-6" key={index}>
-            <h4 className="font-bold text-2xl">{section.title}</h4>
-            <p className=" text-extraBg">{section.desc}</p>
+            {/* <h4 className="font-bold text-2xl">{section.title}</h4>
+            <p className=" text-extraBg">{section.desc}</p> */}
           </section>
         ))}
 

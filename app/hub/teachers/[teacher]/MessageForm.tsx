@@ -3,7 +3,6 @@ import { z } from "zod";
 import { Controller, useForm } from "react-hook-form";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useUser } from "@clerk/nextjs";
 
 const messageValidation = z.object({
   name: z.string().min(2, { message: "Please enter a proper name" }),
@@ -18,18 +17,12 @@ function onSubmit(values: z.infer<typeof messageValidation>) {
 }
 
 const MessageForm = () => {
-  const { user } = useUser();
-  console.log({ user });
   const {
     control,
     handleSubmit,
     formState: { errors },
   } = useForm<z.infer<typeof messageValidation>>({
     resolver: zodResolver(messageValidation),
-    defaultValues: {
-      name: user?.firstName!,
-      email: user?.emailAddresses[0].emailAddress,
-    },
   });
   console.log({ errors });
   return (

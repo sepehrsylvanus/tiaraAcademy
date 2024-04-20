@@ -82,7 +82,7 @@ const Videos = () => {
                     2:45
                   </span>
                 </div>
-                <h4 className="font-bold mt-2">{eachCard.title}</h4>
+                {/* <h4 className="font-bold mt-2">{eachCard.title}</h4> */}
               </CardContent>
             </Card>
           ))}

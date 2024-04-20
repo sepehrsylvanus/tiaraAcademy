@@ -43,6 +43,8 @@ const Classes = () => {
   }, [teachersname]);
 
   const searchParams = useSearchParams();
+  const teacherParam = searchParams.get("teacher");
+
   useEffect(() => {
     console.log(classes);
   }, [classes]);
@@ -53,6 +55,7 @@ const Classes = () => {
       .then((res) => {
         setClasses(res.data.classes);
         setFilteredClasses(res.data.classes);
+
         console.log(res.data.classes);
         const teachersNameSet: Set<string> = new Set();
         res.data.classes.forEach((item: Class) => {
@@ -63,6 +66,18 @@ const Classes = () => {
         const uniqueTeachersName: string[] = Array.from(teachersNameSet);
         console.log(uniqueTeachersName);
         setTeachersname(uniqueTeachersName);
+        if (teacherParam) {
+          const filterVal = teacherParam.split("-").join("").toLowerCase();
+          console.log(filterVal);
+          const classes: Class[] = res.data.classes;
+          const result = classes.filter((eachClass) =>
+            `${eachClass.creator.fName}${eachClass.creator.lName}`
+              .toLowerCase()
+              .startsWith(filterVal)
+          );
+          console.log(result);
+          setFilteredClasses(result);
+        }
         setLoading(false);
       })
       .catch((e) => toast.error(e.response.data.error));

@@ -20,7 +20,7 @@ import { getSingleUser } from "@/actions/userActions";
 import EachWritingCard from "./reusableComponents/EachWritingCard";
 
 const PdfSection = () => {
-  const [writings, setWritings] = useState<Writings[]>();
+  const [writings, setWritings] = useState<Writings[]>([]);
   useEffect(() => {
     console.log(writings);
   }, [writings]);
@@ -43,22 +43,27 @@ const PdfSection = () => {
   }, []);
 
   return (
-    <div className="pdfs max-h-[480px] overflow-y-auto rounded-md shadow-md p-2 flex flex-col bg-extraText text-lightPrime">
-      <p className="text-2xl">PDF Section</p>
-      <p className="my-2">Send and view PDFs.</p>
-      <Divider />
-      <div className="flex flex-col px-2 gap-3 items-center py-3 m-2 rounded-md ring-1 ring-lightPrime">
-        {writings?.map((writing, index) => (
-          <div
-            key={writing.id}
-            className={`${
-              index < writings.length - 1 &&
-              "border-b border-dashed border-slate-200 pb-6 mb-2"
-            } w-full`}
-          >
-            <EachWritingCard writing={writing} />
-          </div>
-        ))}
+    <div className="pdfs max-h-[480px] overflow-y-auto rounded-md shadow-md p-2 flex flex-col bg-extraText text-lightPrime ">
+      <div
+        className={`${
+          writings.length > 0 && "grid grid-cols-1 lg:grid-cols-5"
+        } px-2 gap-3 items-center py-3 m-2 rounded-md ring-1 ring-lightPrime`}
+      >
+        {writings?.length > 0 ? (
+          writings?.map((writing, index) => (
+            <div
+              key={writing.id}
+              className={`${
+                index < writings.length - 1 &&
+                " border-r border-dashed border-slate-200 pr-6 mr-2"
+              } w-full`}
+            >
+              <EachWritingCard writing={writing} />
+            </div>
+          ))
+        ) : (
+          <p className="text-center">You don't have any writing</p>
+        )}
       </div>
     </div>
   );

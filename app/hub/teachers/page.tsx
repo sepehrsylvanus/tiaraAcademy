@@ -161,9 +161,14 @@ const page = () => {
                     </Link>
                   </CardContent>
                   <CardFooter className="p-0">
-                    <button className="  bg-extraText w-full py-4 rounded-md text-white hover:bg-lightPrime hover:text-extraBg transition">
-                      See Classes
-                    </button>
+                    <Link
+                      href={`/hub/classes?teacher=${teacher.fName}-${teacher.lName}`}
+                      className="w-full"
+                    >
+                      <button className="  bg-extraText w-full py-4 rounded-md text-white hover:bg-lightPrime hover:text-extraBg transition">
+                        See Classes
+                      </button>
+                    </Link>
                   </CardFooter>
                 </Card>
               </div>
