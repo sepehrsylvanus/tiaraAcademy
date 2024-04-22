@@ -116,6 +116,10 @@ export const postVideo = async (data: FormData) => {
     data: videoData,
   });
   console.log(newvideo);
+  console.log(video);
+  const name = newvideo.id + "." + video.name.split(".").pop();
+  console.log(name);
+
   try {
     const s3 = new S3({
       accessKeyId: process.env.LIARA_ACCESS_KEY_ID,
@@ -125,13 +129,13 @@ export const postVideo = async (data: FormData) => {
 
     const params = {
       Bucket: process.env.LIARA_BUCKET_NAME!,
-      Key: newvideo.id,
+      Key: name,
       Body: buffer!,
     };
     const response = await s3.upload(params).promise();
     const permanentSignedUrl = s3.getSignedUrl("getObject", {
       Bucket: process.env.LIARA_BUCKET_NAME,
-      Key: video?.name,
+      Key: name,
       Expires: 31536000, // 1 year
     });
     await prisma.video.update({
@@ -233,4 +237,20 @@ export const postWritingFile = async (data: FormData) => {
   } catch (error) {
     console.log(error);
   }
+};
+
+export const getSingleUserDetails = async (id: string) => {
+  return prisma.user.findUnique({
+    where: {
+      id,
+    },
+  });
+};
+
+export const getClasses = async () => {
+  return prisma.class.findMany({
+    include: {
+      creator: true,
+    },
+  });
 };

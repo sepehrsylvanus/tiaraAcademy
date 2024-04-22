@@ -37,3 +37,8 @@ export interface Writings {
   writing: string;
   writingLink?: string;
 }
+export interface Video {
+  id: string;
+  title: string;
+  videoLink: string;
+}
