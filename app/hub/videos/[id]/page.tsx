@@ -2,7 +2,8 @@
 import { Video as VideoType } from "@/utils/types";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import Video from "next-video";
+import ReactPlayer from "react-player";
+
 type SingleVideoProps = {
   params: {
     id: string;
@@ -17,13 +18,14 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
       .catch((e) => console.log(e));
   }, []);
   useEffect(() => {
-    console.log(video?.videoLink);
+    console.log(video?.title);
   }, [video]);
 
   return (
-    <div className="w-[500px] h-[500px] pl-[5em]">
+    <div className="grid place-content-center h-screen w-screen">
+      <h1 className="h1 text-center mb-6">{video?.title}</h1>
       {video && (
-        <Video url={video?.videoLink} width="640" height="360" controls />
+        <ReactPlayer url={video.videoLink} controls width={900} height={500} />
       )}
     </div>
   );

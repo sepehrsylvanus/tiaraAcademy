@@ -32,6 +32,7 @@ model User {
 
 model Class {
   id         String       @id @default(cuid()) @map("_id")
+  createdAt  DateTime     @default(now())
   title      String
   days       String[]
   price      String

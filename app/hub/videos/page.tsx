@@ -98,12 +98,14 @@ const Videos = () => {
                           transform: "translate(-50%, -50%)",
                         }}
                       />
-                      <span className=" absolute  bottom-0 right-[.5em] text-white">
+                      {/* <span className=" absolute  bottom-0 right-[.5em] text-white">
                         2:45
-                      </span>
+                      </span> */}
                     </div>
-                    {/* <h4 className="font-bold mt-2">{eachCard.title}</h4> */}
                   </CardContent>
+                  <CardFooter className="flex items-center p-4 font-semibold">
+                    {video.title}
+                  </CardFooter>
                 </Card>
               </Link>
             ))}

@@ -10,6 +10,7 @@ export interface User {
 
 export interface Class {
   id: string;
+  createdAt: Date;
   title: string;
   days: string[];
   price: string;
