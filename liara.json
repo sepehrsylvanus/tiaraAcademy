@@ -1,5 +1,17 @@
 {
+  "node": {
+    "mirror": false
+  },
+  "build": {
+    "location": "germany"
+  },
   "next": {
     "modifyConfig": false
-  }
+  },
+  "disks": [
+    {
+      "name": "prisma",
+      "mountTo": "prisma/migrations"
+    }
+  ]
 }

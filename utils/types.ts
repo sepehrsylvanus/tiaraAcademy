@@ -43,3 +43,9 @@ export interface Video {
   title: string;
   videoLink: string;
 }
+
+export interface Slide {
+  title: string;
+  subtitle: string;
+  link: string;
+}

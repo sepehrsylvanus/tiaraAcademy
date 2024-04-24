@@ -3,7 +3,6 @@ import { Card, CardContent } from "@/components/ui/card";
 
 import { Star, AccessTime } from "@mui/icons-material";
 import { Avatar, CircularProgress } from "@mui/material";
-import { getFeaturedClasses } from "@/actions/actions";
 
 import MyCourses from "@/components/MyCourses";
 import { Button } from "@/components/ui/button";
@@ -11,6 +10,7 @@ import { number } from "zod";
 import { useEffect, useState } from "react";
 import { Class } from "@/utils/types";
 import CustomHamburger from "@/components/hamburger/CustomHamburger";
+import axios from "axios";
 
 export default function StudentHub() {
   const [displayCount, setDisplayCount] = useState(3);
@@ -18,13 +18,23 @@ export default function StudentHub() {
   const handleShowMore = () => {
     setDisplayCount((prev: number) => prev + 2);
   };
+  useEffect(() => {
+    console.log(featuredClasses);
+  }, [featuredClasses]);
 
   useEffect(() => {
-    const getClasses = async () => {
-      const featuredClasses = await getFeaturedClasses();
-      setFeaturedClasses(featuredClasses);
-    };
-    getClasses();
+    axios.get("/api/classes").then((res) => {
+      console.log(res.data);
+      const classes: Class[] = res.data.classes;
+      const result = classes.filter((cls) => {
+        const cutoffDate = new Date();
+        cutoffDate.setDate(cutoffDate.getDate() - 7);
+        const classCreatedDate = new Date(cls.createdAt);
+        return classCreatedDate >= cutoffDate;
+      });
+      console.log(result);
+      setFeaturedClasses(result);
+    });
   }, []);
 
   return (
@@ -34,17 +44,11 @@ export default function StudentHub() {
           <div className="ml-auto z-10 fixed top-0 right-0 md:hidden bg-white  rounded-md m-2">
             <CustomHamburger navbar={false} sidebar={true} />
           </div>
-          <h2 className="font-bold text-2xl ">Featured Classes</h2>
+          <h2 className="font-bold text-2xl">Featured Classes</h2>
         </div>
         <div className="featuredContainer grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
           {featuredClasses ? (
             featuredClasses.slice(0, displayCount).map((featuredClass) => {
-              console.log(featuredClass.duration);
-              const seconds = Math.floor(Number(featuredClass.duration) / 1000);
-              const minutes = Math.floor(seconds / 60);
-              const hours = Math.floor(minutes / 60);
-              const remainingMinutes = minutes % 60;
-
               return (
                 <Card
                   key={featuredClass.id}
@@ -57,32 +61,16 @@ export default function StudentHub() {
                     height={200}
                     className="rounded-md"
                   />
-                  <div className="teacherPaper flex px-4  justify-between items-center bg-white w-[90%] shadow-lg rounded-md relative bottom-6 left-2">
-                    <Avatar
-                      src={
-                        featuredClass.classInstructors[0].instructor.profileImg
-                      }
-                      sx={{ width: 54, height: 54 }}
-                    />
-                    <span className="text-sm">
-                      {" "}
-                      {featuredClass.classInstructors[0].instructor.name}
+                  <div className="teacherPaper flex px-4 py-2 justify-between items-center bg-white w-[90%] shadow-lg rounded-md relative bottom-6 left-2">
+                    <Avatar sx={{ width: 54, height: 54 }} />
+                    <span className="text-sm text-lightText">
+                      {`${featuredClass.creator.fName} ${featuredClass.creator.lName}`}
                     </span>
                   </div>
                   <CardContent className="">
-                    <h4>{featuredClass.title}</h4>
-                    <div className="flex gap-8 mt-4">
-                      <p className="flex gap-2">
-                        <AccessTime />
-                        {`${
-                          hours > 0 ? `${hours}hr` : ""
-                        } ${remainingMinutes}m`}
-                      </p>
-                      <p className="flex gap-2">
-                        <Star />
-                        {featuredClass.rating}/5
-                      </p>
-                    </div>
+                    <h4 className=" font-bold text-xl">
+                      {featuredClass.title}
+                    </h4>
                   </CardContent>
                 </Card>
               );

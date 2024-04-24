@@ -102,10 +102,6 @@ const Classes = () => {
   const classNameInput = watch("className", "");
   const teacherNameInput = watch("teacherName", "");
 
-  const isButtonDisabled = !classNameInput && !teacherNameInput;
-
-  const flatClasses: Class[] = [];
-
   const filterData = (data: FormInputs) => {
     const { className, teacherName } = data;
     console.log(className);
