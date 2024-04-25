@@ -110,7 +110,7 @@ const MyClass = async (details: DetailsProps) => {
             >
               Meeting Link (click here!)
             </Link>
-            {/* <ClassesDate classDates={singleClass?.dates} /> */}
+            <ClassesDate classDates={singleClass?.days} />
             <div className={styles.chooseClassTime}>
               <div
                 style={{ display: "flex", alignItems: "center", gap: "1em" }}

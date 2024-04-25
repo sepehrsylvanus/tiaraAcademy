@@ -8,9 +8,7 @@ import {
   LocalizationProvider,
 } from "@mui/x-date-pickers";
 import { format } from "date-fns-jalali";
-import { Badge, styled } from "@mui/material";
-import AccessibleIcon from "@mui/icons-material/Accessible";
-
+import { faIR } from "date-fns/locale";
 const ClassesDate = ({ classDates }: { classDates: string[] | undefined }) => {
   const [value, setValue] = useState<Date | null>(null);
 
@@ -31,7 +29,10 @@ const ClassesDate = ({ classDates }: { classDates: string[] | undefined }) => {
 
   return (
     <div className={styles.container}>
-      <LocalizationProvider dateAdapter={AdapterDateFnsJalali}>
+      <LocalizationProvider
+        dateAdapter={AdapterDateFnsJalali}
+        adapterLocale={faIR}
+      >
         <DatePicker
           label="انتخاب تاریخ"
           value={value}
