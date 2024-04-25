@@ -1,38 +1,35 @@
 "use client";
 
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import axios from "axios";
+
 import { ChangeEvent, useState } from "react";
 import { postVideo } from "@/actions/actions";
+import { toast } from "react-toastify";
+import { CircularProgress } from "@mui/material";
 
 const CreateVideo = () => {
-  const [video, setVideo] = useState<File>();
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      setVideo(e.target.files[0]);
-    } else {
-      console.log("There is no video");
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+
+    const formData = new FormData(e.currentTarget);
+    const title = formData.get("title") as string;
+    try {
+      await postVideo(formData);
+    } catch (error) {
+      toast.error("There was an error in uploading video:" + error);
+    } finally {
+      toast.success(`-${title}- uploaded successfully`);
+      setLoading(false);
     }
   };
 
   return (
-    <form action={postVideo} className="flex flex-col space-y-3">
+    <form onSubmit={handleSubmit} className="flex flex-col space-y-3">
       <input className="formInput w-full" placeholder="Title..." name="title" />
       <input
-        onChange={handleChange}
         className="formInput w-full "
         type="file"
         placeholder="Enter Your article title"
@@ -40,7 +37,13 @@ const CreateVideo = () => {
         accept=".mp4, .mkv"
       />
 
-      <Button type="submit">Create</Button>
+      {loading ? (
+        <Button disabled type="submit">
+          <CircularProgress sx={{ color: "white", transform: "scale(.7)" }} />
+        </Button>
+      ) : (
+        <Button type="submit">Create</Button>
+      )}
     </form>
   );
 };

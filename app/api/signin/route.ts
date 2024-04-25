@@ -11,8 +11,6 @@ type formDataProps = {
 export const POST = async (req: NextRequest, res: NextResponse) => {
   const formData: formDataProps = await req.json();
 
-  console.log(formData);
-
   const user = await prisma.user.findUnique({
     where: {
       email: formData.email,
@@ -41,8 +39,6 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
       expiresIn: "1d",
     }
   );
-
-  console.log(token);
 
   const response = NextResponse.json({
     message: "User logged in successfully",

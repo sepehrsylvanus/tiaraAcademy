@@ -4,6 +4,8 @@ import "./globals.css";
 import Sidebar from "@/components/sidebar/Sidebar";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Suspense } from "react";
+import Loading from "./loading";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,6 +23,7 @@ export default function RootLayout({
     <html lang="en" className=" scroll-smooth">
       <body className={`${inter.className} bg-lightPrime text-lightText `}>
         {children}
+
         <ToastContainer
           position="bottom-right"
           autoClose={5000}

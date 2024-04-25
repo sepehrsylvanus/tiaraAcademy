@@ -12,17 +12,44 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { deleteVideo } from "@/actions/actions";
+import { ChangeEvent, useState } from "react";
+import { toast } from "react-toastify";
+import { CircularProgress } from "@mui/material";
 
 const DeleteVideo = () => {
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+
+    const formData = new FormData(e.currentTarget);
+    const title = formData.get("title") as string;
+    try {
+      await deleteVideo(formData);
+    } catch (error) {
+      toast.error("There was an error in uploading video:" + error);
+    } finally {
+      toast.success(`-${title}- deleted successfully`);
+      setLoading(false);
+    }
+  };
+
   return (
-    <form action={deleteVideo} className="flex items-center justify-between">
+    <form onSubmit={handleSubmit} className="flex items-center justify-between">
       <input
         className="formInput"
         placeholder="Enter Your Video id"
         name="id"
       />
 
-      <Button type="submit">Delete</Button>
+      {loading ? (
+        <Button disabled type="submit">
+          <CircularProgress sx={{ color: "white", transform: "scale(.7)" }} />
+        </Button>
+      ) : (
+        <Button type="submit">Delete</Button>
+      )}
     </form>
   );
 };

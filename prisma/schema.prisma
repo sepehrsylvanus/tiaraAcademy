@@ -67,8 +67,8 @@ model WritingFile {
 }
 
 model Video {
-  id    String @id @default(cuid()) @map("_id")
-  title String
-
+  id        String  @id @default(cuid()) @map("_id")
+  title     String
+  bucketKey String?
   videoLink String?
 }

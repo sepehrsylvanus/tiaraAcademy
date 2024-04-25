@@ -42,6 +42,7 @@ export interface Video {
   id: string;
   title: string;
   videoLink: string;
+  bucketKey: string;
 }
 
 export interface Slide {

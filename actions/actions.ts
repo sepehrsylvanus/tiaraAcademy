@@ -55,19 +55,19 @@ export const postWriting = async (data: FormData) => {
   }
   try {
     const s3 = new S3({
-      accessKeyId: process.env.LIARA_ACCESS_KEY_ID,
-      secretAccessKey: process.env.LIARA_SECRET_ACCESS_KEY,
-      endpoint: process.env.LIARA_ENDPOINT,
+      accessKeyId: process.env.NEXT_PUBLIC_LIARA_ACCESS_KEY_ID,
+      secretAccessKey: process.env.NEXT_PUBLIC_LIARA_SECRET_ACCESS_KEY,
+      endpoint: process.env.NEXT_PUBLIC_LIARA_ENDPOINT,
     });
 
     const params = {
-      Bucket: process.env.LIARA_BUCKET_NAME!,
+      Bucket: process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME!,
       Key: image?.name!,
       Body: buffer!,
     };
     const response = await s3.upload(params).promise();
     const permanentSignedUrl = s3.getSignedUrl("getObject", {
-      Bucket: process.env.LIARA_BUCKET_NAME,
+      Bucket: process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME,
       Key: image?.name,
       Expires: 31536000, // 1 year
     });
@@ -100,13 +100,10 @@ export const postWriting = async (data: FormData) => {
 };
 
 export const postVideo = async (data: FormData) => {
-  console.log(data);
   const title = data.get("title") as string;
-  const time = data.get("time") as string;
+
   const video = data.get("video") as File;
-  console.log(title);
-  console.log(time);
-  console.log(video);
+
   const bytes = await video.arrayBuffer();
   const buffer = await Buffer.from(bytes);
   const videoData = {
@@ -115,26 +112,24 @@ export const postVideo = async (data: FormData) => {
   const newvideo = await prisma.video.create({
     data: videoData,
   });
-  console.log(newvideo);
-  console.log(video);
+
   const name = newvideo.id + "." + video.name.split(".").pop();
-  console.log(name);
 
   try {
     const s3 = new S3({
-      accessKeyId: process.env.LIARA_ACCESS_KEY_ID,
-      secretAccessKey: process.env.LIARA_SECRET_ACCESS_KEY,
-      endpoint: process.env.LIARA_ENDPOINT,
+      accessKeyId: process.env.NEXT_PUBLIC_LIARA_ACCESS_KEY_ID,
+      secretAccessKey: process.env.NEXT_PUBLIC_LIARA_SECRET_ACCESS_KEY,
+      endpoint: process.env.NEXT_PUBLIC_LIARA_ENDPOINT,
     });
 
     const params = {
-      Bucket: process.env.LIARA_BUCKET_NAME!,
+      Bucket: process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME!,
       Key: name,
       Body: buffer!,
     };
     const response = await s3.upload(params).promise();
     const permanentSignedUrl = s3.getSignedUrl("getObject", {
-      Bucket: process.env.LIARA_BUCKET_NAME,
+      Bucket: process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME,
       Key: name,
       Expires: 31536000, // 1 year
     });
@@ -143,39 +138,42 @@ export const postVideo = async (data: FormData) => {
         id: newvideo.id,
       },
       data: {
+        bucketKey: name,
         videoLink: permanentSignedUrl,
       },
     });
-    console.log("loading...");
+
     if (response) {
     }
-    console.log("Your video created sucessfully");
+
     return "Your video created sucessfully";
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 
 export const deleteVideo = async (data: FormData) => {
   const id = data.get("id") as string;
-  console.log(id);
-  const s3 = new S3({
-    accessKeyId: process.env.LIARA_ACCESS_KEY_ID,
-    secretAccessKey: process.env.LIARA_SECRET_ACCESS_KEY,
-    endpoint: process.env.LIARA_ENDPOINT,
-  });
-  const bucketName: string = process.env.LIARA_BUCKET_NAME!;
-  console.log(bucketName);
 
-  await s3.deleteObject({ Bucket: bucketName, Key: id }).promise();
+  const s3 = new S3({
+    accessKeyId: process.env.NEXT_PUBLIC_LIARA_ACCESS_KEY_ID,
+    secretAccessKey: process.env.NEXT_PUBLIC_LIARA_SECRET_ACCESS_KEY,
+    endpoint: process.env.NEXT_PUBLIC_LIARA_ENDPOINT,
+  });
+  const video = await prisma.video.findUnique({
+    where: {
+      id,
+    },
+  });
+  const bucketName: string = process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME!;
+
+  await s3
+    .deleteObject({ Bucket: bucketName, Key: video?.bucketKey! })
+    .promise();
 
   await prisma.video.delete({
     where: {
       id: id,
     },
   });
-
-  console.log("delete");
 };
 
 export const getSingleClass = async (id: string) => {
@@ -205,19 +203,19 @@ export const postWritingFile = async (data: FormData) => {
 
   try {
     const s3 = new S3({
-      accessKeyId: process.env.LIARA_ACCESS_KEY_ID,
-      secretAccessKey: process.env.LIARA_SECRET_ACCESS_KEY,
-      endpoint: process.env.LIARA_ENDPOINT,
+      accessKeyId: process.env.NEXT_PUBLIC_LIARA_ACCESS_KEY_ID,
+      secretAccessKey: process.env.NEXT_PUBLIC_LIARA_SECRET_ACCESS_KEY,
+      endpoint: process.env.NEXT_PUBLIC_LIARA_ENDPOINT,
     });
 
     const params = {
-      Bucket: process.env.LIARA_BUCKET_NAME!,
+      Bucket: process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME!,
       Key: newWritingFile.id,
       Body: buffer!,
     };
     const response = await s3.upload(params).promise();
     const permanentSignedUrl = s3.getSignedUrl("getObject", {
-      Bucket: process.env.LIARA_BUCKET_NAME,
+      Bucket: process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME,
       Key: newWritingFile.id,
       Expires: 31536000, // 1 year
     });
