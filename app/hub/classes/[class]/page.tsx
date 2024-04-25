@@ -56,7 +56,7 @@ const MyClass = async (details: DetailsProps) => {
         </div>
         <h2 className={styles.title}>{`${singleClass?.title
           .split("-")
-          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+          .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
           .join(" ")} - ${singleClass?.creator.fName} ${
           singleClass?.creator.lName
         }`}</h2>

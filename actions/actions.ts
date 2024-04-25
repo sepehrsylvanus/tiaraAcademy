@@ -12,7 +12,7 @@ export const getToken = () => {
 };
 
 export const verifyToken = (token: string) => {
-  const validate = verify(token, process.env.TOKEN_SERCRET);
+  const validate = verify(token, process.env.NEXT_PUBLIC_TOKEN_SERCRET);
   if (validate) {
     return validate;
   } else {
