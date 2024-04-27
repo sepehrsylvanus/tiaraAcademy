@@ -61,7 +61,7 @@ const CustomHamburger = ({
           <Link href={"/hub"}>Enter Hub</Link>
         </div>
 
-        {token && (
+        {token ? (
           <div className=" pt-4 mb-3 gap-8 flex items-center justify-between">
             <Link href={"/hub"} className="brownLink">
               Enter Hub
@@ -70,6 +70,12 @@ const CustomHamburger = ({
             <div className=" scale-150">
               <ClerkAvatar />
             </div>
+          </div>
+        ) : (
+          <div className=" mb-3 pt-6  ">
+            <Link href={"/sign-in"} className="brownLink">
+              Sign in / Sign up
+            </Link>
           </div>
         )}
 
