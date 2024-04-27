@@ -12,10 +12,9 @@ import ClassIcon from "@mui/icons-material/Class";
 import SchoolIcon from "@mui/icons-material/School";
 import { CustomClassTextField } from "./styledComponents";
 
-import { Class } from "@/utils/types";
+import { Class, User } from "@/utils/types";
 import { useForm, Controller } from "react-hook-form";
 import { Button } from "@/components/ui/button";
-import CustomHamburger from "@/components/hamburger/CustomHamburger";
 
 import Link from "next/link";
 
@@ -32,12 +31,15 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { getToken } from "@/actions/actions";
+import { getSingleUser } from "@/actions/userActions";
 
 const Classes = () => {
   const [loading, setLoading] = useState(true);
   const [classes, setClasses] = useState<Class[]>();
   const [filteredClasses, setFilteredClasses] = useState(classes);
   const [teachersname, setTeachersname] = useState<string[]>();
+  const [currentUser, setCurrentUser] = useState<User>();
   useEffect(() => {
     console.log(teachersname);
   }, [teachersname]);
@@ -48,6 +50,17 @@ const Classes = () => {
   useEffect(() => {
     console.log(classes);
   }, [classes]);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const token = await getToken()!;
+      const currentUser = await getSingleUser(token?.value);
+      if (currentUser) {
+        setCurrentUser(currentUser);
+      }
+    };
+    fetchUser();
+  }, []);
 
   useEffect(() => {
     axios
@@ -153,12 +166,16 @@ const Classes = () => {
   // }, []);
 
   // END FILTER DATA
-
+  const copyToClipboard = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      toast("Copied to clipboard");
+    } catch (err) {
+      console.error("Failed to copy text: ", err);
+    }
+  };
   return (
     <div className={styles.container}>
-      <div className="ml-auto z-10 fixed top-0 right-0 md:hidden bg-white  rounded-md m-2">
-        <CustomHamburger navbar={false} sidebar={true} />
-      </div>
       <div className={styles.classesHeader}>
         <div className={styles.titleContainer}>
           <h4 className="h3">Tiara Academy</h4>
@@ -219,14 +236,14 @@ const Classes = () => {
       <div className={styles.classesBody}>
         {loading ? (
           <>
-            <Skeleton className="w-[261px] h-[366px] rounded-md" />
-            <Skeleton className="w-[261px] h-[366px] rounded-md" />
-            <Skeleton className="w-[261px] h-[366px] rounded-md" />
-            <Skeleton className="w-[261px] h-[366px] rounded-md" />
-            <Skeleton className="w-[261px] h-[366px] rounded-md" />
-            <Skeleton className="w-[261px] h-[366px] rounded-md" />
-            <Skeleton className="w-[261px] h-[366px] rounded-md" />
-            <Skeleton className="w-[261px] h-[366px] rounded-md" />
+            <Skeleton className="w-full h-[250px] rounded-md" />
+            <Skeleton className="w-full h-[250px] rounded-md" />
+            <Skeleton className="w-full h-[250px] rounded-md" />
+            <Skeleton className="w-full h-[250px] rounded-md" />
+            <Skeleton className="w-full h-[250px] rounded-md" />
+            <Skeleton className="w-full h-[250px] rounded-md" />
+            <Skeleton className="w-full h-[250px] rounded-md" />
+            <Skeleton className="w-full h-[250px] rounded-md" />
           </>
         ) : (
           filteredClasses?.map((eachClass) => {
@@ -249,13 +266,22 @@ const Classes = () => {
                     {days || "There is no dedicated day for this class"}
                   </p>
                 </CardContent>
-                <CardFooter>
+                <CardFooter className="flex flex-col gap-2">
                   <Link
                     href={`/hub/classes/${eachClass.id}`}
                     className="w-full"
                   >
                     <Button className="w-full">Join</Button>
                   </Link>
+                  {(currentUser?.role.includes("admin") ||
+                    currentUser?.role.includes("adminTeacher")) && (
+                    <p
+                      className=" text-lg  md:text-base md:hover:text-lg"
+                      onClick={() => copyToClipboard(eachClass.id)}
+                    >
+                      {eachClass.id}
+                    </p>
+                  )}
                 </CardFooter>
               </Card>
             );

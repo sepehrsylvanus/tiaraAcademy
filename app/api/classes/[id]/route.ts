@@ -14,7 +14,7 @@ export const DELETE = async (req: NextRequest, { params }: ParamsProps) => {
     });
     if (!user) {
       return NextResponse.json(
-        { message: "User with this id doesn't exist" },
+        { message: "Class with this id doesn't exist" },
         { status: 404 }
       );
     }
@@ -26,7 +26,7 @@ export const DELETE = async (req: NextRequest, { params }: ParamsProps) => {
         },
       });
       return NextResponse.json({
-        message: "Your desired successfully deleted!",
+        message: "Your desired class successfully deleted!",
       });
     } catch (error) {
       return NextResponse.json(
