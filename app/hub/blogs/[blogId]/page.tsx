@@ -4,32 +4,11 @@ import { Chip } from "@mui/material";
 import Image from "next/image";
 import { sections } from "@/utils/fakeData";
 
-import { useEffect, useRef, useState } from "react";
 import { TracingBeam } from "@/components/ui/tracing-beam";
-
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-
-import {
-  AccessTime,
-  EditNote,
-  GridView,
-  NoteAlt,
-  OndemandVideo,
-  People,
-} from "@mui/icons-material";
-import CustomHamburger from "@/components/hamburger/CustomHamburger";
-import Link from "next/link";
 
 const SingleBlog = () => {
   return (
     <div className={styles.container}>
-      <div className="ml-auto z-10 fixed top-0 right-0 md:hidden bg-white  rounded-md m-2">
-        <CustomHamburger navbar={false} sidebar={true} />
-      </div>
       <TracingBeam className="px-6 h-fit">
         <div>
           <div className="header   text-center flex flex-col gap-5 mb-4">

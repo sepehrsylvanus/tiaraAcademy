@@ -1,8 +1,8 @@
 "use client";
-import { Divider, Hidden } from "@mui/material";
+import { Divider } from "@mui/material";
 import { Squash as Hamburger } from "hamburger-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   AccessTime,
   EditNote,
@@ -11,8 +11,9 @@ import {
   OndemandVideo,
   People,
 } from "@mui/icons-material";
-import { useCookies } from "next-client-cookies";
+
 import ClerkAvatar from "../reusableComponents/ClerkAvatar";
+import { getToken } from "@/actions/actions";
 
 const CustomHamburger = ({
   sidebar,
@@ -21,10 +22,21 @@ const CustomHamburger = ({
   sidebar: boolean;
   navbar: boolean;
 }) => {
-  const cookieStore = useCookies();
-  const token = cookieStore.get("token");
-  console.log(token);
   const [openMenu, setOpenMenu] = useState(false);
+  const [token, setToken] = useState<string>();
+
+  useEffect(() => {
+    const gettingToken = async () => {
+      const token = await getToken();
+      setToken(token?.value);
+    };
+    gettingToken();
+  }, []);
+
+  useEffect(() => {
+    console.log(token);
+  }, [token]);
+
   return (
     <div className="md:hidden">
       <Hamburger onToggle={() => setOpenMenu((prev) => !prev)} />
@@ -32,7 +44,7 @@ const CustomHamburger = ({
       <div
         className={` ${
           openMenu ? "block" : "hidden"
-        } absolute bg-cardBg text-lightPrime p-6 rounded-md shadow-xl right-0 transition flex flex-col z-[999]`}
+        } absolute bg-cardBg text-extraText p-6 rounded-md shadow-xl right-0 transition flex flex-col z-[999]`}
       >
         <div
           className={`   pb-2 gap-1 text-base md:gap-3  md:text-xl ${
@@ -49,7 +61,7 @@ const CustomHamburger = ({
           <Link href={"/hub"}>Enter Hub</Link>
         </div>
 
-        {token ? (
+        {token && (
           <div className=" pt-4 mb-3 gap-8 flex items-center justify-between">
             <Link href={"/hub"} className="brownLink">
               Enter Hub
@@ -58,16 +70,6 @@ const CustomHamburger = ({
             <div className=" scale-150">
               <ClerkAvatar />
             </div>
-          </div>
-        ) : (
-          <div
-            className={` mb-3 pt-6 ${
-              navbar ? "border-t-2 border-dashed" : ""
-            } `}
-          >
-            <Link href={"/sign-in"} className="brownLink">
-              Sign in / Sign up
-            </Link>
           </div>
         )}
 
