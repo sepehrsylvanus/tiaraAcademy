@@ -11,19 +11,15 @@ import {
 import { howTooStudy, videoTags } from "@/constants";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import Image from "next/image";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import CustomHamburger from "@/components/hamburger/CustomHamburger";
-import { Video } from "@/utils/types";
+import { User, Video } from "@/utils/types";
 import axios from "axios";
+import { getSingleUser } from "@/actions/userActions";
+import { getToken } from "@/actions/actions";
+import { Skeleton } from "@/components/ui/skeleton";
+import { toast } from "react-toastify";
 
 interface videoTag {
   name: string;
@@ -40,6 +36,28 @@ console.log(chunkedTags);
 const Videos = () => {
   const [searchVal, setSearchVal] = useState<string>();
   const [videos, setVideos] = useState<Video[]>();
+  const [currentUser, setCurrentUser] = useState<User>();
+  useEffect(() => {
+    const fetchUser = async () => {
+      const token = await getToken()!;
+      const currentUser = await getSingleUser(token?.value);
+      if (currentUser) {
+        setCurrentUser(currentUser);
+      }
+    };
+    fetchUser();
+  }, []);
+  useEffect(() => {
+    console.log(currentUser?.role);
+  }, [currentUser]);
+  const copyToClipboard = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      toast("Copied to clipboard");
+    } catch (err) {
+      console.error("Failed to copy text: ", err);
+    }
+  };
   useEffect(() => {
     axios
       .get("/api/videos")
@@ -52,9 +70,6 @@ const Videos = () => {
 
   return (
     <div className="flex flex-col px-4 md:pl-[4em]">
-      <div className="ml-auto z-10 fixed top-0 right-0 md:hidden bg-white  rounded-md m-2">
-        <CustomHamburger navbar={false} sidebar={true} />
-      </div>
       <div>
         <div className="flex justify-between items-center gap-4 mt-4 pt-[3em]">
           <h1 className="h1 ">Videos</h1>
@@ -76,11 +91,11 @@ const Videos = () => {
         </div>
 
         <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {videos &&
+          {videos && currentUser ? (
             videos.map((video) => (
-              <Link href={`/hub/videos/${video.id}`}>
-                <Card className="p-4 bg-extraBg text-lightPrime" key={video.id}>
-                  <CardContent className="p-0">
+              <Card className="p-4 bg-extraBg text-lightPrime" key={video.id}>
+                <CardContent className="p-0">
+                  <Link href={`/hub/videos/${video.id}`}>
                     <div className=" relative w-full h-[200px]">
                       <Image
                         src={"/article.jpg"}
@@ -98,17 +113,38 @@ const Videos = () => {
                           transform: "translate(-50%, -50%)",
                         }}
                       />
-                      {/* <span className=" absolute  bottom-0 right-[.5em] text-white">
-                        2:45
-                      </span> */}
                     </div>
-                  </CardContent>
-                  <CardFooter className="flex items-center p-4 font-semibold">
-                    {video.title}
-                  </CardFooter>
-                </Card>
-              </Link>
-            ))}
+                  </Link>
+                  {(currentUser?.role.includes("admin") ||
+                    currentUser?.role.includes("adminTeacher")) && (
+                    <p className="p-4">
+                      id:{" "}
+                      <span
+                        className=" text-lg  md:text-base md:hover:text-lg"
+                        onClick={() => copyToClipboard(video.id)}
+                      >
+                        {video.id}
+                      </span>
+                    </p>
+                  )}
+                </CardContent>
+                <CardFooter className="flex items-center p-4 font-semibold">
+                  {video.title}
+                </CardFooter>
+              </Card>
+            ))
+          ) : (
+            <>
+              <Skeleton className="w-full h-[366px] rounded-md" />
+              <Skeleton className="w-full h-[366px] rounded-md" />
+              <Skeleton className="w-full h-[366px] rounded-md" />
+              <Skeleton className="w-full h-[366px] rounded-md" />
+              <Skeleton className="w-full h-[366px] rounded-md" />
+              <Skeleton className="w-full h-[366px] rounded-md" />
+              <Skeleton className="w-full h-[366px] rounded-md" />
+              <Skeleton className="w-full h-[366px] rounded-md" />
+            </>
+          )}
         </div>
       </div>
     </div>

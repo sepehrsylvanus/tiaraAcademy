@@ -24,13 +24,13 @@ const DeleteVideo = () => {
     setLoading(true);
 
     const formData = new FormData(e.currentTarget);
-    const title = formData.get("title") as string;
+    const id = formData.get("id") as string;
     try {
       await deleteVideo(formData);
     } catch (error) {
       toast.error("There was an error in uploading video:" + error);
     } finally {
-      toast.success(`-${title}- deleted successfully`);
+      toast.success(`-${id}- deleted successfully`);
       setLoading(false);
     }
   };

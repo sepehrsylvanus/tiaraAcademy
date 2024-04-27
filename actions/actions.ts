@@ -152,7 +152,7 @@ export const postVideo = async (data: FormData) => {
 
 export const deleteVideo = async (data: FormData) => {
   const id = data.get("id") as string;
-
+  console.log(id);
   const s3 = new S3({
     accessKeyId: process.env.NEXT_PUBLIC_LIARA_ACCESS_KEY_ID,
     secretAccessKey: process.env.NEXT_PUBLIC_LIARA_SECRET_ACCESS_KEY,
@@ -163,6 +163,7 @@ export const deleteVideo = async (data: FormData) => {
       id,
     },
   });
+  console.log(video);
   const bucketName: string = process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME!;
 
   await s3

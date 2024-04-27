@@ -9,7 +9,6 @@ import DeleteVideo from "@/components/reusableComponents/DeleteVideo";
 import CreateVideo from "@/components/reusableComponents/teacherWriting/CreateVideo";
 import DeleteClass from "@/components/reusableComponents/DeleteClass";
 import CreateClass from "@/components/reusableComponents/CreateClass";
-import CustomHamburger from "@/components/hamburger/CustomHamburger";
 import { getSingleUser } from "@/actions/userActions";
 
 import PdfSection from "@/components/PdfSection";
@@ -18,8 +17,7 @@ const Hub = async () => {
   const users = await retieveUsers();
   const token = await getToken();
   const currentUser: User | null = await getSingleUser(token?.value!);
-  console.log(currentUser);
-  console.log(users);
+
   const students = users.filter((user) => user.role === "student");
   const teachers = users.filter(
     (user) => user.role === "adminTeacher" || user.role === "teacher"
@@ -39,9 +37,6 @@ const Hub = async () => {
   };
   return (
     <div className=" lg:pl-[5em] ">
-      <div className="ml-auto z-10 fixed top-0 right-0 md:hidden bg-white  rounded-md m-2">
-        <CustomHamburger navbar={false} sidebar={true} />
-      </div>
       {(currentUser?.role.includes("teacher") ||
         currentUser?.role.includes("admin") ||
         currentUser?.role.includes("adminTeacher")) && (
