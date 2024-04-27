@@ -45,7 +45,7 @@ const Login = () => {
   }
   return (
     <div className={styles.container}>
-      <div className={`${styles.details} bg-lightText text-lightPrime`}>
+      <div className={`${styles.details} bg-lightText text-lightPrime `}>
         <Image
           src="/login.png"
           alt="Login page"
@@ -58,7 +58,7 @@ const Login = () => {
         <p>دسترسی به ویدیوها، برنامه‌ی هفتگی، آپلود تکالیف و غیره</p>
       </div>
       <div className={styles.loginForm}>
-        <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black">
+        <div className="max-w-md w-full mx-auto  rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black">
           <h2 className="font-bold text-xl text-neutral-800 dark:text-neutral-200">
             Welcome to Tiara Academy
           </h2>

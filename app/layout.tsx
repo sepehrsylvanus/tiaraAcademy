@@ -6,6 +6,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Suspense } from "react";
 import Loading from "./loading";
+import ClientCookieProvider from "@/providers/ClientCookieProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en" className=" scroll-smooth">
       <body className={`${inter.className} bg-lightPrime text-lightText `}>
-        {children}
+        <ClientCookieProvider>{children}</ClientCookieProvider>
 
         <ToastContainer
           position="bottom-right"

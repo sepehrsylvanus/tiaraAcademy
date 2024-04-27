@@ -2,6 +2,8 @@
 import React, { useState } from "react";
 import styles from "./classesDate.module.css";
 import { AdapterDateFnsJalali } from "@mui/x-date-pickers/AdapterDateFnsJalali";
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+
 import {
   DateCalendar,
   DatePicker,

@@ -1,13 +1,19 @@
 .container {
   display: flex;
   color: white;
+  position: relative;
 
   height: 100vh;
   overflow-x: hidden;
+
   @media (max-width: 788px) {
+    padding: 0 1em;
+
     display: grid;
     place-content: center;
     height: fit-content;
+    top: 50%;
+    transform: translateY(-50%);
   }
 }
 .details {

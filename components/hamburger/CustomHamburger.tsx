@@ -11,6 +11,8 @@ import {
   OndemandVideo,
   People,
 } from "@mui/icons-material";
+import { useCookies } from "next-client-cookies";
+import ClerkAvatar from "../reusableComponents/ClerkAvatar";
 
 const CustomHamburger = ({
   sidebar,
@@ -19,6 +21,9 @@ const CustomHamburger = ({
   sidebar: boolean;
   navbar: boolean;
 }) => {
+  const cookieStore = useCookies();
+  const token = cookieStore.get("token");
+  console.log(token);
   const [openMenu, setOpenMenu] = useState(false);
   return (
     <div className="md:hidden">
@@ -44,13 +49,27 @@ const CustomHamburger = ({
           <Link href={"/hub"}>Enter Hub</Link>
         </div>
 
-        <div
-          className={` mb-3 pt-6 ${navbar ? "border-t-2 border-dashed" : ""} `}
-        >
-          <Link href={"/sign-in"} className="brownLink">
-            Sign in / Sign up
-          </Link>
-        </div>
+        {token ? (
+          <div className=" pt-4 mb-3 gap-8 flex items-center justify-between">
+            <Link href={"/hub"} className="brownLink">
+              Enter Hub
+            </Link>
+
+            <div className=" scale-150">
+              <ClerkAvatar />
+            </div>
+          </div>
+        ) : (
+          <div
+            className={` mb-3 pt-6 ${
+              navbar ? "border-t-2 border-dashed" : ""
+            } `}
+          >
+            <Link href={"/sign-in"} className="brownLink">
+              Sign in / Sign up
+            </Link>
+          </div>
+        )}
 
         {/* 
         <SignedIn>

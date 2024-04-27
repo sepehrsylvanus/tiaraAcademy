@@ -2,18 +2,8 @@ import { retieveUsers, getToken } from "@/actions/actions";
 import StudentHub from "@/components/studentHub/StudentHub";
 import { columns } from "@/components/studentsTable/columns";
 import { DataTable } from "@/components/studentsTable/data-table";
-import { Button } from "@/components/ui/button";
 import { Avatar, Divider } from "@mui/material";
-import Link from "next/link";
 import React from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import ReuableForm from "@/components/reusableComponents/teacherWriting/ReuableForm";
 
 import DeleteVideo from "@/components/reusableComponents/DeleteVideo";
 import CreateVideo from "@/components/reusableComponents/teacherWriting/CreateVideo";
@@ -21,8 +11,7 @@ import DeleteClass from "@/components/reusableComponents/DeleteClass";
 import CreateClass from "@/components/reusableComponents/CreateClass";
 import CustomHamburger from "@/components/hamburger/CustomHamburger";
 import { getSingleUser } from "@/actions/userActions";
-import { usePDF } from "@react-pdf/renderer";
-import MyPdf from "@/components/reusableComponents/myPdf";
+
 import PdfSection from "@/components/PdfSection";
 import { User } from "@/utils/types";
 const Hub = async () => {
@@ -49,7 +38,7 @@ const Hub = async () => {
     }
   };
   return (
-    <div className="pl-[5em] ">
+    <div className=" lg:pl-[5em] ">
       <div className="ml-auto z-10 fixed top-0 right-0 md:hidden bg-white  rounded-md m-2">
         <CustomHamburger navbar={false} sidebar={true} />
       </div>
