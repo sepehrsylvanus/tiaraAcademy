@@ -23,13 +23,15 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
 
   return (
     <div className="grid place-content-center h-screen w-screen">
-      <h1 className="h1 text-center lg:mb-6">{video?.title}</h1>
+      <h1 className="h1 text-center w-screen mx-auto  lg:mb-6">
+        {video?.title}
+      </h1>
       {video && (
-        <div className=" scale-[.45] md:scale-100">
+        <div className="  w-screen md:scale-100">
           <ReactPlayer
             url={video.videoLink}
             controls
-            width={900}
+            width={"100%"}
             height={500}
           />
         </div>
