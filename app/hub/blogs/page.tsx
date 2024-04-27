@@ -6,27 +6,10 @@ import GrammarCarousel from "@/components/carousel/GrammarCarousel";
 
 import OtherBlogs from "@/components/otherBlogs/OtherBlogs";
 import Link from "next/link";
-import {
-  AccessTime,
-  EditNote,
-  GridView,
-  NoteAlt,
-  OndemandVideo,
-  People,
-} from "@mui/icons-material";
-import CustomHamburger from "@/components/hamburger/CustomHamburger";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 
 const Blogs = () => {
   return (
     <div className={styles.container}>
-      <div className="ml-auto z-10 fixed top-0 right-0 md:hidden bg-white  rounded-md m-2">
-        <CustomHamburger navbar={false} sidebar={true} />
-      </div>
       <div className="header flex flex-col items-center md:items-center md:justify-between text-center gap-4">
         <h3 className="h1 text-4xl ">Trending Articles</h3>
         <p className=" w-fit md:w-[30rem]">

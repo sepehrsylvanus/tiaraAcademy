@@ -12,7 +12,6 @@ import ClassesDate from "@/components/classesDate/ClassesDate";
 import CustomSelect from "@/components/customSelect/CustomSelect";
 
 import { getSingleClass } from "@/actions/actions";
-import CustomHamburger from "@/components/hamburger/CustomHamburger";
 
 const privateTimes = [
   "9",
@@ -44,9 +43,6 @@ const MyClass = async (details: DetailsProps) => {
   console.log(singleClass);
   return (
     <div className={styles.container}>
-      <div className="ml-auto z-10 fixed top-0  right-0 md:hidden bg-white  rounded-md m-2">
-        <CustomHamburger navbar={false} sidebar={true} />
-      </div>
       <section className={styles.header}>
         <div className={styles.navbar}>
           <h1 className="font-bold text-2xl md:h1">English Lessons</h1>

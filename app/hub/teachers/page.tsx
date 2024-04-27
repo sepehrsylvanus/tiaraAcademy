@@ -30,11 +30,11 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 
-import CustomHamburger from "@/components/hamburger/CustomHamburger";
 import { Skeleton } from "@/components/ui/skeleton";
 import axios from "axios";
-import { toast } from "react-toastify";
+
 import { User } from "@/utils/types";
+import { toast } from "react-toastify";
 
 const page = () => {
   const [teachers, setTeachers] = useState<User[]>([]);
@@ -80,12 +80,16 @@ const page = () => {
   };
 
   // END OF FILTER
-
+  const copyToClipboard = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      toast("Copied to clipboard");
+    } catch (err) {
+      console.error("Failed to copy text: ", err);
+    }
+  };
   return (
     <div className={styles.container}>
-      <div className="ml-auto z-10 fixed top-0 right-0 md:hidden bg-white  rounded-md m-2">
-        <CustomHamburger navbar={false} sidebar={true} />
-      </div>
       <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-between sm:px-4 md:pl-[3em]">
         <h1 className=" font-bold text-3xl">Find a teacher</h1>
         <CustomClassTextField onChange={handleChange} label="Teacher's name" />
@@ -130,10 +134,17 @@ const page = () => {
                           View profile
                         </Link>
                       </CardContent>
-                      <CardFooter className="p-0">
+                      <CardFooter className="p-0 flex flex-col gap-2 ">
                         <button className="  bg-extraText w-full py-4 rounded-md text-white hover:bg-lightPrime hover:text-extraBg transition">
                           See Classes
                         </button>
+
+                        <p
+                          className=" text-lg  md:text-base md:hover:text-lg mx-2"
+                          onClick={() => copyToClipboard(teacher.id)}
+                        >
+                          {teacher.id}
+                        </p>
                       </CardFooter>
                     </Card>
                   </CarouselItem>
@@ -160,15 +171,17 @@ const page = () => {
                       View profile
                     </Link>
                   </CardContent>
-                  <CardFooter className="p-0">
-                    <Link
-                      href={`/hub/classes?teacher=${teacher.fName}-${teacher.lName}`}
-                      className="w-full"
+                  <CardFooter className="p-0 flex flex-col gap-2">
+                    <button className="  bg-extraText w-full py-4 rounded-md text-white hover:bg-lightPrime hover:text-extraBg transition">
+                      See Classes
+                    </button>
+
+                    <p
+                      className=" text-lg  md:text-base md:hover:text-lg"
+                      onClick={() => copyToClipboard(teacher.id)}
                     >
-                      <button className="  bg-extraText w-full py-4 rounded-md text-white hover:bg-lightPrime hover:text-extraBg transition">
-                        See Classes
-                      </button>
-                    </Link>
+                      {teacher.id}
+                    </p>
                   </CardFooter>
                 </Card>
               </div>
