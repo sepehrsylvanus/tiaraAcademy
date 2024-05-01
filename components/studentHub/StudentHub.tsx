@@ -9,10 +9,12 @@ import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { Class } from "@/utils/types";
 import axios from "axios";
+import Link from "next/link";
 
 export default function StudentHub() {
   const [displayCount, setDisplayCount] = useState(3);
   const [featuredClasses, setFeaturedClasses] = useState<Class[]>();
+  const [loading, setLoading] = useState(true);
   const handleShowMore = () => {
     setDisplayCount((prev: number) => prev + 2);
   };
@@ -21,18 +23,24 @@ export default function StudentHub() {
   }, [featuredClasses]);
 
   useEffect(() => {
-    axios.get("/api/classes").then((res) => {
-      console.log(res.data);
-      const classes: Class[] = res.data.classes;
-      const result = classes.filter((cls) => {
-        const cutoffDate = new Date();
-        cutoffDate.setDate(cutoffDate.getDate() - 7);
-        const classCreatedDate = new Date(cls.createdAt);
-        return classCreatedDate >= cutoffDate;
+    try {
+      axios.get("/api/classes").then((res) => {
+        console.log(res.data);
+        const classes: Class[] = res.data.classes;
+        const result = classes.filter((cls) => {
+          const cutoffDate = new Date();
+          cutoffDate.setDate(cutoffDate.getDate() - 7);
+          const classCreatedDate = new Date(cls.createdAt);
+          return classCreatedDate >= cutoffDate;
+        });
+        console.log(result);
+        setFeaturedClasses(result);
       });
-      console.log(result);
-      setFeaturedClasses(result);
-    });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
   return (
@@ -41,8 +49,16 @@ export default function StudentHub() {
         <div className=" mb-2 border-b border-dashed flex justify-between flex-row-reverse items-center md:justify-end">
           <h2 className="font-bold text-2xl">Featured Classes</h2>
         </div>
-        <div className="featuredContainer grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-          {featuredClasses ? (
+        <div
+          className={`featuredContainer ${
+            featuredClasses && featuredClasses?.length > 0
+          } gap-4`}
+        >
+          {loading ? (
+            <div style={{ transform: "scale(.7)" }}>
+              <CircularProgress sx={{ color: "white" }} />
+            </div>
+          ) : featuredClasses && featuredClasses?.length > 0 ? (
             featuredClasses.slice(0, displayCount).map((featuredClass) => {
               return (
                 <Card
@@ -71,9 +87,13 @@ export default function StudentHub() {
               );
             })
           ) : (
-            <div className="mx-auto">
-              <CircularProgress />
-            </div>
+            <p className="w-full">
+              There is not featured classes. Please go to{" "}
+              <Link className=" underline" href={"/hub/classes"}>
+                classes page
+              </Link>{" "}
+              in order to see classes...
+            </p>
           )}
         </div>
 
