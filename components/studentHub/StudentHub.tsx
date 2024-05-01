@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { Class } from "@/utils/types";
 import axios from "axios";
 import Link from "next/link";
+import MyWritings from "../myWritings/MyWritings";
 
 export default function StudentHub() {
   const [displayCount, setDisplayCount] = useState(3);
@@ -44,14 +45,16 @@ export default function StudentHub() {
   }, []);
 
   return (
-    <div className="px-2 pb-4  md:pl-[4em]">
-      <div className="featuredClasses">
-        <div className=" mb-2 border-b border-dashed flex justify-between flex-row-reverse items-center md:justify-end">
+    <div className="px-2 pb-4 pt-[3em]  md:pl-[4em]">
+      <section className="featuredClasses">
+        <div className=" mb-2 border-b border-dashed flex justify-end flex-row-reverse items-center md:justify-end">
           <h2 className="font-bold text-2xl">Featured Classes</h2>
         </div>
         <div
           className={`featuredContainer ${
-            featuredClasses && featuredClasses?.length > 0
+            featuredClasses &&
+            featuredClasses?.length > 0 &&
+            "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5"
           } gap-4`}
         >
           {loading ? (
@@ -88,7 +91,7 @@ export default function StudentHub() {
             })
           ) : (
             <p className="w-full">
-              There is not featured classes. Please go to{" "}
+              There is not featured classes. Please go to the{" "}
               <Link className=" underline" href={"/hub/classes"}>
                 classes page
               </Link>{" "}
@@ -104,10 +107,14 @@ export default function StudentHub() {
             </Button>
           </div>
         )}
-      </div>
-      <div className="mt-6">
+      </section>
+      <section className="mt-6">
         <MyCourses />
-      </div>
+      </section>
+
+      <section>
+        <MyWritings />
+      </section>
     </div>
   );
 }
