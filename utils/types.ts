@@ -34,7 +34,7 @@ export interface Writings {
   teacherId: string;
   email: string;
   subject: string;
-  subjectImgURL: string;
+  subjectImgURL: string | null;
   writing: string;
   writingLink?: string;
 }

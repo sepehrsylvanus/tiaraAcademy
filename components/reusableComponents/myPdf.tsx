@@ -18,14 +18,35 @@ const MyPdf = ({ details }: { details: Writings }) => {
       padding: 32,
     },
     title: {
-      backgroundColor: "#F4F1EB",
-
+      backgroundColor: "#594943",
+      color: "white",
       paddingTop: 24,
       paddingBottom: 24,
       paddingLeft: 16,
       paddingRight: 16,
       fontWeight: "bold",
-      fontSize: 20,
+      fontSize: 50,
+      textAlign: "center",
+      marginBottom: 16,
+    },
+    name: {
+      fontSize: 30,
+      textAlign: "center",
+      marginBottom: 16,
+    },
+    email: {
+      textAlign: "center",
+      marginBottom: 16,
+    },
+    image: {
+      borderRadius: 5,
+      width: 300,
+      height: 300,
+      margin: "0 auto",
+    },
+    writing: {
+      marginTop: 16,
+      lineHeight: 1.5,
     },
   });
 
@@ -34,11 +55,13 @@ const MyPdf = ({ details }: { details: Writings }) => {
       {/* استایل های ایجاد شده برای پیج را به شکل زیر به آن اعمال می کنیم */}
       <Page size="A4" style={styles.page}>
         <View>
-          <Text>{details.name}</Text>
-          <Text>{details.email}</Text>
-          <Text>{details.subject}</Text>
-          <Image src={details.subjectImgURL} />
-          <Text>{details.writing}</Text>
+          <Text style={styles.title}>{details.subject}</Text>
+          <Text style={styles.name}>{details.name}</Text>
+          <Text style={styles.email}>{details.email}</Text>
+          {details.subjectImgURL && (
+            <Image style={styles.image} src={details.subjectImgURL} />
+          )}
+          <Text style={styles.writing}>{details.writing}</Text>
         </View>
       </Page>
     </Document>

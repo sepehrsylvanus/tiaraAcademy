@@ -4,6 +4,7 @@ import { RadioButtonCheckedRounded } from "@mui/icons-material";
 import { S3 } from "aws-sdk";
 import { cookies } from "next/headers";
 import { toast } from "react-toastify";
+import { getSingleUser } from "./userActions";
 
 const { verify } = require("jsonwebtoken");
 export const getToken = () => {
@@ -97,6 +98,20 @@ export const postWriting = async (data: FormData) => {
   console.log(image);
   console.log(writing);
   console.log(teacherId);
+};
+
+export const getWritings = async () => {
+  const result = [];
+  const token = await getToken()!;
+  const user = await getSingleUser(token?.value);
+  const writings = await prisma.writing.findMany();
+  result.push(...writings);
+  const writingFiles = await prisma.writingFile.findMany();
+  result.push(...writingFiles);
+  const thisUserWritings = writings.filter(
+    (writing) => writing.teacherId === user?.id
+  );
+  return thisUserWritings;
 };
 
 export const postVideo = async (data: FormData) => {

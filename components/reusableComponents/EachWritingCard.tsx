@@ -1,4 +1,4 @@
-import React from "react";
+"use client";
 import {
   Dialog,
   DialogContent,
@@ -10,13 +10,26 @@ import ReuableForm from "./teacherWriting/ReuableForm";
 import { Avatar } from "@mui/material";
 import { Button } from "../ui/button";
 import MyPdf from "./myPdf";
-import { usePDF } from "@react-pdf/renderer";
 import { Writings } from "@/utils/types";
 
-const EachWritingCard = ({ writing }: { writing: Writings }) => {
-  const [{ loading, url, error }] = usePDF({
-    document: <MyPdf details={writing} />,
-  });
+// Conditionally import usePDF only in a web environment
+let usePDF: any; // Adjust the type based on your usePDF type definition
+if (typeof window !== "undefined") {
+  // Only import usePDF if running in a web environment
+  const reactPDF = require("@react-pdf/renderer");
+  usePDF = reactPDF.usePDF;
+}
+
+const EachWritingCard: React.FC<{ writing: Writings }> = ({ writing }) => {
+  let url: string | undefined;
+  if (usePDF) {
+    // usePDF is available only in a web environment
+    const [{ loading, url: pdfUrl, error }] = usePDF({
+      document: <MyPdf details={writing} />,
+    });
+    url = pdfUrl;
+  }
+
   return (
     <div
       key={writing.id}
@@ -53,8 +66,8 @@ const EachWritingCard = ({ writing }: { writing: Writings }) => {
           </DialogContent>
         </Dialog>
 
-        {writing.name ? (
-          <a href={url!}>
+        {url ? (
+          <a href={url}>
             <Button className="w-full">Download</Button>
           </a>
         ) : (
