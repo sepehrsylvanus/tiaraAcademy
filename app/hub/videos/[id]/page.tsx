@@ -27,7 +27,7 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
         {video?.title}
       </h1>
       {video && (
-        <div className="  w-screen md:scale-100">
+        <div className="  w-screen md:w-[70%] mx-auto md:scale-100">
           <ReactPlayer
             url={video.videoLink}
             controls

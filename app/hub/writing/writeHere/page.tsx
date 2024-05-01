@@ -11,6 +11,7 @@ import { S3 } from "aws-sdk";
 import axios from "axios";
 import { postWriting } from "@/actions/actions";
 import {
+  CircularProgress,
   FormControl,
   Input,
   InputLabel,
@@ -18,10 +19,12 @@ import {
   TextField,
 } from "@mui/material";
 import styles from "./writeHere.module.css";
+import { toast } from "react-toastify";
 
 const WriteHere = () => {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [writing, setWriting] = useState<string>();
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     console.log(selectedImage);
   }, [selectedImage]);
@@ -35,13 +38,26 @@ const WriteHere = () => {
   if (writing) {
     wordCountFirst = writing.trim().split(/\s+/).length;
   }
+  const handleSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
+    try {
+      e.preventDefault();
+      setLoading(true);
+      const formData = new FormData(e.currentTarget);
+      await postWriting(formData);
+      toast.success("Your writing submitted");
+      setLoading(false);
+    } catch (error) {
+      toast.error("There was an error in submitting error");
+      console.log(error);
+    }
+  };
 
   const formInput =
     "bg-[#c6d9e6] text-lightText px-2 py-2 rounded-md outline-none";
   return (
     <div>
       <Card className="w-[20rem] sm:w-[25rem] md:w-[40rem] lg:w-[50rem] p-4 bg-extraText text-lightPrime mx-auto">
-        <form action={postWriting} className="space-y-6 flex flex-col">
+        <form onSubmit={handleSubmit} className="space-y-6 flex flex-col">
           <p className="h3 text-center">
             Here you can write and send your first section writing
           </p>
@@ -90,7 +106,15 @@ const WriteHere = () => {
           />
           <p className="text-white">{wordCountFirst} / 250</p>
 
-          <Button type="submit">Submit</Button>
+          {loading ? (
+            <Button disabled>
+              <CircularProgress
+                sx={{ color: "white", transform: "scale(.7)" }}
+              />
+            </Button>
+          ) : (
+            <Button type="submit">Submit</Button>
+          )}
         </form>
       </Card>
     </div>

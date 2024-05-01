@@ -1,7 +1,7 @@
 "use server";
 import prisma from "@/utils/db";
 import { RadioButtonCheckedRounded } from "@mui/icons-material";
-import { S3 } from "aws-sdk";
+import { Repostspace, S3 } from "aws-sdk";
 import { cookies } from "next/headers";
 import { toast } from "react-toastify";
 import { getSingleUser } from "./userActions";
@@ -41,6 +41,8 @@ export const postWriting = async (data: FormData) => {
   const email = tokenPayload.data;
   const bytes = await image.arrayBuffer();
   const buffer = Buffer.from(bytes);
+  const user = await getSingleUser(token.value);
+  const creatorId = user?.id as string;
   console.log(image.name);
   const teacher = await prisma.user.findUnique({
     where: {
@@ -72,6 +74,7 @@ export const postWriting = async (data: FormData) => {
       Key: image?.name,
       Expires: 31536000, // 1 year
     });
+
     const data = {
       name,
       teacherId,
@@ -79,6 +82,7 @@ export const postWriting = async (data: FormData) => {
       subject,
       subjectImgURL: permanentSignedUrl,
       writing,
+      creatorId,
     };
 
     if (response) {
@@ -210,10 +214,13 @@ export const postWritingFile = async (data: FormData) => {
   const writingFile = data.get("writingFile") as File;
   const bytes = await writingFile.arrayBuffer();
   const buffer = await Buffer.from(bytes);
-
+  const token = await getToken()!;
+  const user = await getSingleUser(token?.value);
+  const creatorId = user?.id as string;
   const newWritingFile = await prisma.writingFile.create({
     data: {
       teacherId,
+      creatorId,
     },
   });
 

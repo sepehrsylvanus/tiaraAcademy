@@ -17,6 +17,11 @@ enum Role {
   adminTeacher
 }
 
+enum WritingStatus {
+  checked
+  pending
+}
+
 model User {
   id       String  @id @default(cuid()) @map("_id")
   fName    String
@@ -26,8 +31,10 @@ model User {
 
   role Role @default(student)
 
-  ClassUsers ClassUsers[]
-  Class      Class[]
+  ClassUsers  ClassUsers[]
+  Class       Class[]
+  Writing     Writing[]
+  WritingFile WritingFile[]
 }
 
 model Class {
@@ -51,19 +58,25 @@ model ClassUsers {
 }
 
 model Writing {
-  id            String  @id @default(cuid()) @map("_id")
+  id            String        @id @default(cuid()) @map("_id")
+  creatorId     String
+  creator       User          @relation(fields: [creatorId], references: [id])
   name          String
   teacherId     String
   email         String
   subject       String
   subjectImgURL String?
   writing       String
+  status        WritingStatus @default(pending)
 }
 
 model WritingFile {
-  id          String  @id @default(cuid()) @map("_id")
+  id          String        @id @default(cuid()) @map("_id")
+  creatorId   String
+  creator     User          @relation(fields: [creatorId], references: [id])
   teacherId   String
   writingLink String?
+  status      WritingStatus @default(pending)
 }
 
 model Video {
