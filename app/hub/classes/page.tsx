@@ -64,7 +64,11 @@ const Classes = () => {
 
   useEffect(() => {
     axios
-      .get("/api/classes")
+      .get("/api/classes", {
+        headers: {
+          apiKey: process.env.NEXT_PUBLIC_API_KEY,
+        },
+      })
       .then((res) => {
         setClasses(res.data.classes);
         setFilteredClasses(res.data.classes);
@@ -93,7 +97,10 @@ const Classes = () => {
         }
         setLoading(false);
       })
-      .catch((e) => toast.error(e.response.data.error));
+      .catch((e) => toast.error(e.response.data.error))
+      .finally(() => {
+        setLoading(false);
+      });
   }, []);
 
   const teacherName = searchParams.get("teacher");
@@ -245,7 +252,7 @@ const Classes = () => {
             <Skeleton className="w-full h-[250px] rounded-md" />
             <Skeleton className="w-full h-[250px] rounded-md" />
           </>
-        ) : (
+        ) : filteredClasses ? (
           filteredClasses?.map((eachClass) => {
             let days = eachClass.days.join(" / ");
 
@@ -286,6 +293,8 @@ const Classes = () => {
               </Card>
             );
           })
+        ) : (
+          <p>There is an error in server</p>
         )}
       </div>
     </div>

@@ -25,18 +25,24 @@ export default function StudentHub() {
 
   useEffect(() => {
     try {
-      axios.get("/api/classes").then((res) => {
-        console.log(res.data);
-        const classes: Class[] = res.data.classes;
-        const result = classes.filter((cls) => {
-          const cutoffDate = new Date();
-          cutoffDate.setDate(cutoffDate.getDate() - 7);
-          const classCreatedDate = new Date(cls.createdAt);
-          return classCreatedDate >= cutoffDate;
+      axios
+        .get("/api/classes", {
+          headers: {
+            apiKey: process.env.NEXT_PUBLIC_API_KEY,
+          },
+        })
+        .then((res) => {
+          console.log(res.data);
+          const classes: Class[] = res.data.classes;
+          const result = classes.filter((cls) => {
+            const cutoffDate = new Date();
+            cutoffDate.setDate(cutoffDate.getDate() - 7);
+            const classCreatedDate = new Date(cls.createdAt);
+            return classCreatedDate >= cutoffDate;
+          });
+          console.log(result);
+          setFeaturedClasses(result);
         });
-        console.log(result);
-        setFeaturedClasses(result);
-      });
     } catch (error) {
       console.log(error);
     } finally {

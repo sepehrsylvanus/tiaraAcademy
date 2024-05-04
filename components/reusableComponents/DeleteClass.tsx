@@ -31,7 +31,11 @@ const DeleteClass = () => {
   function onSubmit(values: z.infer<typeof deleeteArticleForm>) {
     setSending(true);
     axios
-      .delete(`/api/classes/${values.id}`)
+      .delete(`/api/classes/${values.id}`, {
+        headers: {
+          apiKey: process.env.NEXT_PUBLIC_API_KEY,
+        },
+      })
       .then((res) => {
         toast.success(res.data.message, {
           position: "bottom-right",

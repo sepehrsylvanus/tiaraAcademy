@@ -69,7 +69,11 @@ const CreateClass = () => {
     console.log(values);
     setSending(true);
     axios
-      .post("/api/classes", values)
+      .post("/api/classes", values, {
+        headers: {
+          apiKey: process.env.NEXT_PUBLIC_API_KEY,
+        },
+      })
       .then((res) => {
         console.log(res);
         toast.success(res.data.message, {
