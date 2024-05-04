@@ -31,7 +31,11 @@ const ClerkAvatar = () => {
 
   const signout = async () => {
     axios
-      .get("/api/signout")
+      .get("/api/signout", {
+        headers: {
+          apiKey: process.env.NEXT_PUBLIC_API_KEY,
+        },
+      })
       .then((res) => {
         console.log(res);
         toast(res.data);
