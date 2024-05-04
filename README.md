@@ -92,18 +92,6 @@ This document serves as a guide to understand the server actions and APIs implem
 
 ### Writings
 
-#### Make new writing through website
-
-- **Endpoint:** `/api/writings`
-- **Method:** POST
-- **Purpose:** Create a new writing through the website.
-
-#### Retrieve all writings
-
-- **Endpoint:** `/api/writings`
-- **Method:** GET
-- **Purpose:** Retrieve all writings.
-
 ## 🎉 Conclusion
 
 This README provides an overview of the server actions and APIs available in Tiara Academy's website. For detailed usage instructions, refer to the corresponding sections above.
