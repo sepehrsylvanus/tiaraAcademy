@@ -20,6 +20,7 @@ import { useRouter } from "next/navigation";
 import { getSingleUser } from "@/actions/userActions";
 import { getToken } from "@/actions/actions";
 import { User } from "@/utils/types";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export type StudentsShow = {
   id: string;
@@ -52,7 +53,7 @@ export const columns: ColumnDef<StudentsShow>[] = [
 
       const changeRole = async (role: string) => {
         setSending(true);
-        axios
+        return axios
           .put(
             `/api/users/${user.id}`,
             { role },
@@ -75,7 +76,7 @@ export const columns: ColumnDef<StudentsShow>[] = [
               theme: "light",
             });
             setSending(false);
-            window.location.reload();
+            return res;
           })
           .catch((e) => {
             console.log(e);
@@ -90,8 +91,19 @@ export const columns: ColumnDef<StudentsShow>[] = [
               theme: "light",
             });
             setSending(false);
+            throw e;
           });
       };
+
+      const queryClient = useQueryClient();
+      const mutation = useMutation({
+        mutationFn: async (role: string) => await changeRole(role),
+        onSuccess: () => {
+          console.log("started");
+          queryClient.invalidateQueries({ queryKey: ["users"] });
+          console.log("worked");
+        },
+      });
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -114,23 +126,23 @@ export const columns: ColumnDef<StudentsShow>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Change role</DropdownMenuLabel>
             {role !== "student" && (
-              <DropdownMenuItem onClick={() => changeRole("student")}>
+              <DropdownMenuItem onClick={() => mutation.mutate("student")}>
                 Student
               </DropdownMenuItem>
             )}
 
             {role !== "teacher" && (
-              <DropdownMenuItem onClick={() => changeRole("teacher")}>
+              <DropdownMenuItem onClick={() => mutation.mutate("teacher")}>
                 Teacher
               </DropdownMenuItem>
             )}
             {role !== "admin" && (
-              <DropdownMenuItem onClick={() => changeRole("admin")}>
+              <DropdownMenuItem onClick={() => mutation.mutate("admin")}>
                 Admin
               </DropdownMenuItem>
             )}
             {role !== "adminTeacher" && (
-              <DropdownMenuItem onClick={() => changeRole("adminTeacher")}>
+              <DropdownMenuItem onClick={() => mutation.mutate("adminTeacher")}>
                 Admin - Teacher
               </DropdownMenuItem>
             )}

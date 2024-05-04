@@ -13,15 +13,14 @@ import { getSingleUser } from "@/actions/userActions";
 
 import PdfSection from "@/components/PdfSection";
 import { User } from "@/utils/types";
+import TeachersTable from "@/components/table/TeachersTable";
+import StudentTable from "@/components/studentTable/StudentTable";
+import { useGetUsers } from "@/hooks/useGetUsers";
+
 const Hub = async () => {
-  const users = await retieveUsers();
   const token = await getToken();
   const currentUser: User | null = await getSingleUser(token?.value!);
 
-  const students = users.filter((user) => user.role === "student");
-  const teachers = users.filter(
-    (user) => user.role === "adminTeacher" || user.role === "teacher"
-  );
   const renderRole = () => {
     switch (currentUser?.role) {
       case "teacher":
@@ -35,6 +34,7 @@ const Hub = async () => {
         break;
     }
   };
+
   return (
     <div className=" lg:pl-[5em] ">
       {(currentUser?.role.includes("teacher") ||
@@ -87,7 +87,7 @@ const Hub = async () => {
 
             <div className="space-y-2 flex-grow">
               <p className="font-semibold">Students</p>
-              <DataTable columns={columns} data={students} />
+              <StudentTable />
             </div>
 
             {(currentUser?.role.includes("admin") ||
@@ -95,7 +95,8 @@ const Hub = async () => {
               <div className="col-span-3 row-span-1 overflow-auto mt-4">
                 <div className="space-y-2">
                   <p className="font-semibold">Teachers</p>
-                  <DataTable columns={columns} data={teachers} />
+
+                  <TeachersTable />
                 </div>
               </div>
             )}
