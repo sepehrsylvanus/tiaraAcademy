@@ -13,7 +13,11 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
   const [video, setVideo] = useState<VideoType>();
   useEffect(() => {
     axios
-      .get(`/api/videos/${params.id}`)
+      .get(`/api/videos/${params.id}`, {
+        headers: {
+          apiKey: process.env.NEXT_PUBLIC_API_KEY,
+        },
+      })
       .then((res) => setVideo(res.data))
       .catch((e) => console.log(e));
   }, []);

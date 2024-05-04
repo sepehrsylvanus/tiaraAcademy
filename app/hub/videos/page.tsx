@@ -60,7 +60,11 @@ const Videos = () => {
   };
   useEffect(() => {
     axios
-      .get("/api/videos")
+      .get("/api/videos", {
+        headers: {
+          apiKey: process.env.NEXT_PUBLIC_API_KEY,
+        },
+      })
       .then((res) => {
         setVideos(res.data);
         console.log(res.data);

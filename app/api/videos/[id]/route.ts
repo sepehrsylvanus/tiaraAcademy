@@ -7,10 +7,14 @@ type ParamsProps = {
 };
 export const GET = async (req: NextRequest, { params }: ParamsProps) => {
   console.log(params);
-  const singleVideo = await prisma.video.findUnique({
-    where: {
-      id: params.id,
-    },
-  });
-  return NextResponse.json(singleVideo);
+  if (req.headers.get("apiKey")) {
+    const singleVideo = await prisma.video.findUnique({
+      where: {
+        id: params.id,
+      },
+    });
+    return NextResponse.json(singleVideo);
+  } else {
+    return NextResponse.json({ message: "Access denied" }, { status: 401 });
+  }
 };
