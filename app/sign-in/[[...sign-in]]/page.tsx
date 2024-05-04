@@ -31,7 +31,11 @@ const Login = () => {
   async function signin(values: z.infer<typeof formSchema>) {
     setSending(true);
     axios
-      .post("/api/signin", values)
+      .post("/api/signin", values, {
+        headers: {
+          apiKey: process.env.NEXT_PUBLIC_API_KEY,
+        },
+      })
       .then((res) => {
         setSending(false);
         router.push("/hub");

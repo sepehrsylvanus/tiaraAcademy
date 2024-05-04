@@ -39,15 +39,18 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
       expiresIn: "1d",
     }
   );
+  if (req.headers.get("apiKey")) {
+    const response = NextResponse.json({
+      message: "User logged in successfully",
+    });
 
-  const response = NextResponse.json({
-    message: "User logged in successfully",
-  });
+    response.cookies.set("token", token, {
+      httpOnly: true,
+      maxAge: 60 * 60 * 60 * 24,
+    });
 
-  response.cookies.set("token", token, {
-    httpOnly: true,
-    maxAge: 60 * 60 * 60 * 24,
-  });
-
-  return response;
+    return response;
+  } else {
+    return NextResponse.json({ message: "Access denied" }, { status: 401 });
+  }
 };
