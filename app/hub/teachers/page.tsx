@@ -43,7 +43,11 @@ const page = () => {
 
   useEffect(() => {
     axios
-      .get("/api/users")
+      .get("/api/users", {
+        headers: {
+          apiKey: process.env.NEXT_PUBLIC_API_KEY,
+        },
+      })
       .then((res) => {
         const teachers = res.data.filter(
           (teacher: User) =>

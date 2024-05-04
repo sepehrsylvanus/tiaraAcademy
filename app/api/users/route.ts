@@ -13,46 +13,54 @@ type FormDataProps = {
 
 // ============ REGISTER USER ============
 export const POST = async (req: NextRequest, res: NextResponse) => {
-  try {
-    const formData: FormDataProps = await req.json();
+  if (req.headers.get("apiKey")) {
+    try {
+      const formData: FormDataProps = await req.json();
 
-    formData.password = bcrypt.hashSync(formData.password, 12);
+      formData.password = bcrypt.hashSync(formData.password, 12);
 
-    const alreadyRegistered = await prisma.user.findFirst({
-      where: {
-        email: formData.email,
-      },
-    });
+      const alreadyRegistered = await prisma.user.findFirst({
+        where: {
+          email: formData.email,
+        },
+      });
 
-    if (alreadyRegistered) {
+      if (alreadyRegistered) {
+        return NextResponse.json(
+          { error: "User Already there!" },
+          { status: 409 }
+        );
+      }
+      const newUser = await prisma.user.create({
+        data: formData,
+      });
+
+      return NextResponse.json({
+        message: `New user successfully created: ${newUser.fName} ${newUser.lName}`,
+      });
+    } catch (error) {
       return NextResponse.json(
-        { error: "User Already there!" },
-        { status: 409 }
+        { error: "Creating user crashed" },
+        { status: 500 }
       );
     }
-    const newUser = await prisma.user.create({
-      data: formData,
-    });
-
-    return NextResponse.json({
-      message: `New user successfully created: ${newUser.fName} ${newUser.lName}`,
-    });
-  } catch (error) {
-    return NextResponse.json(
-      { error: "Creating user crashed" },
-      { status: 500 }
-    );
+  } else {
+    return NextResponse.json({ message: "Access denied" }, { status: 401 });
   }
 };
 
-export const GET = async () => {
-  try {
-    const users = await prisma.user.findMany();
-    return NextResponse.json(users);
-  } catch (error) {
-    return NextResponse.json(
-      { message: `There is an error in server` },
-      { status: 500 }
-    );
+export const GET = async (req: NextRequest) => {
+  if (req.headers.get("apiKey")) {
+    try {
+      const users = await prisma.user.findMany();
+      return NextResponse.json(users);
+    } catch (error) {
+      return NextResponse.json(
+        { message: `There is an error in server` },
+        { status: 500 }
+      );
+    }
+  } else {
+    return NextResponse.json({ message: "Access denied" }, { status: 401 });
   }
 };

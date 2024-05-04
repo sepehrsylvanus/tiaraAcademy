@@ -53,7 +53,15 @@ export const columns: ColumnDef<StudentsShow>[] = [
       const changeRole = async (role: string) => {
         setSending(true);
         axios
-          .put(`/api/users/${user.id}`, { role })
+          .put(
+            `/api/users/${user.id}`,
+            { role },
+            {
+              headers: {
+                apiKey: process.env.NEXT_PUBLIC_API_KEY,
+              },
+            }
+          )
           .then((res) => {
             console.log(res);
             toast.success(res.data.message, {

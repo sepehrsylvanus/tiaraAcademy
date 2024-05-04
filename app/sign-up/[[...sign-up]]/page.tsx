@@ -48,7 +48,11 @@ const Login = () => {
 
     setSending(true);
     axios
-      .post("/api/users", formData)
+      .post("/api/users", formData, {
+        headers: {
+          apiKey: process.env.NEXT_PUBLIC_API_KEY,
+        },
+      })
       .then((res) => {
         console.log(res);
         if (res.status === 200) {
