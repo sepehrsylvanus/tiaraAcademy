@@ -66,7 +66,6 @@ const CreateClass = () => {
   });
 
   async function createClass(values: z.infer<typeof formSchema>) {
-    console.log(values);
     setSending(true);
     axios
       .post("/api/classes", values, {
@@ -75,7 +74,6 @@ const CreateClass = () => {
         },
       })
       .then((res) => {
-        console.log(res);
         toast.success(res.data.message, {
           position: "bottom-right",
           autoClose: 5000,

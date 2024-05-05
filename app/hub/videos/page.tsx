@@ -31,7 +31,6 @@ const chunkedTags: videoTag[][] = [];
 for (let i = 0; i < videoTags.length; i += 2) {
   chunkedTags.push(videoTags.slice(i, i + 2));
 }
-console.log(chunkedTags);
 
 const Videos = () => {
   const [searchVal, setSearchVal] = useState<string>();
@@ -47,9 +46,7 @@ const Videos = () => {
     };
     fetchUser();
   }, []);
-  useEffect(() => {
-    console.log(currentUser?.role);
-  }, [currentUser]);
+  useEffect(() => {}, [currentUser]);
   const copyToClipboard = async (text: string) => {
     try {
       await navigator.clipboard.writeText(text);
@@ -67,9 +64,8 @@ const Videos = () => {
       })
       .then((res) => {
         setVideos(res.data);
-        console.log(res.data);
       })
-      .catch((e) => console.log(e));
+      .catch();
   }, []);
 
   return (

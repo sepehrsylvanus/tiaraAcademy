@@ -22,7 +22,7 @@ const Sidebar = () => {
   useEffect(() => {
     const retrieveToken = async () => {
       const token = await getToken();
-      console.log(token?.value);
+
       if (token) {
         setToken(token?.value);
       }
@@ -34,7 +34,7 @@ const Sidebar = () => {
   useEffect(() => {
     const getUserInformation = async (token: string) => {
       const userInfo = await getSingleUser(token)!;
-      console.log(userInfo);
+
       if (userInfo) {
         setUser(userInfo);
       }

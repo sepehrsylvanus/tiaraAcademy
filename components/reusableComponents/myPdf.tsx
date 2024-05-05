@@ -10,7 +10,7 @@ import {
 
 const MyPdf = ({ details }: { details: Writings }) => {
   // در این قسمت می توانید برای هریک از عناصر پی دی اف، استایل های مختلف را در نظر بگیرید
-  console.log(details);
+
   const styles = StyleSheet.create({
     page: {
       backgroundColor: "white",

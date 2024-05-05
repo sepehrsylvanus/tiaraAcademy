@@ -44,8 +44,6 @@ const Login = () => {
         setError(e.response.data.error);
         setSending(false);
       });
-
-    console.log(values);
   }
   return (
     <div className={styles.container}>

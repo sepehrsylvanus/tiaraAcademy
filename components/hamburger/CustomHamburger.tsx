@@ -33,10 +33,6 @@ const CustomHamburger = ({
     gettingToken();
   }, []);
 
-  useEffect(() => {
-    console.log(token);
-  }, [token]);
-
   return (
     <div className="md:hidden">
       <Hamburger onToggle={() => setOpenMenu((prev) => !prev)} />

@@ -9,7 +9,7 @@ export default async function RootLayout({
   const teachers = await (
     await retieveUsers()
   ).filter((user) => user.role === "teacher");
-  console.log(teachers);
+
   return (
     <div className="flex flex-col px-4 md:pl-[5em] pb-6">
       <h1 className="my-4 h1 text-center text-2xl">Writing Section</h1>

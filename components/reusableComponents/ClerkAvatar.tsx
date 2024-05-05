@@ -37,7 +37,6 @@ const ClerkAvatar = () => {
         },
       })
       .then((res) => {
-        console.log(res);
         toast(res.data);
         router.push("/");
       })
@@ -49,7 +48,7 @@ const ClerkAvatar = () => {
   useEffect(() => {
     const retrieveToken = async () => {
       const token = await getToken();
-      console.log(token?.value);
+
       if (token) {
         setToken(token?.value);
       }
@@ -61,7 +60,7 @@ const ClerkAvatar = () => {
   useEffect(() => {
     const getUserInformation = async (token: string) => {
       const userInfo = await getSingleUser(token)!;
-      console.log(userInfo);
+
       if (userInfo) {
         setUser(userInfo);
       }

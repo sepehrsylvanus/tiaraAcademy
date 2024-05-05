@@ -44,7 +44,6 @@ const Login = () => {
       return;
     }
     const { passwordRepeat, ...formData } = values;
-    console.log(formData);
 
     setSending(true);
     axios
@@ -54,7 +53,6 @@ const Login = () => {
         },
       })
       .then((res) => {
-        console.log(res);
         if (res.status === 200) {
           toast.success(res.data.message, {
             position: "bottom-right",

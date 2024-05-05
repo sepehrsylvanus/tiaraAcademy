@@ -18,7 +18,7 @@ const Colleagues = (details: DetailsProps) => {
   const handleViewMore = () => {
     setItemsToShow(itemsToShow + 2);
   };
-  console.log(details);
+
   useEffect(() => {
     const getColleagues = async () => {
       const allUsers = await retieveUsers();

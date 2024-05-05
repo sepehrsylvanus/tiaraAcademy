@@ -19,9 +19,6 @@ export default function StudentHub() {
   const handleShowMore = () => {
     setDisplayCount((prev: number) => prev + 2);
   };
-  useEffect(() => {
-    console.log(featuredClasses);
-  }, [featuredClasses]);
 
   useEffect(() => {
     try {
@@ -32,7 +29,6 @@ export default function StudentHub() {
           },
         })
         .then((res) => {
-          console.log(res.data);
           const classes: Class[] = res.data.classes;
           const result = classes.filter((cls) => {
             const cutoffDate = new Date();
@@ -40,7 +36,7 @@ export default function StudentHub() {
             const classCreatedDate = new Date(cls.createdAt);
             return classCreatedDate >= cutoffDate;
           });
-          console.log(result);
+
           setFeaturedClasses(result);
         });
     } catch (error) {

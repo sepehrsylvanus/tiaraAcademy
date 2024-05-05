@@ -12,8 +12,6 @@ export const POST = async (req: NextRequest) => {
       const data = await req.json();
       const token = await getToken();
       const user = (await getSingleUser(token?.value!)) as User;
-      console.log(user);
-      console.log(data);
 
       const newClass = await prisma.class.create({
         data: {
@@ -34,7 +32,6 @@ export const POST = async (req: NextRequest) => {
 };
 
 export const GET = async (req: NextRequest) => {
-  console.log(req.headers.get("apiKey"));
   if (req.headers.get("apiKey")) {
     try {
       const classes = await prisma.class.findMany({
@@ -42,7 +39,6 @@ export const GET = async (req: NextRequest) => {
           creator: true,
         },
       });
-      console.log(classes);
 
       return NextResponse.json({ classes });
     } catch (error) {

@@ -20,9 +20,8 @@ type ParamsProps = {
   };
 };
 const SingleTeacher = async ({ params }: ParamsProps) => {
-  console.log(params);
   const user = await getSingleUserDetails(params.teacher);
-  console.log(user);
+
   const allClasses = await getClasses();
 
   const classesQuantity = allClasses.filter(

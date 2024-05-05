@@ -37,10 +37,9 @@ type DetailsProps = {
 };
 const MyClass = async (details: DetailsProps) => {
   const { params } = details;
-  console.log(details);
-  console.log(params);
+
   const singleClass = await getSingleClass(params.class);
-  console.log(singleClass);
+
   return (
     <div className={styles.container}>
       <section className={styles.header}>

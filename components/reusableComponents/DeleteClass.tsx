@@ -50,7 +50,6 @@ const DeleteClass = () => {
         setSending(false);
       })
       .catch((e) => {
-        console.log(e);
         toast.error(e.response.data.message, {
           position: "bottom-right",
           autoClose: 5000,

@@ -11,8 +11,7 @@ export const PUT = async (req: NextRequest, { params }: ParamsProps) => {
       const userId = params.id;
       const body = await req.json();
       const role = body.role;
-      console.log(userId);
-      console.log(role);
+
       await prisma.user.update({
         where: {
           id: userId,

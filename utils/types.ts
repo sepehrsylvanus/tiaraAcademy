@@ -36,7 +36,17 @@ export interface Writings {
   subject: string;
   subjectImgURL: string | null;
   writing: string;
+  status: "pending" | "checked";
   writingLink?: string;
+}
+export interface WritingFiles {
+  id: string;
+  creatorId: string;
+  creator: User;
+  teacherId: string;
+  writingLink?: string;
+  status: "pending" | "checked";
+  subject: null;
 }
 export interface Video {
   id: string;

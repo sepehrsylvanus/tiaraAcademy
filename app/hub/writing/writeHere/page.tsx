@@ -25,9 +25,6 @@ const WriteHere = () => {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [writing, setWriting] = useState<string>();
   const [loading, setLoading] = useState(false);
-  useEffect(() => {
-    console.log(selectedImage);
-  }, [selectedImage]);
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const imageFile = e.target.files ? e.target.files[0] : null;

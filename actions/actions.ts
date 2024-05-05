@@ -5,6 +5,7 @@ import { Repostspace, S3 } from "aws-sdk";
 import { cookies } from "next/headers";
 import { toast } from "react-toastify";
 import { getSingleUser } from "./userActions";
+import { User } from "@/utils/types";
 
 const { verify } = require("jsonwebtoken");
 export const getToken = () => {
@@ -23,14 +24,13 @@ export const verifyToken = (token: string) => {
 
 export const retieveUsers = async () => {
   const users = await prisma.user.findMany();
-  console.log(users);
+
   return users;
 };
 
 export const postWriting = async (data: FormData) => {
-  console.log(data);
   const token = await getToken()!;
-  console.log(token);
+
   const tokenPayload = await verifyToken(token.value);
 
   const name = data.get("name") as string;
@@ -43,17 +43,15 @@ export const postWriting = async (data: FormData) => {
   const buffer = Buffer.from(bytes);
   const user = await getSingleUser(token.value);
   const creatorId = user?.id as string;
-  console.log(image.name);
+
   const teacher = await prisma.user.findUnique({
     where: {
       id: teacherId,
     },
   });
   if (!teacher) {
-    console.log("Teacher not found");
     return;
   } else if (teacher.role !== "teacher" && teacher.role !== "adminTeacher") {
-    console.log("User with this id is not teacher");
     return;
   }
   try {
@@ -92,16 +90,7 @@ export const postWriting = async (data: FormData) => {
     }
 
     return "Your user created sucessfully";
-  } catch (error) {
-    console.log(error);
-  }
-
-  console.log(name);
-  console.log(email);
-  console.log(subject);
-  console.log(image);
-  console.log(writing);
-  console.log(teacherId);
+  } catch (error) {}
 };
 
 export const getWritings = async () => {
@@ -116,6 +105,24 @@ export const getWritings = async () => {
     (writing) => writing.teacherId === user?.id
   );
   return thisUserWritings;
+};
+
+export const getStudentWritings = async () => {
+  const result = [];
+  const writings = await prisma.writing.findMany();
+  const token = await getToken()!;
+  const user = (await getSingleUser(token?.value)) as User;
+  const studentWritings = writings.filter(
+    (writing) => writing.creatorId === user.id
+  );
+  result.push(...studentWritings);
+  const writingFiles = await prisma.writingFile.findMany();
+  const studentWritingFiles = writingFiles.filter(
+    (writingFile) => writingFile.creatorId === user.id
+  );
+  result.push(...studentWritingFiles);
+
+  return result;
 };
 
 export const postVideo = async (data: FormData) => {
@@ -171,7 +178,7 @@ export const postVideo = async (data: FormData) => {
 
 export const deleteVideo = async (data: FormData) => {
   const id = data.get("id") as string;
-  console.log(id);
+
   const s3 = new S3({
     accessKeyId: process.env.NEXT_PUBLIC_LIARA_ACCESS_KEY_ID,
     secretAccessKey: process.env.NEXT_PUBLIC_LIARA_SECRET_ACCESS_KEY,
@@ -182,7 +189,7 @@ export const deleteVideo = async (data: FormData) => {
       id,
     },
   });
-  console.log(video);
+
   const bucketName: string = process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME!;
 
   await s3
@@ -205,7 +212,7 @@ export const getSingleClass = async (id: string) => {
       creator: true,
     },
   });
-  console.log(result);
+
   return result;
 };
 
@@ -250,14 +257,12 @@ export const postWritingFile = async (data: FormData) => {
         writingLink: permanentSignedUrl,
       },
     });
-    console.log("loading...");
+
     if (response) {
     }
-    console.log("Your writing file created sucessfully");
+
     return "Your video created sucessfully";
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 
 export const getSingleUserDetails = async (id: string) => {

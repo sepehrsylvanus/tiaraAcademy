@@ -79,7 +79,7 @@ const page = () => {
 
       return teacherName.startsWith(nameToFilter);
     });
-    console.log(result);
+
     setFilteredTeachers(result);
   };
 
@@ -144,7 +144,7 @@ const page = () => {
                         </button>
 
                         <p
-                          className=" text-lg  md:text-base md:hover:text-lg mx-2"
+                          className=" text-lg  md:text-base md:hover:text-lg mx-2 "
                           onClick={() => copyToClipboard(teacher.id)}
                         >
                           {teacher.id}
@@ -181,7 +181,7 @@ const page = () => {
                     </button>
 
                     <p
-                      className=" text-lg  md:text-base md:hover:text-lg"
+                      className=" text-lg  md:text-base md:hover:scale-125 transition cursor-pointer"
                       onClick={() => copyToClipboard(teacher.id)}
                     >
                       {teacher.id}

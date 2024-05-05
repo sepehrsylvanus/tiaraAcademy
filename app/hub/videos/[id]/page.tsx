@@ -21,9 +21,6 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
       .then((res) => setVideo(res.data))
       .catch((e) => console.log(e));
   }, []);
-  useEffect(() => {
-    console.log(video?.title);
-  }, [video]);
 
   return (
     <div className="grid place-content-center h-screen w-screen">

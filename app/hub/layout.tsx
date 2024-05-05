@@ -5,7 +5,7 @@ import React from "react";
 
 const layout = async ({ children }: { children: React.ReactNode }) => {
   const token = await getToken()!;
-  console.log(token);
+
   return (
     <div>
       <div className="hidden md:block">

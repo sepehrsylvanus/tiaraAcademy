@@ -6,7 +6,6 @@ type ParamsProps = {
   };
 };
 export const GET = async (req: NextRequest, { params }: ParamsProps) => {
-  console.log(params);
   if (req.headers.get("apiKey")) {
     const singleVideo = await prisma.video.findUnique({
       where: {

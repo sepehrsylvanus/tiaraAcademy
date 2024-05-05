@@ -40,16 +40,12 @@ const Classes = () => {
   const [filteredClasses, setFilteredClasses] = useState(classes);
   const [teachersname, setTeachersname] = useState<string[]>();
   const [currentUser, setCurrentUser] = useState<User>();
-  useEffect(() => {
-    console.log(teachersname);
-  }, [teachersname]);
+  useEffect(() => {}, [teachersname]);
 
   const searchParams = useSearchParams();
   const teacherParam = searchParams.get("teacher");
 
-  useEffect(() => {
-    console.log(classes);
-  }, [classes]);
+  useEffect(() => {}, [classes]);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -73,7 +69,6 @@ const Classes = () => {
         setClasses(res.data.classes);
         setFilteredClasses(res.data.classes);
 
-        console.log(res.data.classes);
         const teachersNameSet: Set<string> = new Set();
         res.data.classes.forEach((item: Class) => {
           const fullName = `${item.creator.fName} ${item.creator.lName}`;
@@ -81,18 +76,18 @@ const Classes = () => {
         });
 
         const uniqueTeachersName: string[] = Array.from(teachersNameSet);
-        console.log(uniqueTeachersName);
+
         setTeachersname(uniqueTeachersName);
         if (teacherParam) {
           const filterVal = teacherParam.split("-").join("").toLowerCase();
-          console.log(filterVal);
+
           const classes: Class[] = res.data.classes;
           const result = classes.filter((eachClass) =>
             `${eachClass.creator.fName}${eachClass.creator.lName}`
               .toLowerCase()
               .startsWith(filterVal)
           );
-          console.log(result);
+
           setFilteredClasses(result);
         }
         setLoading(false);
@@ -124,8 +119,7 @@ const Classes = () => {
 
   const filterData = (data: FormInputs) => {
     const { className, teacherName } = data;
-    console.log(className);
-    console.log(teacherName);
+
     const classFilterValue = className.split(" ").join("").toLowerCase();
     if (className && teacherName) {
       const result = classes?.filter((eachClass) => {

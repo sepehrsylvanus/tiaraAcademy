@@ -64,7 +64,6 @@ export const columns: ColumnDef<StudentsShow>[] = [
             }
           )
           .then((res) => {
-            console.log(res);
             toast.success(res.data.message, {
               position: "bottom-right",
               autoClose: 5000,
@@ -79,7 +78,6 @@ export const columns: ColumnDef<StudentsShow>[] = [
             return res;
           })
           .catch((e) => {
-            console.log(e);
             toast.error(e.response.data.error, {
               position: "bottom-right",
               autoClose: 5000,
@@ -99,9 +97,7 @@ export const columns: ColumnDef<StudentsShow>[] = [
       const mutation = useMutation({
         mutationFn: async (role: string) => await changeRole(role),
         onSuccess: () => {
-          console.log("started");
           queryClient.invalidateQueries({ queryKey: ["users"] });
-          console.log("worked");
         },
       });
       return (

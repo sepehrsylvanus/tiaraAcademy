@@ -58,16 +58,17 @@ model ClassUsers {
 }
 
 model Writing {
-  id            String        @id @default(cuid()) @map("_id")
+  id            String          @id @default(cuid()) @map("_id")
   creatorId     String
-  creator       User          @relation(fields: [creatorId], references: [id])
+  creator       User            @relation(fields: [creatorId], references: [id])
   name          String
   teacherId     String
   email         String
   subject       String
   subjectImgURL String?
   writing       String
-  status        WritingStatus @default(pending)
+  status        WritingStatus   @default(pending)
+  writingAnswer writingAnswer[]
 }
 
 model WritingFile {
@@ -77,6 +78,14 @@ model WritingFile {
   teacherId   String
   writingLink String?
   status      WritingStatus @default(pending)
+}
+
+model writingAnswer {
+  id        String   @id @default(cuid()) @map("_id")
+  writingId String
+  writing   Writing  @relation(fields: [writingId], references: [id])
+  createdAt DateTime @default(now())
+  band      String
 }
 
 model Video {

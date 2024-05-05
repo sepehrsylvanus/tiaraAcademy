@@ -6,6 +6,12 @@ export function middleware(request: NextRequest) {
   if (!currentUser && request.nextUrl.pathname.startsWith("/hub")) {
     return Response.redirect(new URL("/sign-in", request.url));
   }
+  if (
+    (currentUser && request.nextUrl.pathname.startsWith("/sign-in")) ||
+    request.nextUrl.pathname.startsWith("/sign-up")
+  ) {
+    return Response.redirect(new URL("/hub", request.url));
+  }
 }
 
 export const config = {
