@@ -23,10 +23,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className=" scroll-smooth">
-      <body className={`${inter.className} bg-lightPrime text-lightText `}>
+      <body className={`${inter.className} bg-lightPrime text-lightText pb-2`}>
         <ReactQueryProvider>
           <ClientCookieProvider>
-            <div className="pb-4">{children}</div>
+            <div className="pb-6">{children}</div>
           </ClientCookieProvider>
         </ReactQueryProvider>
 

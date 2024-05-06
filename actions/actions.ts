@@ -6,7 +6,12 @@ import { cookies } from "next/headers";
 import { toast } from "react-toastify";
 import { getSingleUser } from "./userActions";
 import { User } from "@/utils/types";
-
+type WritingAnswerToSend = {
+  band: string;
+  writingSelf: string;
+  writingId?: string;
+  writingFileId?: string;
+};
 const { verify } = require("jsonwebtoken");
 export const getToken = () => {
   const cookieStore = cookies();
@@ -279,4 +284,30 @@ export const getClasses = async () => {
       creator: true,
     },
   });
+};
+
+export const postTeacherAnswer = async (data: WritingAnswerToSend) => {
+  console.log(data);
+  const newWritingAnswer = await prisma.writingAnswer.create({
+    data,
+  });
+  if (data.writingId) {
+    await prisma.writing.update({
+      where: {
+        id: data.writingId,
+      },
+      data: {
+        status: "checked",
+      },
+    });
+  } else {
+    await prisma.writingFile.update({
+      where: {
+        id: data.writingFileId,
+      },
+      data: {
+        status: "checked",
+      },
+    });
+  }
 };

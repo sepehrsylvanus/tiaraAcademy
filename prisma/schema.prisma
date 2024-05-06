@@ -72,20 +72,24 @@ model Writing {
 }
 
 model WritingFile {
-  id          String        @id @default(cuid()) @map("_id")
-  creatorId   String
-  creator     User          @relation(fields: [creatorId], references: [id])
-  teacherId   String
-  writingLink String?
-  status      WritingStatus @default(pending)
+  id            String          @id @default(cuid()) @map("_id")
+  creatorId     String
+  creator       User            @relation(fields: [creatorId], references: [id])
+  teacherId     String
+  writingLink   String?
+  status        WritingStatus   @default(pending)
+  writingAnswer writingAnswer[]
 }
 
 model writingAnswer {
-  id        String   @id @default(cuid()) @map("_id")
-  writingId String
-  writing   Writing  @relation(fields: [writingId], references: [id])
-  createdAt DateTime @default(now())
-  band      String
+  id            String       @id @default(cuid()) @map("_id")
+  writingId     String?
+  writing       Writing?     @relation(fields: [writingId], references: [id])
+  writingFileId String?
+  writingSelf   String
+  writingFile   WritingFile? @relation(fields: [writingFileId], references: [id])
+  createdAt     DateTime     @default(now())
+  band          String
 }
 
 model Video {

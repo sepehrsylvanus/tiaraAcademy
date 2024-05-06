@@ -1,26 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import styles from "./teacher.module.css";
-import { Avatar, CircularProgress } from "@mui/material";
+import { Avatar } from "@mui/material";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import WhatsAppIcon from "@mui/icons-material/WhatsApp";
-import InstagramIcon from "@mui/icons-material/Instagram";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import Link from "next/link";
-import TelegramIcon from "@mui/icons-material/Telegram";
-import Image from "next/image";
-import BrownLink from "@/components/reusableComponents/brownLink/BrownLink";
 
-import { Controller } from "react-hook-form";
 import { CustomClassTextField } from "../classes/styledComponents";
-import StarIcon from "@mui/icons-material/Star";
 
 import {
   Carousel,

@@ -18,10 +18,10 @@ const CreateVideo = () => {
     const title = formData.get("title") as string;
     try {
       await postVideo(formData);
+      toast.success(`-${title}- uploaded successfully`);
     } catch (error) {
       toast.error("There was an error in uploading video:" + error);
     } finally {
-      toast.success(`-${title}- uploaded successfully`);
       setLoading(false);
     }
   };

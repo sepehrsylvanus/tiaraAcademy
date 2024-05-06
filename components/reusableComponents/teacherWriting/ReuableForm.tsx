@@ -15,25 +15,35 @@ import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import axios from "axios";
 import ReactQuill from "react-quill";
-const ReuableForm = () => {
+import { postTeacherAnswer } from "@/actions/actions";
+import { toast } from "react-toastify";
+import { CircularProgress } from "@mui/material";
+type TeacherWritingProps = {
+  writingId?: string;
+  writingFileId?: string;
+};
+const ReuableForm = ({ writingId, writingFileId }: TeacherWritingProps) => {
+  const [loading, setLoading] = useState(false);
   const formSchema = z.object({
     band: z.string().min(1),
-    writing: z.string().min(10, { message: "Realy?! This short?!" }),
+    writingSelf: z.string().min(10, { message: "Realy?! This short?!" }),
   });
   // FORM FUNCTIONS
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      writing: "",
-    },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    axios
-      .post("/api/makePdf", { values })
-      .then((res) => console.log(res))
-      .catch((e) => console.log(e));
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    setLoading(true);
+    const wirtingAnswerData = { ...values, writingFileId, writingId };
+    try {
+      await postTeacherAnswer(wirtingAnswerData);
+      toast.success("Your answer submited");
+    } catch (error) {
+      toast.error(`There was a problem in submitting answer : ${error}`);
+    } finally {
+      setLoading(false);
+    }
   }
 
   // ===========================
@@ -55,7 +65,7 @@ const ReuableForm = () => {
         />
         <FormField
           control={form.control}
-          name="writing"
+          name="writingSelf"
           render={({ field }) => (
             <FormItem>
               <FormControl>
@@ -65,7 +75,13 @@ const ReuableForm = () => {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        {loading ? (
+          <Button disabled type="submit">
+            <CircularProgress sx={{ color: "white", transform: "scale(.7)" }} />
+          </Button>
+        ) : (
+          <Button type="submit">Submit</Button>
+        )}
       </form>
     </Form>
   );

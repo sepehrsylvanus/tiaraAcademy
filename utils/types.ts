@@ -48,6 +48,15 @@ export interface WritingFiles {
   status: "pending" | "checked";
   subject: null;
 }
+export interface WritingAnswer {
+  id: string;
+  writingId?: string;
+  writing?: Writings;
+  writingFileId?: string;
+  writingFile?: WritingFiles;
+  createdAt: Date;
+  band: string;
+}
 export interface Video {
   id: string;
   title: string;

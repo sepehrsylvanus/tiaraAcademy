@@ -12,6 +12,7 @@ import Link from "next/link";
 import { getStudentWritings, getWritings } from "@/actions/actions";
 import { useEffect, useState } from "react";
 import { WritingFiles, Writings } from "@/utils/types";
+import Image from "next/image";
 
 const MyWritings = () => {
   const [studentWriting, setStudentWriting] = useState<
@@ -30,7 +31,7 @@ const MyWritings = () => {
   }, []);
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
       {studentWriting.map((eachWriting) => (
         <Card key={eachWriting.id} className="text-center">
           <CardHeader>
@@ -39,7 +40,26 @@ const MyWritings = () => {
             </CardTitle>
             <CardDescription>Date of teacher answer</CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="flex items-center justify-center gap-2">
+            {eachWriting.status === "checked" ? (
+              <div className="w-[15px] h-[15px] relative animate-pulse">
+                <Image
+                  src={"/greenCircle.png"}
+                  alt="checked status"
+                  fill
+                  className="absolute"
+                />
+              </div>
+            ) : (
+              <div className="w-[15px] h-[15px] relative animate-pulse">
+                <Image
+                  src={"/yellowCircle.png"}
+                  alt="checked status"
+                  fill
+                  className="absolute"
+                />
+              </div>
+            )}
             <p>{eachWriting.status}</p>
           </CardContent>
           <CardFooter className="w-full">
