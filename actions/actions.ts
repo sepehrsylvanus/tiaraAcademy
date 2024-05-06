@@ -112,6 +112,27 @@ export const getWritings = async () => {
   return thisUserWritings;
 };
 
+export const getSingleWriting = async (id: string) => {
+  const myWriting = await prisma.writing.findUnique({
+    where: {
+      id,
+    },
+  });
+  const myFileWriting = await prisma.writingFile.findUnique({
+    where: {
+      id,
+    },
+  });
+
+  if (myWriting) {
+    return myWriting;
+  } else if (myFileWriting) {
+    return myFileWriting;
+  } else {
+    return null;
+  }
+};
+
 export const getStudentWritings = async () => {
   const result = [];
   const writings = await prisma.writing.findMany();

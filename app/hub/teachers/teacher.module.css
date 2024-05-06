@@ -3,10 +3,12 @@
   gap: 3em;
   height: 100vh;
   padding-top: 1em;
-  flex-direction: column;
 
+  flex-direction: column;
+  width: 100vw;
   overflow-x: hidden;
   @media (min-width: 768px) {
+    padding-bottom: 3em;
     padding-left: 1em;
   }
 }
@@ -14,8 +16,9 @@
   padding: 0 4em;
   gap: 7em;
   @media (min-width: 768px) {
+    padding: 0 7em;
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   }
 }
 

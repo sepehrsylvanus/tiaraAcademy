@@ -36,7 +36,7 @@ const MyWritings = () => {
   return (
     <>
       <div className=" w-full mb-2 border-b border-dashed flex justify-end flex-row-reverse items-center md:justify-end">
-        <h2 className="font-bold text-2xl">Featured Classes</h2>
+        <h2 className="font-bold text-2xl">My Writings</h2>
       </div>
       <div
         className={`${
@@ -80,7 +80,10 @@ const MyWritings = () => {
                 <p>{eachWriting.status}</p>
               </CardContent>
               <CardFooter className="w-full">
-                <Link href="/hub/writing/123" className="w-full">
+                <Link
+                  href={`/hub/singleWriting/${eachWriting.id}`}
+                  className="w-full"
+                >
                   <Button
                     className="w-full "
                     disabled={eachWriting.status === "pending"}

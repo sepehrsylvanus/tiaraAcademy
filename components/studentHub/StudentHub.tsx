@@ -47,7 +47,7 @@ export default function StudentHub() {
   }, []);
 
   return (
-    <div className="px-2 pb-4 pt-[3em]  md:pl-[4em]">
+    <div className="px-2 pb-[3em] md:pb-4 pt-[3em]  md:pl-[4em]">
       <section className="featuredClasses">
         <div className=" mb-2 border-b border-dashed flex justify-end flex-row-reverse items-center md:justify-end">
           <h2 className="font-bold text-2xl">Featured Classes</h2>
