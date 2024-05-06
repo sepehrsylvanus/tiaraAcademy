@@ -60,7 +60,7 @@ export default function StudentHub() {
           } gap-4`}
         >
           {loading ? (
-            <div style={{ transform: "scale(.7)" }}>
+            <div className="w-full flex justify-center">
               <CircularProgress sx={{ color: "white" }} />
             </div>
           ) : featuredClasses && featuredClasses?.length > 0 ? (
