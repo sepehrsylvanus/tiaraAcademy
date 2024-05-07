@@ -10,6 +10,9 @@ const nextConfig = {
       {
         hostname: "firebasestorage.googleapis.com",
       },
+      {
+        hostname: "blissful-aryabhata-vfxiizwlv.storage.iran.liara.space",
+      },
     ],
   },
 };

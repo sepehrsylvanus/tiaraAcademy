@@ -14,6 +14,7 @@ import { getSingleUser } from "@/actions/userActions";
 import { UserProps } from "@/utils/types";
 
 import ClerkAvatar from "../reusableComponents/ClerkAvatar";
+import { CircularProgress } from "@mui/material";
 
 const Sidebar = () => {
   const [token, setToken] = useState<string>();
@@ -51,8 +52,16 @@ const Sidebar = () => {
           <ClerkAvatar />
 
           <div className={styles.accountInfoDetails}>
-            <span>{`${user?.fName} ${user?.lName}`}</span>
-            <span>{user?.email}</span>
+            {user ? (
+              <>
+                <span>{`${user?.fName} ${user?.lName}`}</span>
+                <span>{user?.email}</span>
+              </>
+            ) : (
+              <CircularProgress
+                sx={{ color: "black", transform: "scale(.7)" }}
+              />
+            )}
           </div>
         </div>
       </div>

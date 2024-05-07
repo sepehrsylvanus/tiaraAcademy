@@ -80,7 +80,7 @@ const page = () => {
   };
   return (
     <div className={styles.container}>
-      <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-between sm:px-4 md:pl-[3em]">
+      <div className="flex flex-col  items-center gap-4 sm:flex-row sm:justify-between sm:px-4 md:pl-[3em]">
         <h1 className=" font-bold text-3xl">Find a teacher</h1>
         <CustomClassTextField onChange={handleChange} label="Teacher's name" />
       </div>
@@ -93,15 +93,15 @@ const page = () => {
               <Skeleton className="w-full h-[390px]" />
               <Skeleton className="w-[30px]  h-[30px] rounded-full" />
             </div>
-            <div className=" w-screen flex gap-4 ">
+            <div className="  grid grid-cols-3   gap-[7em] ">
               <Skeleton
-                className={`w-[260px] h-[390px] ${styles.eachTeacerCard}`}
+                className={`w-[200px] h-[390px] ${styles.eachTeacerCard}`}
               />
               <Skeleton
-                className={`w-[260px] h-[390px] ${styles.eachTeacerCard}`}
+                className={`w-[200px] h-[390px] ${styles.eachTeacerCard}`}
               />
               <Skeleton
-                className={`w-[260px] h-[390px] ${styles.eachTeacerCard}`}
+                className={`w-[200px] h-[390px] ${styles.eachTeacerCard}`}
               />
             </div>
           </>

@@ -73,8 +73,8 @@ model Writing {
 
 model writingAnswer {
   id          String   @id @default(cuid()) @map("_id")
-  writingId   String?
-  writing     Writing? @relation(fields: [writingId], references: [id])
+  writingId   String   @unique
+  writing     Writing  @relation(fields: [writingId], references: [id])
   writingSelf String
   createdAt   DateTime @default(now())
   band        String

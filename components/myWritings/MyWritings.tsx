@@ -11,21 +11,16 @@ import { Button } from "../ui/button";
 import Link from "next/link";
 import { getStudentWritings, getWritings } from "@/actions/actions";
 import { useEffect, useState } from "react";
-import { WritingFiles, Writings } from "@/utils/types";
+import { Writings } from "@/utils/types";
 import Image from "next/image";
 import { CircularProgress } from "@mui/material";
 
 const MyWritings = () => {
-  const [studentWriting, setStudentWriting] = useState<
-    (Writings | WritingFiles)[]
-  >([]);
+  const [studentWriting, setStudentWriting] = useState<Writings[]>([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     const getWritings = async () => {
-      const myWritings = (await getStudentWritings()) as (
-        | Writings
-        | WritingFiles
-      )[];
+      const myWritings = (await getStudentWritings()) as Writings[];
       console.log(myWritings);
       setStudentWriting(myWritings);
       setLoading(false);
@@ -42,13 +37,14 @@ const MyWritings = () => {
         className={`${
           !loading &&
           "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5"
-        } gap-4`}
+        }  gap-4`}
       >
         {loading ? (
           <div className="w-full flex justify-center">
             <CircularProgress sx={{ color: "white" }} />
           </div>
         ) : (
+          studentWriting.length > 0 &&
           studentWriting.map((eachWriting) => (
             <Card key={eachWriting.id} className="text-center">
               <CardHeader>
@@ -96,6 +92,17 @@ const MyWritings = () => {
           ))
         )}
       </div>
+      {!loading && studentWriting.length === 0 && (
+        <p className="w-full ">
+          You don't have any submitted writing. You can create one in{" "}
+          <Link
+            href="/hub/writing/writeHere"
+            className="text-extraText underline  hover:text-lightText transition"
+          >
+            WRITE HERE
+          </Link>
+        </p>
+      )}
     </>
   );
 };

@@ -12,17 +12,16 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useState } from "react";
-import axios from "axios";
-import ReactQuill from "react-quill";
+import { Dispatch, SetStateAction, useState } from "react";
+
 import { postTeacherAnswer } from "@/actions/actions";
 import { toast } from "react-toastify";
 import { CircularProgress } from "@mui/material";
 type TeacherWritingProps = {
-  writingId?: string;
-  writingFileId?: string;
+  writingId: string;
+  setOpenAnswer: Dispatch<SetStateAction<boolean>>;
 };
-const ReuableForm = ({ writingId, writingFileId }: TeacherWritingProps) => {
+const ReuableForm = ({ writingId, setOpenAnswer }: TeacherWritingProps) => {
   const [loading, setLoading] = useState(false);
   const formSchema = z.object({
     band: z.string().min(1),
@@ -35,10 +34,11 @@ const ReuableForm = ({ writingId, writingFileId }: TeacherWritingProps) => {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setLoading(true);
-    const wirtingAnswerData = { ...values, writingFileId, writingId };
+    const wirtingAnswerData = { ...values, writingId };
     try {
-      await postTeacherAnswer(wirtingAnswerData);
-      toast.success("Your answer submited");
+      const teacherAnswer = await postTeacherAnswer(wirtingAnswerData);
+      toast.success(teacherAnswer);
+      setOpenAnswer(false);
     } catch (error) {
       toast.error(`There was a problem in submitting answer : ${error}`);
     } finally {

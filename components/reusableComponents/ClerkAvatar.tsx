@@ -23,13 +23,15 @@ import { toast } from "react-toastify";
 import { UserProps } from "@/utils/types";
 import { getToken } from "@/actions/actions";
 import { getSingleUser } from "@/actions/userActions";
-import { Avatar } from "@mui/material";
+import { Avatar, CircularProgress } from "@mui/material";
 const ClerkAvatar = () => {
+  const [loading, setLoading] = useState(false);
   const [token, setToken] = useState<string>();
   const [user, setUser] = useState<UserProps>();
   const router = useRouter();
 
   const signout = async () => {
+    setLoading(true);
     axios
       .get("/api/signout", {
         headers: {
@@ -39,9 +41,11 @@ const ClerkAvatar = () => {
       .then((res) => {
         toast(res.data);
         router.push("/");
+        setLoading(false);
       })
       .catch((e) => {
         console.log(e);
+        setLoading(false);
       });
   };
 
@@ -94,13 +98,23 @@ const ClerkAvatar = () => {
           >
             <SettingsIcon sx={{ width: ".8em" }} /> Manage account
           </Button>
-          <Button
-            className="bg-white shadow-sm
-          shadow-slate-400 transition hover:ring-4 hover:ring-slate-400 hover:text-black text-black rounded-xl text-[11px] py-[2px] px-4 flex gap-1"
-            onClick={signout}
-          >
-            <LogoutIcon sx={{ width: ".8em" }} /> Sign out
-          </Button>
+          {loading ? (
+            <Button
+              className="bg-white shadow-sm
+         shadow-slate-400 transition hover:ring-4 hover:ring-slate-400 hover:text-black text-black rounded-xl text-[11px] py-[2px] px-4 flex gap-1"
+              onClick={signout}
+            >
+              <CircularProgress sx={{ color: "black" }} />
+            </Button>
+          ) : (
+            <Button
+              className="bg-white shadow-sm
+         shadow-slate-400 transition hover:ring-4 hover:ring-slate-400 hover:text-black text-black rounded-xl text-[11px] py-[2px] px-4 flex gap-1"
+              onClick={signout}
+            >
+              <LogoutIcon sx={{ width: ".8em" }} /> Sign out
+            </Button>
+          )}
         </div>
       </PopoverContent>
     </Popover>

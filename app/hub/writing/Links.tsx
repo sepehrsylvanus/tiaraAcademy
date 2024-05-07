@@ -19,10 +19,13 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { postWritingFile } from "@/actions/actions";
+import { postWriting } from "@/actions/actions";
+import { toast } from "react-toastify";
+import { CircularProgress } from "@mui/material";
 
 const Links = ({ teachers }: { teachers: User[] }) => {
   const [pdfFile, setPdfFile] = useState<File>();
+  const [loading, setLoading] = useState(false);
   const path = usePathname();
 
   const handlePdfChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -30,7 +33,20 @@ const Links = ({ teachers }: { teachers: User[] }) => {
       setPdfFile(e.target.files[0]);
     }
   };
+  const handleSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const formData = new FormData(e.currentTarget);
 
+      const newWritingFile = await postWriting(formData);
+      toast.success(newWritingFile);
+    } catch (error: any) {
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <div className=" grid text-sm grid-cols-2 mx-auto justify-center justify-items-center gap-3 mt-4 transition sm:grid-cols-3 md:grid-cols-4  lg:relative left-12">
       {writingIcons.map((writingIcon, index) => {
@@ -82,9 +98,9 @@ const Links = ({ teachers }: { teachers: User[] }) => {
                 <DialogTrigger className=" hover:ring-1 hover:ring-blue-800 bg-slate-200 w-fit text-blue-800 font-bold rounded-md px-4 py-6">
                   Upload one
                 </DialogTrigger>
-                <DialogContent className="py-10">
+                <DialogContent className="py-10 bg-extraText">
                   <form
-                    action={postWritingFile}
+                    onSubmit={handleSubmit}
                     className="flex space-y-4 flex-col"
                   >
                     <input
@@ -108,7 +124,17 @@ const Links = ({ teachers }: { teachers: User[] }) => {
                       {pdfFile?.name && "Choosed => "}
                       {` ${pdfFile?.name || "Not chosen yet :)"}`}
                     </label>
-                    <Button className="w-fit">Submit</Button>
+                    {loading ? (
+                      <Button disabled className="w-fit">
+                        <CircularProgress
+                          sx={{ color: "white", transform: "scale(.7)" }}
+                        />
+                      </Button>
+                    ) : (
+                      <Button type="submit" className="w-fit">
+                        Submit
+                      </Button>
+                    )}
                   </form>
                 </DialogContent>
               </Dialog>

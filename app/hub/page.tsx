@@ -16,6 +16,7 @@ import { User } from "@/utils/types";
 import TeachersTable from "@/components/table/TeachersTable";
 import StudentTable from "@/components/studentTable/StudentTable";
 import { useGetUsers } from "@/hooks/useGetUsers";
+import Image from "next/image";
 
 const Hub = async () => {
   const token = await getToken();

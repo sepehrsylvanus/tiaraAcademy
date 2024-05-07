@@ -40,15 +40,14 @@ const WriteHere = () => {
       e.preventDefault();
       setLoading(true);
       const formData = new FormData(e.currentTarget);
-      const name = formData.get("sbuject");
+
       console.log(formData);
       const sendingWritng = await postWriting(formData);
 
       toast.success(sendingWritng);
-      setLoading(false);
     } catch (error: any) {
       toast.error(error.message);
-
+    } finally {
       setLoading(false);
     }
   };
@@ -89,11 +88,14 @@ const WriteHere = () => {
             name="image"
             style={{ display: "none" }}
             onChange={handleImageChange}
-            accept=".jpg, .jpeg, .png"
+            accept=".png"
           />
           <label htmlFor="writingImg" className="formInput w-full py-4">
             {selectedImage?.name && "Choosed => "}
-            {` ${selectedImage?.name || "Not chosen yet :)"}`}
+            {` ${
+              selectedImage?.name ||
+              "Not chosen yet :) - PLEASE SEND .png IMAGES"
+            }`}
           </label>
 
           <textarea

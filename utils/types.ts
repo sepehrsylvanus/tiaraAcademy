@@ -37,15 +37,15 @@ export interface Writings {
   email?: string | null;
   subject?: string | null;
   subjectImgURL?: string | null;
-  writing?: string;
+  writing?: string | null;
   status: "pending" | "checked";
   writingAnswer: WritingAnswer[];
-  writingLink?: string;
+  writingLink?: string | null;
 }
 
 export interface WritingAnswer {
   id: string;
-  writingId?: string;
+  writingId?: string | null;
   writing?: Writings;
 
   createdAt: Date;

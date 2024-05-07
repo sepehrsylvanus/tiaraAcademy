@@ -6,8 +6,9 @@
 
   flex-direction: column;
   width: 100vw;
-  overflow-x: hidden;
+  overflow: hidden;
   @media (min-width: 768px) {
+    overflow-y: scroll;
     padding-bottom: 3em;
     padding-left: 1em;
   }
@@ -15,7 +16,9 @@
 .teachersCardContainer {
   padding: 0 4em;
   gap: 7em;
+  overflow: hidden;
   @media (min-width: 768px) {
+    overflow-y: scroll;
     padding: 0 7em;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));

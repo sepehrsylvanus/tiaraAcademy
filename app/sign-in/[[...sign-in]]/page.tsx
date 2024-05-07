@@ -13,6 +13,7 @@ import axios from "axios";
 import { useState } from "react";
 import { CircularProgress } from "@mui/material";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 const formSchema = z.object({
   email: z.string().min(2).max(50),
   password: z.string(),
@@ -38,10 +39,12 @@ const Login = () => {
       })
       .then((res) => {
         setSending(false);
+        toast.success("Login successful, You will be redirect to your Hub");
         router.push("/hub");
       })
       .catch((e) => {
         setError(e.response.data.error);
+        toast.error(e.response.data.error);
         setSending(false);
       });
   }
