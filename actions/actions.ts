@@ -33,122 +33,96 @@ export const retieveUsers = async () => {
   return users;
 };
 
-export const postWriting = async (data: FormData) => {
+export const getWritings = async () => {
+  const writings = await prisma.writing.findMany({
+    include: {
+      creator: true,
+      writingAnswer: true,
+    },
+  });
+  return writings;
+};
+
+export const postWriting = async (formData: FormData) => {
+  console.log(formData);
+  const name = formData.get("name") as string;
+  const teacherId = formData.get("teacherId") as string;
+  const subject = formData.get("subject") as string;
+  const image = formData.get("image") as File;
+  const writing = formData.get("writing") as string;
   const token = await getToken()!;
-
-  const tokenPayload = await verifyToken(token.value);
-
-  const name = data.get("name") as string;
-  const subject = data.get("subject") as string;
-  const image = data.get("image")! as File;
-  const writing = data.get("writing") as string;
-  const teacherId = data.get("teacherId")! as string;
-  const email = tokenPayload.data;
-  const bytes = await image.arrayBuffer();
-  const buffer = Buffer.from(bytes);
-  const user = await getSingleUser(token.value);
+  const user = await getSingleUser(token?.value)!;
   const creatorId = user?.id as string;
-
-  const teacher = await prisma.user.findUnique({
+  const teacherWhoHasWriting = await prisma.user.findUnique({
     where: {
       id: teacherId,
     },
   });
-  if (!teacher) {
-    return;
-  } else if (teacher.role !== "teacher" && teacher.role !== "adminTeacher") {
-    return;
-  }
-  try {
-    const s3 = new S3({
-      accessKeyId: process.env.NEXT_PUBLIC_LIARA_ACCESS_KEY_ID,
-      secretAccessKey: process.env.NEXT_PUBLIC_LIARA_SECRET_ACCESS_KEY,
-      endpoint: process.env.NEXT_PUBLIC_LIARA_ENDPOINT,
-    });
-
-    const params = {
-      Bucket: process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME!,
-      Key: image?.name!,
-      Body: buffer!,
-    };
-    const response = await s3.upload(params).promise();
-    const permanentSignedUrl = s3.getSignedUrl("getObject", {
-      Bucket: process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME,
-      Key: image?.name,
-      Expires: 31536000, // 1 year
-    });
-
-    const data = {
-      name,
-      teacherId,
-      email,
-      subject,
-      subjectImgURL: permanentSignedUrl,
-      writing,
-      creatorId,
-    };
-
-    if (response) {
-      await prisma.writing.create({
-        data,
-      });
-    }
-
-    return "Your user created sucessfully";
-  } catch (error) {}
-};
-
-export const getWritings = async () => {
-  const result = [];
-  const token = await getToken()!;
-  const user = await getSingleUser(token?.value);
-  const writings = await prisma.writing.findMany();
-  result.push(...writings);
-  const writingFiles = await prisma.writingFile.findMany();
-  result.push(...writingFiles);
-  const thisUserWritings = writings.filter(
-    (writing) => writing.teacherId === user?.id
-  );
-  return thisUserWritings;
-};
-
-export const getSingleWriting = async (id: string) => {
-  const myWriting = await prisma.writing.findUnique({
-    where: {
-      id,
-    },
-  });
-  const myFileWriting = await prisma.writingFile.findUnique({
-    where: {
-      id,
-    },
-  });
-
-  if (myWriting) {
-    return myWriting;
-  } else if (myFileWriting) {
-    return myFileWriting;
+  console.log(teacherWhoHasWriting?.role);
+  if (!teacherWhoHasWriting) {
+    throw new Error("User with this ID doesn't exist");
+  } else if (
+    !teacherWhoHasWriting.role.includes("teacher") &&
+    !teacherWhoHasWriting.role.includes("adminTeacher")
+  ) {
+    throw new Error("User with this ID is not teacher");
   } else {
-    return null;
+    if (subject) {
+      const newWriting = await prisma.writing.create({
+        data: {
+          name,
+          creatorId,
+          teacherId,
+          email: user?.email,
+          subject,
+          writing,
+        },
+      });
+      if (image) {
+        console.log(image);
+        const bytes = await image.arrayBuffer();
+        const buffer = Buffer.from(bytes);
+        const Key = newWriting.id + "." + image.type.split("/")[1];
+
+        const s3 = new S3({
+          accessKeyId: process.env.NEXT_PUBLIC_LIARA_ACCESS_KEY_ID,
+          secretAccessKey: process.env.NEXT_PUBLIC_LIARA_SECRET_ACCESS_KEY,
+          endpoint: process.env.NEXT_PUBLIC_LIARA_ENDPOINT,
+        });
+
+        const params = {
+          Bucket: process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME!,
+          Key,
+          Body: buffer,
+        };
+        const response = await s3.upload(params).promise();
+        if (response) {
+          const permanentSignedUrl = s3.getSignedUrl("getObject", {
+            Bucket: process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME,
+            Key,
+            Expires: 31536000,
+          });
+          await prisma.writing.update({
+            where: {
+              id: newWriting.id,
+            },
+            data: {
+              subjectImgURL: permanentSignedUrl,
+            },
+          });
+
+          return `Writing with name ${newWriting.subject} created`;
+        } else {
+          await prisma.writing.delete({
+            where: {
+              id: newWriting.id,
+            },
+          });
+          throw new Error("There is a problem in submitting your writing");
+        }
+      }
+    }
   }
-};
-
-export const getStudentWritings = async () => {
-  const result = [];
-  const writings = await prisma.writing.findMany();
-  const token = await getToken()!;
-  const user = (await getSingleUser(token?.value)) as User;
-  const studentWritings = writings.filter(
-    (writing) => writing.creatorId === user.id
-  );
-  result.push(...studentWritings);
-  const writingFiles = await prisma.writingFile.findMany();
-  const studentWritingFiles = writingFiles.filter(
-    (writingFile) => writingFile.creatorId === user.id
-  );
-  result.push(...studentWritingFiles);
-
-  return result;
 };
 
 export const postVideo = async (data: FormData) => {
@@ -242,55 +216,6 @@ export const getSingleClass = async (id: string) => {
   return result;
 };
 
-export const postWritingFile = async (data: FormData) => {
-  const teacherId = data.get("teacherId") as string;
-  const writingFile = data.get("writingFile") as File;
-  const bytes = await writingFile.arrayBuffer();
-  const buffer = await Buffer.from(bytes);
-  const token = await getToken()!;
-  const user = await getSingleUser(token?.value);
-  const creatorId = user?.id as string;
-  const newWritingFile = await prisma.writingFile.create({
-    data: {
-      teacherId,
-      creatorId,
-    },
-  });
-
-  try {
-    const s3 = new S3({
-      accessKeyId: process.env.NEXT_PUBLIC_LIARA_ACCESS_KEY_ID,
-      secretAccessKey: process.env.NEXT_PUBLIC_LIARA_SECRET_ACCESS_KEY,
-      endpoint: process.env.NEXT_PUBLIC_LIARA_ENDPOINT,
-    });
-
-    const params = {
-      Bucket: process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME!,
-      Key: newWritingFile.id,
-      Body: buffer!,
-    };
-    const response = await s3.upload(params).promise();
-    const permanentSignedUrl = s3.getSignedUrl("getObject", {
-      Bucket: process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME,
-      Key: newWritingFile.id,
-      Expires: 31536000, // 1 year
-    });
-    await prisma.writingFile.update({
-      where: {
-        id: newWritingFile.id,
-      },
-      data: {
-        writingLink: permanentSignedUrl,
-      },
-    });
-
-    if (response) {
-    }
-
-    return "Your video created sucessfully";
-  } catch (error) {}
-};
-
 export const getSingleUserDetails = async (id: string) => {
   return prisma.user.findUnique({
     where: {
@@ -305,30 +230,4 @@ export const getClasses = async () => {
       creator: true,
     },
   });
-};
-
-export const postTeacherAnswer = async (data: WritingAnswerToSend) => {
-  console.log(data);
-  const newWritingAnswer = await prisma.writingAnswer.create({
-    data,
-  });
-  if (data.writingId) {
-    await prisma.writing.update({
-      where: {
-        id: data.writingId,
-      },
-      data: {
-        status: "checked",
-      },
-    });
-  } else {
-    await prisma.writingFile.update({
-      where: {
-        id: data.writingFileId,
-      },
-      data: {
-        status: "checked",
-      },
-    });
-  }
 };

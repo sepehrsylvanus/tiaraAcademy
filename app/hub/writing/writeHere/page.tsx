@@ -40,12 +40,16 @@ const WriteHere = () => {
       e.preventDefault();
       setLoading(true);
       const formData = new FormData(e.currentTarget);
-      await postWriting(formData);
-      toast.success("Your writing submitted");
+      const name = formData.get("sbuject");
+      console.log(formData);
+      const sendingWritng = await postWriting(formData);
+
+      toast.success(sendingWritng);
       setLoading(false);
-    } catch (error) {
-      toast.error("There was an error in submitting error");
-      console.log(error);
+    } catch (error: any) {
+      toast.error(error.message);
+
+      setLoading(false);
     }
   };
 

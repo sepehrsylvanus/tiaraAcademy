@@ -10,7 +10,7 @@ import ReuableForm from "./teacherWriting/ReuableForm";
 import { Avatar } from "@mui/material";
 import { Button } from "../ui/button";
 import MyPdf from "./myPdf";
-import { WritingFiles, Writings } from "@/utils/types";
+import { Writings } from "@/utils/types";
 
 // Conditionally import usePDF only in a web environment
 let usePDF: any; // Adjust the type based on your usePDF type definition
@@ -20,9 +20,7 @@ if (typeof window !== "undefined") {
   usePDF = reactPDF.usePDF;
 }
 
-const EachWritingCard: React.FC<{ writing: Writings | WritingFiles }> = ({
-  writing,
-}) => {
+const EachWritingCard: React.FC<{ writing: Writings }> = ({ writing }) => {
   console.log(writing);
   let url: string | undefined;
   if (usePDF && writing.subject) {
@@ -32,7 +30,7 @@ const EachWritingCard: React.FC<{ writing: Writings | WritingFiles }> = ({
     });
     url = pdfUrl;
   }
-
+  console.log(writing.subjectImgURL);
   if (writing.subject) {
     return (
       <div

@@ -30,30 +30,24 @@ export interface UserProps {
 
 export interface Writings {
   id: string;
-  name: string;
-  teacherId: string;
-  email: string;
-  subject: string;
-  subjectImgURL: string | null;
-  writing: string;
-  status: "pending" | "checked";
-  writingLink?: string;
-}
-export interface WritingFiles {
-  id: string;
   creatorId: string;
   creator: User;
+  name?: string | null;
   teacherId: string;
-  writingLink?: string;
+  email?: string | null;
+  subject?: string | null;
+  subjectImgURL?: string | null;
+  writing?: string;
   status: "pending" | "checked";
-  subject: null;
+  writingAnswer: WritingAnswer[];
+  writingLink?: string;
 }
+
 export interface WritingAnswer {
   id: string;
   writingId?: string;
   writing?: Writings;
-  writingFileId?: string;
-  writingFile?: WritingFiles;
+
   createdAt: Date;
   band: string;
 }
