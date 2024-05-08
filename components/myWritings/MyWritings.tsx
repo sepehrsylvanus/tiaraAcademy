@@ -51,7 +51,6 @@ const MyWritings = () => {
                 <CardTitle>
                   {eachWriting.subject ? eachWriting.subject : "Uploaded file"}
                 </CardTitle>
-                <CardDescription>Date of teacher answer</CardDescription>
               </CardHeader>
               <CardContent className="flex items-center justify-center gap-2">
                 {eachWriting.status === "checked" ? (
@@ -78,7 +77,9 @@ const MyWritings = () => {
               <CardFooter className="w-full">
                 <Link
                   href={`/hub/singleWriting/${eachWriting.id}`}
-                  className="w-full"
+                  className={`w-full ${
+                    eachWriting.status === "pending" && " pointer-events-none"
+                  }`}
                 >
                   <Button
                     className="w-full "

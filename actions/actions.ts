@@ -224,6 +224,15 @@ export const postTeacherAnswer = async (data: WritingAnswerToSend) => {
     throw new Error("There was an error in submitting answer");
   }
 };
+
+export const getTeacherAnswer = async (writingId: string) => {
+  const teacherAnswer = await prisma.writingAnswer.findUnique({
+    where: {
+      writingId,
+    },
+  });
+  return teacherAnswer;
+};
 export const postVideo = async (data: FormData) => {
   const title = data.get("title") as string;
 

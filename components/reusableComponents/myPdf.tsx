@@ -43,6 +43,7 @@ const MyPdf = ({ details }: { details: Writings }) => {
       width: 300,
       height: 300,
       margin: "0 auto",
+      objectFit: "contain",
     },
     writing: {
       marginTop: 16,

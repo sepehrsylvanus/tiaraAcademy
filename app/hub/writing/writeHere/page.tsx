@@ -55,7 +55,7 @@ const WriteHere = () => {
   const formInput =
     "bg-[#c6d9e6] text-lightText px-2 py-2 rounded-md outline-none";
   return (
-    <div>
+    <div className=" pb-10 md:pb-5">
       <Card className="w-[20rem] sm:w-[25rem] md:w-[40rem] lg:w-[50rem] p-4 bg-extraText text-lightPrime mx-auto">
         <form onSubmit={handleSubmit} className="space-y-6 flex flex-col">
           <p className="h3 text-center">

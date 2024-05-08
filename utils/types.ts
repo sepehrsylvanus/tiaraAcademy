@@ -42,6 +42,10 @@ export interface Writings {
   writingAnswer: WritingAnswer[];
   writingLink?: string | null;
 }
+export interface WritingsToShow {
+  writing: Writings;
+  writingAnswer?: WritingAnswer;
+}
 
 export interface WritingAnswer {
   id: string;
