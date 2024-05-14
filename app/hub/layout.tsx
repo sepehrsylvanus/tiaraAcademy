@@ -16,7 +16,7 @@ const layout = async ({ children }: { children: React.ReactNode }) => {
         <CustomHamburger navbar={false} sidebar={true} />
       </div>
 
-      {children}
+      <div className=" lg:pl-[2.5em]">{children}</div>
     </div>
   );
 };

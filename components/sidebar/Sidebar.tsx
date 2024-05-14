@@ -98,9 +98,12 @@ const Sidebar = () => {
             <h3 className="h3  inline ">P</h3>
             <h3 className={`${styles.menuText}  h3 `}>laylists</h3>
           </div>
-          <div className="flex flex-col space-y-2 pt-4 overflow-y-scroll px-4">
+          <div className="flex flex-col space-y-2 pt-4 overflow-y-scroll ">
             {playlists.map((playlist) => (
-              <Link href={"#"} className=" hover:bg-white transition px-2">
+              <Link
+                href={`/hub/videos/playlist/${playlist.value}`}
+                className=" hover:bg-white transition px-2"
+              >
                 {playlist.title}
               </Link>
             ))}

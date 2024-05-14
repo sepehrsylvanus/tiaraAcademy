@@ -26,7 +26,7 @@ export default function RootLayout({
       <body className={`${inter.className} bg-lightPrime text-lightText `}>
         <ReactQueryProvider>
           <ClientCookieProvider>
-            <div className="pb-6">{children}</div>
+            <div className="pb-6 ">{children}</div>
           </ClientCookieProvider>
         </ReactQueryProvider>
 

@@ -312,7 +312,10 @@ export const deleteVideo = async (data: FormData) => {
     },
   });
 };
-
+export const getVideos = async () => {
+  const videos = await prisma.video.findMany();
+  return videos;
+};
 export const getSingleClass = async (id: string) => {
   const result = await prisma.class.findUnique({
     where: {
