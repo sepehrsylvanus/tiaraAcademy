@@ -368,7 +368,7 @@ export default async function Home() {
         <p className="text-center mt-[1.5em] text-sm">
           {" "}
           © 2024 Tiara Academy. All rights reserved. Content for educational use
-          only. Website by SSH Development.
+          only. Website by Sani Development.
         </p>
       </section>
     </div>

@@ -23,7 +23,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className=" scroll-smooth">
-      <body className={`${inter.className} bg-lightPrime text-lightText pb-2`}>
+      <body className={`${inter.className} bg-lightPrime text-lightText `}>
         <ReactQueryProvider>
           <ClientCookieProvider>
             <div className="pb-6">{children}</div>
@@ -43,7 +43,7 @@ export default function RootLayout({
           theme="dark"
         />
         <p className="fixed bottom-0 z-50 bg-lightPrime text-lightText w-full p-2 font-semibold text-center md:text-start">
-          © All rights reserved for Tiara Academy. Design and Develop by SSH
+          © All rights reserved for Tiara Academy. Design and Develop by Sani
           Development 2024
         </p>
       </body>

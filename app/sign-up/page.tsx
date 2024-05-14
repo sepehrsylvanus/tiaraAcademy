@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import styles from "../../sign-in/[[...sign-in]]/login.module.css";
+import styles from "../sign-in/login.module.css";
 import Image from "next/image";
 
 import { cn } from "@/lib/utils";

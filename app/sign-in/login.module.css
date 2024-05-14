@@ -8,12 +8,9 @@
 
   @media (max-width: 788px) {
     padding: 0 1em;
-
+    padding-bottom: 2.5em;
     display: grid;
     place-content: center;
-    height: fit-content;
-    top: 50%;
-    transform: translateY(-50%);
   }
 }
 .details {
