@@ -16,6 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, Controller } from "react-hook-form";
 import axios from "axios";
 import { toast } from "react-toastify";
+import styles from "@/components/reusableComponents/components.module.css";
 const formSchema = z.object({
   title: z.string().min(5),
   days: z.array(z.string()),
@@ -124,7 +125,14 @@ const CreateClass = () => {
         )}
       />
       <FormControl>
-        <InputLabel id="days">Days</InputLabel>
+        <InputLabel
+          classes={{
+            focused: styles.selectLabel,
+          }}
+          id="days"
+        >
+          Days
+        </InputLabel>
         <Controller
           name="days"
           control={form.control}

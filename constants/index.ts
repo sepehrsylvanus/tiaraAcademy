@@ -100,3 +100,18 @@ export const videoTags = [
     link: "#",
   },
 ];
+
+export const playlists = [
+  {
+    title: "Grammar",
+    value: "grammar",
+  },
+  {
+    title: "Ielts",
+    value: "ielts",
+  },
+  {
+    title: "Speaking",
+    value: "speaking",
+  },
+];

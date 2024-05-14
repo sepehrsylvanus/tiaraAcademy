@@ -6,7 +6,7 @@ import { Avatar, Divider } from "@mui/material";
 import React from "react";
 
 import DeleteVideo from "@/components/reusableComponents/DeleteVideo";
-import CreateVideo from "@/components/reusableComponents/teacherWriting/CreateVideo";
+import CreateVideo from "@/components/reusableComponents/CreateVideo";
 import DeleteClass from "@/components/reusableComponents/DeleteClass";
 import CreateClass from "@/components/reusableComponents/CreateClass";
 import { getSingleUser } from "@/actions/userActions";

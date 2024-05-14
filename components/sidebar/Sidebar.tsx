@@ -15,6 +15,7 @@ import { UserProps } from "@/utils/types";
 
 import ClerkAvatar from "../reusableComponents/ClerkAvatar";
 import { CircularProgress } from "@mui/material";
+import { playlists } from "@/constants";
 
 const Sidebar = () => {
   const [token, setToken] = useState<string>();
@@ -91,6 +92,20 @@ const Sidebar = () => {
           <OndemandVideoIcon />
           <p className={styles.menuText}>Videos</p>
         </Link>
+
+        <div className="w-full">
+          <div className="flex justify-center border-b border-dashed border-white">
+            <h3 className="h3  inline ">P</h3>
+            <h3 className={`${styles.menuText}  h3 `}>laylists</h3>
+          </div>
+          <div className="flex flex-col space-y-2 pt-4 overflow-y-scroll px-4">
+            {playlists.map((playlist) => (
+              <Link href={"#"} className=" hover:bg-white transition px-2">
+                {playlist.title}
+              </Link>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );

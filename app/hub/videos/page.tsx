@@ -20,6 +20,7 @@ import { getSingleUser } from "@/actions/userActions";
 import { getToken } from "@/actions/actions";
 import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "react-toastify";
+import { Chip } from "@mui/material";
 
 interface videoTag {
   name: string;
@@ -46,6 +47,10 @@ const Videos = () => {
     };
     fetchUser();
   }, []);
+  useEffect(() => {
+    console.log(videos);
+  }, [videos]);
+
   useEffect(() => {}, [currentUser]);
   const copyToClipboard = async (text: string) => {
     try {
@@ -82,13 +87,7 @@ const Videos = () => {
             }
           />
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 grid-flow-dense mt-2">
-          {videoTags.map((tag) => (
-            <Badge className="w-fit bg-lightText text-lightPrime cursor-pointer">
-              {tag.name}
-            </Badge>
-          ))}
-        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 grid-flow-dense mt-2"></div>
 
         <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {videos && currentUser ? (
@@ -120,13 +119,19 @@ const Videos = () => {
                     <p className="p-4">
                       id:{" "}
                       <span
-                        className=" text-lg  md:text-base md:hover:text-lg"
+                        className=" text-lg  md:text-base md:hover:scale-125 transition cursor-pointer"
                         onClick={() => copyToClipboard(video.id)}
                       >
                         {video.id}
                       </span>
                     </p>
                   )}
+                  {video.playlist.map((eachPlaylist) => (
+                    <Chip
+                      label={eachPlaylist}
+                      sx={{ color: "#072d44", backgroundColor: "#D0D7E1" }}
+                    />
+                  ))}
                 </CardContent>
                 <CardFooter className="flex items-center p-4 font-semibold">
                   {video.title}

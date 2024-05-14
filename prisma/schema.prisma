@@ -81,8 +81,9 @@ model writingAnswer {
 }
 
 model Video {
-  id        String  @id @default(cuid()) @map("_id")
+  id        String   @id @default(cuid()) @map("_id")
   title     String
   bucketKey String?
   videoLink String?
+  playlist  String[]
 }
