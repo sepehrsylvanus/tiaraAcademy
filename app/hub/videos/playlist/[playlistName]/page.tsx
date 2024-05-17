@@ -1,13 +1,15 @@
-import { getVideos } from "@/actions/actions";
+import { getToken, getVideos } from "@/actions/actions";
 
 import { Card, CardContent, Chip } from "@mui/material";
 
-import { Link } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 
 import { CardFooter } from "@/components/ui/card";
+import Link from "next/link";
+import { getSingleUser } from "@/actions/userActions";
+import { toast } from "react-toastify";
 
 type ParamsProps = {
   params: {
@@ -56,11 +58,15 @@ const PlayListPage = async ({ params }: ParamsProps) => {
                 {video.playlist.map((eachPlaylist) => (
                   <Chip
                     label={eachPlaylist}
-                    sx={{ color: "#072d44", backgroundColor: "#D0D7E1" }}
+                    sx={{
+                      color: "#072d44",
+                      backgroundColor: "#D0D7E1",
+                      margin: "1em 0",
+                    }}
                   />
                 ))}
               </CardContent>
-              <CardFooter className="flex items-center p-4 font-semibold">
+              <CardFooter className="flex items-center p-4 pl-0 font-semibold">
                 {video.title}
               </CardFooter>
             </Card>

@@ -1,159 +1,140 @@
-"use client";
-import { Input } from "@/components/ui/input";
-import React, { ChangeEvent, useEffect, useState } from "react";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
-import { howTooStudy, videoTags } from "@/constants";
+import React from "react";
+import styles from "../blogs/blogs.module.css";
+
+import OtherBlogs from "@/components/otherBlogs/OtherBlogs";
 import Link from "next/link";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import GrammarCarousel from "@/components/carousel/GrammarCarousel";
 import Image from "next/image";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import { User, Video } from "@/utils/types";
-import axios from "axios";
-import { getSingleUser } from "@/actions/userActions";
-import { getToken } from "@/actions/actions";
-import { Skeleton } from "@/components/ui/skeleton";
-import { toast } from "react-toastify";
-import { Chip } from "@mui/material";
+import { Card, CardContent, CardMedia, Chip, Divider } from "@mui/material";
 
-interface videoTag {
-  name: string;
-  link: string;
-}
-
-const chunkedTags: videoTag[][] = [];
-
-for (let i = 0; i < videoTags.length; i += 2) {
-  chunkedTags.push(videoTags.slice(i, i + 2));
-}
-
-const Videos = () => {
-  const [searchVal, setSearchVal] = useState<string>();
-  const [videos, setVideos] = useState<Video[]>();
-  const [currentUser, setCurrentUser] = useState<User>();
-  useEffect(() => {
-    const fetchUser = async () => {
-      const token = await getToken()!;
-      const currentUser = await getSingleUser(token?.value);
-      if (currentUser) {
-        setCurrentUser(currentUser);
-      }
-    };
-    fetchUser();
-  }, []);
-  useEffect(() => {
-    console.log(videos);
-  }, [videos]);
-
-  useEffect(() => {}, [currentUser]);
-  const copyToClipboard = async (text: string) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      toast("Copied to clipboard");
-    } catch (err) {
-      console.error("Failed to copy text: ", err);
-    }
-  };
-  useEffect(() => {
-    axios
-      .get("/api/videos", {
-        headers: {
-          apiKey: process.env.NEXT_PUBLIC_API_KEY,
-        },
-      })
-      .then((res) => {
-        setVideos(res.data);
-      })
-      .catch();
-  }, []);
-
+const Blogs = () => {
   return (
-    <div className="flex flex-col px-4 md:pl-[4em]">
-      <div>
-        <div className="flex justify-between items-center gap-4 mt-4 pt-[3em]">
-          <h1 className="h1 ">Videos</h1>
-          <Input
-            type="text"
-            placeholder="Search name..."
-            className=" rounded-3xl w-1/2"
-            onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              setSearchVal(e.target.value)
-            }
-          />
+    <div className={styles.container}>
+      <div className="header flex flex-col items-center md:items-center md:justify-between text-center gap-4">
+        <h3 className="h1 text-4xl ">Trending Videos</h3>
+        <p className=" w-fit md:w-[30rem]">
+          Your Daily Dose of Viral Sensations
+        </p>
+      </div>
+      <Divider sx={{ border: "1px solid #b2bec3" }} />
+      <div className="trending grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div>
+          <Link href={"/hub/blogs/123465"}>
+            <Card className="h-full  transition hover:shadow-2xl ">
+              <CardMedia
+                sx={{ height: 200 }}
+                image="/article.jpg"
+                title="article"
+              />
+              <CardContent
+                sx={{
+                  backgroundColor: "#1C294B",
+                  color: "white",
+                }}
+                className=" flex flex-col gap-7 justify-between"
+              >
+                <Chip
+                  sx={{ color: "white" }}
+                  label="Grammer"
+                  variant="outlined"
+                  className=" w-fit"
+                />
+                <div className="flex flex-col gap-4">
+                  <h4 className=" font-bold text-2xl">
+                    Unraveling the Mysteries of Grammar: A Deep Dive into
+                    Language Structure
+                  </h4>
+                  <p className="text-sm">
+                    Deciphering the Code of Communication: The Role of Grammar
+                    in Enhancing Clarity and Cohesion in Language
+                  </p>
+                </div>
+                <p className="text-xs flex gap-2">
+                  <span>Khashayar Mohammadi</span>•<span>03 March 2020</span>
+                </p>
+              </CardContent>
+            </Card>
+          </Link>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 grid-flow-dense mt-2"></div>
-
-        <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {videos && currentUser ? (
-            videos.map((video) => (
-              <Card className="p-4 bg-extraBg text-lightPrime" key={video.id}>
-                <CardContent className="p-0">
-                  <Link href={`/hub/videos/${video.id}`}>
-                    <div className=" relative w-full h-[200px]">
-                      <Image
-                        src={"/article.jpg"}
-                        alt="sample video"
-                        className=" absolute object-cover rounded-md brightness-50"
-                        fill
-                      />
-                      <PlayArrowIcon
-                        sx={{
-                          position: "absolute",
-                          color: "white",
-                          scale: "2",
-                          top: "60%",
-                          left: "52%",
-                          transform: "translate(-50%, -50%)",
-                        }}
-                      />
-                    </div>
-                  </Link>
-                  {(currentUser?.role.includes("admin") ||
-                    currentUser?.role.includes("adminTeacher")) && (
-                    <p className="p-4">
-                      id:{" "}
-                      <span
-                        className=" text-lg  md:text-base md:hover:scale-125 transition cursor-pointer"
-                        onClick={() => copyToClipboard(video.id)}
-                      >
-                        {video.id}
-                      </span>
-                    </p>
-                  )}
-                  {video.playlist.map((eachPlaylist) => (
-                    <Chip
-                      label={eachPlaylist}
-                      sx={{ color: "#072d44", backgroundColor: "#D0D7E1" }}
-                    />
-                  ))}
-                </CardContent>
-                <CardFooter className="flex items-center p-4 font-semibold">
-                  {video.title}
-                </CardFooter>
-              </Card>
-            ))
-          ) : (
-            <>
-              <Skeleton className="w-full h-[366px] rounded-md" />
-              <Skeleton className="w-full h-[366px] rounded-md" />
-              <Skeleton className="w-full h-[366px] rounded-md" />
-              <Skeleton className="w-full h-[366px] rounded-md" />
-              <Skeleton className="w-full h-[366px] rounded-md" />
-              <Skeleton className="w-full h-[366px] rounded-md" />
-              <Skeleton className="w-full h-[366px] rounded-md" />
-              <Skeleton className="w-full h-[366px] rounded-md" />
-            </>
-          )}
+        <div className=" grid grid-rows-3 gap-5">
+          <div className="eacHeadBlog flex flex-col md:flex-row gap-4 transition hover:shadow-xl hover:-translate-y-1 items-center">
+            <Image
+              src={"/article.jpg"}
+              alt="article"
+              width={200}
+              height={90}
+              className=" rounded-lg"
+            />
+            <div className="flex flex-col justify-between gap-4 md:gap-0 items-center md:items-start">
+              <Chip variant="outlined" label="Vocabulary" className=" w-fit" />
+              <div>
+                <h4 className=" mb-2 font-extrabold text-center md:text-start">
+                  Mastering the Lexicon: Unlocking the Power of Words for
+                  Effective Communication and Learning
+                </h4>
+                <p className="text-xs flex gap-2 justify-center md:justify-start">
+                  <span>Khashayar Mohammadi</span>•<span>03 March 2020</span>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="eacHeadBlog flex flex-col md:flex-row gap-4 transition hover:shadow-xl hover:-translate-y-1 items-center">
+            <Image
+              src={"/article.jpg"}
+              alt="article"
+              width={200}
+              height={90}
+              className=" rounded-lg"
+            />
+            <div className="flex flex-col justify-between gap-4 md:gap-0 items-center md:items-start">
+              <Chip variant="outlined" label="Vocabulary" className=" w-fit" />
+              <div>
+                <h4 className=" mb-2 font-extrabold text-center md:text-start">
+                  Mastering the Lexicon: Unlocking the Power of Words for
+                  Effective Communication and Learning
+                </h4>
+                <p className="text-xs flex gap-2 justify-center md:justify-start">
+                  <span>Khashayar Mohammadi</span>•<span>03 March 2020</span>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="eacHeadBlog flex flex-col md:flex-row gap-4 transition hover:shadow-xl hover:-translate-y-1 items-center">
+            <Image
+              src={"/article.jpg"}
+              alt="article"
+              width={200}
+              height={90}
+              className=" rounded-lg"
+            />
+            <div className="flex flex-col justify-between gap-4 md:gap-0 items-center md:items-start">
+              <Chip variant="outlined" label="Vocabulary" className=" w-fit" />
+              <div>
+                <h4 className=" mb-2 font-extrabold text-center md:text-start">
+                  Mastering the Lexicon: Unlocking the Power of Words for
+                  Effective Communication and Learning
+                </h4>
+                <p className="text-xs flex gap-2 justify-center md:justify-start">
+                  <span>Khashayar Mohammadi</span>•<span>03 March 2020</span>
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+
+      <div className="grammarCarousel">
+        <GrammarCarousel />
+      </div>
+
+      <div>
+        <h3 className="h1 text-4xl mb-3">Grammar Article</h3>
+        <Divider sx={{ border: "1px solid #b2bec3", margin: "1em 0" }} />
+      </div>
+
+      <OtherBlogs />
     </div>
   );
 };
 
-export default Videos;
+export default Blogs;

@@ -58,8 +58,8 @@ export interface WritingAnswer {
 export interface Video {
   id: string;
   title: string;
-  videoLink: string;
-  bucketKey: string;
+  videoLink: string | null;
+  bucketKey: string | null;
   playlist: string[];
 }
 

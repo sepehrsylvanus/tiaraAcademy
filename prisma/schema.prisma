@@ -87,3 +87,9 @@ model Video {
   videoLink String?
   playlist  String[]
 }
+
+// model StudentClass {
+//   id   String @id @default(cuid()) @map("_id")
+//   time String
+//   day  String
+// }
