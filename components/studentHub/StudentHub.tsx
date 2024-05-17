@@ -11,6 +11,7 @@ import { Class } from "@/utils/types";
 import axios from "axios";
 import Link from "next/link";
 import MyWritings from "../myWritings/MyWritings";
+import { Axios } from "@/utils/axiosIn";
 
 export default function StudentHub() {
   const [displayCount, setDisplayCount] = useState(3);
@@ -22,23 +23,17 @@ export default function StudentHub() {
 
   useEffect(() => {
     try {
-      axios
-        .get("/api/classes", {
-          headers: {
-            apiKey: process.env.NEXT_PUBLIC_API_KEY,
-          },
-        })
-        .then((res) => {
-          const classes: Class[] = res.data.classes;
-          const result = classes.filter((cls) => {
-            const cutoffDate = new Date();
-            cutoffDate.setDate(cutoffDate.getDate() - 7);
-            const classCreatedDate = new Date(cls.createdAt);
-            return classCreatedDate >= cutoffDate;
-          });
-
-          setFeaturedClasses(result);
+      Axios.get("/classes").then((res) => {
+        const classes: Class[] = res.data.classes;
+        const result = classes.filter((cls) => {
+          const cutoffDate = new Date();
+          cutoffDate.setDate(cutoffDate.getDate() - 7);
+          const classCreatedDate = new Date(cls.createdAt);
+          return classCreatedDate >= cutoffDate;
         });
+
+        setFeaturedClasses(result);
+      });
     } catch (error) {
       console.log(error);
     } finally {

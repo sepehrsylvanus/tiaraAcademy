@@ -1,6 +1,5 @@
 import { CircularProgress } from "@mui/material";
 
-import axios from "axios";
 import { Writings } from "@/utils/types";
 import { getToken, getWritings } from "@/actions/actions";
 import { getSingleUser } from "@/actions/userActions";

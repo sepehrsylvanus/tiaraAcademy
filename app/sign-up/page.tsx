@@ -10,10 +10,11 @@ import Link from "next/link";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, Controller } from "react-hook-form";
-import axios from "axios";
+
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { CircularProgress } from "@mui/material";
+import { Axios } from "@/utils/axiosIn";
 
 const signupSchema = z.object({
   fName: z.string().min(4, { message: "Please enter a proper name" }),
@@ -46,12 +47,7 @@ const Login = () => {
     const { passwordRepeat, ...formData } = values;
 
     setSending(true);
-    axios
-      .post("/api/users", formData, {
-        headers: {
-          apiKey: process.env.NEXT_PUBLIC_API_KEY,
-        },
-      })
+    Axios.post("/users", formData)
       .then((res) => {
         if (res.status === 200) {
           toast.success(res.data.message, {

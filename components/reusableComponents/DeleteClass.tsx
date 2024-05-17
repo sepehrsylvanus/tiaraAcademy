@@ -12,11 +12,12 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import axios from "axios";
+
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useState } from "react";
 import { CircularProgress } from "@mui/material";
+import { Axios } from "@/utils/axiosIn";
 
 const deleeteArticleForm = z.object({
   id: z.string(),
@@ -30,12 +31,7 @@ const DeleteClass = () => {
 
   function onSubmit(values: z.infer<typeof deleeteArticleForm>) {
     setSending(true);
-    axios
-      .delete(`/api/classes/${values.id}`, {
-        headers: {
-          apiKey: process.env.NEXT_PUBLIC_API_KEY,
-        },
-      })
+    Axios.delete(`/classes/${values.id}`)
       .then((res) => {
         toast.success(res.data.message, {
           position: "bottom-right",

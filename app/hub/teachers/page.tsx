@@ -21,6 +21,7 @@ import axios from "axios";
 
 import { User } from "@/utils/types";
 import { toast } from "react-toastify";
+import { Axios } from "@/utils/axiosIn";
 
 const page = () => {
   const [teachers, setTeachers] = useState<User[]>([]);
@@ -28,12 +29,7 @@ const page = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios
-      .get("/api/users", {
-        headers: {
-          apiKey: process.env.NEXT_PUBLIC_API_KEY,
-        },
-      })
+    Axios.get("/users")
       .then((res) => {
         const teachers = res.data.filter(
           (teacher: User) =>

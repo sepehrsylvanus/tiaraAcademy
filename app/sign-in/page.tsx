@@ -9,11 +9,12 @@ import Link from "next/link";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, Controller } from "react-hook-form";
-import axios from "axios";
+
 import { useState } from "react";
 import { CircularProgress } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import { Axios } from "@/utils/axiosIn";
 const formSchema = z.object({
   email: z.string().min(2).max(50),
   password: z.string(),
@@ -31,12 +32,7 @@ const Login = () => {
   });
   async function signin(values: z.infer<typeof formSchema>) {
     setSending(true);
-    axios
-      .post("/api/signin", values, {
-        headers: {
-          apiKey: process.env.NEXT_PUBLIC_API_KEY,
-        },
-      })
+    Axios.post("/signin", values)
       .then((res) => {
         setSending(false);
         toast.success("Login successful, You will be redirect to your Hub");

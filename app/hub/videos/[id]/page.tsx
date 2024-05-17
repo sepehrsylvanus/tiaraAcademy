@@ -1,4 +1,5 @@
 "use client";
+import { Axios } from "@/utils/axiosIn";
 import { Video as VideoType } from "@/utils/types";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -12,12 +13,7 @@ type SingleVideoProps = {
 const SingleVideo = ({ params }: SingleVideoProps) => {
   const [video, setVideo] = useState<VideoType>();
   useEffect(() => {
-    axios
-      .get(`/api/videos/${params.id}`, {
-        headers: {
-          apiKey: process.env.NEXT_PUBLIC_API_KEY,
-        },
-      })
+    Axios.get(`/videos/${params.id}`)
       .then((res) => setVideo(res.data))
       .catch((e) => console.log(e));
   }, []);
@@ -29,12 +25,14 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
       </h1>
       {video && (
         <div className="  w-screen md:w-[70%] mx-auto md:scale-100">
-          <ReactPlayer
-            url={video.videoLink}
-            controls
-            width={"100%"}
-            height={500}
-          />
+          {video.videoLink && (
+            <ReactPlayer
+              url={video.videoLink}
+              controls
+              width={"100%"}
+              height={500}
+            />
+          )}
         </div>
       )}
     </div>

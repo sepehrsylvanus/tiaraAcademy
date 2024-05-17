@@ -2,15 +2,16 @@
 import React, { useState } from "react";
 import styles from "./classesDate.module.css";
 import { AdapterDateFnsJalali } from "@mui/x-date-pickers/AdapterDateFnsJalali";
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFnsV3";
 
 import {
   DateCalendar,
   DatePicker,
   LocalizationProvider,
 } from "@mui/x-date-pickers";
-import { format } from "date-fns-jalali";
-import { faIR } from "date-fns/locale";
+
+import { Controller, useFormContext } from "react-hook-form";
+
 const ClassesDate = ({ classDates }: { classDates: string[] | undefined }) => {
   const [value, setValue] = useState<Date | null>(null);
 
@@ -20,28 +21,38 @@ const ClassesDate = ({ classDates }: { classDates: string[] | undefined }) => {
     setValue(dateValue);
   };
 
-  const disableSpecificDate = (date: Date) => {
-    const jalaliDate = format(date, "yyyy/MM/dd");
-    if (classDates) {
-      return classDates.some((classDate) => classDate === jalaliDate);
-    } else {
-      return false;
-    }
-  };
+  const disableDates = (date: Date) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
 
+    if (date < today) return true;
+
+    if (date.getDay() === 3) return true;
+
+    return false;
+  };
+  const form = useFormContext();
+  const { errors } = form.formState;
+  console.log(errors);
+  const dateError = errors.date?.message;
   return (
     <div className={styles.container}>
-      <LocalizationProvider
-        dateAdapter={AdapterDateFnsJalali}
-        adapterLocale={faIR}
-      >
-        <DatePicker
-          label="انتخاب تاریخ"
-          value={value}
-          onChange={handleDateChange}
-          shouldDisableDate={disableSpecificDate}
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <DateCalendar shouldDisableDate={disableDates} />
+        <Controller
+          name="date"
+          control={form.control}
+          render={({ field }) => (
+            <DatePicker
+              value={field.value}
+              onChange={field.onChange}
+              shouldDisableDate={disableDates}
+            />
+          )}
         />
-        <DateCalendar shouldDisableDate={disableSpecificDate} />
+        {errors.date && (
+          <p className="font-bold text-red-500">{dateError?.toString()}</p>
+        )}
       </LocalizationProvider>
     </div>
   );

@@ -11,7 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import axios from "axios";
+
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect, useState } from "react";
@@ -21,6 +21,7 @@ import { getSingleUser } from "@/actions/userActions";
 import { getToken } from "@/actions/actions";
 import { User } from "@/utils/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Axios } from "@/utils/axiosIn";
 
 export type StudentsShow = {
   id: string;
@@ -53,16 +54,7 @@ export const columns: ColumnDef<StudentsShow>[] = [
 
       const changeRole = async (role: string) => {
         setSending(true);
-        return axios
-          .put(
-            `/api/users/${user.id}`,
-            { role },
-            {
-              headers: {
-                apiKey: process.env.NEXT_PUBLIC_API_KEY,
-              },
-            }
-          )
+        return Axios.put(`/users/${user.id}`, { role })
           .then((res) => {
             toast.success(res.data.message, {
               position: "bottom-right",

@@ -8,7 +8,6 @@ import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { ChangeEvent, useEffect, useState } from "react";
 import { S3 } from "aws-sdk";
-import axios from "axios";
 import { postWriting } from "@/actions/actions";
 import {
   CircularProgress,

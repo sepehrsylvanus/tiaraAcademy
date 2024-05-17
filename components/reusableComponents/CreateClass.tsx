@@ -14,9 +14,10 @@ import { Button } from "../ui/button";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, Controller } from "react-hook-form";
-import axios from "axios";
+
 import { toast } from "react-toastify";
 import styles from "@/components/reusableComponents/components.module.css";
+import { Axios } from "@/utils/axiosIn";
 const formSchema = z.object({
   title: z.string().min(5),
   days: z.array(z.string()),
@@ -68,12 +69,7 @@ const CreateClass = () => {
 
   async function createClass(values: z.infer<typeof formSchema>) {
     setSending(true);
-    axios
-      .post("/api/classes", values, {
-        headers: {
-          apiKey: process.env.NEXT_PUBLIC_API_KEY,
-        },
-      })
+    Axios.post("/classes", values)
       .then((res) => {
         toast.success(res.data.message, {
           position: "bottom-right",

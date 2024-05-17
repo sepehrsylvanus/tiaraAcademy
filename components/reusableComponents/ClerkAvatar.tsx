@@ -18,12 +18,13 @@ import LogoutIcon from "@mui/icons-material/Logout";
 
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
-import axios from "axios";
+
 import { toast } from "react-toastify";
 import { UserProps } from "@/utils/types";
 import { getToken } from "@/actions/actions";
 import { getSingleUser } from "@/actions/userActions";
 import { Avatar, CircularProgress } from "@mui/material";
+import { Axios } from "@/utils/axiosIn";
 const ClerkAvatar = () => {
   const [loading, setLoading] = useState(false);
   const [token, setToken] = useState<string>();
@@ -32,12 +33,7 @@ const ClerkAvatar = () => {
 
   const signout = async () => {
     setLoading(true);
-    axios
-      .get("/api/signout", {
-        headers: {
-          apiKey: process.env.NEXT_PUBLIC_API_KEY,
-        },
-      })
+    Axios.get("/signout")
       .then((res) => {
         toast(res.data);
         router.push("/");

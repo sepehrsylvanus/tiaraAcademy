@@ -21,7 +21,6 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Meteors } from "@/components/ui/meteors";
-import axios from "axios";
 import { toast } from "react-toastify";
 import {
   Card,
@@ -33,6 +32,7 @@ import {
 } from "@/components/ui/card";
 import { getToken } from "@/actions/actions";
 import { getSingleUser } from "@/actions/userActions";
+import { Axios } from "@/utils/axiosIn";
 
 const Classes = () => {
   const [loading, setLoading] = useState(true);
@@ -59,12 +59,7 @@ const Classes = () => {
   }, []);
 
   useEffect(() => {
-    axios
-      .get("/api/classes", {
-        headers: {
-          apiKey: process.env.NEXT_PUBLIC_API_KEY,
-        },
-      })
+    Axios.get("/classes")
       .then((res) => {
         setClasses(res.data.classes);
         setFilteredClasses(res.data.classes);
