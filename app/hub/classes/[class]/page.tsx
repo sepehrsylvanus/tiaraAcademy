@@ -25,10 +25,7 @@ import { Axios } from "@/utils/axiosIn";
 import { toast } from "react-toastify";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-type ClassRegisterProps = {
-  date: Date;
-  time: string;
-};
+
 const privateTimes = [
   "9",
   "10",
@@ -171,6 +168,7 @@ const MyClass = (details: DetailsProps) => {
                 </div>
                 <div>
                   <CustomSelect
+                    classId={params.class}
                     times={
                       singleClass?.type === "private"
                         ? privateTimes

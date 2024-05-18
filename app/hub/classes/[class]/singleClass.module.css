@@ -4,6 +4,7 @@
   padding: 3em 1.5em 0;
   @media (min-width: 768px) {
     padding-left: 5em;
+    padding-bottom: 6em;
   }
 }
 .header {
@@ -76,6 +77,11 @@
   display: flex;
   flex-direction: column;
   gap: 1em;
+  padding-bottom: 6em;
+  @media (min-width: 768px) {
+    padding-left: 5em;
+    padding-bottom: 3em;
+  }
 }
 .accessToClass {
   margin-top: 0.5em;

@@ -46,7 +46,14 @@ export interface WritingsToShow {
   writing: Writings;
   writingAnswer?: WritingAnswer;
 }
-
+export interface UserClasses {
+  id: string;
+  classId: string;
+  userId: string;
+  date: Date;
+  time: string;
+  class: Class;
+}
 export interface WritingAnswer {
   id: string;
   writingId?: string | null;

@@ -26,3 +26,26 @@ export const POST = async (req: NextRequest) => {
 
   return NextResponse.json({ message: "You successfuly registered" });
 };
+
+export const GET = async (req: NextRequest) => {
+  const token = await getToken()!;
+  const user = await getSingleUser(token?.value);
+  if (!req.headers.get("apiKey")) {
+    return NextResponse.json({ error: "Access denied" }, { status: 401 });
+  }
+
+  const myClasses = await prisma.classUsers.findMany({
+    where: {
+      userId: user?.id,
+    },
+    include: {
+      class: {
+        include: {
+          creator: true,
+        },
+      },
+    },
+  });
+
+  return NextResponse.json(myClasses);
+};

@@ -1,5 +1,5 @@
 "use client";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 
 import { Avatar, CircularProgress } from "@mui/material";
 
@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 
 import { useEffect, useState } from "react";
 import { Class } from "@/utils/types";
-import axios from "axios";
+
 import Link from "next/link";
 import MyWritings from "../myWritings/MyWritings";
 import { Axios } from "@/utils/axiosIn";
@@ -83,6 +83,14 @@ export default function StudentHub() {
                       {featuredClass.title}
                     </h4>
                   </CardContent>
+                  <CardFooter>
+                    <Link
+                      href={`/hub/classes/${featuredClass.id}`}
+                      className="w-full"
+                    >
+                      <Button className="w-full">Join</Button>
+                    </Link>
+                  </CardFooter>
                 </Card>
               );
             })
