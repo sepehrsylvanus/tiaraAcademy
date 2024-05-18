@@ -56,6 +56,7 @@ const classValidation = z.object({
 const MyClass = (details: DetailsProps) => {
   const { params } = details;
   const [singleClass, setSingleClass] = useState<Class>();
+
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     const fetchClassData = async () => {
@@ -73,6 +74,7 @@ const MyClass = (details: DetailsProps) => {
     resolver: zodResolver(classValidation),
   });
   const classTime = registerForm.watch("time");
+  const selectedDate = registerForm.watch("date");
   const onSubmit = (values: z.infer<typeof classValidation>) => {
     setLoading(true);
     console.log(values);
@@ -169,6 +171,7 @@ const MyClass = (details: DetailsProps) => {
                 <div>
                   <CustomSelect
                     classId={params.class}
+                    selectedDate={selectedDate?.toISOString()}
                     times={
                       singleClass?.type === "private"
                         ? privateTimes

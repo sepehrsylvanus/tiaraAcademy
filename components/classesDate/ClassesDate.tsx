@@ -11,15 +11,13 @@ import {
 } from "@mui/x-date-pickers";
 
 import { Controller, useFormContext } from "react-hook-form";
-
-const ClassesDate = ({ classDates }: { classDates: string[] | undefined }) => {
+type DatePickersProps = {
+  classDates: string[] | undefined;
+};
+const ClassesDate = ({}: DatePickersProps) => {
   const [value, setValue] = useState<Date | null>(null);
 
   // ALREADY SCHEDULED
-
-  const handleDateChange = (dateValue: Date | null) => {
-    setValue(dateValue);
-  };
 
   const disableDates = (date: Date) => {
     const today = new Date();

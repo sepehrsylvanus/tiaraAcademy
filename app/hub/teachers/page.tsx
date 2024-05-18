@@ -17,7 +17,6 @@ import {
 } from "@/components/ui/carousel";
 
 import { Skeleton } from "@/components/ui/skeleton";
-import axios from "axios";
 
 import { User } from "@/utils/types";
 import { toast } from "react-toastify";

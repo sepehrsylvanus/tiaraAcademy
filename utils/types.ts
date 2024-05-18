@@ -50,7 +50,7 @@ export interface UserClasses {
   id: string;
   classId: string;
   userId: string;
-  date: Date;
+  date: string;
   time: string;
   class: Class;
 }

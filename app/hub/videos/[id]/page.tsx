@@ -1,7 +1,6 @@
 "use client";
 import { Axios } from "@/utils/axiosIn";
 import { Video as VideoType } from "@/utils/types";
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import ReactPlayer from "react-player";
 

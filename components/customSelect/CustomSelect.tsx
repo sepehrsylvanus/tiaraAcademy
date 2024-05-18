@@ -6,8 +6,13 @@ import { Controller, useFormContext } from "react-hook-form";
 import { Class, UserClasses } from "@/utils/types";
 import { Axios } from "@/utils/axiosIn";
 
-const CustomSelect = (props: { times: string[]; classId: string }) => {
+const CustomSelect = (props: {
+  times: string[];
+  classId: string;
+  selectedDate: string;
+}) => {
   const [opccupiedTimes, setOpccupiedTimes] = useState<string[]>();
+  const [occupiedDates, setOccupiedDates] = useState<string[]>();
   const form = useFormContext();
   const { errors } = form.formState;
   const timeError = errors.time?.message;
@@ -21,16 +26,21 @@ const CustomSelect = (props: { times: string[]; classId: string }) => {
         const justClasses = registerClasses.filter(
           (registerClass) => registerClass.class.id === props.classId
         );
+        console.log(justClasses);
+        const occupiedDates = justClasses.map((item) => item.date);
+        console.log(occupiedDates);
         const opccupiedTimes = justClasses.map((item) => item.time);
         setOpccupiedTimes(opccupiedTimes);
+        setOccupiedDates(occupiedDates);
       })
       .catch((err) => console.log(err));
   }, []);
 
   useEffect(() => {
-    console.log(opccupiedTimes);
-  }, [opccupiedTimes]);
-
+    console.log(occupiedDates);
+  }, [occupiedDates]);
+  console.log(props.selectedDate);
+  console.log(occupiedDates?.includes(props.selectedDate!));
   return (
     <FormControl sx={{ width: 200, marginTop: "1em" }}>
       <InputLabel id="customSelectLabel">زمان کلاس را انتخاب کنید</InputLabel>
@@ -46,7 +56,10 @@ const CustomSelect = (props: { times: string[]; classId: string }) => {
           >
             {times.map((item) => (
               <MenuItem
-                disabled={opccupiedTimes?.includes(item)}
+                disabled={
+                  opccupiedTimes?.includes(item) &&
+                  occupiedDates?.includes(props.selectedDate!)
+                }
                 key={item}
                 value={item}
               >
