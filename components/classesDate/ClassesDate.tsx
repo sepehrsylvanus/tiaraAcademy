@@ -14,19 +14,37 @@ import { Controller, useFormContext } from "react-hook-form";
 type DatePickersProps = {
   classDates: string[] | undefined;
 };
-const ClassesDate = ({}: DatePickersProps) => {
-  const [value, setValue] = useState<Date | null>(null);
-
+const ClassesDate = ({ classDates }: DatePickersProps) => {
   // ALREADY SCHEDULED
+  console.log(classDates);
+  const dayValues = classDates?.map((date) => {
+    switch (date) {
+      case "sunday":
+        return 0;
+      case "monday":
+        return 1;
+      case "tuesday":
+        return 2;
+      case "wednesday":
+        return 3;
+      case "thursday":
+        return 4;
+      case "friday":
+        return 5;
+      case "saturday":
+        return 6;
+    }
+  });
 
+  console.log(dayValues);
   const disableDates = (date: Date) => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
     if (date < today) return true;
 
-    if (date.getDay() === 3) return true;
-
+    if (!dayValues?.includes(date.getDay() as 0 | 1 | 2 | 3 | 4 | 5 | 6))
+      return true;
     return false;
   };
   const form = useFormContext();
