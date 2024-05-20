@@ -11,6 +11,7 @@ const CustomSelect = (props: {
   classId: string;
   selectedDate: string;
 }) => {
+  const [justClasses, setJustClasses] = useState<UserClasses[]>();
   const [opccupiedTimes, setOpccupiedTimes] = useState<string[]>();
   const [occupiedDates, setOccupiedDates] = useState<string[]>();
   const form = useFormContext();
@@ -27,18 +28,23 @@ const CustomSelect = (props: {
           (registerClass) => registerClass.class.id === props.classId
         );
         console.log(justClasses);
-        const occupiedDates = justClasses.map((item) => item.date);
-        console.log(occupiedDates);
-        const opccupiedTimes = justClasses.map((item) => item.time);
-        setOpccupiedTimes(opccupiedTimes);
-        setOccupiedDates(occupiedDates);
+        setJustClasses(justClasses);
       })
       .catch((err) => console.log(err));
   }, []);
 
   useEffect(() => {
+    const selectedDateClass = justClasses?.filter(
+      (item) => item.date === props.selectedDate
+    );
+    console.log(selectedDateClass);
+    setOpccupiedTimes(selectedDateClass?.map((item) => item.time));
+  }, [props.selectedDate]);
+
+  useEffect(() => {
     console.log(occupiedDates);
-  }, [occupiedDates]);
+    console.log(opccupiedTimes);
+  }, [occupiedDates, opccupiedTimes]);
   console.log(props.selectedDate);
   console.log(occupiedDates?.includes(props.selectedDate!));
   return (
@@ -56,10 +62,7 @@ const CustomSelect = (props: {
           >
             {times.map((item) => (
               <MenuItem
-                disabled={
-                  opccupiedTimes?.includes(item) &&
-                  occupiedDates?.includes(props.selectedDate!)
-                }
+                disabled={opccupiedTimes?.includes(item)}
                 key={item}
                 value={item}
               >

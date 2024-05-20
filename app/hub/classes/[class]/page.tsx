@@ -160,7 +160,13 @@ const MyClass = (details: DetailsProps) => {
               >
                 Meeting Link (click here!)
               </Link>
-              <ClassesDate classDates={singleClass?.days} />
+              <ClassesDate
+                publicTimes={publicTimes}
+                privateTimes={privateTimes}
+                selectedDate={selectedDate?.toISOString()}
+                classId={params.class}
+                classDates={singleClass?.days}
+              />
               <div className={styles.chooseClassTime}>
                 <div
                   style={{ display: "flex", alignItems: "center", gap: "1em" }}
@@ -169,15 +175,17 @@ const MyClass = (details: DetailsProps) => {
                   {classTime ? classTime : <span>زمانی انتخاب نشده است</span>}
                 </div>
                 <div>
-                  <CustomSelect
-                    classId={params.class}
-                    selectedDate={selectedDate?.toISOString()}
-                    times={
-                      singleClass?.type === "private"
-                        ? privateTimes
-                        : publicTimes
-                    }
-                  />
+                  {selectedDate && (
+                    <CustomSelect
+                      classId={params.class}
+                      selectedDate={selectedDate?.toISOString()}
+                      times={
+                        singleClass?.type === "private"
+                          ? privateTimes
+                          : publicTimes
+                      }
+                    />
+                  )}
                 </div>
               </div>
               {loading ? (
