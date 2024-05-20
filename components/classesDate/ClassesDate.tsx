@@ -40,7 +40,7 @@ const ClassesDate = ({
           (thisCls) => thisCls.classId === classId
         );
         console.log(justThisClass);
-        setTimes(justThisClass.map((item) => item.time));
+
         setJustThisClass(justThisClass);
       })
       .catch((e) => console.log(e));
@@ -74,26 +74,19 @@ const ClassesDate = ({
 
     if (date < today) return true;
 
-    // if (!dayValues?.includes(date.getDay() as 0 | 1 | 2 | 3 | 4 | 5 | 6))
-    //   return true;
+    if (!dayValues?.includes(date.getDay() as 0 | 1 | 2 | 3 | 4 | 5 | 6))
+      return true;
 
-    // const timesForDate = justThisClass?.filter(
-    //   (item) => item.date === date.toISOString()
-    // );
-
-    // HERE
-    // if (
-    //   timesForDate?.every((item) => publicTimes.includes(item)) ||
-    //   timesForDate?.every((item) => privateTimes.includes(item))
-    // )
-    //   return true;
-
-const times = justThisClass?.map
-
-
-
-    console.log(date.toISOString());
-    
+    const thisDateClasses = justThisClass?.filter(
+      (item) => item.date === date.toISOString()
+    );
+    const thisDateTimes = thisDateClasses?.map((item) => item.time);
+    if (
+      publicTimes.every((eachTime) => thisDateTimes?.includes(eachTime)) ||
+      privateTimes.every((eachTime) => thisDateTimes?.includes(eachTime))
+    )
+      return true;
+    console.log(times);
 
     return false;
   };
