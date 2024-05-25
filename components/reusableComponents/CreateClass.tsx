@@ -24,8 +24,8 @@ const formSchema = z.object({
   days: z.array(z.string()),
   price: z.string().min(1, { message: "Free?! So write 0 :>" }),
   type: z.string(),
-  capacity: z.string(),
-  times: z.string(),
+  capacity: z.number(),
+  time: z.array(z.string()),
 });
 const days = [
   {
@@ -65,9 +65,9 @@ const CreateClass = () => {
     defaultValues: {
       title: "",
       days: [],
-      capacity: "",
+      capacity: 0,
       type: "public",
-      times: "",
+      time: [],
     },
   });
   const {
@@ -76,6 +76,8 @@ const CreateClass = () => {
   console.log(errors);
   console.log(form.watch("capacity"));
   const classType = form.watch("type");
+  const times = form.watch("time");
+  console.log(times);
   async function createClass(values: z.infer<typeof formSchema>) {
     console.log("ttriggered");
     setSending(true);
@@ -209,10 +211,11 @@ const CreateClass = () => {
           <input
             {...field}
             className="border p-4 rounded-md formInput"
-            type="string"
+            type="number"
             name=""
             id=""
             placeholder="Capacity"
+            onChange={(e) => field.onChange(parseInt(e.target.value))}
           />
         )}
       />
@@ -226,14 +229,15 @@ const CreateClass = () => {
           Times
         </InputLabel>
         <Controller
-          name="times"
+          name="time"
           control={form.control}
           render={({ field }) => (
             <Select
               defaultValue={field.value}
               onChange={field.onChange}
-              label="Select your times"
+              label="Select your time"
               name="days"
+              multiple
               sx={{ backgroundColor: "#c6d9e6" }}
             >
               {classType === "public" &&

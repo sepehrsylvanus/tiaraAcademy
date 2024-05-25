@@ -89,7 +89,7 @@ const MyClass = (details: DetailsProps) => {
               تغییر کلاس جاری
             </Link>
           </div>
-          {singleClass ? (
+          {singleClass?.creator ? (
             <h2 className={styles.title}>{`${singleClass?.title
               .split("-")
               .map(
@@ -155,13 +155,14 @@ const MyClass = (details: DetailsProps) => {
               >
                 Meeting Link (click here!)
               </Link>
-              <ClassesDate
-                publicTimes={publicTimes}
-                privateTimes={privateTimes}
-                selectedDate={selectedDate?.toISOString()}
-                classId={params.class}
-                classDates={singleClass?.days}
-              />
+              {singleClass && (
+                <ClassesDate
+                  selectedDate={selectedDate?.toISOString()}
+                  classId={params.class}
+                  classDates={singleClass?.days}
+                  singleClass={singleClass}
+                />
+              )}
               <div className={styles.chooseClassTime}>
                 <div
                   style={{ display: "flex", alignItems: "center", gap: "1em" }}
@@ -170,15 +171,11 @@ const MyClass = (details: DetailsProps) => {
                   {classTime ? classTime : <span>زمانی انتخاب نشده است</span>}
                 </div>
                 <div>
-                  {selectedDate && (
+                  {selectedDate && singleClass && (
                     <CustomSelect
                       classId={params.class}
                       selectedDate={selectedDate?.toISOString()}
-                      times={
-                        singleClass?.type === "private"
-                          ? privateTimes
-                          : publicTimes
-                      }
+                      times={singleClass.time}
                     />
                   )}
                 </div>

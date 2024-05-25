@@ -66,7 +66,7 @@ const Classes = () => {
 
         const teachersNameSet: Set<string> = new Set();
         res.data.classes.forEach((item: Class) => {
-          const fullName = `${item.creator.fName} ${item.creator.lName}`;
+          const fullName = `${item.creator!.fName} ${item.creator?.lName}`;
           teachersNameSet.add(fullName);
         });
 
@@ -78,7 +78,7 @@ const Classes = () => {
 
           const classes: Class[] = res.data.classes;
           const result = classes.filter((eachClass) =>
-            `${eachClass.creator.fName}${eachClass.creator.lName}`
+            `${eachClass.creator!.fName}${eachClass.creator?.lName}`
               .toLowerCase()
               .startsWith(filterVal)
           );
@@ -119,11 +119,12 @@ const Classes = () => {
     if (className && teacherName) {
       const result = classes?.filter((eachClass) => {
         const classToFilter = eachClass.title.split(" ").join("").toLowerCase();
-        const teacherToFilter =
-          `${eachClass.creator.fName} ${eachClass.creator.lName}`
-            .split(" ")
-            .join("")
-            .toLowerCase();
+        const teacherToFilter = `${eachClass.creator!.fName} ${
+          eachClass.creator?.lName
+        }`
+          .split(" ")
+          .join("")
+          .toLowerCase();
 
         return (
           classToFilter.startsWith(classFilterValue) &&
@@ -141,11 +142,12 @@ const Classes = () => {
       setFilteredClasses(result);
     } else if (teacherName) {
       const result = classes?.filter((eachClass) => {
-        const teacherToFilter =
-          `${eachClass.creator.fName} ${eachClass.creator.lName}`
-            .split(" ")
-            .join("")
-            .toLowerCase();
+        const teacherToFilter = `${eachClass.creator!.fName} ${
+          eachClass.creator?.lName
+        }`
+          .split(" ")
+          .join("")
+          .toLowerCase();
 
         return teacherToFilter === teacherName;
       });
@@ -253,7 +255,9 @@ const Classes = () => {
                 <CardContent className=" relative overflow-hidden">
                   <Meteors />
                   <div className="flex items-center justify-around">
-                    <p>{`${eachClass.creator.fName} ${eachClass.creator.lName}`}</p>
+                    <p>{`${eachClass.creator!.fName} ${
+                      eachClass.creator?.lName
+                    }`}</p>
                     <p>{eachClass.price}</p>
                     <Chip label={eachClass.type} />
                   </div>
@@ -272,7 +276,7 @@ const Classes = () => {
                   {(currentUser?.role.includes("admin") ||
                     currentUser?.role.includes("adminTeacher")) && (
                     <p
-                      className=" text-lg  md:text-base md:hover:text-lg"
+                      className=" cursor-pointer text-lg  md:text-base md:hover:text-lg"
                       onClick={() => copyToClipboard(eachClass.id)}
                     >
                       {eachClass.id}

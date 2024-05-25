@@ -16,9 +16,9 @@ export interface Class {
   price: string;
   type: string;
   capacity: number;
-  times: string[];
+  time: string[];
   creatorId?: string;
-  creator: User;
+  creator?: User;
 }
 
 export interface UserProps {
@@ -28,6 +28,8 @@ export interface UserProps {
   email: string;
   password: string;
   role: string;
+
+  time: string;
 }
 
 export interface Writings {
@@ -53,8 +55,9 @@ export interface UserClasses {
   classId: string;
   userId: string;
   date: string;
-  time: string;
+  capacity: number;
   class: Class;
+  time: string;
 }
 export interface WritingAnswer {
   id: string;

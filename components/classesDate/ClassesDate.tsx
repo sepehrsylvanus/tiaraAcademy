@@ -12,42 +12,35 @@ import {
 
 import { Controller, useFormContext } from "react-hook-form";
 import { Axios } from "@/utils/axiosIn";
-import { UserClasses } from "@/utils/types";
+import { Class, UserClasses } from "@/utils/types";
 import { selectClasses } from "@mui/material";
 type DatePickersProps = {
   classDates: string[] | undefined;
   classId: string;
   selectedDate: string;
-  publicTimes: string[];
-  privateTimes: string[];
+  singleClass: Class;
 };
 const ClassesDate = ({
   classDates,
   classId,
-
-  publicTimes,
-  privateTimes,
+  singleClass,
 }: DatePickersProps) => {
   const [times, setTimes] = useState<string[]>();
   const [justThisClass, setJustThisClass] = useState<UserClasses[]>();
+  const [cls, setCls] = useState();
   useEffect(() => {
     Axios.get("/registerClass")
       .then((res) => {
         const data: UserClasses[] = res.data;
-        console.log(res.data);
 
-        const justThisClass = data.filter(
-          (thisCls) => thisCls.classId === classId
-        );
-        console.log(justThisClass);
-
+        const justThisClass = data.filter((item) => item.classId === classId);
         setJustThisClass(justThisClass);
       })
       .catch((e) => console.log(e));
   }, []);
 
   // ALREADY SCHEDULED
-  console.log(classDates);
+
   const dayValues = classDates?.map((date) => {
     switch (date) {
       case "sunday":
@@ -67,7 +60,6 @@ const ClassesDate = ({
     }
   });
 
-  console.log(dayValues);
   const disableDates = (date: Date) => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -77,22 +69,17 @@ const ClassesDate = ({
     if (!dayValues?.includes(date.getDay() as 0 | 1 | 2 | 3 | 4 | 5 | 6))
       return true;
 
-    const thisDateClasses = justThisClass?.filter(
-      (item) => item.date === date.toISOString()
+    const isRunOut = justThisClass?.filter(
+      (item) => item.capacity === 0 && item.date === date.toISOString()
     );
-    const thisDateTimes = thisDateClasses?.map((item) => item.time);
-    if (
-      publicTimes.every((eachTime) => thisDateTimes?.includes(eachTime)) ||
-      privateTimes.every((eachTime) => thisDateTimes?.includes(eachTime))
-    )
-      return true;
-    console.log(times);
+
+    if (isRunOut?.length === singleClass.time.length) return true;
 
     return false;
   };
   const form = useFormContext();
   const { errors } = form.formState;
-  console.log(errors);
+
   const dateError = errors.date?.message;
   return (
     <div className={styles.container}>

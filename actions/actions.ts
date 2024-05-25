@@ -317,6 +317,7 @@ export const getVideos = async () => {
   return videos;
 };
 export const getSingleClass = async (id: string) => {
+  console.log(id);
   const result = await prisma.class.findUnique({
     where: {
       id,

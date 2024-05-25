@@ -8,18 +8,19 @@ type ParamsProps = {
 export const DELETE = async (req: NextRequest, { params }: ParamsProps) => {
   if (req.headers.get("apiKey")) {
     try {
-      const user = await prisma.class.findUnique({
+      const cls = await prisma.class.findUnique({
         where: {
           id: params.id,
         },
       });
-      if (!user) {
+      if (!cls) {
         return NextResponse.json(
           { message: "Class with this id doesn't exist" },
           { status: 404 }
         );
       }
 
+      console.log(params.id);
       try {
         await prisma.class.delete({
           where: {
