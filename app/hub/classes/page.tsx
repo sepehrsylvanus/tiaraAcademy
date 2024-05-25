@@ -229,7 +229,7 @@ const Classes = () => {
         </div>
       </div>
       <Divider sx={{ margin: "1em 0" }} />
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 pb-[6em]">
         {loading ? (
           <>
             <Skeleton className="w-full h-[250px] rounded-md" />

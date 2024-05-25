@@ -115,3 +115,20 @@ export const playlists = [
     value: "speaking",
   },
 ];
+
+export const privateTimes = [
+  "9",
+  "10",
+  "11",
+  "12",
+  "14",
+  "15",
+  "16",
+  "17",
+  "18",
+  "19",
+  "20",
+  "21",
+];
+
+export const publicTimes = ["9", "10:45", "14", "15:45", "17:30", "19:15"];

@@ -29,6 +29,11 @@ const CustomSelect = (props: {
         );
         console.log(justClasses);
         setJustClasses(justClasses);
+        const selectedDateClass = justClasses?.filter(
+          (item) => item.date === props.selectedDate
+        );
+        console.log(selectedDateClass);
+        setOpccupiedTimes(selectedDateClass?.map((item) => item.time));
       })
       .catch((err) => console.log(err));
   }, []);
@@ -39,6 +44,8 @@ const CustomSelect = (props: {
     );
     console.log(selectedDateClass);
     setOpccupiedTimes(selectedDateClass?.map((item) => item.time));
+
+    console.log(justClasses);
   }, [props.selectedDate]);
 
   useEffect(() => {

@@ -15,6 +15,8 @@ export interface Class {
   days: string[];
   price: string;
   type: string;
+  capacity: number;
+  times: string[];
   creatorId?: string;
   creator: User;
 }

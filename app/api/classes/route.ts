@@ -8,18 +8,19 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (req: NextRequest) => {
   if (req.headers.get("apiKey")) {
+    console.log("triggered");
     try {
       const data = await req.json();
       const token = await getToken();
       const user = (await getSingleUser(token?.value!)) as User;
-
+      console.log(data);
       const newClass = await prisma.class.create({
         data: {
           ...data,
           creatorId: user?.id,
         },
       });
-
+      console.log(newClass);
       return NextResponse.json({
         message: `Your new class created => ${newClass.title}`,
       });

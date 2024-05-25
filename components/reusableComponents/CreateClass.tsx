@@ -18,11 +18,14 @@ import { useForm, Controller } from "react-hook-form";
 import { toast } from "react-toastify";
 import styles from "@/components/reusableComponents/components.module.css";
 import { Axios } from "@/utils/axiosIn";
+import { privateTimes, publicTimes } from "@/constants";
 const formSchema = z.object({
   title: z.string().min(5),
   days: z.array(z.string()),
   price: z.string().min(1, { message: "Free?! So write 0 :>" }),
   type: z.string(),
+  capacity: z.string(),
+  times: z.string(),
 });
 const days = [
   {
@@ -62,12 +65,19 @@ const CreateClass = () => {
     defaultValues: {
       title: "",
       days: [],
-
+      capacity: "",
       type: "public",
+      times: "",
     },
   });
-
+  const {
+    formState: { errors },
+  } = form;
+  console.log(errors);
+  console.log(form.watch("capacity"));
+  const classType = form.watch("type");
   async function createClass(values: z.infer<typeof formSchema>) {
+    console.log("ttriggered");
     setSending(true);
     Axios.post("/classes", values)
       .then((res) => {
@@ -101,11 +111,12 @@ const CreateClass = () => {
         setSending(false);
       });
   }
+
   return (
     <form
       onSubmit={form.handleSubmit(createClass)}
       action=""
-      className="grid items-center grid-cols-2 gap-4 grid-rows-2"
+      className="grid items-center grid-cols-2 gap-4 grid-rows-3"
     >
       <Controller
         name="title"
@@ -188,6 +199,56 @@ const CreateClass = () => {
                 label="Private"
               />
             </RadioGroup>
+          )}
+        />
+      </FormControl>
+      <Controller
+        name="capacity"
+        control={form.control}
+        render={({ field }) => (
+          <input
+            {...field}
+            className="border p-4 rounded-md formInput"
+            type="string"
+            name=""
+            id=""
+            placeholder="Capacity"
+          />
+        )}
+      />
+      <FormControl>
+        <InputLabel
+          classes={{
+            focused: styles.selectLabel,
+          }}
+          id="times"
+        >
+          Times
+        </InputLabel>
+        <Controller
+          name="times"
+          control={form.control}
+          render={({ field }) => (
+            <Select
+              defaultValue={field.value}
+              onChange={field.onChange}
+              label="Select your times"
+              name="days"
+              sx={{ backgroundColor: "#c6d9e6" }}
+            >
+              {classType === "public" &&
+                publicTimes.map((time) => (
+                  <MenuItem key={time} value={time}>
+                    {time}
+                  </MenuItem>
+                ))}
+              {classType === "private" &&
+                privateTimes.map((time) => (
+                  <MenuItem key={time} value={time}>
+                    {time}
+                  </MenuItem>
+                ))}
+            </Select>
           )}
         />
       </FormControl>

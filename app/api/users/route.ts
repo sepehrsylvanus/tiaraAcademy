@@ -18,7 +18,7 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
       const formData: FormDataProps = await req.json();
 
       formData.password = bcrypt.hashSync(formData.password, 12);
-
+      console.log(formData);
       const alreadyRegistered = await prisma.user.findFirst({
         where: {
           email: formData.email,
@@ -31,14 +31,16 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
           { status: 409 }
         );
       }
+      console.log(formData);
       const newUser = await prisma.user.create({
         data: formData,
       });
-
+      console.log(newUser);
       return NextResponse.json({
         message: `New user successfully created: ${newUser.fName} ${newUser.lName}`,
       });
     } catch (error) {
+      console.log(error);
       return NextResponse.json(
         { error: "Creating user crashed" },
         { status: 500 }

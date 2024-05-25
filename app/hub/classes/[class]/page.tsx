@@ -25,23 +25,8 @@ import { Axios } from "@/utils/axiosIn";
 import { toast } from "react-toastify";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { privateTimes, publicTimes } from "@/constants";
 
-const privateTimes = [
-  "9",
-  "10",
-  "11",
-  "12",
-  "14",
-  "15",
-  "16",
-  "17",
-  "18",
-  "19",
-  "20",
-  "21",
-];
-
-const publicTimes = ["9", "10:45", "14", "15:45", "17:30", "19:15"];
 type DetailsProps = {
   params: {
     class: string;
@@ -104,12 +89,22 @@ const MyClass = (details: DetailsProps) => {
               تغییر کلاس جاری
             </Link>
           </div>
-          <h2 className={styles.title}>{`${singleClass?.title
-            .split("-")
-            .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
-            .join(" ")} - ${singleClass?.creator.fName} ${
-            singleClass?.creator.lName
-          }`}</h2>
+          {singleClass ? (
+            <h2 className={styles.title}>{`${singleClass?.title
+              .split("-")
+              .map(
+                (word: string) => word.charAt(0).toUpperCase() + word.slice(1)
+              )
+              .join(" ")} - ${singleClass?.creator.fName} ${
+              singleClass?.creator.lName
+            }`}</h2>
+          ) : (
+            <div className="flex justify-center">
+              <CircularProgress
+                sx={{ color: "#072d44", transform: "scale(.7)" }}
+              />
+            </div>
+          )}
         </section>
         <Divider sx={{ marginTop: "1em" }} />
         <section className={styles.body}>
