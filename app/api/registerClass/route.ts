@@ -70,9 +70,6 @@ export const GET = async (req: NextRequest) => {
   }
 
   const myClasses = await prisma.classUsers.findMany({
-    where: {
-      userId: user?.id,
-    },
     include: {
       class: {
         include: {

@@ -75,7 +75,9 @@ export default function StudentHub() {
                   <div className="teacherPaper flex px-4 py-2 justify-between items-center bg-white w-[90%] shadow-lg rounded-md relative bottom-6 left-2">
                     <Avatar sx={{ width: 54, height: 54 }} />
                     <span className="text-sm text-lightText">
-                      {`${featuredClass.creator.fName} ${featuredClass.creator.lName}`}
+                      {`${featuredClass.creator!.fName} ${
+                        featuredClass.creator?.lName
+                      }`}
                     </span>
                   </div>
                   <CardContent className="">

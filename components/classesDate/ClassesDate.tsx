@@ -34,6 +34,7 @@ const ClassesDate = ({
         const data: UserClasses[] = res.data;
 
         const justThisClass = data.filter((item) => item.classId === classId);
+        console.log(justThisClass);
         setJustThisClass(justThisClass);
       })
       .catch((e) => console.log(e));
@@ -84,7 +85,9 @@ const ClassesDate = ({
   return (
     <div className={styles.container}>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <DateCalendar shouldDisableDate={disableDates} />
+        <p className="my-4">
+          Choose your desired day in order to choose your time ⬇️
+        </p>
         <Controller
           name="date"
           control={form.control}

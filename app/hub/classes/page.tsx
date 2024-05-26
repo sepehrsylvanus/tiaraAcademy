@@ -254,11 +254,13 @@ const Classes = () => {
                 </CardHeader>
                 <CardContent className=" relative overflow-hidden">
                   <Meteors />
-                  <div className="flex items-center justify-around">
+                  <div className="flex items-center justify-around gap-4">
                     <p>{`${eachClass.creator!.fName} ${
                       eachClass.creator?.lName
                     }`}</p>
+
                     <p>{eachClass.price}</p>
+
                     <Chip label={eachClass.type} />
                   </div>
 

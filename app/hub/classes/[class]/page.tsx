@@ -85,7 +85,7 @@ const MyClass = (details: DetailsProps) => {
         <section className={styles.header}>
           <div className={styles.navbar}>
             <h1 className="font-bold text-2xl md:h1">English Lessons</h1>
-            <Link className="brownLink" href={"#"}>
+            <Link className="brownLink" href={"/hub/classes"}>
               تغییر کلاس جاری
             </Link>
           </div>
@@ -115,7 +115,7 @@ const MyClass = (details: DetailsProps) => {
           <div className={styles.classDetailsContainer}>
             <div className={styles.nextClassContainer}>
               {/* EACH DETAIL */}
-              <div className={styles.eachClassDetailsContiner}>
+              {/* <div className={styles.eachClassDetailsContiner}>
                 <CalendarTodayIcon />
                 <span>4 May</span>
               </div>
@@ -124,28 +124,28 @@ const MyClass = (details: DetailsProps) => {
                 variant="middle"
                 flexItem
                 sx={{ height: 30 }}
-              />
+              /> */}
               {/* EACH DETAIL */}
-              <div className={styles.eachClassDetailsContiner}>
+              {/* <div className={styles.eachClassDetailsContiner}>
                 <EmojiPeopleIcon />
                 <span>2</span>
-              </div>
-              <Divider
+              </div> */}
+              {/* <Divider
                 orientation="vertical"
                 variant="middle"
                 flexItem
                 sx={{ height: 30 }}
-              />
+              /> */}
               {/* EACH DETAIL */}
-              <div className={styles.eachClassDetailsContiner}>
+              {/* <div className={styles.eachClassDetailsContiner}>
                 <AccessTimeIcon />
                 <span>
                   ساعت <span>4</span>
                 </span>
-              </div>
+              </div> */}
             </div>
             <div className={styles.accessContainer}>
-              <div className={styles.sessionLinkOrPlaceTitle}>
+              {/* <div className={styles.sessionLinkOrPlaceTitle}>
                 <MeetingRoomIcon /> / <SchoolIcon />
               </div>
               <Link
@@ -154,7 +154,7 @@ const MyClass = (details: DetailsProps) => {
                 href={"#"}
               >
                 Meeting Link (click here!)
-              </Link>
+              </Link> */}
               {singleClass && (
                 <ClassesDate
                   selectedDate={selectedDate?.toISOString()}
@@ -163,23 +163,27 @@ const MyClass = (details: DetailsProps) => {
                   singleClass={singleClass}
                 />
               )}
-              <div className={styles.chooseClassTime}>
-                <div
-                  style={{ display: "flex", alignItems: "center", gap: "1em" }}
-                >
-                  <AccessTimeIcon />
-                  {classTime ? classTime : <span>زمانی انتخاب نشده است</span>}
-                </div>
-                <div>
-                  {selectedDate && singleClass && (
+              {selectedDate && singleClass && (
+                <div className={styles.chooseClassTime}>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "1em",
+                    }}
+                  >
+                    <AccessTimeIcon />
+                    {classTime ? classTime : <span>زمانی انتخاب نشده است</span>}
+                  </div>
+                  <div>
                     <CustomSelect
                       classId={params.class}
                       selectedDate={selectedDate?.toISOString()}
                       times={singleClass.time}
                     />
-                  )}
+                  </div>
                 </div>
-              </div>
+              )}
               {loading ? (
                 <Button disabled className="w-fit">
                   <CircularProgress

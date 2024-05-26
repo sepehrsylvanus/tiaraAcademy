@@ -28,8 +28,6 @@ export interface UserProps {
   email: string;
   password: string;
   role: string;
-
-  time: string;
 }
 
 export interface Writings {

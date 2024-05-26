@@ -11,7 +11,9 @@ import { Bookmark } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { Axios } from "@/utils/axiosIn";
-import { Class, UserClasses } from "@/utils/types";
+import { Class, User, UserClasses } from "@/utils/types";
+import { getToken } from "@/actions/actions";
+import { getSingleUser } from "@/actions/userActions";
 export const CustomLinearProgress = styled(LinearProgress)(() => ({
   height: 10,
   borderRadius: 50,
@@ -26,24 +28,33 @@ const MyCourses = () => {
   const [displayCount, setDisplayCount] = useState(3);
   const [myClasses, setMyClasses] = useState<Class[]>([]);
   const [loading, setLoading] = useState(true);
+
   const handleShowMore = () => {
     setDisplayCount((prev: number) => prev + 2);
   };
 
   useEffect(() => {
-    Axios.get("/registerClass")
-      .then((res) => {
-        console.log(res.data);
-        const userClasses: UserClasses[] = res.data;
-        console.log(userClasses);
-        const classes = userClasses.map((eachClass) => eachClass.class);
-        setMyClasses(classes);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        setLoading(false);
-      });
+    const fetchMyClasses = async () => {
+      const token = await getToken()!;
+      const currentUser = (await getSingleUser(token?.value)) as User;
+
+      Axios.get("/registerClass")
+        .then((res) => {
+          const userClasses: UserClasses[] = res.data;
+
+          const myClasses = userClasses.filter(
+            (item) => item.userId === currentUser.id
+          );
+          const classes = myClasses.map((eachClass) => eachClass.class);
+          setMyClasses(classes);
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.log(err);
+          setLoading(false);
+        });
+    };
+    fetchMyClasses();
   }, []);
 
   useEffect(() => {
@@ -57,12 +68,18 @@ const MyCourses = () => {
       </h2>
       <div
         className={`featuredContainer ${
-          !loading && "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5"
+          !loading &&
+          myClasses.length > 0 &&
+          "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5"
         } gap-4`}
       >
         {loading ? (
           <div className="w-full flex justify-center">
             <CircularProgress sx={{ color: "white" }} />
+          </div>
+        ) : myClasses.length === 0 ? (
+          <div className="flex justify-center w-full">
+            <p className="text-xl">You have't register in any clasases yet</p>
           </div>
         ) : (
           myClasses?.slice(0, displayCount).map((myCourse, index) => (
