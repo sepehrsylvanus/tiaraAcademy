@@ -3,7 +3,7 @@
   height: 100vh;
 
   flex-direction: column;
-
+  scroll-behavior: smooth;
   padding: 6.5em 0;
   @media (max-width: 765px) {
     overflow-x: hidden;
@@ -75,6 +75,7 @@
 /* JOIN COMMUNITY */
 .joinCommunity {
   display: flex;
+  flex-direction: column;
   width: 100%;
   padding: 1em 6em 0 8em;
   align-items: center;
@@ -83,7 +84,7 @@
     padding: 1.5em 2em;
   }
 }
-.joinComLeft,
+
 .secondServiceRight,
 .leftThirdService,
 .leftLevels,

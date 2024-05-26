@@ -55,8 +55,12 @@ const Login = () => {
           className={styles.loginImg}
         />
 
-        <h1>آکادمی تیارا: آموزش پویای زبان انگلیسی</h1>
-        <p>دسترسی به ویدیوها، برنامه‌ی هفتگی، آپلود تکالیف و غیره</p>
+        <h1>Tiara Academy: Smart English Learning</h1>
+
+        <p className="w-[80%] text-center mt-4">
+          Please login in order to access videos, weekly schedules, upload
+          writing and much more
+        </p>
       </div>
       <div className={styles.loginForm}>
         <div className="max-w-md w-full mx-auto  rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black">

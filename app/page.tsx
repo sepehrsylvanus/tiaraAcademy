@@ -1,7 +1,7 @@
 import Link from "next/link";
 import styles from "./page.module.css";
 import BrownLink from "@/components/reusableComponents/brownLink/BrownLink";
-import { Avatar, Divider, TextField } from "@mui/material";
+import { Divider, TextField } from "@mui/material";
 import Image from "next/image";
 import StarIcon from "@mui/icons-material/Star";
 import FacebookIcon from "@mui/icons-material/Facebook";
@@ -10,11 +10,7 @@ import XIcon from "@mui/icons-material/X";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import CustomHamburger from "@/components/hamburger/CustomHamburger";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+
 import { Button } from "@/components/ui/button";
 import { cookies } from "next/headers";
 import ClerkAvatar from "@/components/reusableComponents/ClerkAvatar";
@@ -75,33 +71,32 @@ export default async function Home() {
             style={{ marginBottom: "2em", fontWeight: 700 }}
             className=" text-lightText"
           >
-            {" "}
-            Benefits
+            Introduction
           </p>
           <p className=" text-4xl font-bold md:text-5xl lg:text-6xl">
-            <span> The Best Way</span>
+            <span>Tiara Academy</span>
             <br className="hidden md:block" />
-            <span> to showcase </span>
+            <span> Smart</span>
             <br className="hidden md:block" />
-            <span> your project.</span>
+            <span> Learning</span>
           </p>
           <p style={{ marginBottom: "1em" }} className="text-lightText">
-            Here you can put a short description about your project.
+            New smart way to learn and study english
           </p>
           <div className="flex gap-4 items-center flex-col md:flex-row ">
-            <Link href={"#"} className="brownLink">
+            <Link href={"/sign-in"} className="brownLink">
               Try for free
             </Link>
-            <Button className="border rounded border-lightText bg-transparent text-lightText">
-              See how it works
+            <Button className=" cursor-default hover:scale-110 hover:border-lightText border rounded border-lightText bg-transparent text-lightText">
+              <Link href={"#howToUse"}>See how it works</Link>
             </Button>
           </div>
         </div>
 
         <div className=" hidden md:block">
           <Image
-            src="https://images.pexels.com/photos/5676740/pexels-photo-5676740.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-            alt="Hero image"
+            src="/Online-communication-skills.png"
+            alt="Introduction"
             width={400}
             height={500}
           />
@@ -109,20 +104,23 @@ export default async function Home() {
       </section>
       <Divider sx={{ margin: "1em 0" }} />
 
-      <section className={`${styles.joinCommunity} bg-lightPrime`}>
+      <section
+        id="howToUse"
+        className={`${styles.joinCommunity} bg-lightPrime`}
+      >
         <div className={styles.joinComLeft}>
           <h4
             style={{ fontWeight: 700, fontSize: 40 }}
-            className=" text-extraText"
+            className=" text-extraText text-center w-screen"
           >
             Introducing good solution
           </h4>
-          <p>Join our community and experience the benefits today!</p>
-          <Link href={"#"} className="brownLink w-fit">
-            Try for free
-          </Link>
+          <p className="text-center mb-4">
+            Complete tutorial from the devloper in order to guide you through
+            website
+          </p>
         </div>
-        <div className="hidden md:block">
+        <div className="hidden md:block mb-4">
           <Image
             src={
               "https://images.pexels.com/photos/8618062/pexels-photo-8618062.jpeg?auto=compress&cs=tinysrgb&w=600"
@@ -137,57 +135,51 @@ export default async function Home() {
       <section className={styles.secondService}>
         <div className="hidden md:block">
           <Image
-            src={
-              "https://images.pexels.com/photos/8617981/pexels-photo-8617981.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-            }
-            alt="Certification guarantee"
+            src={"/About-Us.png"}
+            alt="About us"
             width={400}
             height={400}
           />
         </div>
         <div className={styles.secondServiceRight}>
-          <p style={{ marginBottom: "2em", fontWeight: 700 }}>Better IELTS</p>
+          <p style={{ marginBottom: "2em", fontWeight: 700 }}>About us</p>
           <h4
             style={{ fontWeight: 700, fontSize: 30 }}
             className=" text-extraText"
           >
-            Taking your IELTS is guaranteed with us
+            About our amazing team
           </h4>
-          <p>
-            With the best methods in the world, you will pass your IELTS exam
-            with the best score
-          </p>
-          <Button className="border rounded border-lightText bg-transparent text-lightText">
-            Try now
-          </Button>
+          <p>Get to know our institute and professional team</p>
+          <Link href={"#"} className="font-bold underline text-extraText">
+            Read More
+          </Link>
         </div>
       </section>
       <Divider sx={{ margin: "1em 0" }} />
       <section className={styles.thirdService}>
         <div className={styles.leftThirdService}>
-          <p style={{ marginBottom: "2em", fontWeight: 700 }}>
-            Smart education
-          </p>
+          <p style={{ marginBottom: "2em", fontWeight: 700 }}>Contact us</p>
           <h4
             style={{ fontWeight: 700, fontSize: 30 }}
             className="text-extraText"
           >
-            Taking your IELTS is guaranteed with us
+            Be connect with us and ask your questions
           </h4>
           <p>
-            With the best methods in the world, you will pass your IELTS exam
-            with the best score
+            We'd love to hear from you! Whether you have a question, need
+            support, or just want to share your language learning journey, our
+            team is here to help.
           </p>
-          <Button className="border rounded border-lightText bg-transparent text-lightText">
-            Try now
-          </Button>
+          <Link href={"#"} className="font-bold underline text-extraText">
+            Know More
+          </Link>
         </div>
         <div className="hidden md:block">
           <Image
-            src={"/smartEdu.jpeg"}
-            alt="Smart Education"
-            width={400}
-            height={400}
+            src={"/Contact-us.png"}
+            alt="Contact us"
+            width={500}
+            height={500}
           />
         </div>
       </section>
@@ -196,10 +188,10 @@ export default async function Home() {
       <section id="levels" className={styles.levels}>
         <div className={styles.leftLevels}>
           <Image
-            src={"/levels.jpeg"}
-            alt="Levels"
-            width={200}
-            height={200}
+            src={"/User-Account-Sign-up.png"}
+            alt="Sign up"
+            width={350}
+            height={350}
             className={styles.levelsImg}
           />
           <h3
