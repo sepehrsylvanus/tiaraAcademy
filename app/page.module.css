@@ -134,7 +134,7 @@
 }
 .levelsImg {
   position: relative;
-  bottom: 4em;
+
   left: 5em;
   @media (max-width: 1214px) {
     display: none;
