@@ -150,7 +150,7 @@ export default async function Home() {
             About our amazing team
           </h4>
           <p>Get to know our institute and professional team</p>
-          <Link href={"#"} className="font-bold underline text-extraText">
+          <Link href={"/about"} className="font-bold underline text-extraText">
             Read More
           </Link>
         </div>
