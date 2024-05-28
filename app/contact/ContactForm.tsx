@@ -32,7 +32,7 @@ const ContactForm = () => {
     },
   });
   const { errors } = form.formState;
-  console.log(errors);
+
 
   const contactFormSubmit = async (
     values: z.infer<typeof contactFormValidation>

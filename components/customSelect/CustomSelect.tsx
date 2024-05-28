@@ -22,23 +22,21 @@ const CustomSelect = (props: {
     Axios.get("/registerClass")
       .then((res) => {
         const registerClasses: UserClasses[] = res.data;
-        console.log(registerClasses);
-        console.log(props.classId);
+
+      
         const justClasses = registerClasses.filter(
           (registerClass) => registerClass.class.id === props.classId
         );
-        console.log(justClasses);
+    
         setJustClasses(justClasses);
         const selectedDateClass = justClasses?.filter(
           (item) => item.date === props.selectedDate
         );
-        console.log(selectedDateClass);
+      ;
       })
       .catch((err) => console.log(err));
   }, []);
-  useEffect(() => {
-    console.log(justClasses);
-  }, [justClasses]);
+
 
   const makeDisable = (time: string) => {
     const isRunOut = justClasses?.filter(
@@ -51,8 +49,8 @@ const CustomSelect = (props: {
     }
   };
 
-  console.log(props.selectedDate);
-  console.log(occupiedDates?.includes(props.selectedDate!));
+
+
   return (
     <FormControl sx={{ width: 200, marginTop: "1em" }}>
       <InputLabel id="customSelectLabel">زمان کلاس را انتخاب کنید</InputLabel>

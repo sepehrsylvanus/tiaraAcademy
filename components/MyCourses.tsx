@@ -57,9 +57,7 @@ const MyCourses = () => {
     fetchMyClasses();
   }, []);
 
-  useEffect(() => {
-    console.log(myClasses);
-  }, [myClasses]);
+
 
   return (
     <div>

@@ -13,8 +13,7 @@ type Params = {
 const SingleWriting = async (props: Params) => {
   const myWriting = (await getSingleWriting(props.params.id)) as Writings;
   const teacherAnswer = await getTeacherAnswer(myWriting.id);
-  console.log(myWriting);
-  console.log(teacherAnswer);
+
   if (!myWriting) {
     return (
       <div className="grid place-content-center h-screen">

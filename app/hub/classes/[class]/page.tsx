@@ -62,11 +62,11 @@ const MyClass = (details: DetailsProps) => {
   const selectedDate = registerForm.watch("date");
   const onSubmit = (values: z.infer<typeof classValidation>) => {
     setLoading(true);
-    console.log(values);
+
 
     Axios.post("/registerClass", { ...values, classId: params.class })
       .then((res) => {
-        console.log(res.data);
+   
         toast.success(res.data.message);
         setLoading(false);
       })

@@ -50,7 +50,7 @@ const MyPdf = ({ details }: { details: Writings }) => {
       lineHeight: 1.5,
     },
   });
-  console.log(details.subjectImgURL);
+
   return (
     <Document>
       {/* استایل های ایجاد شده برای پیج را به شکل زیر به آن اعمال می کنیم */}

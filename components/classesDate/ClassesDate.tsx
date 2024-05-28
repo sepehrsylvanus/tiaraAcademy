@@ -34,7 +34,7 @@ const ClassesDate = ({
         const data: UserClasses[] = res.data;
 
         const justThisClass = data.filter((item) => item.classId === classId);
-        console.log(justThisClass);
+     
         setJustThisClass(justThisClass);
       })
       .catch((e) => console.log(e));

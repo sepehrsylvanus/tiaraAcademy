@@ -40,7 +40,7 @@ const WriteHere = () => {
       setLoading(true);
       const formData = new FormData(e.currentTarget);
 
-      console.log(formData);
+     
       const sendingWritng = await postWriting(formData);
 
       toast.success(sendingWritng);

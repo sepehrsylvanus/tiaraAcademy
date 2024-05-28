@@ -20,7 +20,6 @@ export const DELETE = async (req: NextRequest, { params }: ParamsProps) => {
         );
       }
 
-      console.log(params.id);
       try {
         await prisma.class.delete({
           where: {

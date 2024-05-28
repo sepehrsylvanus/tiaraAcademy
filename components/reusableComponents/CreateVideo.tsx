@@ -24,7 +24,7 @@ const CreateVideo = () => {
     const selectedPlaylists = Array.isArray(e.target.value)
       ? e.target.value
       : [e.target.value];
-    console.log(selectedPlaylists);
+  
     setPlaylist(selectedPlaylists);
   };
   const handleSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
@@ -34,7 +34,7 @@ const CreateVideo = () => {
     const formData = new FormData(e.currentTarget);
     const title = formData.get("title") as string;
     const playlist = formData.get("playlists");
-    console.log(playlist);
+
     try {
       await postVideo(formData);
       toast.success(`-${title}- uploaded successfully`);

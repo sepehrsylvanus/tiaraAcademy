@@ -42,7 +42,7 @@ export const getWritings = async () => {
 };
 
 export const postWriting = async (formData: FormData) => {
-  console.log(formData);
+ 
   const name = formData.get("name") as string;
   const teacherId = formData.get("teacherId") as string;
   const subject = formData.get("subject") as string;
@@ -58,7 +58,7 @@ export const postWriting = async (formData: FormData) => {
       id: teacherId,
     },
   });
-  console.log(teacherWhoHasWriting?.role);
+  
   if (!teacherWhoHasWriting) {
     throw new Error("User with this ID doesn't exist");
   } else if (
@@ -79,7 +79,7 @@ export const postWriting = async (formData: FormData) => {
         },
       });
       if (image) {
-        console.log(image);
+   
         const bytes = await image.arrayBuffer();
         const buffer = Buffer.from(bytes);
         const Key = newWriting.id + "." + image.type.split("/")[1];
@@ -121,7 +121,6 @@ export const postWriting = async (formData: FormData) => {
         }
       }
     } else {
-      console.log(writingFile.name);
 
       const newWritingFile = await prisma.writing.create({
         data: {
@@ -244,7 +243,7 @@ export const postVideo = async (data: FormData) => {
     title,
     playlist: playlists.split(","),
   };
-  console.log(playlists.split(","));
+
   const newvideo = await prisma.video.create({
     data: videoData,
   });
@@ -317,7 +316,6 @@ export const getVideos = async () => {
   return videos;
 };
 export const getSingleClass = async (id: string) => {
-  console.log(id);
   const result = await prisma.class.findUnique({
     where: {
       id,

@@ -73,13 +73,13 @@ const CreateClass = () => {
   const {
     formState: { errors },
   } = form;
-  console.log(errors);
-  console.log(form.watch("capacity"));
+
+  
   const classType = form.watch("type");
   const times = form.watch("time");
-  console.log(times);
+
   async function createClass(values: z.infer<typeof formSchema>) {
-    console.log("ttriggered");
+  
     setSending(true);
     Axios.post("/classes", values)
       .then((res) => {

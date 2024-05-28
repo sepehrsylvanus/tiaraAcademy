@@ -22,9 +22,6 @@ const PlayListPage = async ({ params }: ParamsProps) => {
     video.playlist.includes(params.playlistName)
   );
 
-  console.log(finalVideos);
-
-  console.log(params);
   return (
     <div className="lg:pl-[3.5em]">
       <h1 className="h1 text-center">{params.playlistName.toUpperCase()}</h1>

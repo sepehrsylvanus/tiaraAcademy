@@ -31,7 +31,7 @@ const EachWritingCard: React.FC<{ writing: Writings }> = ({ writing }) => {
     });
     url = pdfUrl;
   }
-  console.log(writing.subjectImgURL);
+
 
   return (
     <div

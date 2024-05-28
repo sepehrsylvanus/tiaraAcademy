@@ -21,7 +21,7 @@ const MyWritings = () => {
   useEffect(() => {
     const getWritings = async () => {
       const myWritings = (await getStudentWritings()) as Writings[];
-      console.log(myWritings);
+    
       setStudentWriting(myWritings);
       setLoading(false);
     };

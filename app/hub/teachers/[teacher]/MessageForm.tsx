@@ -24,7 +24,7 @@ const MessageForm = () => {
   } = useForm<z.infer<typeof messageValidation>>({
     resolver: zodResolver(messageValidation),
   });
-  console.log({ errors });
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
