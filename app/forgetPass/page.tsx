@@ -22,25 +22,30 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 
-const formSchema = z.object({
-  verification: z
-    .string()
-    .min(6, { message: "Your one-time password must be 6 characters" }),
-  password: z
-    .string()
-    .min(2, { message: "Your password is too short" })
-    .max(10, {
-      message: "Your password is too long",
-    }),
-  confirmPassword: z.string(),
-});
 const Login = () => {
   const router = useRouter();
   const [sending, setSending] = useState(false);
   const [error, setError] = useState("");
   const [otp, setOtp] = useState("");
   const [countdown, setCountdown] = useState<number>(0);
-
+  const formSchema = z
+    .object({
+      verification: z
+        .string()
+        .min(6, { message: "Your one-time password must be 6 characters" })
+        .refine((value) => value === otp),
+      password: z
+        .string()
+        .min(2, { message: "Your password is too short" })
+        .max(10, {
+          message: "Your password is too long",
+        }),
+      confirmPassword: z.string(),
+    })
+    .refine((data) => data.password === data.confirmPassword, {
+      message: "Password does",
+      path: ["confirmPassword"],
+    });
   const signinForm = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -50,22 +55,17 @@ const Login = () => {
     },
   });
   const { errors: FormError } = signinForm.formState;
-  console.log(FormError);
+
   async function signin(values: z.infer<typeof formSchema>) {
     setSending(true);
+
+    console.log(FormError);
     try {
       console.log(values);
-      if (values.verification !== otp) {
-        signinForm.setError("verification", {
-          message: "Your one-time password doen't match",
-        });
-      }
-      if (values.password !== values.confirmPassword) {
-        signinForm.setError("root", {
-          message: "Your password doesn't match",
-        });
-      }
+      console.log(FormError);
+      console.log(Object.keys(FormError).length === 0);
       if (Object.keys(FormError).length === 0) {
+        console.log(Object.keys(FormError).length === 0);
         toast.success("Your password changed successfully");
       }
     } catch (error) {
