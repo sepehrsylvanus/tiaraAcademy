@@ -170,7 +170,10 @@ export default async function Home() {
             support, or just want to share your language learning journey, our
             team is here to help.
           </p>
-          <Link href={"#"} className="font-bold underline text-extraText">
+          <Link
+            href={"/contact"}
+            className="font-bold underline text-extraText"
+          >
             Know More
           </Link>
         </div>

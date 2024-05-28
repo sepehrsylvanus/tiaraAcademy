@@ -1,16 +1,30 @@
 import { Button } from "@/components/ui/button";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
+import BackButton from "@/components/reusableComponents/backButton/BackButton";
 
 import { Divider } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import CustomHamburger from "@/components/hamburger/CustomHamburger";
 
 const About = () => {
   return (
-    <div className="container pb-[6em]">
+    <div className="container pb-[6em] pt-[3em] md:pt-0">
+      <div className="ml-auto z-20 fixed top-0 right-0 md:hidden bg-white  rounded-md m-2">
+        <CustomHamburger navbar={false} sidebar={false} />
+      </div>
+      <div className="absolute top-4 left-4 z-[12]">
+        <BackButton />
+      </div>
       <div className=" flex justify-center my-4">
-        <Image src="/aboutUs.jpg" alt="about" width={550} height={600} />
+        <Image
+          className="rounded-md"
+          src="/aboutUs.jpg"
+          alt="about"
+          width={550}
+          height={600}
+        />
       </div>
 
       <div className="space-y-4">

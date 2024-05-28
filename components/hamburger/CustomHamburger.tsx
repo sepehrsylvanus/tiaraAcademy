@@ -40,7 +40,7 @@ const CustomHamburger = ({
       <div
         className={` ${
           openMenu ? "block" : "hidden"
-        } absolute bg-cardBg text-extraText p-6 rounded-md shadow-xl right-0 transition flex flex-col z-[999]`}
+        } absolute bg-cardBg text-extraText p-6 rounded-md shadow-xl right-0 transition flex flex-col z-[999] w-[180px]`}
       >
         <div
           className={`   pb-2 gap-1 text-base md:gap-3  md:text-xl ${
@@ -68,7 +68,7 @@ const CustomHamburger = ({
             </div>
           </div>
         ) : (
-          <div className=" mb-3 pt-6  ">
+          <div className=" mb-3 pt-6  flex items-center justify-between ">
             <Link href={"/sign-in"} className="brownLink">
               Sign in / Sign up
             </Link>

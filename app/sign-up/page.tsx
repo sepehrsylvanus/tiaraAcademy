@@ -15,6 +15,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { CircularProgress } from "@mui/material";
 import { Axios } from "@/utils/axiosIn";
+import { useRouter } from "next/navigation";
 
 const signupSchema = z.object({
   fName: z.string().min(4, { message: "Please enter a proper name" }),
@@ -24,7 +25,8 @@ const signupSchema = z.object({
   passwordRepeat: z.string(),
 });
 
-const Login = () => {
+const SignUp = () => {
+  const router = useRouter();
   const [sending, setSending] = useState(false);
 
   const form = useForm<z.infer<typeof signupSchema>>({
@@ -62,6 +64,7 @@ const Login = () => {
           });
           setSending(false);
         }
+        router.push("/sign-in");
       })
       .catch((e) => {
         toast.error(e.response.data.error);
@@ -228,4 +231,4 @@ const LabelInputContainer = ({
   );
 };
 
-export default Login;
+export default SignUp;
