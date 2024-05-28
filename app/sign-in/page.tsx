@@ -102,6 +102,15 @@ const Login = () => {
                 )}
               />
             </LabelInputContainer>
+            <div className="text-black flex flex-col mb-4">
+              <p>If you can't remember your password?</p>
+              <Link
+                className=" font-bold text-blue-500 hover:scale-105 transition"
+                href={"/forgetPass"}
+              >
+                Change password
+              </Link>
+            </div>
 
             <button
               className="bg-extraBg hover:bg-extraText transition w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
