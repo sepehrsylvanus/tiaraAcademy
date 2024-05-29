@@ -33,7 +33,9 @@ const Login = () => {
       verification: z
         .string()
         .min(6, { message: "Your one-time password must be 6 characters" })
-        .refine((value) => value === otp),
+        .refine((value) => value === otp, {
+          message: "Your OTP is incorrect",
+        }),
       password: z
         .string()
         .min(2, { message: "Your password is too short" })
@@ -169,7 +171,7 @@ const Login = () => {
             )}
 
             <LabelInputContainer className="mb-4">
-              <Label htmlFor="password">Email Address | User Name</Label>
+              <Label htmlFor="password">Password</Label>
               <Controller
                 name="password"
                 control={signinForm.control}
@@ -189,7 +191,7 @@ const Login = () => {
               </p>
             )}
             <LabelInputContainer className="mb-4">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password">Confirm Password</Label>
               <Controller
                 name="confirmPassword"
                 control={signinForm.control}

@@ -1,7 +1,13 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import styles from "./customSelect.module.css";
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  selectClasses,
+} from "@mui/material";
 import { Controller, useFormContext } from "react-hook-form";
 import { Class, UserClasses } from "@/utils/types";
 import { Axios } from "@/utils/axiosIn";
@@ -18,29 +24,34 @@ const CustomSelect = (props: {
   const { errors } = form.formState;
   const timeError = errors.time?.message;
   const { times } = props;
+
   useEffect(() => {
     Axios.get("/registerClass")
       .then((res) => {
         const registerClasses: UserClasses[] = res.data;
 
-      
         const justClasses = registerClasses.filter(
           (registerClass) => registerClass.class.id === props.classId
         );
-    
+
         setJustClasses(justClasses);
         const selectedDateClass = justClasses?.filter(
           (item) => item.date === props.selectedDate
         );
-      ;
       })
       .catch((err) => console.log(err));
   }, []);
 
+  useEffect(() => {
+    console.log(justClasses);
+  }, [justClasses]);
 
   const makeDisable = (time: string) => {
     const isRunOut = justClasses?.filter(
-      (item) => item.capacity === 0 && item.time === time
+      (item) =>
+        item.capacity === 0 &&
+        item.time === time &&
+        item.date === props.selectedDate
     )!;
     if (isRunOut?.length > 0) {
       return true;
@@ -48,8 +59,6 @@ const CustomSelect = (props: {
       return false;
     }
   };
-
-
 
   return (
     <FormControl sx={{ width: 200, marginTop: "1em" }}>

@@ -34,7 +34,7 @@ const ClassesDate = ({
         const data: UserClasses[] = res.data;
 
         const justThisClass = data.filter((item) => item.classId === classId);
-     
+
         setJustThisClass(justThisClass);
       })
       .catch((e) => console.log(e));
@@ -92,7 +92,7 @@ const ClassesDate = ({
           name="date"
           control={form.control}
           render={({ field }) => (
-            <DatePicker
+            <DateCalendar
               value={field.value}
               onChange={field.onChange}
               shouldDisableDate={disableDates}
