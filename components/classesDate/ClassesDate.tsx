@@ -1,19 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import styles from "./classesDate.module.css";
-import { AdapterDateFnsJalali } from "@mui/x-date-pickers/AdapterDateFnsJalali";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFnsV3";
 
-import {
-  DateCalendar,
-  DatePicker,
-  LocalizationProvider,
-} from "@mui/x-date-pickers";
+import { DateCalendar } from "@mui/x-date-pickers";
 
 import { Controller, useFormContext } from "react-hook-form";
 import { Axios } from "@/utils/axiosIn";
 import { Class, UserClasses } from "@/utils/types";
-import { selectClasses } from "@mui/material";
 type DatePickersProps = {
   classDates: string[] | undefined;
   classId: string;
@@ -84,25 +77,23 @@ const ClassesDate = ({
   const dateError = errors.date?.message;
   return (
     <div className={styles.container}>
-      <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <p className="my-4">
-          Choose your desired day in order to choose your time ⬇️
-        </p>
-        <Controller
-          name="date"
-          control={form.control}
-          render={({ field }) => (
-            <DateCalendar
-              value={field.value}
-              onChange={field.onChange}
-              shouldDisableDate={disableDates}
-            />
-          )}
-        />
-        {errors.date && (
-          <p className="font-bold text-red-500">{dateError?.toString()}</p>
+      <p className="my-4">
+        Choose your desired day in order to choose your time ⬇️
+      </p>
+      <Controller
+        name="date"
+        control={form.control}
+        render={({ field }) => (
+          <DateCalendar
+            value={field.value}
+            onChange={field.onChange}
+            shouldDisableDate={disableDates}
+          />
         )}
-      </LocalizationProvider>
+      />
+      {errors.date && (
+        <p className="font-bold text-red-500">{dateError?.toString()}</p>
+      )}
     </div>
   );
 };

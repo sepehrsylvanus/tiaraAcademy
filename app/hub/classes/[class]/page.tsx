@@ -63,10 +63,8 @@ const MyClass = (details: DetailsProps) => {
   const onSubmit = (values: z.infer<typeof classValidation>) => {
     setLoading(true);
 
-
     Axios.post("/registerClass", { ...values, classId: params.class })
       .then((res) => {
-   
         toast.success(res.data.message);
         setLoading(false);
       })
@@ -179,7 +177,7 @@ const MyClass = (details: DetailsProps) => {
                     <CustomSelect
                       classId={params.class}
                       selectedDate={selectedDate?.toISOString()}
-                      times={singleClass.time}
+                      times={singleClass.times}
                     />
                   </div>
                 </div>

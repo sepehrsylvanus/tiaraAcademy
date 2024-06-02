@@ -16,9 +16,13 @@ export interface Class {
   price: string;
   type: string;
   capacity: number;
-  time: string[];
-  creatorId?: string;
+  times: string[];
+
+  fix: Boolean;
+  creatorId: string;
   creator?: User;
+  duration: string[];
+  time: string;
 }
 
 export interface UserProps {

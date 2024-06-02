@@ -8,6 +8,7 @@ import { Suspense } from "react";
 import Loading from "./loading";
 import ClientCookieProvider from "@/providers/ClientCookieProvider";
 import ReactQueryProvider from "@/providers/ReactQueryProvider";
+import DateProvider from "@/providers/DateProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,7 +27,9 @@ export default function RootLayout({
       <body className={`${inter.className} bg-lightPrime text-lightText `}>
         <ReactQueryProvider>
           <ClientCookieProvider>
-            <div className="pb-6 ">{children}</div>
+            <DateProvider>
+              <div className="pb-6 ">{children}</div>
+            </DateProvider>
           </ClientCookieProvider>
         </ReactQueryProvider>
 

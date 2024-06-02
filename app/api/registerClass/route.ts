@@ -18,7 +18,7 @@ export const POST = async (req: NextRequest) => {
       classId: data.classId,
     },
   });
-  
+
   const myClass = (await prisma.class.findUnique({
     where: {
       id: data.classId,
@@ -36,8 +36,6 @@ export const POST = async (req: NextRequest) => {
       },
     });
   } else {
-
-
     const allThisClass = await prisma.classUsers.findMany({
       where: {
         classId: data.classId,
@@ -45,7 +43,7 @@ export const POST = async (req: NextRequest) => {
         time: data.time,
       },
     });
-  
+
     await prisma.classUsers.create({
       data: {
         classId: data.classId,

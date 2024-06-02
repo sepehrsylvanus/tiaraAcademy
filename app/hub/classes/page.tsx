@@ -45,6 +45,9 @@ const Classes = () => {
   const searchParams = useSearchParams();
   const teacherParam = searchParams.get("teacher");
 
+  const handleJoin = () => {
+    toast.success("You successfully registered in this class");
+  };
   useEffect(() => {}, [classes]);
 
   useEffect(() => {
@@ -262,6 +265,7 @@ const Classes = () => {
                     <p>{eachClass.price}</p>
 
                     <Chip label={eachClass.type} />
+                    {eachClass.fix && <Chip label={eachClass.fix && "Fix"} />}
                   </div>
 
                   <p className=" font-semibold mt-2">
@@ -269,12 +273,20 @@ const Classes = () => {
                   </p>
                 </CardContent>
                 <CardFooter className="flex flex-col gap-2">
-                  <Link
-                    href={`/hub/classes/${eachClass.id}`}
-                    className="w-full"
-                  >
-                    <Button className="w-full">Join</Button>
-                  </Link>
+                  {!eachClass.fix ? (
+                    <Link
+                      href={`/hub/classes/${eachClass.id}`}
+                      className="w-full"
+                    >
+                      <Button className="w-full">Join</Button>
+                    </Link>
+                  ) : (
+                    <Link href={`#`} className="w-full">
+                      <Button className="w-full" onClick={handleJoin}>
+                        Join
+                      </Button>
+                    </Link>
+                  )}
                   {(currentUser?.role.includes("admin") ||
                     currentUser?.role.includes("adminTeacher")) && (
                     <p

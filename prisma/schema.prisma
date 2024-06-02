@@ -44,10 +44,13 @@ model Class {
   price      String
   type       String
   capacity   Int
-  time       String[]
+  times      String[]
   classUsers ClassUsers[]
+  fix        Boolean      @default(false)
   creatorId  String
   creator    User         @relation(fields: [creatorId], references: [id])
+  duration   String[]
+  time       String?
 }
 
 model ClassUsers {

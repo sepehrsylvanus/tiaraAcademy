@@ -19,14 +19,28 @@ import { toast } from "react-toastify";
 import styles from "@/components/reusableComponents/components.module.css";
 import { Axios } from "@/utils/axiosIn";
 import { privateTimes, publicTimes } from "@/constants";
+import { Switch } from "@/components/ui/switch";
+import { TimePicker } from "@mui/x-date-pickers";
+import DatePicker, {
+  DateObject,
+  getAllDatesInRange,
+} from "react-multi-date-picker";
+const transition = require("react-element-popper/animations/transition");
 const formSchema = z.object({
-  title: z.string().min(5),
+  title: z.string().min(2),
   days: z.array(z.string()),
   price: z.string().min(1, { message: "Free?! So write 0 :>" }),
   type: z.string(),
   capacity: z.number(),
-  time: z.array(z.string()),
+  times: z.array(z.string()),
+  duration: z.array(z.string()).optional(),
+  fix: z.boolean().optional(),
+  time: z
+    .date()
+    .optional()
+    .transform((value) => `${value?.getHours()}:${value?.getMinutes()}`),
 });
+
 const days = [
   {
     title: "Saturday",
@@ -60,6 +74,11 @@ const days = [
 
 const CreateClass = () => {
   const [sending, setSending] = useState(false);
+  const [dateRange, setDateRange] = useState<DateObject>();
+  useEffect(() => {
+    console.log(dateRange?.format());
+  }, [dateRange]);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -67,20 +86,20 @@ const CreateClass = () => {
       days: [],
       capacity: 0,
       type: "public",
-      time: [],
+      times: [],
     },
   });
   const {
     formState: { errors },
   } = form;
-
-  
+  console.log(errors);
   const classType = form.watch("type");
-  const times = form.watch("time");
-
+  const myDays = form.watch("days");
+  console.log(myDays);
+  const toggleFix = form.watch("fix");
   async function createClass(values: z.infer<typeof formSchema>) {
-  
     setSending(true);
+    console.log(values);
     Axios.post("/classes", values)
       .then((res) => {
         toast.success(res.data.message, {
@@ -93,10 +112,15 @@ const CreateClass = () => {
           progress: undefined,
           theme: "light",
         });
-        form.setValue("title", "");
-        form.setValue("days", []);
-        form.setValue("price", "");
-        form.setValue("type", "public");
+
+        form.reset({
+          title: "",
+          days: [],
+          price: "",
+          type: "public",
+          times: [],
+          capacity: 0,
+        });
         setSending(false);
       })
       .catch((e) => {
@@ -147,10 +171,11 @@ const CreateClass = () => {
           control={form.control}
           render={({ field }) => (
             <Select
-              defaultValue={field.value}
+              value={field.value}
               onChange={field.onChange}
               multiple
               label="Select your days"
+              disabled={toggleFix}
               name="days"
               sx={{ backgroundColor: "#c6d9e6" }}
             >
@@ -215,7 +240,11 @@ const CreateClass = () => {
             name=""
             id=""
             placeholder="Capacity"
-            onChange={(e) => field.onChange(parseInt(e.target.value))}
+            onChange={(e) => {
+              const inputValue = parseInt(e.target.value);
+              const positiveValue = Math.max(0, inputValue); // Ensure positive value
+              field.onChange(positiveValue);
+            }}
           />
         )}
       />
@@ -229,14 +258,15 @@ const CreateClass = () => {
           Times
         </InputLabel>
         <Controller
-          name="time"
+          name="times"
           control={form.control}
           render={({ field }) => (
             <Select
-              defaultValue={field.value}
               onChange={field.onChange}
               label="Select your time"
-              name="days"
+              name="time"
+              disabled={toggleFix}
+              value={field.value}
               multiple
               sx={{ backgroundColor: "#c6d9e6" }}
             >
@@ -256,6 +286,61 @@ const CreateClass = () => {
           )}
         />
       </FormControl>
+      <div className="flex gap-2 col-span-2">
+        <Controller
+          name="fix"
+          control={form.control}
+          render={({ field }) => (
+            <Switch onCheckedChange={field.onChange} checked={field.value} />
+          )}
+        />
+        <p>Make a fix class</p>
+      </div>
+
+      <div className="  col-span-2 ">
+        <Controller
+          name="duration"
+          control={form.control}
+          render={({ field }) => (
+            <DatePicker
+              range
+              disabled={!toggleFix}
+              weekStartDayIndex={6}
+              dateSeparator="|"
+              minDate={new Date()}
+              placeholder={
+                !toggleFix ? "Deactive" : "Choose your class duration"
+              }
+              animations={[transition()]}
+              onChange={(e) => {
+                const firstDate = e[0]?.format();
+                const secondDate = e[1]?.format();
+
+                field.onChange([firstDate, secondDate]);
+              }}
+            />
+          )}
+        />
+      </div>
+      <div className=" col-span-2">
+        <Controller
+          name="time"
+          control={form.control}
+          render={({ field }) => (
+            <TimePicker
+              sx={{
+                "& .MuiInputLabel-root.Mui-focused ": {
+                  color: "#072d44",
+                },
+              }}
+              disabled={!toggleFix}
+              onChange={field.onChange}
+              label="Choose your desired time"
+              className="formInput w-full p-0"
+            />
+          )}
+        />
+      </div>
       <Button type="submit" className="col-span-2">
         {sending ? (
           <div style={{ transform: "scale(.7)" }}>
