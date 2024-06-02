@@ -98,6 +98,6 @@ model Video {
 
 model Otp {
   id      String @id @default(cuid()) @map("_id")
-  pNumber String
+  pNumber String @unique
   otp     String @unique
 }

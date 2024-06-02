@@ -22,7 +22,7 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 
-const Login = () => {
+const ForgetPass = () => {
   const router = useRouter();
   const [sending, setSending] = useState(false);
   const [otpSending, setOtpSending] = useState(false);
@@ -61,9 +61,7 @@ const Login = () => {
   });
   const { errors: FormError } = signinForm.formState;
 
-  async function signin(values: z.infer<typeof formSchema>) {
-    setSending(true);
-
+  async function changePass(values: z.infer<typeof formSchema>) {
     console.log(FormError);
     try {
       console.log(values);
@@ -71,7 +69,17 @@ const Login = () => {
       console.log(Object.keys(FormError).length === 0);
       if (Object.keys(FormError).length === 0) {
         console.log(Object.keys(FormError).length === 0);
-        toast.success("Your password changed successfully");
+
+        Axios.put(`/users/${phoneNumber}`, values, {
+          headers: {
+            forgetPass: true,
+          },
+        })
+          .then((res) => {
+            toast.success(res.data.message);
+            router.push("/sign-in");
+          })
+          .catch((err) => console.log(err));
       }
     } catch (error) {
       console.log(error);
@@ -79,6 +87,10 @@ const Login = () => {
       setSending(false);
     }
   }
+  useEffect(() => {
+    console.log(sending);
+  }, [sending]);
+
   const generateCode = () => {
     setOtpSending(true);
     if (phoneNumber.length > 0) {
@@ -93,8 +105,10 @@ const Login = () => {
         Axios.post("/otp", { otp, phoneNumber })
           .then((res) => {
             console.log(res);
-            setCountdown(5);
-            toast.success(`Your otp is ${otp}`);
+            setCountdown(120);
+            toast.success(`Your otp is ${otp}`, {
+              autoClose: false,
+            });
             setOtpSending(false);
           })
           .catch((err) => {
@@ -102,7 +116,7 @@ const Login = () => {
             toast.error(err.response.data.error);
             setOtpSending(false);
           });
-      }, 5000);
+      }, 0);
     }
   };
 
@@ -112,8 +126,7 @@ const Login = () => {
       return () => clearTimeout(timerId); // clear the timer if the component is unmounted
     } else {
       // clear the OTP when the countdown finishes
-      console.log("here");
-      console.log(otp);
+
       if (otp) {
         Axios.delete(`/otp/${otp}`)
           .then((res) => {
@@ -157,25 +170,35 @@ const Login = () => {
           </p>
 
           <LabelInputContainer className="mt-4">
-            <Label htmlFor="pNumber">Enter your phone number</Label>
+            <Label htmlFor="pNumber" className="font-bold text-lg">
+              Enter your phone number
+            </Label>
             <form>
               <Input
                 id="pNumber"
-                placeholder="+98123456789"
+                placeholder="Enter your phone number"
                 type="text"
                 onChange={(e) => setPhoneNumber(e.target.value)}
               />
               {countdown === 0 ? (
-                <p
-                  className={`underline ${
-                    phoneNumber.length > 5
-                      ? "text-extraBg cursor-pointer"
-                      : "text-blue-200 cursor-default"
-                  }  `}
-                  onClick={generateCode}
-                >
-                  Generate code
-                </p>
+                !otpSending ? (
+                  <p
+                    className={`underline ${
+                      phoneNumber.length > 5
+                        ? "text-extraBg cursor-pointer"
+                        : "text-blue-200 cursor-default"
+                    }  `}
+                    onClick={generateCode}
+                  >
+                    Generate code
+                  </p>
+                ) : (
+                  <div className=" w-full">
+                    <div className="scale-50 ">
+                      <CircularProgress />
+                    </div>
+                  </div>
+                )
               ) : (
                 <p className="underline text-extraBg mb-4 cursor-default">
                   Code expires in {countdown} seconds
@@ -184,7 +207,7 @@ const Login = () => {
             </form>
           </LabelInputContainer>
 
-          <form className="my-8" onSubmit={signinForm.handleSubmit(signin)}>
+          <form className="my-8" onSubmit={signinForm.handleSubmit(changePass)}>
             <LabelInputContainer>
               <Label htmlFor="verification">Verification code</Label>
               <Controller
@@ -261,7 +284,12 @@ const Login = () => {
               <p className=" text-red-500 mb-4">{FormError?.root?.message}</p>
             )}
             <button
-              className="bg-extraBg hover:bg-extraText transition w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
+              className={`${
+                !disableForm
+                  ? "bg-extraBg hover:bg-extraText transition w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
+                  : "  bg-slate-400  transition w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
+              }`}
+              disabled={disableForm}
               type="submit"
             >
               {sending ? (
@@ -304,4 +332,4 @@ const LabelInputContainer = ({
   );
 };
 
-export default Login;
+export default ForgetPass;
