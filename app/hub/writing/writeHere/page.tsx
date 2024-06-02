@@ -40,7 +40,6 @@ const WriteHere = () => {
       setLoading(true);
       const formData = new FormData(e.currentTarget);
 
-     
       const sendingWritng = await postWriting(formData);
 
       toast.success(sendingWritng);
@@ -66,13 +65,6 @@ const WriteHere = () => {
             className="formInput w-full py-4"
             name="name"
             placeholder="Write your name here..."
-          />
-
-          <input
-            required
-            className="formInput w-full py-4"
-            name="teacherId"
-            placeholder="Write your teacher ID here..."
           />
 
           <input

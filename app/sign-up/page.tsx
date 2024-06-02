@@ -22,6 +22,7 @@ const signupSchema = z.object({
   lName: z.string().optional(),
   email: z.string().email({ message: "Please enter a proper email" }),
   password: z.string(),
+  pNumber: z.string(),
   passwordRepeat: z.string(),
 });
 
@@ -37,6 +38,7 @@ const SignUp = () => {
       email: "",
       password: "",
       passwordRepeat: "",
+      pNumber: "",
     },
   });
   async function signupUser(values: z.infer<typeof signupSchema>) {
@@ -117,7 +119,7 @@ const SignUp = () => {
                   />
                 </LabelInputContainer>
                 <LabelInputContainer className="mb-4">
-                  <Label htmlFor="email">Last name</Label>
+                  <Label htmlFor="lName">Last name</Label>
                   <Controller
                     name="lName"
                     control={form.control}
@@ -132,6 +134,21 @@ const SignUp = () => {
                   />
                 </LabelInputContainer>
               </div>
+              <LabelInputContainer className="mb-4">
+                <Label htmlFor="pNumber">Phone Number</Label>
+                <Controller
+                  name="pNumber"
+                  control={form.control}
+                  render={({ field }) => (
+                    <Input
+                      {...field}
+                      id="pNumber"
+                      placeholder="+98123456789"
+                      type="text"
+                    />
+                  )}
+                />
+              </LabelInputContainer>
               <LabelInputContainer className="mb-4">
                 <Label htmlFor="email">Email Address </Label>
                 <Controller

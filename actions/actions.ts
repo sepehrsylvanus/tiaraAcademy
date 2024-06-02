@@ -42,9 +42,7 @@ export const getWritings = async () => {
 };
 
 export const postWriting = async (formData: FormData) => {
- 
   const name = formData.get("name") as string;
-  const teacherId = formData.get("teacherId") as string;
   const subject = formData.get("subject") as string;
   const image = formData.get("image") as File;
   const writing = formData.get("writing") as string;
@@ -53,120 +51,103 @@ export const postWriting = async (formData: FormData) => {
   const user = (await getSingleUser(token?.value)!) as User;
   const creatorId = user?.id as string;
 
-  const teacherWhoHasWriting = await prisma.user.findUnique({
-    where: {
-      id: teacherId,
-    },
-  });
-  
-  if (!teacherWhoHasWriting) {
-    throw new Error("User with this ID doesn't exist");
-  } else if (
-    !teacherWhoHasWriting.role.includes("teacher") &&
-    !teacherWhoHasWriting.role.includes("adminTeacher")
-  ) {
-    throw new Error("User with this ID is not teacher");
-  } else {
-    if (subject) {
-      const newWriting = await prisma.writing.create({
-        data: {
-          name,
-          creatorId,
-          teacherId,
-          email: user?.email,
-          subject,
-          writing,
-        },
+  if (subject) {
+    const newWriting = await prisma.writing.create({
+      data: {
+        name,
+        creatorId,
+        teacherId: "clvgvv7cf0000xbdj1m9p3hwy",
+        email: user?.email,
+        subject,
+        writing,
+      },
+    });
+    if (image) {
+      const bytes = await image.arrayBuffer();
+      const buffer = Buffer.from(bytes);
+      const Key = newWriting.id + "." + image.type.split("/")[1];
+      const s3 = new S3({
+        accessKeyId: process.env.NEXT_PUBLIC_LIARA_ACCESS_KEY_ID,
+        secretAccessKey: process.env.NEXT_PUBLIC_LIARA_SECRET_ACCESS_KEY,
+        endpoint: process.env.NEXT_PUBLIC_LIARA_ENDPOINT,
       });
-      if (image) {
-   
-        const bytes = await image.arrayBuffer();
-        const buffer = Buffer.from(bytes);
-        const Key = newWriting.id + "." + image.type.split("/")[1];
-        const s3 = new S3({
-          accessKeyId: process.env.NEXT_PUBLIC_LIARA_ACCESS_KEY_ID,
-          secretAccessKey: process.env.NEXT_PUBLIC_LIARA_SECRET_ACCESS_KEY,
-          endpoint: process.env.NEXT_PUBLIC_LIARA_ENDPOINT,
+
+      const params = {
+        Bucket: process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME!,
+        Key,
+        Body: buffer,
+      };
+      const response = await s3.upload(params).promise();
+      if (response) {
+        const permanentSignedUrl = s3.getSignedUrl("getObject", {
+          Bucket: process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME,
+          Key,
+          Expires: 31536000,
+        });
+        await prisma.writing.update({
+          where: {
+            id: newWriting.id,
+          },
+          data: {
+            subjectImgURL: permanentSignedUrl,
+          },
         });
 
-        const params = {
-          Bucket: process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME!,
-          Key,
-          Body: buffer,
-        };
-        const response = await s3.upload(params).promise();
-        if (response) {
-          const permanentSignedUrl = s3.getSignedUrl("getObject", {
-            Bucket: process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME,
-            Key,
-            Expires: 31536000,
-          });
-          await prisma.writing.update({
-            where: {
-              id: newWriting.id,
-            },
-            data: {
-              subjectImgURL: permanentSignedUrl,
-            },
-          });
-
-          return `Writing with name ${newWriting.subject} created`;
-        } else {
-          await prisma.writing.delete({
-            where: {
-              id: newWriting.id,
-            },
-          });
-          throw new Error("There is a problem in submitting your writing");
-        }
+        return `Writing with name ${newWriting.subject} created`;
+      } else {
+        await prisma.writing.delete({
+          where: {
+            id: newWriting.id,
+          },
+        });
+        throw new Error("There is a problem in submitting your writing");
       }
-    } else {
-
-      const newWritingFile = await prisma.writing.create({
-        data: {
-          teacherId,
-          creatorId: user?.id,
-        },
+    }
+  } else {
+    const newWritingFile = await prisma.writing.create({
+      data: {
+        teacherId: "clvgvv7cf0000xbdj1m9p3hwy",
+        creatorId: user?.id,
+      },
+    });
+    if (newWritingFile) {
+      const Key = newWritingFile.id + "." + writingFile.type.split("/")[1];
+      const bytes = await writingFile.arrayBuffer();
+      const buffer = Buffer.from(bytes);
+      const s3 = new S3({
+        accessKeyId: process.env.NEXT_PUBLIC_LIARA_ACCESS_KEY_ID,
+        secretAccessKey: process.env.NEXT_PUBLIC_LIARA_SECRET_ACCESS_KEY,
+        endpoint: process.env.NEXT_PUBLIC_LIARA_ENDPOINT,
       });
-      if (newWritingFile) {
-        const Key = newWritingFile.id + "." + writingFile.type.split("/")[1];
-        const bytes = await writingFile.arrayBuffer();
-        const buffer = Buffer.from(bytes);
-        const s3 = new S3({
-          accessKeyId: process.env.NEXT_PUBLIC_LIARA_ACCESS_KEY_ID,
-          secretAccessKey: process.env.NEXT_PUBLIC_LIARA_SECRET_ACCESS_KEY,
-          endpoint: process.env.NEXT_PUBLIC_LIARA_ENDPOINT,
-        });
-        const params = {
-          Bucket: process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME!,
+      const params = {
+        Bucket: process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME!,
+        Key,
+        Body: buffer,
+      };
+      const response = await s3.upload(params).promise();
+      if (response) {
+        const permanentSignedUrl = s3.getSignedUrl("getObject", {
+          Bucket: process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME,
           Key,
-          Body: buffer,
-        };
-        const response = await s3.upload(params).promise();
-        if (response) {
-          const permanentSignedUrl = s3.getSignedUrl("getObject", {
-            Bucket: process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME,
-            Key,
-            Expires: 31536000,
-          });
-          await prisma.writing.update({
-            where: {
-              id: newWritingFile.id,
-            },
-            data: {
-              writingLink: permanentSignedUrl,
-            },
-          });
+          Expires: 31536000,
+        });
+        await prisma.writing.update({
+          where: {
+            id: newWritingFile.id,
+          },
+          data: {
+            writingLink: permanentSignedUrl,
+          },
+        });
 
-          return `Writing with name ${writingFile.name} created`;
-        } else {
-          await prisma.writing.delete({
-            where: {
-              id: newWritingFile.id,
-            },
-          });
-          throw new Error("There is a problem in submitting your writing");
-        }
+        return `Writing with name ${writingFile.name} created`;
+      } else {
+        await prisma.writing.delete({
+          where: {
+            id: newWritingFile.id,
+          },
+        });
+        throw new Error("There is a problem in submitting your writing");
       }
     }
   }

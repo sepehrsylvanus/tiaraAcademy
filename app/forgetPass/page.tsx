@@ -25,9 +25,12 @@ import {
 const Login = () => {
   const router = useRouter();
   const [sending, setSending] = useState(false);
+  const [otpSending, setOtpSending] = useState(false);
   const [error, setError] = useState("");
   const [otp, setOtp] = useState("");
   const [countdown, setCountdown] = useState<number>(0);
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [disableForm, setDisableForm] = useState(true);
   const formSchema = z
     .object({
       verification: z
@@ -77,22 +80,52 @@ const Login = () => {
     }
   }
   const generateCode = () => {
-    let otp = "";
-    for (let i = 0; i < 6; i++) {
-      otp += Math.floor(Math.random() * 10);
+    setOtpSending(true);
+    if (phoneNumber.length > 0) {
+      setDisableForm(false);
+      setTimeout(() => {
+        let otp = "";
+        for (let i = 0; i < 6; i++) {
+          otp += Math.floor(Math.random() * 10);
+        }
+        setOtp(otp);
+        console.log(otp);
+        Axios.post("/otp", { otp, phoneNumber })
+          .then((res) => {
+            console.log(res);
+            setCountdown(5);
+            toast.success(`Your otp is ${otp}`);
+            setOtpSending(false);
+          })
+          .catch((err) => {
+            console.log(err.response.data.message);
+            toast.error(err.response.data.error);
+            setOtpSending(false);
+          });
+      }, 5000);
     }
-    console.log(otp);
-    alert(otp);
-    setOtp(otp);
-    setCountdown(120);
   };
 
   useEffect(() => {
     if (countdown > 0) {
       const timerId = setTimeout(() => setCountdown(countdown - 1), 1000);
       return () => clearTimeout(timerId); // clear the timer if the component is unmounted
-    } else if (countdown === 0) {
-      setOtp(""); // clear the OTP when the countdown finishes
+    } else {
+      // clear the OTP when the countdown finishes
+      console.log("here");
+      console.log(otp);
+      if (otp) {
+        Axios.delete(`/otp/${otp}`)
+          .then((res) => {
+            console.log(res.data);
+            toast(res.data.message);
+          })
+          .catch((err) => {
+            console.log(err);
+            toast.error(err.response.data.err);
+          });
+      }
+      setOtp("");
     }
   }, [countdown]);
 
@@ -123,6 +156,34 @@ const Login = () => {
             click on CHANGE PASSWORD
           </p>
 
+          <LabelInputContainer className="mt-4">
+            <Label htmlFor="pNumber">Enter your phone number</Label>
+            <form>
+              <Input
+                id="pNumber"
+                placeholder="+98123456789"
+                type="text"
+                onChange={(e) => setPhoneNumber(e.target.value)}
+              />
+              {countdown === 0 ? (
+                <p
+                  className={`underline ${
+                    phoneNumber.length > 5
+                      ? "text-extraBg cursor-pointer"
+                      : "text-blue-200 cursor-default"
+                  }  `}
+                  onClick={generateCode}
+                >
+                  Generate code
+                </p>
+              ) : (
+                <p className="underline text-extraBg mb-4 cursor-default">
+                  Code expires in {countdown} seconds
+                </p>
+              )}
+            </form>
+          </LabelInputContainer>
+
           <form className="my-8" onSubmit={signinForm.handleSubmit(signin)}>
             <LabelInputContainer>
               <Label htmlFor="verification">Verification code</Label>
@@ -136,6 +197,7 @@ const Login = () => {
                     maxLength={6}
                     onChange={field.onChange}
                     value={field.value}
+                    disabled={disableForm}
                   >
                     <InputOTPGroup>
                       <InputOTPSlot className=" text-lightText" index={0} />
@@ -157,18 +219,6 @@ const Login = () => {
                 {FormError?.verification?.message}
               </p>
             )}
-            {countdown === 0 ? (
-              <p
-                className="underline text-extraBg mb-4 cursor-pointer"
-                onClick={generateCode}
-              >
-                Generate code
-              </p>
-            ) : (
-              <p className="underline text-extraBg mb-4 cursor-default">
-                Code expires in {countdown} seconds
-              </p>
-            )}
 
             <LabelInputContainer className="mb-4">
               <Label htmlFor="password">Password</Label>
@@ -177,6 +227,7 @@ const Login = () => {
                 control={signinForm.control}
                 render={({ field }) => (
                   <Input
+                    disabled={disableForm}
                     {...field}
                     id="password"
                     placeholder="••••••••"
@@ -191,12 +242,13 @@ const Login = () => {
               </p>
             )}
             <LabelInputContainer className="mb-4">
-              <Label htmlFor="password">Confirm Password</Label>
+              <Label htmlFor="confirmPassword">Confirm Password</Label>
               <Controller
                 name="confirmPassword"
                 control={signinForm.control}
                 render={({ field }) => (
                   <Input
+                    disabled={disableForm}
                     {...field}
                     id="password"
                     placeholder="••••••••"

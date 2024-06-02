@@ -6,7 +6,7 @@ type ParamsProps = {
   };
 };
 export const PUT = async (req: NextRequest, { params }: ParamsProps) => {
-  if (req.headers.get("apiKey")) {
+  if (req.headers.get("apiKey") && !req.headers.get("forgetPass")) {
     try {
       const userId = params.id;
       const body = await req.json();
@@ -19,6 +19,14 @@ export const PUT = async (req: NextRequest, { params }: ParamsProps) => {
         data: { role },
       });
       return NextResponse.json({ message: `User role changed to ${role}` });
+    } catch (error) {
+      return NextResponse.json(
+        { message: `There is an error in server` },
+        { status: 500 }
+      );
+    }
+  } else if (req.headers.get("apiKey") && req.headers.get("forgetPass")) {
+    try {
     } catch (error) {
       return NextResponse.json(
         { message: `There is an error in server` },

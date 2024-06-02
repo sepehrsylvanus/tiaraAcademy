@@ -28,8 +28,8 @@ model User {
   lName    String?
   email    String  @unique
   password String
-
-  role Role @default(student)
+  pNumber  String  @unique
+  role     Role    @default(student)
 
   ClassUsers ClassUsers[]
   Class      Class[]
@@ -96,8 +96,8 @@ model Video {
   playlist  String[]
 }
 
-// model StudentClass {
-//   id   String @id @default(cuid()) @map("_id")
-//   time String
-//   day  String
-// }
+model Otp {
+  id      String @id @default(cuid()) @map("_id")
+  pNumber String
+  otp     String @unique
+}

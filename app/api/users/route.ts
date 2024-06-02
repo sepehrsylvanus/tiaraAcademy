@@ -9,6 +9,7 @@ type FormDataProps = {
   lName: string;
   email: string;
   password: string;
+  pNumber: string;
 };
 
 // ============ REGISTER USER ============
@@ -18,10 +19,20 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
       const formData: FormDataProps = await req.json();
 
       formData.password = bcrypt.hashSync(formData.password, 12);
-      
+      if (formData.pNumber.startsWith("+98")) {
+        formData.pNumber = "0" + formData.pNumber.split("").slice(3).join("");
+        console.log(formData.pNumber);
+      }
+
+      console.log(formData.pNumber);
       const alreadyRegistered = await prisma.user.findFirst({
         where: {
-          email: formData.email,
+          OR: [
+            {
+              email: formData.email,
+            },
+            { pNumber: formData.pNumber },
+          ],
         },
       });
 
@@ -35,7 +46,7 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
       const newUser = await prisma.user.create({
         data: formData,
       });
-  
+
       return NextResponse.json({
         message: `New user successfully created: ${newUser.fName} ${newUser.lName}`,
       });
