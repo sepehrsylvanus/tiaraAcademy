@@ -38,7 +38,9 @@ const formSchema = z.object({
   time: z
     .date()
     .optional()
-    .transform((value) => `${value?.getHours()}:${value?.getMinutes()}`),
+    .transform(
+      (value) => value && `${value?.getHours()}:${value?.getMinutes()}`
+    ),
 });
 
 const days = [

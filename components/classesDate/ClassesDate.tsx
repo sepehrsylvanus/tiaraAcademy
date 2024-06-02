@@ -67,7 +67,7 @@ const ClassesDate = ({
       (item) => item.capacity === 0 && item.date === date.toISOString()
     );
 
-    if (isRunOut?.length === singleClass.time.length) return true;
+    if (isRunOut?.length === singleClass.times.length) return true;
 
     return false;
   };

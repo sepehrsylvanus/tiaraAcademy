@@ -22,7 +22,7 @@ export interface Class {
   creatorId: string;
   creator?: User;
   duration: string[];
-  time: string;
+  time: string | null;
 }
 
 export interface UserProps {
