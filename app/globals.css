@@ -98,14 +98,14 @@ a {
 .ck-toolbar__separator {
   display: none !important;
 }
-
 @layer base {
   h1 {
-    @apply font-bold text-3xl;
+    @apply text-2xl font-bold;
   }
-  h3 {
-    @apply font-bold text-2xl;
+  h2 {
+    @apply text-xl font-bold;
   }
+  /* Repeat for h3 to h6 if desired */
 }
 @layer components {
   .h1 {
