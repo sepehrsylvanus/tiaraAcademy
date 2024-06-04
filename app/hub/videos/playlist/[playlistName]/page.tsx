@@ -1,15 +1,17 @@
+"use client";
 import { getToken, getVideos } from "@/actions/actions";
 
 import { Card, CardContent, Chip } from "@mui/material";
 
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 
 import { CardFooter } from "@/components/ui/card";
 import Link from "next/link";
 import { getSingleUser } from "@/actions/userActions";
 import { toast } from "react-toastify";
+import { User, Video } from "@/utils/types";
 
 type ParamsProps = {
   params: {
@@ -17,10 +19,31 @@ type ParamsProps = {
   };
 };
 const PlayListPage = async ({ params }: ParamsProps) => {
-  const videos = await getVideos();
-  const finalVideos = videos.filter((video) =>
+  const [currentUser, setCurrentUser] = useState<User>();
+  const [videos, setVideos] = useState<Video[]>();
+  useEffect(() => {
+    const renderPage = async () => {
+      const token = await getToken()!;
+      const currentUser = (await getSingleUser(token?.value)) as User;
+      const videos = await getVideos();
+      setCurrentUser(currentUser);
+      setVideos(videos);
+    };
+    renderPage();
+  }, []);
+
+  const finalVideos = videos?.filter((video) =>
     video.playlist.includes(params.playlistName)
   );
+
+  const copyToClipboard = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      toast("Copied to clipboard");
+    } catch (err) {
+      console.error("Failed to copy text: ", err);
+    }
+  };
 
   return (
     <div className="lg:pl-[3.5em]">
@@ -63,8 +86,17 @@ const PlayListPage = async ({ params }: ParamsProps) => {
                   />
                 ))}
               </CardContent>
-              <CardFooter className="flex items-center p-4 pl-0 font-semibold">
+              <CardFooter className="flex flex-col  items-start p-4 pl-0 font-semibold">
                 {video.title}
+                {(currentUser?.role.includes("admin") ||
+                  currentUser?.role.includes("adminTeacher")) && (
+                  <p
+                    onClick={() => copyToClipboard(video.id)}
+                    className=" font-normal hover:scale-105 transition cursor-pointer"
+                  >
+                    {video.id}
+                  </p>
+                )}
               </CardFooter>
             </Card>
           ))}

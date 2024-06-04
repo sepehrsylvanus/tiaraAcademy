@@ -76,6 +76,7 @@ export interface Video {
   videoLink: string | null;
   bucketKey: string | null;
   playlist: string[];
+  caption: string;
 }
 
 export interface Slide {

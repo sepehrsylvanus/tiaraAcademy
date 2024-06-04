@@ -35,7 +35,10 @@ export const PUT = async (req: NextRequest, { params }: ParamsProps) => {
           AND: [{ otp: body.verification }, { pNumber: params.id }],
         },
       });
-      const phoneToSearch = "0" + params.id.split("").slice(3).join("");
+      let phoneToSearch = params.id;
+      if (params.id.startsWith("+")) {
+        phoneToSearch = "0" + params.id.split("").slice(3).join("");
+      }
       const ifUserValid = await prisma.user.findUnique({
         where: {
           pNumber: phoneToSearch,

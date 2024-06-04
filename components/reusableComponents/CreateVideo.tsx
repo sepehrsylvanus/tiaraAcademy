@@ -16,15 +16,18 @@ import { SelectChangeEvent, selectClasses } from "@mui/material/Select";
 import { root } from "postcss";
 import styles from "./components.module.css";
 import { playlists } from "@/constants";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 const CreateVideo = () => {
   const [loading, setLoading] = useState(false);
   const [playlist, setPlaylist] = useState<string[]>([]);
+  const [caption, setCaption] = useState("");
   const handlePlaylistChange = (e: SelectChangeEvent<string[]>) => {
     const selectedPlaylists = Array.isArray(e.target.value)
       ? e.target.value
       : [e.target.value];
-  
+
     setPlaylist(selectedPlaylists);
   };
   const handleSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
@@ -34,7 +37,9 @@ const CreateVideo = () => {
     const formData = new FormData(e.currentTarget);
     const title = formData.get("title") as string;
     const playlist = formData.get("playlists");
-
+    formData.set("caption", caption);
+    const myCaption = formData.get("caption");
+    console.log(myCaption);
     try {
       await postVideo(formData);
       toast.success(`-${title}- uploaded successfully`);
@@ -79,6 +84,13 @@ const CreateVideo = () => {
           ))}
         </Select>
       </FormControl>
+      <CKEditor
+        editor={ClassicEditor}
+        data="<p>Erase this and write your caption ❤️</p>"
+        onChange={(event, editor) => {
+          setCaption(editor.getData());
+        }}
+      />
       {loading ? (
         <Button disabled type="submit">
           <CircularProgress sx={{ color: "white", transform: "scale(.7)" }} />

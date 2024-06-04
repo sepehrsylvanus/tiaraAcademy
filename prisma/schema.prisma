@@ -94,6 +94,7 @@ model Video {
   bucketKey String?
   videoLink String?
   playlist  String[]
+  caption   String
 }
 
 model Otp {

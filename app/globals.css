@@ -63,6 +63,50 @@ a {
 .rmdp-input {
   width: 100%;
 }
+.ck-editor__main {
+  width: 100%;
+  text-align: center;
+  background-color: #c6d9e6;
+  padding: 0.5em !important;
+  border-radius: 0.375rem;
+  outline: none;
+  height: auto !important;
+  color: #072d44;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.ck-content {
+  background-color: #c6d9e6 !important;
+  color: #072d44;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+.ck-toolbar_grouping {
+  background-color: #c6d9e6 !important;
+}
+.ck-sticky-panel__content {
+  border-radius: 0.375rem !important;
+
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+.ck-toolbar__items {
+  border: none !important;
+}
+.ck-toolbar__separator {
+  display: none !important;
+}
+
+@layer base {
+  h1 {
+    @apply font-bold text-3xl;
+  }
+  h3 {
+    @apply font-bold text-2xl;
+  }
+}
 @layer components {
   .h1 {
     @apply font-bold text-3xl;

@@ -217,12 +217,14 @@ export const postVideo = async (data: FormData) => {
   const title = data.get("title") as string;
   const playlists = data.get("playlists") as string;
   const video = data.get("video") as File;
-
+  const caption = data.get("caption") as string;
+  console.log(caption);
   const bytes = await video.arrayBuffer();
   const buffer = await Buffer.from(bytes);
   const videoData = {
     title,
     playlist: playlists.split(","),
+    caption,
   };
 
   const newvideo = await prisma.video.create({

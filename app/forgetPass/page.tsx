@@ -62,6 +62,7 @@ const ForgetPass = () => {
   const { errors: FormError } = signinForm.formState;
 
   async function changePass(values: z.infer<typeof formSchema>) {
+    setSending(true);
     console.log(FormError);
     try {
       console.log(values);
@@ -77,15 +78,21 @@ const ForgetPass = () => {
         })
           .then((res) => {
             toast.success(res.data.message);
+            setSending(false);
             router.push("/sign-in");
           })
-          .catch((err) => console.log(err));
+          .catch((err) => {
+            console.log(err);
+            setSending(false);
+          });
       }
     } catch (error) {
       console.log(error);
-    } finally {
       setSending(false);
     }
+    // finally {
+    //   setSending(false);
+    // }
   }
   useEffect(() => {
     console.log(sending);
