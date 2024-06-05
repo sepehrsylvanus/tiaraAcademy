@@ -97,8 +97,20 @@ model Video {
   caption   String
 }
 
+model Blog {
+  id       String @id @default(cuid()) @map("_id")
+  image    String
+  contents String
+}
+
 model Otp {
   id      String @id @default(cuid()) @map("_id")
   pNumber String @unique
   otp     String @unique
+}
+
+model Playlist {
+  id    String @id @default(cuid()) @map("_id")
+  title String
+  value String
 }

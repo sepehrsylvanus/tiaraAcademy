@@ -4,6 +4,7 @@ import { S3 } from "aws-sdk";
 import { cookies } from "next/headers";
 import { getSingleUser } from "./userActions";
 import { User } from "@/utils/types";
+import { requestToBodyStream } from "next/dist/server/body-streams";
 
 type WritingAnswerToSend = {
   band: string;
@@ -294,10 +295,51 @@ export const deleteVideo = async (data: FormData) => {
     },
   });
 };
+export const deleteArticle = async (data: FormData) => {
+  const id = data.get("id") as string;
+
+  const s3 = new S3({
+    accessKeyId: process.env.NEXT_PUBLIC_LIARA_ACCESS_KEY_ID,
+    secretAccessKey: process.env.NEXT_PUBLIC_LIARA_SECRET_ACCESS_KEY,
+    endpoint: process.env.NEXT_PUBLIC_LIARA_ENDPOINT,
+  });
+  const video = await prisma.video.findUnique({
+    where: {
+      id,
+    },
+  });
+
+  const bucketName: string = process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME!;
+
+  await s3
+    .deleteObject({ Bucket: bucketName, Key: video?.bucketKey! })
+    .promise();
+
+  await prisma.video.delete({
+    where: {
+      id: id,
+    },
+  });
+};
 export const getVideos = async () => {
   const videos = await prisma.video.findMany();
   return videos;
 };
+export const getPlaylists = async () => {
+  const playlists = await prisma.playlist.findMany();
+  return playlists;
+};
+
+export const makePlaylist = async (title: string) => {
+  const capitalizedTitle = title.charAt(0).toUpperCase() + title.slice(1);
+  await prisma.playlist.create({
+    data: {
+      title: capitalizedTitle,
+      value: title.toLowerCase(),
+    },
+  });
+};
+
 export const getSingleClass = async (id: string) => {
   const result = await prisma.class.findUnique({
     where: {

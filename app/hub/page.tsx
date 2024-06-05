@@ -61,7 +61,7 @@ const Hub = async () => {
 
                 <div>
                   <p className="mb-2 text-start font-bold">Delete video</p>
-                  <DeleteVideo />
+                  <DeleteVideo title="video" />
                 </div>
                 <div>
                   <p className="mb-2 text-start font-bold">Create Video</p>
@@ -74,6 +74,20 @@ const Hub = async () => {
                 <DeleteClass />
                 <Divider />
                 <CreateClass />
+              </div>
+
+              <div className="space-y-4 text-center border shadow-md rounded-md p-4 bg-extraText text-lightPrime">
+                <p className="text-2xl">Article Section</p>
+                <p className="my-2">Post or delete articles</p>
+
+                <div>
+                  <p className="mb-2 text-start font-bold">Delete video</p>
+                  <DeleteVideo title="aritcle" />
+                </div>
+                <div>
+                  <p className="mb-2 text-start font-bold">Create Video</p>
+                  <CreateVideo />
+                </div>
               </div>
             </div>
           </div>

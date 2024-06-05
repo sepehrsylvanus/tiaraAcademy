@@ -15,12 +15,13 @@ import { UserProps } from "@/utils/types";
 
 import ClerkAvatar from "../reusableComponents/ClerkAvatar";
 import { CircularProgress } from "@mui/material";
-import { playlists } from "@/constants";
+import { useGetPlaylists } from "@/hooks/usePlayList";
 
 const Sidebar = () => {
   const [token, setToken] = useState<string>();
   const [user, setUser] = useState<UserProps>();
 
+  const { data: playlists, isLoading, error } = useGetPlaylists();
   useEffect(() => {
     const retrieveToken = async () => {
       const token = await getToken();
@@ -99,14 +100,20 @@ const Sidebar = () => {
             <h3 className={`${styles.menuText}  h3 `}>laylists</h3>
           </div>
           <div className="flex flex-col space-y-2 pt-4 overflow-y-scroll ">
-            {playlists.map((playlist) => (
-              <Link
-                href={`/hub/videos/playlist/${playlist.value}`}
-                className=" hover:bg-white transition px-2"
-              >
-                {playlist.title}
-              </Link>
-            ))}
+            {isLoading ? (
+              <CircularProgress
+                sx={{ color: "black", transform: "scale(.7)" }}
+              />
+            ) : (
+              playlists?.map((playlist) => (
+                <Link
+                  href={`/hub/videos/playlist/${playlist.value}`}
+                  className=" hover:bg-white transition px-2"
+                >
+                  {playlist.title}
+                </Link>
+              ))
+            )}
           </div>
         </div>
       </div>

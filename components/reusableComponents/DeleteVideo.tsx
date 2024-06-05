@@ -16,7 +16,7 @@ import { ChangeEvent, useState } from "react";
 import { toast } from "react-toastify";
 import { CircularProgress } from "@mui/material";
 
-const DeleteVideo = () => {
+const DeleteVideo = ({ title }: { title: string }) => {
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
@@ -26,7 +26,9 @@ const DeleteVideo = () => {
     const formData = new FormData(e.currentTarget);
     const id = formData.get("id") as string;
     try {
-      await deleteVideo(formData);
+      if (title === "video") {
+        await deleteVideo(formData);
+      }
     } catch (error) {
       toast.error("There was an error in uploading video:" + error);
     } finally {
@@ -39,7 +41,7 @@ const DeleteVideo = () => {
     <form onSubmit={handleSubmit} className="flex items-center justify-between">
       <input
         className="formInput"
-        placeholder="Enter Your Video id"
+        placeholder={`Enter your ${title} id`}
         name="id"
       />
 

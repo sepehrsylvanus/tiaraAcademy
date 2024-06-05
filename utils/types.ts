@@ -84,3 +84,8 @@ export interface Slide {
   subtitle: string;
   link: string;
 }
+
+export interface Playlist {
+  title: string;
+  value: string;
+}
