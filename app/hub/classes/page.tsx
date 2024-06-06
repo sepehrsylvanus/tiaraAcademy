@@ -30,9 +30,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { getToken } from "@/actions/actions";
+import { getToken, registerPlayList } from "@/actions/actions";
 import { getSingleUser } from "@/actions/userActions";
 import { Axios } from "@/utils/axiosIn";
+import { useGetPlaylists } from "@/hooks/usePlayList";
 
 const Classes = () => {
   const [loading, setLoading] = useState(true);
@@ -40,15 +41,14 @@ const Classes = () => {
   const [filteredClasses, setFilteredClasses] = useState(classes);
   const [teachersname, setTeachersname] = useState<string[]>();
   const [currentUser, setCurrentUser] = useState<User>();
-  useEffect(() => {}, [teachersname]);
-
+  const { data: playlists, isLoading } = useGetPlaylists();
+  console.log(playlists);
   const searchParams = useSearchParams();
   const teacherParam = searchParams.get("teacher");
 
   const handleJoin = () => {
     toast.success("You successfully registered in this class");
   };
-  useEffect(() => {}, [classes]);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -235,7 +235,7 @@ const Classes = () => {
       </div>
       <Divider sx={{ margin: "1em 0" }} />
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 pb-[6em]">
-        {loading ? (
+        {loading || isLoading ? (
           <>
             <Skeleton className="w-full h-[250px] rounded-md" />
             <Skeleton className="w-full h-[250px] rounded-md" />
@@ -246,61 +246,97 @@ const Classes = () => {
             <Skeleton className="w-full h-[250px] rounded-md" />
             <Skeleton className="w-full h-[250px] rounded-md" />
           </>
-        ) : filteredClasses ? (
-          filteredClasses?.map((eachClass) => {
-            let days = eachClass.days.join(" / ");
+        ) : filteredClasses && playlists ? (
+          <div>
+            {filteredClasses?.map((eachClass) => {
+              let days = eachClass.days.join(" / ");
 
-            return (
-              <Card key={eachClass.id} className="text-center ">
-                <CardHeader>
-                  <CardTitle>{eachClass.title}</CardTitle>
-                </CardHeader>
-                <CardContent className=" relative overflow-hidden">
-                  <Meteors />
-                  <div className="flex items-center justify-around gap-4">
-                    <p>{`${eachClass.creator!.fName} ${
-                      eachClass.creator?.lName
-                    }`}</p>
+              return (
+                <Card key={eachClass.id} className="text-center ">
+                  <CardHeader>
+                    <CardTitle>{eachClass.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent className=" relative overflow-hidden">
+                    <Meteors />
+                    <div className="flex items-center justify-around gap-4">
+                      <p>{`${eachClass.creator!.fName} ${
+                        eachClass.creator?.lName
+                      }`}</p>
 
-                    <p>{eachClass.price}</p>
+                      <p>{eachClass.price}</p>
 
-                    <Chip label={eachClass.type} />
-                    {eachClass.fix && <Chip label={eachClass.fix && "Fix"} />}
-                  </div>
+                      <Chip label={eachClass.type} />
+                      {eachClass.fix && <Chip label={eachClass.fix && "Fix"} />}
+                    </div>
 
-                  <p className=" font-semibold mt-2">
-                    {days || "There is no dedicated day for this class"}
-                  </p>
-                </CardContent>
-                <CardFooter className="flex flex-col gap-2">
-                  {!eachClass.fix ? (
-                    <Link
-                      href={`/hub/classes/${eachClass.id}`}
-                      className="w-full"
-                    >
-                      <Button className="w-full">Join</Button>
-                    </Link>
-                  ) : (
+                    <p className=" font-semibold mt-2">
+                      {days || "There is no dedicated day for this class"}
+                    </p>
+                  </CardContent>
+                  <CardFooter className="flex flex-col gap-2">
+                    {!eachClass.fix ? (
+                      <Link
+                        href={`/hub/classes/${eachClass.id}`}
+                        className="w-full"
+                      >
+                        <Button className="w-full">Join</Button>
+                      </Link>
+                    ) : (
+                      <Link href={`#`} className="w-full">
+                        <Button className="w-full" onClick={handleJoin}>
+                          Join
+                        </Button>
+                      </Link>
+                    )}
+                    {(currentUser?.role.includes("admin") ||
+                      currentUser?.role.includes("adminTeacher") ||
+                      currentUser?.role.includes("teacher")) && (
+                      <p
+                        className=" cursor-pointer text-lg  md:text-base md:hover:text-lg"
+                        onClick={() => copyToClipboard(eachClass.id)}
+                      >
+                        {eachClass.id}
+                      </p>
+                    )}
+                  </CardFooter>
+                </Card>
+              );
+            })}
+            {playlists
+              .filter((playlist) => playlist.type === "private")
+              .map((playlist) => (
+                <Card key={playlist.id} className="text-center ">
+                  <CardHeader>
+                    <CardTitle>{playlist.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent className=" relative overflow-hidden">
+                    <Meteors />
+                    <div className="flex items-center justify-around gap-4">
+                      <p>{playlist.price}</p>
+                    </div>
+                  </CardContent>
+                  <CardFooter className="flex flex-col gap-2">
                     <Link href={`#`} className="w-full">
-                      <Button className="w-full" onClick={handleJoin}>
+                      <Button
+                        className="w-full"
+                        onClick={async () => {
+                          const register = await registerPlayList(
+                            playlist.title
+                          );
+                          if (register) {
+                            toast.success(register);
+                          } else {
+                            toast.error(register);
+                          }
+                        }}
+                      >
                         Join
                       </Button>
                     </Link>
-                  )}
-                  {(currentUser?.role.includes("admin") ||
-                    currentUser?.role.includes("adminTeacher") ||
-                    currentUser?.role.includes("teacher")) && (
-                    <p
-                      className=" cursor-pointer text-lg  md:text-base md:hover:text-lg"
-                      onClick={() => copyToClipboard(eachClass.id)}
-                    >
-                      {eachClass.id}
-                    </p>
-                  )}
-                </CardFooter>
-              </Card>
-            );
-          })
+                  </CardFooter>
+                </Card>
+              ))}
+          </div>
         ) : (
           <p>There is an error in server</p>
         )}

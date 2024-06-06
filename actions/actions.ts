@@ -6,6 +6,7 @@ import { getSingleUser } from "./userActions";
 import { User } from "@/utils/types";
 import { requestToBodyStream } from "next/dist/server/body-streams";
 import { ArrowUpward } from "@mui/icons-material";
+import { Type } from "@prisma/client";
 
 type WritingAnswerToSend = {
   band: string;
@@ -248,6 +249,7 @@ export const postVideo = async (data: FormData) => {
       Body: buffer!,
     };
     const response = await s3.upload(params).promise();
+    console.log(response);
     const permanentSignedUrl = s3.getSignedUrl("getObject", {
       Bucket: process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME,
       Key: name,
@@ -331,12 +333,61 @@ export const getPlaylists = async () => {
   return playlists;
 };
 
-export const makePlaylist = async (title: string) => {
+export const registerPlayList = async (playlistTitle: string) => {
+  const token = await getToken()!;
+  const currentUser = await getSingleUser(token?.value);
+  const alreadyRegistered = await prisma.playlistUsers.findMany({
+    where: {
+      AND: [{ playlistTitle }, { userId: currentUser?.id }],
+    },
+  });
+  console.log(alreadyRegistered);
+
+  if (alreadyRegistered.length > 0) {
+    return "You already registered for this video class";
+  } else {
+    try {
+      const newRegiter = await prisma.playlistUsers.create({
+        data: {
+          playlistTitle,
+          userId: currentUser?.id!,
+        },
+      });
+      if (newRegiter) {
+        return "You successfully registered for this video class!";
+      }
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
+  }
+};
+
+export const getRegisteredPlaylist = async (playlistTitle: string) => {
+  const token = await getToken()!;
+  const currentUser = await getSingleUser(token?.value);
+  console.log(playlistTitle);
+  console.log(currentUser?.id);
+  const myPlaylist = await prisma.playlistUsers.findMany({
+    where: {
+      AND: [{ playlistTitle }, { userId: currentUser?.id }],
+    },
+  });
+  console.log(myPlaylist);
+  return myPlaylist;
+};
+
+export const makePlaylist = async (
+  title: string,
+  type: Type,
+  price: string
+) => {
   const capitalizedTitle = title.charAt(0).toUpperCase() + title.slice(1);
   await prisma.playlist.create({
     data: {
       title: capitalizedTitle,
+      type,
       value: title.toLowerCase(),
+      price,
     },
   });
 };

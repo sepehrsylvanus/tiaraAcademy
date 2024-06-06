@@ -16,12 +16,13 @@ import { UserProps } from "@/utils/types";
 import ClerkAvatar from "../reusableComponents/ClerkAvatar";
 import { CircularProgress } from "@mui/material";
 import { useGetPlaylists } from "@/hooks/usePlayList";
-
+import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium";
 const Sidebar = () => {
   const [token, setToken] = useState<string>();
   const [user, setUser] = useState<UserProps>();
 
   const { data: playlists, isLoading, error } = useGetPlaylists();
+  console.log(playlists);
   useEffect(() => {
     const retrieveToken = async () => {
       const token = await getToken();
@@ -108,9 +109,10 @@ const Sidebar = () => {
               playlists?.map((playlist) => (
                 <Link
                   href={`/hub/videos/playlist/${playlist.value}`}
-                  className=" hover:bg-white transition px-2"
+                  className="flex items-center justify-around hover:bg-white transition px-2"
                 >
-                  {playlist.title}
+                  <p>{playlist.title}</p>
+                  {playlist.type === "private" && <WorkspacePremiumIcon />}
                 </Link>
               ))
             )}

@@ -18,7 +18,7 @@ import { CircularProgress } from "@mui/material";
 
 const DeleteVideo = ({ title }: { title: string }) => {
   const [loading, setLoading] = useState(false);
-
+  const [videoId, setvideoId] = useState("");
   const handleSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
@@ -28,13 +28,13 @@ const DeleteVideo = ({ title }: { title: string }) => {
     try {
       if (title === "video") {
         await deleteVideo(formData);
-      }else if(title === 'article'){
-        
+        toast.success(`-${id}- deleted successfully`);
+        setvideoId("");
+      } else if (title === "article") {
       }
     } catch (error) {
       toast.error("There was an error in uploading video:" + error);
     } finally {
-      toast.success(`-${id}- deleted successfully`);
       setLoading(false);
     }
   };
@@ -45,6 +45,8 @@ const DeleteVideo = ({ title }: { title: string }) => {
         className="formInput"
         placeholder={`Enter your ${title} id`}
         name="id"
+        onChange={(e) => setvideoId(e.target.value)}
+        value={videoId}
       />
 
       {loading ? (

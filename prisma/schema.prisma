@@ -22,6 +22,11 @@ enum WritingStatus {
   pending
 }
 
+enum Type {
+  private
+  public
+}
+
 model User {
   id       String  @id @default(cuid()) @map("_id")
   fName    String
@@ -31,9 +36,10 @@ model User {
   pNumber  String  @unique
   role     Role    @default(student)
 
-  ClassUsers ClassUsers[]
-  Class      Class[]
-  Writing    Writing[]
+  ClassUsers    ClassUsers[]
+  Class         Class[]
+  Writing       Writing[]
+  PlaylistUsers PlaylistUsers[]
 }
 
 model Class {
@@ -42,7 +48,7 @@ model Class {
   title      String
   days       String[]
   price      String
-  type       String
+  type       Type
   capacity   Int
   times      String[]
   classUsers ClassUsers[]
@@ -62,6 +68,14 @@ model ClassUsers {
   date     DateTime
   time     String
   capacity Int
+}
+
+model PlaylistUsers {
+  id            String   @id @default(cuid()) @map("_id")
+  playlistTitle String
+  playlist      Playlist @relation(fields: [playlistTitle], references: [id])
+  userId        String
+  user          User     @relation(fields: [userId], references: [id])
 }
 
 model Writing {
@@ -110,7 +124,10 @@ model Otp {
 }
 
 model Playlist {
-  id    String @id @default(cuid()) @map("_id")
-  title String @unique
-  value String
+  id            String          @id @default(cuid()) @map("_id")
+  title         String          @unique
+  type          Type
+  value         String
+  price         String?
+  PlaylistUsers PlaylistUsers[]
 }

@@ -100,19 +100,16 @@ a {
 }
 @layer base {
   h1 {
-    @apply text-2xl font-bold;
+    @apply text-3xl font-bold;
   }
   h2 {
-    @apply text-xl font-bold;
+    @apply text-2xl font-bold;
   }
   /* Repeat for h3 to h6 if desired */
 }
 @layer components {
-  .h1 {
-    @apply font-bold text-3xl;
-  }
   .h3 {
-    @apply font-bold text-2xl;
+    @apply font-bold text-xl;
   }
   .formInput {
     @apply bg-[#c6d9e6] text-lightText px-2 py-2 rounded-md outline-none;

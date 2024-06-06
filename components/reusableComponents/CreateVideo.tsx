@@ -13,8 +13,11 @@ import { toast } from "react-toastify";
 import {
   CircularProgress,
   FormControl,
+  FormControlLabel,
   InputLabel,
   MenuItem,
+  Radio,
+  RadioGroup,
   Select,
 } from "@mui/material";
 import { SelectChangeEvent, selectClasses } from "@mui/material/Select";
@@ -27,12 +30,15 @@ import { Add, Delete } from "@mui/icons-material";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Playlist } from "@/utils/types";
 import { useGetPlaylists } from "@/hooks/usePlayList";
+import { Type } from "@prisma/client";
 
 const CreateVideo = ({ title }: { title: string }) => {
   const [loading, setLoading] = useState(false);
   const [playlist, setPlaylist] = useState<string[]>([]);
   const [caption, setCaption] = useState("");
   const [playlistTitle, setPlaylistTitle] = useState<string>();
+  const [playlistType, setPlaylistType] = useState<Type>("public");
+  const [playlistPrice, setPlaylistPrice] = useState("");
   const handlePlaylistChange = (e: SelectChangeEvent<string[]>) => {
     const selectedPlaylists = Array.isArray(e.target.value)
       ? e.target.value
@@ -43,7 +49,15 @@ const CreateVideo = ({ title }: { title: string }) => {
   const { data: playlists, isLoading, error } = useGetPlaylists();
   const queryClient = useQueryClient();
   const mutation = useMutation({
-    mutationFn: (title: string) => makePlaylist(title),
+    mutationFn: ({
+      title,
+      type,
+      price,
+    }: {
+      title: string;
+      type: Type;
+      price: string;
+    }) => makePlaylist(title, type, price),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["getPlaylist"] });
       toast.success("New playlist added");
@@ -81,7 +95,12 @@ const CreateVideo = ({ title }: { title: string }) => {
   };
   const handleMakePlayList = () => {
     if (playlistTitle) {
-      mutation.mutate(playlistTitle);
+      const playlistData = {
+        title: playlistTitle,
+        type: playlistType!,
+        price: playlistPrice,
+      };
+      mutation.mutate(playlistData);
     } else {
       console.error("Playlist title is undefined.");
     }
@@ -105,14 +124,46 @@ const CreateVideo = ({ title }: { title: string }) => {
         accept=".mp4, .mkv"
       />
       <div className="formInput flex items-center">
-        <input
-          type="text"
-          placeholder="add a new playlist then choose"
-          name=""
-          id=""
-          className="w-full bg-transparent border-none outline-none"
-          onChange={(e) => setPlaylistTitle(e.target.value)}
-        />
+        <div className="flex flex-col w-full">
+          <input
+            type="text"
+            placeholder="Add a new playlist then choose"
+            name=""
+            id=""
+            className="w-full bg-transparent border-none outline-none"
+            onChange={(e) => setPlaylistTitle(e.target.value)}
+          />
+          <RadioGroup
+            row
+            defaultValue={playlistType}
+            onChange={(e) => {
+              if (e.target.value === "private" || e.target.value === "public") {
+                setPlaylistType(e.target.value);
+              }
+            }}
+          >
+            <FormControlLabel
+              value="public"
+              control={<Radio />}
+              label="Public"
+            />
+            <FormControlLabel
+              value="private"
+              control={<Radio />}
+              label="Private"
+            />
+          </RadioGroup>
+          {playlistType === "private" && (
+            <input
+              type="text"
+              placeholder="Price"
+              name=""
+              id=""
+              className="w-full bg-transparent border-none outline-none"
+              onChange={(e) => setPlaylistPrice(e.target.value)}
+            />
+          )}
+        </div>
         <div
           onClick={handleDeletePlayList}
           className=" hover:scale-125 transition cursor-pointer"

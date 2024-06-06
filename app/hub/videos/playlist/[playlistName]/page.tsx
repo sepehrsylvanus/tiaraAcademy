@@ -1,7 +1,7 @@
 "use client";
 import { getToken, getVideos } from "@/actions/actions";
 
-import { Card, CardContent, Chip } from "@mui/material";
+import { Card, CardContent, Chip, Skeleton } from "@mui/material";
 
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
@@ -12,7 +12,8 @@ import Link from "next/link";
 import { getSingleUser } from "@/actions/userActions";
 import { toast } from "react-toastify";
 import { User, Video } from "@/utils/types";
-
+import { userGetPlaylist } from "@/hooks/usePlayList";
+import styles from "@/app/hub/teachers/teacher.module.css";
 type ParamsProps = {
   params: {
     playlistName: string;
@@ -21,6 +22,10 @@ type ParamsProps = {
 const PlayListPage = async ({ params }: ParamsProps) => {
   const [currentUser, setCurrentUser] = useState<User>();
   const [videos, setVideos] = useState<Video[]>();
+  const { data: thisPlaylist, isLoading } = userGetPlaylist(
+    params.playlistName.charAt(0).toUpperCase() + params.playlistName.slice(1)
+  );
+  console.log(thisPlaylist);
   useEffect(() => {
     const renderPage = async () => {
       const token = await getToken()!;
@@ -48,13 +53,35 @@ const PlayListPage = async ({ params }: ParamsProps) => {
   return (
     <div className="lg:pl-[3.5em]">
       <h1 className="h1 text-center">{params.playlistName.toUpperCase()}</h1>
-
-      <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {videos &&
-          videos.map((video) => (
+      <h2 className="text-center mt-4">
+        In order to see after part 3 you can{" "}
+        <Link href={"#"} className="text-extraText underline">
+          Sign in
+        </Link>{" "}
+        in this class
+      </h2>
+      <div
+        className={`mt-8 ${
+          finalVideos && finalVideos?.length > 0
+            ? "grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+            : ""
+        }`}
+      >
+        {!isLoading &&
+          videos &&
+          finalVideos?.map((video, index) => (
             <Card className="p-4 bg-extraBg text-lightPrime" key={video.id}>
               <CardContent className="p-0">
-                <Link href={`/hub/videos/${video.id}`}>
+                <Link
+                  className={`${
+                    index > 2 &&
+                    !thisPlaylist &&
+                    "pointer-events-none opacity-50"
+                  }`}
+                  href={
+                    index > 3 && !thisPlaylist ? "#" : `/hub/videos/${video.id}`
+                  }
+                >
                   <div className=" relative w-full h-[200px]">
                     <Image
                       src={"/article.jpg"}
@@ -100,6 +127,11 @@ const PlayListPage = async ({ params }: ParamsProps) => {
               </CardFooter>
             </Card>
           ))}
+        {finalVideos?.length === 0 && (
+          <h1 className="w-full text-center">
+            There is no videos in this playlist
+          </h1>
+        )}
       </div>
     </div>
   );
