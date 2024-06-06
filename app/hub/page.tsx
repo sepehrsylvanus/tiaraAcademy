@@ -65,7 +65,7 @@ const Hub = async () => {
                 </div>
                 <div>
                   <p className="mb-2 text-start font-bold">Create Video</p>
-                  <CreateVideo />
+                  <CreateVideo title="video" />
                 </div>
               </div>
 
@@ -86,7 +86,7 @@ const Hub = async () => {
                 </div>
                 <div>
                   <p className="mb-2 text-start font-bold">Create Video</p>
-                  <CreateVideo />
+                  <CreateVideo title="aticle" />
                 </div>
               </div>
             </div>

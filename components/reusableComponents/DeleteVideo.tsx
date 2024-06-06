@@ -28,6 +28,8 @@ const DeleteVideo = ({ title }: { title: string }) => {
     try {
       if (title === "video") {
         await deleteVideo(formData);
+      }else if(title === 'article'){
+        
       }
     } catch (error) {
       toast.error("There was an error in uploading video:" + error);

@@ -5,6 +5,7 @@ import { cookies } from "next/headers";
 import { getSingleUser } from "./userActions";
 import { User } from "@/utils/types";
 import { requestToBodyStream } from "next/dist/server/body-streams";
+import { ArrowUpward } from "@mui/icons-material";
 
 type WritingAnswerToSend = {
   band: string;
@@ -339,7 +340,53 @@ export const makePlaylist = async (title: string) => {
     },
   });
 };
+export const deletePlaylist = async (title: string) => {
+  console.log(title);
+  try {
+    const oneToDelete = await prisma.playlist.findUnique({
+      where: {
+        title,
+      },
+    });
+    if (!oneToDelete) {
+      throw new Error("Desired playlist hasn't been found");
+    } else {
+      const videosToUpdate = await prisma.video.findMany({
+        where: {
+          playlist: {
+            has: title.toLowerCase(),
+          },
+        },
+      });
+      console.log(videosToUpdate);
 
+      if (videosToUpdate) {
+        for (const video of videosToUpdate) {
+          await prisma.video.updateMany({
+            where: {
+              id: video.id,
+            },
+            data: {
+              playlist: {
+                set: video.playlist.filter(
+                  (item) => item !== title.toLowerCase()
+                ),
+              },
+            },
+          });
+        }
+      }
+      await prisma.playlist.delete({
+        where: {
+          title,
+        },
+      });
+    }
+  } catch (error: any) {
+    console.log(error.message);
+    throw new Error(error.message);
+  }
+};
 export const getSingleClass = async (id: string) => {
   const result = await prisma.class.findUnique({
     where: {

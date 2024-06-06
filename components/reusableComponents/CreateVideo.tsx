@@ -3,7 +3,12 @@
 import { Button } from "@/components/ui/button";
 
 import React, { ChangeEvent, useEffect, useState } from "react";
-import { getPlaylists, makePlaylist, postVideo } from "@/actions/actions";
+import {
+  deletePlaylist,
+  getPlaylists,
+  makePlaylist,
+  postVideo,
+} from "@/actions/actions";
 import { toast } from "react-toastify";
 import {
   CircularProgress,
@@ -18,7 +23,7 @@ import styles from "./components.module.css";
 import { playlists } from "@/constants";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import AddIcon from "@mui/icons-material/Add";
+import { Add, Delete } from "@mui/icons-material";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Playlist } from "@/utils/types";
 import { useGetPlaylists } from "@/hooks/usePlayList";
@@ -36,7 +41,25 @@ const CreateVideo = ({ title }: { title: string }) => {
     setPlaylist(selectedPlaylists);
   };
   const { data: playlists, isLoading, error } = useGetPlaylists();
-
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: (title: string) => makePlaylist(title),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["getPlaylist"] });
+      toast.success("New playlist added");
+    },
+  });
+  const deleteMutation = useMutation({
+    mutationFn: (title: string) => deletePlaylist(title),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["getPlaylist"] });
+      toast.success("Your desired deleted");
+    },
+    onError: (error) => {
+      console.log(error.message);
+      toast.error(error.message);
+    },
+  });
   const handleSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
@@ -63,15 +86,13 @@ const CreateVideo = ({ title }: { title: string }) => {
       console.error("Playlist title is undefined.");
     }
   };
-
-  const queryClient = useQueryClient();
-  const mutation = useMutation({
-    mutationFn: (title: string) => makePlaylist(title),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["getPlaylist"] });
-      toast.success("New playlist added");
-    },
-  });
+  const handleDeletePlayList = () => {
+    if (playlistTitle) {
+      deleteMutation.mutate(playlistTitle);
+    } else {
+      console.error("There is error in deletion");
+    }
+  };
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col space-y-3">
@@ -93,10 +114,16 @@ const CreateVideo = ({ title }: { title: string }) => {
           onChange={(e) => setPlaylistTitle(e.target.value)}
         />
         <div
+          onClick={handleDeletePlayList}
+          className=" hover:scale-125 transition cursor-pointer"
+        >
+          <Delete />
+        </div>
+        <div
           onClick={handleMakePlayList}
           className=" hover:scale-125 transition cursor-pointer"
         >
-          <AddIcon />
+          <Add />
         </div>
       </div>
       <FormControl>

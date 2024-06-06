@@ -111,6 +111,6 @@ model Otp {
 
 model Playlist {
   id    String @id @default(cuid()) @map("_id")
-  title String
+  title String @unique
   value String
 }
