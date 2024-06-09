@@ -75,11 +75,13 @@ const PlayListPage = async ({ params }: ParamsProps) => {
                 <Link
                   className={`${
                     index > 2 &&
-                    !thisPlaylist &&
+                    thisPlaylist?.length === 0 &&
                     "pointer-events-none opacity-50"
                   }`}
                   href={
-                    index > 3 && !thisPlaylist ? "#" : `/hub/videos/${video.id}`
+                    index > 3 && thisPlaylist?.length === 0
+                      ? "#"
+                      : `/hub/videos/${video.id}`
                   }
                 >
                   <div className=" relative w-full h-[200px]">

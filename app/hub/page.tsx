@@ -1,7 +1,6 @@
-import { retieveUsers, getToken } from "@/actions/actions";
+import { getToken } from "@/actions/actions";
 import StudentHub from "@/components/studentHub/StudentHub";
-import { columns } from "@/components/studentsTable/columns";
-import { DataTable } from "@/components/studentsTable/data-table";
+
 import { Avatar, Divider } from "@mui/material";
 import React from "react";
 
@@ -15,9 +14,9 @@ import PdfSection from "@/components/PdfSection";
 import { User } from "@/utils/types";
 import TeachersTable from "@/components/table/TeachersTable";
 import StudentTable from "@/components/studentTable/StudentTable";
-import { useGetUsers } from "@/hooks/useGetUsers";
-import Image from "next/image";
 
+import Link from "next/link";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 const Hub = async () => {
   const token = await getToken();
   const currentUser: User | null = await getSingleUser(token?.value!);
@@ -37,11 +36,15 @@ const Hub = async () => {
   };
 
   return (
-    <div className=" lg:pl-[5em] ">
+    <div className=" lg:pl-[5em] pb-[3em]">
       {(currentUser?.role.includes("teacher") ||
         currentUser?.role.includes("admin") ||
         currentUser?.role.includes("adminTeacher")) && (
         <div className="container   px-4 pt-4 pb-4 flex flex-col items-start  text-lightText">
+          <Link href={"/"} className=" text-lightText font-bold mb-4">
+            <ArrowBackIosNewIcon />
+            Landing page
+          </Link>
           {/* ========= */}
           <div className="avatrContainer  flex gap-4 items-center justify-center">
             <Avatar sx={{ width: 80, height: 80 }} />
@@ -54,7 +57,7 @@ const Hub = async () => {
 
           <div className="mt-6">
             <p className=" font-bold text-lg">Content Management</p>
-            <div className="grid lg:grid-cols-3 gap-4 mb-4">
+            <div className="grid  grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
               <div className="space-y-4 text-center border shadow-md rounded-md p-4 bg-extraText text-lightPrime">
                 <p className="text-2xl">Videos Section</p>
                 <p className="my-2">Post or delete videos</p>

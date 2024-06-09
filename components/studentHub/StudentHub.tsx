@@ -12,7 +12,7 @@ import { Class } from "@/utils/types";
 import Link from "next/link";
 import MyWritings from "../myWritings/MyWritings";
 import { Axios } from "@/utils/axiosIn";
-
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 export default function StudentHub() {
   const [displayCount, setDisplayCount] = useState(3);
   const [featuredClasses, setFeaturedClasses] = useState<Class[]>();
@@ -42,7 +42,14 @@ export default function StudentHub() {
   }, []);
 
   return (
-    <div className="px-2 pb-[3em] md:pb-6 pt-[3em]  md:pl-[4em]">
+    <div className="px-2 pb-[3em] md:pb-6 pt-[3em]  md:pl-[2em]">
+      <Link
+        href={"/"}
+        className=" text-lightText font-bold mb-4 md:pl-[6em]  absolute top-4 left-4"
+      >
+        <ArrowBackIosNewIcon />
+        Landing page
+      </Link>
       <section className="featuredClasses">
         <div className=" mb-2 border-b border-dashed flex justify-end flex-row-reverse items-center md:justify-end">
           <h2 className="font-bold text-2xl">Featured Classes</h2>
