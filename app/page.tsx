@@ -323,13 +323,10 @@ export default async function Home() {
             </form>
           </div>
 
-          <div className={styles.eachCol}>
+          <div className={`${styles.eachCol} lg:self-start`}>
             <h5>Contact with us</h5>
-            <Link href={"#"}>Contact with our manager</Link>
-            <Link href={"#"}>Contact with our teachers</Link>
-            <Link href={"#"}>Contact with SSH development</Link>
           </div>
-          <div className={styles.eachCol}>
+          <div className={`${styles.eachCol} lg:self-start`}>
             <h5>Website map</h5>
             <Link href={"#"}>Classes</Link>
             <Link href={"#"}>Writing center</Link>
@@ -337,7 +334,7 @@ export default async function Home() {
             <Link href={"#"}>Notes</Link>
             <Link href={"#"}>Video center</Link>
           </div>
-          <div className={styles.eachCol}>
+          <div className={`${styles.eachCol} lg:self-start`}>
             <h5>Follow Us</h5>
             <Link href={"#"}>
               <FacebookIcon />
