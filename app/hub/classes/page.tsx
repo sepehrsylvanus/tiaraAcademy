@@ -61,6 +61,10 @@ const Classes = () => {
   }, []);
 
   useEffect(() => {
+    console.log(filteredClasses);
+  }, [filteredClasses]);
+
+  useEffect(() => {
     Axios.get("/classes")
       .then((res) => {
         setClasses(res.data.classes);
@@ -250,7 +254,7 @@ const Classes = () => {
           <>
             {filteredClasses?.map((eachClass) => {
               let days = eachClass.days.join(" / ");
-
+              console.log(eachClass.duration);
               return (
                 <Card key={eachClass.id} className="text-center ">
                   <CardHeader>
@@ -275,6 +279,12 @@ const Classes = () => {
                     <p className=" font-semibold mt-2">
                       {days || "There is no dedicated day for this class"}
                     </p>
+
+                    {eachClass.duration.length > 0 && (
+                      <p className="mt-2">
+                        {`${eachClass.duration[0]} | ${eachClass.duration[1]}`}
+                      </p>
+                    )}
                   </CardContent>
                   <CardFooter className="flex flex-col gap-2">
                     {!eachClass.fix ? (
