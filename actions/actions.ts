@@ -59,7 +59,7 @@ export const postWriting = async (formData: FormData) => {
       data: {
         name,
         creatorId,
-        teacherId: "clvgvv7cf0000xbdj1m9p3hwy",
+        teacherId: "clx0ismqk0003kc7rl04s28r2",
         email: user?.email,
         subject,
         writing,
@@ -109,7 +109,7 @@ export const postWriting = async (formData: FormData) => {
   } else {
     const newWritingFile = await prisma.writing.create({
       data: {
-        teacherId: "clvgvv7cf0000xbdj1m9p3hwy",
+        teacherId: "clx0ismqk0003kc7rl04s28r2",
         creatorId: user?.id,
       },
     });

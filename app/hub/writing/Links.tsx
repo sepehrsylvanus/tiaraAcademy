@@ -10,14 +10,7 @@ import { User } from "@/utils/types";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { ChangeEvent, useState } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { postWriting } from "@/actions/actions";
 import { toast } from "react-toastify";
@@ -103,12 +96,6 @@ const Links = ({ teachers }: { teachers: User[] }) => {
                     onSubmit={handleSubmit}
                     className="flex space-y-4 flex-col"
                   >
-                    <input
-                      type="text"
-                      name="teacherId"
-                      className="formInput"
-                      placeholder="Enter your teacher ID"
-                    />
                     <input
                       id="writingFile"
                       type="file"
