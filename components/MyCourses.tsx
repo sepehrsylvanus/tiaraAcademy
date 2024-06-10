@@ -57,8 +57,6 @@ const MyCourses = () => {
     fetchMyClasses();
   }, []);
 
-
-
   return (
     <div>
       <h2 className="font-bold text-2xl mb-2 border-b border-dashed">

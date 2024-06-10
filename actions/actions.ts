@@ -466,3 +466,20 @@ export const getClasses = async () => {
     },
   });
 };
+
+export const getRegisterdClasses = async (classId: string, userId: string) => {
+  console.log(classId);
+  console.log(userId);
+  const registeredClass = await prisma.classUsers.findMany({
+    where: {
+      AND: [
+        {
+          classId,
+        },
+        { userId },
+      ],
+    },
+  });
+  console.log(registeredClass);
+  return registeredClass;
+};

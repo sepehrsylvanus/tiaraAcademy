@@ -25,7 +25,6 @@ import { toast } from "react-toastify";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -247,7 +246,7 @@ const Classes = () => {
             <Skeleton className="w-full h-[250px] rounded-md" />
           </>
         ) : filteredClasses && playlists ? (
-          <div>
+          <>
             {filteredClasses?.map((eachClass) => {
               let days = eachClass.days.join(" / ");
 
@@ -264,9 +263,12 @@ const Classes = () => {
                       }`}</p>
 
                       <p>{eachClass.price}</p>
-
-                      <Chip label={eachClass.type} />
-                      {eachClass.fix && <Chip label={eachClass.fix && "Fix"} />}
+                      <div className="flex flex-col gap-2">
+                        <Chip label={eachClass.type} />
+                        {eachClass.fix && (
+                          <Chip label={eachClass.fix && "Fix"} />
+                        )}
+                      </div>
                     </div>
 
                     <p className=" font-semibold mt-2">
@@ -306,8 +308,9 @@ const Classes = () => {
               .filter((playlist) => playlist.type === "private")
               .map((playlist) => (
                 <Card key={playlist.id} className="text-center ">
-                  <CardHeader>
+                  <CardHeader className="flex flex-col items-center">
                     <CardTitle>{playlist.title}</CardTitle>
+                    <Chip label="Playlist" className="w-fit" />
                   </CardHeader>
                   <CardContent className=" relative overflow-hidden">
                     <Meteors />
@@ -336,7 +339,7 @@ const Classes = () => {
                   </CardFooter>
                 </Card>
               ))}
-          </div>
+          </>
         ) : (
           <p>There is an error in server</p>
         )}

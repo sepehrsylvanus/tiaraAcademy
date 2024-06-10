@@ -56,7 +56,6 @@ model Class {
   creatorId  String
   creator    User         @relation(fields: [creatorId], references: [id])
   duration   String[]
-  time       String?
 }
 
 model ClassUsers {

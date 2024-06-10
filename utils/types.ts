@@ -23,7 +23,6 @@ export interface Class {
   creatorId: string;
   creator?: User;
   duration: string[];
-  time: string | null;
 }
 
 export interface UserProps {
@@ -57,9 +56,9 @@ export interface UserClasses {
   id: string;
   classId: string;
   userId: string;
-  date: string;
+  date: Date;
   capacity: number;
-  class: Class;
+
   time: string;
 }
 export interface WritingAnswer {

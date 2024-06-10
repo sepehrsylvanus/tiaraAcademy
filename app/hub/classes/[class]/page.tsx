@@ -18,14 +18,22 @@ import SchoolIcon from "@mui/icons-material/School";
 import ClassesDate from "@/components/classesDate/ClassesDate";
 import CustomSelect from "@/components/customSelect/CustomSelect";
 
-import { getSingleClass } from "@/actions/actions";
+import {
+  getRegisterdClasses,
+  getSingleClass,
+  getToken,
+} from "@/actions/actions";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
-import { Class } from "@/utils/types";
+import { Class, UserClasses } from "@/utils/types";
 import { Axios } from "@/utils/axiosIn";
 import { toast } from "react-toastify";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { privateTimes, publicTimes } from "@/constants";
+import { useGetRegisteredClasses } from "@/hooks/useGetRegisteredClasses";
+import { useQuery } from "@tanstack/react-query";
+import { getSingleUser } from "@/actions/userActions";
+import prisma from "@/utils/db";
 
 type DetailsProps = {
   params: {
@@ -41,7 +49,9 @@ const classValidation = z.object({
 const MyClass = (details: DetailsProps) => {
   const { params } = details;
   const [singleClass, setSingleClass] = useState<Class>();
-
+  const [registeredClasses, setRegisteredClasses] = useState<
+    UserClasses[] | undefined
+  >();
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     const fetchClassData = async () => {
@@ -52,8 +62,34 @@ const MyClass = (details: DetailsProps) => {
     };
     fetchClassData();
   }, []);
+  const { data: token } = useQuery({
+    queryKey: ["getToken"],
+    queryFn: async () => await getToken(),
+  });
+  const { data: currentUser } = useQuery({
+    queryKey: ["getCurrentUser"],
+    queryFn: async () => await getSingleUser(token?.value!),
+  });
+  // const { data: registeredClasses, isLoading } = useGetRegisteredClasses(
+  //   params.class,
+  //   currentUser?.id!
+  // );
 
   // FORM OPERATIONS
+  console.log(token);
+  console.log(currentUser);
+  useEffect(() => {
+    const fetchRegisteredClasses = async () => {
+      if (currentUser) {
+        const myRegistered = await getRegisterdClasses(
+          params.class,
+          currentUser?.id
+        );
+        setRegisteredClasses(myRegistered);
+      }
+    };
+    fetchRegisteredClasses();
+  }, [currentUser]);
 
   const registerForm = useForm<z.infer<typeof classValidation>>({
     resolver: zodResolver(classValidation),
@@ -62,16 +98,29 @@ const MyClass = (details: DetailsProps) => {
   const selectedDate = registerForm.watch("date");
   const onSubmit = (values: z.infer<typeof classValidation>) => {
     setLoading(true);
-
-    Axios.post("/registerClass", { ...values, classId: params.class })
-      .then((res) => {
-        toast.success(res.data.message);
-        setLoading(false);
-      })
-      .catch((err) => {
-        toast.error(err);
-        setLoading(false);
-      });
+    console.log(values.time);
+    console.log(values.date);
+    if (
+      registeredClasses?.find(
+        (item) =>
+          item.userId === currentUser?.id &&
+          item.date.toISOString() === values.date.toISOString() &&
+          item.time === values.time
+      )
+    ) {
+      toast.error("You already registered in this class");
+      setLoading(false);
+    } else {
+      Axios.post("/registerClass", { ...values, classId: params.class })
+        .then((res) => {
+          toast.success(res.data.message);
+          setLoading(false);
+        })
+        .catch((err) => {
+          toast.error(err);
+          setLoading(false);
+        });
+    }
   };
 
   return (
@@ -154,12 +203,14 @@ const MyClass = (details: DetailsProps) => {
                 Meeting Link (click here!)
               </Link> */}
               {singleClass && (
-                <ClassesDate
-                  selectedDate={selectedDate?.toISOString()}
-                  classId={params.class}
-                  classDates={singleClass?.days}
-                  singleClass={singleClass}
-                />
+                <div className=" scale-125 md:scale-150 my-[4em]">
+                  <ClassesDate
+                    selectedDate={selectedDate?.toISOString()}
+                    classId={params.class}
+                    classDates={singleClass?.days}
+                    singleClass={singleClass}
+                  />
+                </div>
               )}
               {selectedDate && singleClass && (
                 <div className={styles.chooseClassTime}>

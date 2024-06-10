@@ -98,6 +98,9 @@ a {
 .ck-toolbar__separator {
   display: none !important;
 }
+.css-1u23akw-MuiButtonBase-root-MuiPickersDay-root.Mui-disabled {
+  color: red !important;
+}
 @layer base {
   h1 {
     @apply text-3xl font-bold;

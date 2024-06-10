@@ -35,12 +35,6 @@ const formSchema = z.object({
   times: z.array(z.string()),
   duration: z.array(z.string()).optional(),
   fix: z.boolean().optional(),
-  time: z
-    .date()
-    .optional()
-    .transform(
-      (value) => value && `${value?.getHours()}:${value?.getMinutes()}`
-    ),
 });
 
 const days = [
@@ -177,7 +171,6 @@ const CreateClass = () => {
               onChange={field.onChange}
               multiple
               label="Select your days"
-              disabled={toggleFix}
               name="days"
               sx={{ backgroundColor: "#c6d9e6" }}
             >
@@ -267,7 +260,6 @@ const CreateClass = () => {
               onChange={field.onChange}
               label="Select your time"
               name="time"
-              disabled={toggleFix}
               value={field.value}
               multiple
               sx={{ backgroundColor: "#c6d9e6" }}
@@ -324,25 +316,7 @@ const CreateClass = () => {
           )}
         />
       </div>
-      <div className=" col-span-2">
-        <Controller
-          name="time"
-          control={form.control}
-          render={({ field }) => (
-            <TimePicker
-              sx={{
-                "& .MuiInputLabel-root.Mui-focused ": {
-                  color: "#072d44",
-                },
-              }}
-              disabled={!toggleFix}
-              onChange={field.onChange}
-              label="Choose your desired time"
-              className="formInput w-full p-0"
-            />
-          )}
-        />
-      </div>
+
       <Button type="submit" className="col-span-2">
         {sending ? (
           <div style={{ transform: "scale(.7)" }}>
