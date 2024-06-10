@@ -1,7 +1,7 @@
 import { getToken } from "@/actions/actions";
 import { getSingleUser } from "@/actions/userActions";
 import prisma from "@/utils/db";
-import { Class, User, UserClasses } from "@/utils/types";
+import { Class, User } from "@/utils/types";
 import { NextRequest, NextResponse } from "next/server";
 type registerClassProps = {
   date: Date;
@@ -30,7 +30,7 @@ export const POST = async (req: NextRequest) => {
       data: {
         classId: data.classId,
         userId: user.id,
-        date: data.date,
+        date: data.date.toISOString(),
         time: data.time,
         capacity: myClass.capacity - 1,
       },
@@ -39,7 +39,7 @@ export const POST = async (req: NextRequest) => {
     const allThisClass = await prisma.classUsers.findMany({
       where: {
         classId: data.classId,
-        date: data.date,
+        date: data.date.toISOString(),
         time: data.time,
       },
     });
@@ -48,7 +48,7 @@ export const POST = async (req: NextRequest) => {
       data: {
         classId: data.classId,
         userId: user.id,
-        date: data.date,
+        date: data.date.toISOString(),
         time: data.time,
         capacity: myClass.capacity - (allThisClass.length + 1),
       },

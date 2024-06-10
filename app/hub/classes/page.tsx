@@ -211,8 +211,9 @@ const Classes = () => {
                     label="Choose your teacher"
                   >
                     <MenuItem value="">Without filter</MenuItem>
-                    {teachersname?.map((eachName) => (
+                    {teachersname?.map((eachName, index) => (
                       <MenuItem
+                        key={index}
                         value={eachName.split(" ").join("").toLowerCase()}
                       >
                         {eachName}

@@ -479,6 +479,9 @@ export const getRegisterdClasses = async (classId: string, userId: string) => {
         { userId },
       ],
     },
+    include: {
+      class: true,
+    },
   });
   console.log(registeredClass);
   return registeredClass;

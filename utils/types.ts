@@ -56,9 +56,9 @@ export interface UserClasses {
   id: string;
   classId: string;
   userId: string;
-  date: Date;
+  date: string;
   capacity: number;
-
+  class: Class;
   time: string;
 }
 export interface WritingAnswer {

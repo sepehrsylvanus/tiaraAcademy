@@ -59,12 +59,12 @@ model Class {
 }
 
 model ClassUsers {
-  id       String   @id @default(cuid()) @map("_id")
+  id       String @id @default(cuid()) @map("_id")
   classId  String
-  class    Class    @relation(fields: [classId], references: [id])
+  class    Class  @relation(fields: [classId], references: [id])
   userId   String
-  user     User     @relation(fields: [userId], references: [id])
-  date     DateTime
+  user     User   @relation(fields: [userId], references: [id])
+  date     String
   time     String
   capacity Int
 }

@@ -63,9 +63,12 @@ const ClassesDate = ({
     if (!dayValues?.includes(date.getDay() as 0 | 1 | 2 | 3 | 4 | 5 | 6))
       return true;
 
-    const isRunOut = justThisClass?.filter(
-      (item) => item.capacity === 0 && item.date === date.toISOString()
-    );
+    const isRunOut = justThisClass?.filter((item) => {
+      console.log(item.date);
+      console.log(date.toISOString());
+
+      return item.capacity === 0 && item.date === date.toISOString();
+    });
 
     if (isRunOut?.length === singleClass.times.length) return true;
 

@@ -100,27 +100,37 @@ const MyClass = (details: DetailsProps) => {
     setLoading(true);
     console.log(values.time);
     console.log(values.date);
-    if (
-      registeredClasses?.find(
-        (item) =>
-          item.userId === currentUser?.id &&
-          item.date.toISOString() === values.date.toISOString() &&
-          item.time === values.time
-      )
-    ) {
-      toast.error("You already registered in this class");
-      setLoading(false);
-    } else {
-      Axios.post("/registerClass", { ...values, classId: params.class })
-        .then((res) => {
-          toast.success(res.data.message);
-          setLoading(false);
-        })
-        .catch((err) => {
-          toast.error(err);
-          setLoading(false);
-        });
-    }
+    Axios.post("/registerClass", { ...values, classId: params.class })
+      .then((res) => {
+        toast.success(res.data.message);
+        setLoading(false);
+      })
+      .catch((err) => {
+        toast.error(err);
+        setLoading(false);
+      });
+
+    // if (
+    //   registeredClasses?.find(
+    //     (item) =>
+    //       item.userId === currentUser?.id &&
+    //       item.date === values.date.toISOString() &&
+    //       item.time === values.time
+    //   )
+    // ) {
+    //   toast.error("You already registered in this class");
+    //   setLoading(false);
+    // } else {
+    //   Axios.post("/registerClass", { ...values, classId: params.class })
+    //     .then((res) => {
+    //       toast.success(res.data.message);
+    //       setLoading(false);
+    //     })
+    //     .catch((err) => {
+    //       toast.error(err);
+    //       setLoading(false);
+    //     });
+    // }
   };
 
   return (

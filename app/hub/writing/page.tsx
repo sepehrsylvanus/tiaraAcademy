@@ -4,8 +4,6 @@ import { howTooStudy } from "@/constants";
 import Image from "next/image";
 import React from "react";
 const WritingPage = async () => {
-  const registeredClasses = await getRegisterdClasses();
-  console.log(registeredClasses);
   return (
     <TracingBeam className="h-[1240px]">
       <div className="px-[1em] ">

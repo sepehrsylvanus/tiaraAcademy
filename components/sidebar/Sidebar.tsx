@@ -108,6 +108,7 @@ const Sidebar = () => {
             ) : (
               playlists?.map((playlist) => (
                 <Link
+                  key={playlist.id}
                   href={`/hub/videos/playlist/${playlist.value}`}
                   className="flex items-center justify-around hover:bg-white transition px-2"
                 >

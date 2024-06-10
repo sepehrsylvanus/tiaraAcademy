@@ -32,7 +32,6 @@ const EachWritingCard: React.FC<{ writing: Writings }> = ({ writing }) => {
     url = pdfUrl;
   }
 
-
   return (
     <div
       key={writing.id}
