@@ -13,6 +13,7 @@ import Link from "next/link";
 import MyWritings from "../myWritings/MyWritings";
 import { Axios } from "@/utils/axiosIn";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import { toast } from "react-toastify";
 export default function StudentHub() {
   const [displayCount, setDisplayCount] = useState(3);
   const [featuredClasses, setFeaturedClasses] = useState<Class[]>();
@@ -21,6 +22,9 @@ export default function StudentHub() {
     setDisplayCount((prev: number) => prev + 2);
   };
 
+  const handleJoin = () => {
+    toast.success("You successfully registered in this class");
+  };
   useEffect(() => {
     try {
       Axios.get("/classes").then((res) => {
@@ -93,12 +97,20 @@ export default function StudentHub() {
                     </h4>
                   </CardContent>
                   <CardFooter>
-                    <Link
-                      href={`/hub/classes/${featuredClass.id}`}
-                      className="w-full"
-                    >
-                      <Button className="w-full">Join</Button>
-                    </Link>
+                    {!featuredClass.fix ? (
+                      <Link
+                        href={`/hub/classes/${featuredClass.id}`}
+                        className="w-full"
+                      >
+                        <Button className="w-full">Join</Button>
+                      </Link>
+                    ) : (
+                      <Link href={`#`} className="w-full">
+                        <Button className="w-full" onClick={handleJoin}>
+                          Join
+                        </Button>
+                      </Link>
+                    )}
                   </CardFooter>
                 </Card>
               );
