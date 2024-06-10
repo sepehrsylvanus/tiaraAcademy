@@ -17,7 +17,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import LogoutIcon from "@mui/icons-material/Logout";
 
 import { Button } from "../ui/button";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 import { toast } from "react-toastify";
 import { UserProps } from "@/utils/types";
@@ -30,13 +30,18 @@ const ClerkAvatar = () => {
   const [token, setToken] = useState<string>();
   const [user, setUser] = useState<UserProps>();
   const router = useRouter();
-
+  const pathName = usePathname();
+  console.log(pathName);
   const signout = async () => {
     setLoading(true);
     Axios.get("/signout")
       .then((res) => {
         toast(res.data);
-        router.push("/");
+        if (pathName !== "/") {
+          router.push("/");
+        } else {
+          router.refresh();
+        }
         setLoading(false);
       })
       .catch((e) => {
