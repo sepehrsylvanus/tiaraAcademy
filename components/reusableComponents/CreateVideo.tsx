@@ -120,71 +120,76 @@ const CreateVideo = ({ title }: { title: string }) => {
         className="formInput w-full "
         type="file"
         placeholder="Enter Your article title"
-        name="video"
-        accept=".mp4, .mkv"
+        name={title === "video" ? "video" : "image"}
+        accept={title === "video" ? ".mp4, .mkv" : ".jpg, .jpeg, .png"}
       />
-      <div className="formInput flex items-center">
-        <div className="flex flex-col w-full">
-          <input
-            type="text"
-            placeholder="Add a new playlist then choose"
-            name=""
-            id=""
-            className="w-full bg-transparent border-none outline-none"
-            onChange={(e) => setPlaylistTitle(e.target.value)}
-          />
-          <RadioGroup
-            row
-            defaultValue={playlistType}
-            onChange={(e) => {
-              if (e.target.value === "private" || e.target.value === "public") {
-                setPlaylistType(e.target.value);
-              }
-            }}
-          >
-            <FormControlLabel
-              value="public"
-              control={<Radio />}
-              label="Public"
-            />
-            <FormControlLabel
-              value="private"
-              control={<Radio />}
-              label="Private"
-            />
-          </RadioGroup>
-          {playlistType === "private" && (
+      {title === "video" && (
+        <div className="formInput flex items-center">
+          <div className="flex flex-col w-full">
             <input
               type="text"
-              placeholder="Price"
+              placeholder="Add a new playlist then choose"
               name=""
               id=""
               className="w-full bg-transparent border-none outline-none"
-              onChange={(e) => setPlaylistPrice(e.target.value)}
+              onChange={(e) => setPlaylistTitle(e.target.value)}
             />
-          )}
+            <RadioGroup
+              row
+              defaultValue={playlistType}
+              onChange={(e) => {
+                if (
+                  e.target.value === "private" ||
+                  e.target.value === "public"
+                ) {
+                  setPlaylistType(e.target.value);
+                }
+              }}
+            >
+              <FormControlLabel
+                value="public"
+                control={<Radio />}
+                label="Public"
+              />
+              <FormControlLabel
+                value="private"
+                control={<Radio />}
+                label="Private"
+              />
+            </RadioGroup>
+            {playlistType === "private" && (
+              <input
+                type="text"
+                placeholder="Price"
+                name=""
+                id=""
+                className="w-full bg-transparent border-none outline-none"
+                onChange={(e) => setPlaylistPrice(e.target.value)}
+              />
+            )}
+          </div>
+          <div
+            onClick={handleDeletePlayList}
+            className=" hover:scale-125 transition cursor-pointer"
+          >
+            <Delete />
+          </div>
+          <div
+            onClick={handleMakePlayList}
+            className=" hover:scale-125 transition cursor-pointer"
+          >
+            <Add />
+          </div>
         </div>
-        <div
-          onClick={handleDeletePlayList}
-          className=" hover:scale-125 transition cursor-pointer"
-        >
-          <Delete />
-        </div>
-        <div
-          onClick={handleMakePlayList}
-          className=" hover:scale-125 transition cursor-pointer"
-        >
-          <Add />
-        </div>
-      </div>
-      <FormControl>
+      )}
+      {/* <FormControl>
         <InputLabel
           classes={{
             focused: styles.selectLabel,
           }}
           id="playlist"
         >
-          Playlist
+          {title === "video" ? "Playlist" : "Category"}
         </InputLabel>
 
         <Select
@@ -201,11 +206,15 @@ const CreateVideo = ({ title }: { title: string }) => {
             </MenuItem>
           ))}
         </Select>
-      </FormControl>
+      </FormControl> */}
 
       <CKEditor
         editor={ClassicEditor}
-        data="<p>Erase this and write your caption ❤️</p>"
+        data={
+          title === "video"
+            ? "<p>Erase this and write your caption ❤️</p>"
+            : "<p>Write your article here ❤️</p> "
+        }
         onChange={(event, editor) => {
           console.log(editor.getData());
           setCaption(editor.getData());

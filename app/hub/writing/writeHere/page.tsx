@@ -82,7 +82,7 @@ const WriteHere = () => {
             accept=".png"
           />
           <label htmlFor="writingImg" className="formInput w-full py-4">
-            {selectedImage?.name && "Choosed => "}
+            {selectedImage?.name && "Chosen => "}
             {` ${
               selectedImage?.name ||
               "Not chosen yet :) - PLEASE SEND .png IMAGES"

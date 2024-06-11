@@ -11,9 +11,10 @@ import { CardFooter } from "@/components/ui/card";
 import Link from "next/link";
 import { getSingleUser } from "@/actions/userActions";
 import { toast } from "react-toastify";
-import { User, Video } from "@/utils/types";
+import { Playlist, User, Video } from "@/utils/types";
 import { userGetPlaylist } from "@/hooks/usePlayList";
 import styles from "@/app/hub/teachers/teacher.module.css";
+import { PlaylistUsers } from "@prisma/client";
 type ParamsProps = {
   params: {
     playlistName: string;
@@ -22,10 +23,8 @@ type ParamsProps = {
 const PlayListPage = async ({ params }: ParamsProps) => {
   const [currentUser, setCurrentUser] = useState<User>();
   const [videos, setVideos] = useState<Video[]>();
-  const { data: thisPlaylist, isLoading } = userGetPlaylist(
-    params.playlistName.charAt(0).toUpperCase() + params.playlistName.slice(1)
-  );
-  console.log(thisPlaylist);
+  const [thisPlaylist, setThisPlaylist] = useState<PlaylistUsers[]>();
+  const [isLoading, setIsLoading] = useState();
   useEffect(() => {
     const renderPage = async () => {
       const token = await getToken()!;
@@ -33,6 +32,12 @@ const PlayListPage = async ({ params }: ParamsProps) => {
       const videos = await getVideos();
       setCurrentUser(currentUser);
       setVideos(videos);
+      const { data: thisPlaylist, isLoading } = userGetPlaylist(
+        params.playlistName.charAt(0).toUpperCase() +
+          params.playlistName.slice(1)
+      );
+      console.log(thisPlaylist);
+      setThisPlaylist(thisPlaylist);
     };
     renderPage();
   }, []);
