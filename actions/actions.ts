@@ -486,3 +486,8 @@ export const getRegisterdClasses = async (classId: string, userId: string) => {
   console.log(registeredClass);
   return registeredClass;
 };
+
+export const getCategories = async () => {
+  const categories = await prisma.category.findMany();
+  return categories;
+};

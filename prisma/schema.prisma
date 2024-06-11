@@ -130,3 +130,11 @@ model Playlist {
   price         String?
   PlaylistUsers PlaylistUsers[]
 }
+
+model Category {
+  id    String  @id @default(cuid()) @map("_id")
+  title String  @unique
+  type  Type
+  value String
+  price String?
+}

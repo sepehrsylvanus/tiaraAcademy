@@ -47,6 +47,7 @@ const CreateVideo = ({ title }: { title: string }) => {
     setPlaylist(selectedPlaylists);
   };
   const { data: playlists, isLoading, error } = useGetPlaylists();
+  console.log(playlist);
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: ({
@@ -123,66 +124,62 @@ const CreateVideo = ({ title }: { title: string }) => {
         name={title === "video" ? "video" : "image"}
         accept={title === "video" ? ".mp4, .mkv" : ".jpg, .jpeg, .png"}
       />
-      {title === "video" && (
-        <div className="formInput flex items-center">
-          <div className="flex flex-col w-full">
+      <div className="formInput flex items-center">
+        <div className="flex flex-col w-full">
+          <input
+            type="text"
+            placeholder="Add a new category then choose"
+            name=""
+            id=""
+            className="w-full bg-transparent border-none outline-none"
+            onChange={(e) => setPlaylistTitle(e.target.value)}
+          />
+          <RadioGroup
+            row
+            defaultValue={playlistType}
+            onChange={(e) => {
+              if (e.target.value === "private" || e.target.value === "public") {
+                setPlaylistType(e.target.value);
+              }
+            }}
+          >
+            <FormControlLabel
+              value="public"
+              control={<Radio />}
+              label="Public"
+            />
+            <FormControlLabel
+              value="private"
+              control={<Radio />}
+              label="Private"
+            />
+          </RadioGroup>
+          {playlistType === "private" && (
             <input
               type="text"
-              placeholder="Add a new playlist then choose"
+              placeholder="Price"
               name=""
               id=""
               className="w-full bg-transparent border-none outline-none"
-              onChange={(e) => setPlaylistTitle(e.target.value)}
+              onChange={(e) => setPlaylistPrice(e.target.value)}
             />
-            <RadioGroup
-              row
-              defaultValue={playlistType}
-              onChange={(e) => {
-                if (
-                  e.target.value === "private" ||
-                  e.target.value === "public"
-                ) {
-                  setPlaylistType(e.target.value);
-                }
-              }}
-            >
-              <FormControlLabel
-                value="public"
-                control={<Radio />}
-                label="Public"
-              />
-              <FormControlLabel
-                value="private"
-                control={<Radio />}
-                label="Private"
-              />
-            </RadioGroup>
-            {playlistType === "private" && (
-              <input
-                type="text"
-                placeholder="Price"
-                name=""
-                id=""
-                className="w-full bg-transparent border-none outline-none"
-                onChange={(e) => setPlaylistPrice(e.target.value)}
-              />
-            )}
-          </div>
-          <div
-            onClick={handleDeletePlayList}
-            className=" hover:scale-125 transition cursor-pointer"
-          >
-            <Delete />
-          </div>
-          <div
-            onClick={handleMakePlayList}
-            className=" hover:scale-125 transition cursor-pointer"
-          >
-            <Add />
-          </div>
+          )}
         </div>
-      )}
-      {/* <FormControl>
+        <div
+          onClick={handleDeletePlayList}
+          className=" hover:scale-125 transition cursor-pointer"
+        >
+          <Delete />
+        </div>
+        <div
+          onClick={handleMakePlayList}
+          className=" hover:scale-125 transition cursor-pointer"
+        >
+          <Add />
+        </div>
+      </div>
+
+      <FormControl>
         <InputLabel
           classes={{
             focused: styles.selectLabel,
@@ -206,7 +203,7 @@ const CreateVideo = ({ title }: { title: string }) => {
             </MenuItem>
           ))}
         </Select>
-      </FormControl> */}
+      </FormControl>
 
       <CKEditor
         editor={ClassicEditor}

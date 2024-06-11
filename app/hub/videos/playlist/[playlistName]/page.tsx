@@ -23,8 +23,12 @@ type ParamsProps = {
 const PlayListPage = async ({ params }: ParamsProps) => {
   const [currentUser, setCurrentUser] = useState<User>();
   const [videos, setVideos] = useState<Video[]>();
-  const [thisPlaylist, setThisPlaylist] = useState<PlaylistUsers[]>();
-  const [isLoading, setIsLoading] = useState();
+  // const [thisPlaylist, setThisPlaylist] = useState<PlaylistUsers[]>();
+  // const [isLoading, setIsLoading] = useState();
+  const { data: thisPlaylist, isLoading } = userGetPlaylist(
+    params.playlistName.charAt(0).toUpperCase() + params.playlistName.slice(1)
+  );
+  console.log(thisPlaylist);
   useEffect(() => {
     const renderPage = async () => {
       const token = await getToken()!;
@@ -32,12 +36,12 @@ const PlayListPage = async ({ params }: ParamsProps) => {
       const videos = await getVideos();
       setCurrentUser(currentUser);
       setVideos(videos);
-      const { data: thisPlaylist, isLoading } = userGetPlaylist(
-        params.playlistName.charAt(0).toUpperCase() +
-          params.playlistName.slice(1)
-      );
-      console.log(thisPlaylist);
-      setThisPlaylist(thisPlaylist);
+      // const { data: thisPlaylist, isLoading } = userGetPlaylist(
+      //   params.playlistName.charAt(0).toUpperCase() +
+      //     params.playlistName.slice(1)
+      // );
+      // console.log(thisPlaylist);
+      // setThisPlaylist(thisPlaylist);
     };
     renderPage();
   }, []);
@@ -58,13 +62,15 @@ const PlayListPage = async ({ params }: ParamsProps) => {
   return (
     <div className="lg:pl-[3.5em]">
       <h1 className="h1 text-center">{params.playlistName.toUpperCase()}</h1>
-      <h2 className="text-center mt-4">
-        In order to see after part 3 you can{" "}
-        <Link href={"#"} className="text-extraText underline">
-          Sign in
-        </Link>{" "}
-        in this class
-      </h2>
+      {finalVideos && finalVideos?.length === 0 && (
+        <h2 className="text-center mt-4">
+          In order to see after part 3 you can{" "}
+          <Link href={"#"} className="text-extraText underline">
+            Sign in
+          </Link>{" "}
+          in this class
+        </h2>
+      )}
       <div
         className={`mt-8 ${
           finalVideos && finalVideos?.length > 0
@@ -81,10 +87,15 @@ const PlayListPage = async ({ params }: ParamsProps) => {
                   className={`${
                     index > 2 &&
                     thisPlaylist?.length === 0 &&
+                    currentUser?.role === "student" &&
+                    currentUser?.role.includes("teacher") &&
                     "pointer-events-none opacity-50"
                   }`}
                   href={
-                    index > 3 && thisPlaylist?.length === 0
+                    index > 3 &&
+                    thisPlaylist?.length === 0 &&
+                    currentUser?.role === "student" &&
+                    currentUser?.role.includes("teacher")
                       ? "#"
                       : `/hub/videos/${video.id}`
                   }

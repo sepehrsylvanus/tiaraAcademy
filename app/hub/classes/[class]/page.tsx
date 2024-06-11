@@ -49,9 +49,9 @@ const classValidation = z.object({
 const MyClass = (details: DetailsProps) => {
   const { params } = details;
   const [singleClass, setSingleClass] = useState<Class>();
-  const [registeredClasses, setRegisteredClasses] = useState<
-    UserClasses[] | undefined
-  >();
+  // const [registeredClasses, setRegisteredClasses] = useState<
+  //   UserClasses[] | undefined
+  // >();
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     const fetchClassData = async () => {
@@ -70,26 +70,26 @@ const MyClass = (details: DetailsProps) => {
     queryKey: ["getCurrentUser"],
     queryFn: async () => await getSingleUser(token?.value!),
   });
-  // const { data: registeredClasses, isLoading } = useGetRegisteredClasses(
-  //   params.class,
-  //   currentUser?.id!
-  // );
-
+  const { data: registeredClasses, isLoading } = useGetRegisteredClasses(
+    params.class,
+    currentUser?.id!
+  );
+  console.log(registeredClasses);
   // FORM OPERATIONS
   console.log(token);
   console.log(currentUser);
-  useEffect(() => {
-    const fetchRegisteredClasses = async () => {
-      if (currentUser) {
-        const myRegistered = await getRegisterdClasses(
-          params.class,
-          currentUser?.id
-        );
-        setRegisteredClasses(myRegistered);
-      }
-    };
-    fetchRegisteredClasses();
-  }, [currentUser]);
+  // useEffect(() => {
+  //   const fetchRegisteredClasses = async () => {
+  //     if (currentUser) {
+  //       const myRegistered = await getRegisterdClasses(
+  //         params.class,
+  //         currentUser?.id
+  //       );
+  //       setRegisteredClasses(myRegistered);
+  //     }
+  //   };
+  //   fetchRegisteredClasses();
+  // }, [currentUser]);
 
   const registerForm = useForm<z.infer<typeof classValidation>>({
     resolver: zodResolver(classValidation),
@@ -100,37 +100,28 @@ const MyClass = (details: DetailsProps) => {
     setLoading(true);
     console.log(values.time);
     console.log(values.date);
-    Axios.post("/registerClass", { ...values, classId: params.class })
-      .then((res) => {
-        toast.success(res.data.message);
-        setLoading(false);
-      })
-      .catch((err) => {
-        toast.error(err);
-        setLoading(false);
-      });
 
-    // if (
-    //   registeredClasses?.find(
-    //     (item) =>
-    //       item.userId === currentUser?.id &&
-    //       item.date === values.date.toISOString() &&
-    //       item.time === values.time
-    //   )
-    // ) {
-    //   toast.error("You already registered in this class");
-    //   setLoading(false);
-    // } else {
-    //   Axios.post("/registerClass", { ...values, classId: params.class })
-    //     .then((res) => {
-    //       toast.success(res.data.message);
-    //       setLoading(false);
-    //     })
-    //     .catch((err) => {
-    //       toast.error(err);
-    //       setLoading(false);
-    //     });
-    // }
+    if (
+      registeredClasses?.find(
+        (item) =>
+          item.userId === currentUser?.id &&
+          item.date === values.date.toISOString() &&
+          item.time === values.time
+      )
+    ) {
+      toast.error("You already registered in this class");
+      setLoading(false);
+    } else {
+      Axios.post("/registerClass", { ...values, classId: params.class })
+        .then((res) => {
+          toast.success(res.data.message);
+          setLoading(false);
+        })
+        .catch((err) => {
+          toast.error(err);
+          setLoading(false);
+        });
+    }
   };
 
   return (
