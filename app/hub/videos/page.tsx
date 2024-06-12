@@ -7,7 +7,7 @@ import GrammarCarousel from "@/components/carousel/GrammarCarousel";
 import Image from "next/image";
 import { Card, CardContent, CardMedia, Chip, Divider } from "@mui/material";
 
-const Blogs = () => {
+const Videos = () => {
   return (
     <div className={styles.container}>
       <div className="header flex flex-col items-center md:items-center md:justify-between text-center gap-4">
@@ -137,4 +137,4 @@ const Blogs = () => {
   );
 };
 
-export default Blogs;
+export default Videos;
