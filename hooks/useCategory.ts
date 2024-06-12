@@ -4,6 +4,9 @@ import { useQuery } from "@tanstack/react-query";
 export const useGetCategory = () => {
   return useQuery({
     queryKey: ["getCategory"],
-    queryFn: () => getCategories(),
+    queryFn: async () => {
+      const categories = getCategories();
+      return categories;
+    },
   });
 };

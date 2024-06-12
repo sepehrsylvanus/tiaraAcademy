@@ -11,6 +11,6 @@ const getCurrentUser = async () => {
 export function useGetUsers() {
   return useQuery({
     queryKey: ["users"],
-    queryFn: getCurrentUser,
+    queryFn: () => getCurrentUser,
   });
 }
