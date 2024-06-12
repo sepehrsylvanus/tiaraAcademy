@@ -76,6 +76,7 @@ export interface Video {
   bucketKey: string | null;
   playlist: string[];
   caption: string;
+  trend: boolean;
 }
 
 export interface Slide {
@@ -87,4 +88,6 @@ export interface Slide {
 export interface Playlist {
   title: string;
   value: string;
+  type: "private" | "public";
+  price?: string;
 }

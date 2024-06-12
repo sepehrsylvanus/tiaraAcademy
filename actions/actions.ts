@@ -491,3 +491,62 @@ export const getCategories = async () => {
   const categories = await prisma.category.findMany();
   return categories;
 };
+
+export const makeCategories = async (title: string) => {
+  const capitalizedTitle = title.charAt(0).toUpperCase() + title.slice(1);
+  await prisma.category.create({
+    data: {
+      title: capitalizedTitle,
+
+      value: title.toLowerCase(),
+    },
+  });
+};
+
+// export const deleteCategory = async (title: string) => {
+//   console.log(title);
+//   try {
+//     const oneToDelete = await prisma.playlist.findUnique({
+//       where: {
+//         title,
+//       },
+//     });
+//     if (!oneToDelete) {
+//       throw new Error("Desired playlist hasn't been found");
+//     } else {
+//       const videosToUpdate = await prisma.video.findMany({
+//         where: {
+//           playlist: {
+//             has: title.toLowerCase(),
+//           },
+//         },
+//       });
+//       console.log(videosToUpdate);
+
+//       if (videosToUpdate) {
+//         for (const video of videosToUpdate) {
+//           await prisma.video.updateMany({
+//             where: {
+//               id: video.id,
+//             },
+//             data: {
+//               playlist: {
+//                 set: video.playlist.filter(
+//                   (item) => item !== title.toLowerCase()
+//                 ),
+//               },
+//             },
+//           });
+//         }
+//       }
+//       await prisma.playlist.delete({
+//         where: {
+//           title,
+//         },
+//       });
+//     }
+//   } catch (error: any) {
+//     console.log(error.message);
+//     throw new Error(error.message);
+//   }
+// };

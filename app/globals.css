@@ -108,7 +108,18 @@ a {
   h2 {
     @apply text-2xl font-bold;
   }
-  /* Repeat for h3 to h6 if desired */
+  h3 {
+    @apply text-xl font-semibold;
+  }
+  h4 {
+    @apply text-lg font-semibold;
+  }
+  h5 {
+    @apply text-base font-semibold;
+  }
+  h6 {
+    @apply text-sm font-semibold;
+  }
 }
 @layer components {
   .h3 {

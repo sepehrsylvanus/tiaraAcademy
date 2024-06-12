@@ -108,12 +108,15 @@ model Video {
   videoLink String?
   playlist  String[]
   caption   String
+  trend     Boolean  @default(false)
 }
 
 model Blog {
-  id       String @id @default(cuid()) @map("_id")
-  image    String
-  contents String
+  id        String   @id @default(cuid()) @map("_id")
+  image     String
+  author    String
+  text      String
+  createdAt DateTime @default(now())
 }
 
 model Otp {
@@ -132,9 +135,8 @@ model Playlist {
 }
 
 model Category {
-  id    String  @id @default(cuid()) @map("_id")
-  title String  @unique
-  type  Type
+  id    String @id @default(cuid()) @map("_id")
+  title String @unique
+
   value String
-  price String?
 }

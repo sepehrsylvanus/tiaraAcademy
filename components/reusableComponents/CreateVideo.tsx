@@ -6,6 +6,7 @@ import React, { ChangeEvent, useEffect, useState } from "react";
 import {
   deletePlaylist,
   getPlaylists,
+  makeCategories,
   makePlaylist,
   postVideo,
 } from "@/actions/actions";
@@ -31,6 +32,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Playlist } from "@/utils/types";
 import { useGetPlaylists } from "@/hooks/usePlayList";
 import { Type } from "@prisma/client";
+import { useGetCategory } from "@/hooks/useCategory";
 
 const CreateVideo = ({ title }: { title: string }) => {
   const [loading, setLoading] = useState(false);
@@ -46,8 +48,10 @@ const CreateVideo = ({ title }: { title: string }) => {
 
     setPlaylist(selectedPlaylists);
   };
-  const { data: playlists, isLoading, error } = useGetPlaylists();
+  const { data: playlists } = useGetPlaylists();
   console.log(playlist);
+  const { data: categories } = useGetCategory();
+  console.log(categories);
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: ({
@@ -77,6 +81,13 @@ const CreateVideo = ({ title }: { title: string }) => {
       toast.error(error.message);
     },
   });
+  const createCatMutation = useMutation({
+    mutationFn: ({ title }: { title: string }) => makeCategories(title),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["getCategory"] });
+      toast.success("New category added");
+    },
+  });
   const handleSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
@@ -103,7 +114,11 @@ const CreateVideo = ({ title }: { title: string }) => {
         type: playlistType!,
         price: playlistPrice,
       };
-      mutation.mutate(playlistData);
+      if (title === "video") {
+        mutation.mutate(playlistData);
+      } else {
+        createCatMutation.mutate(playlistData);
+      }
     } else {
       console.error("Playlist title is undefined.");
     }
@@ -136,35 +151,42 @@ const CreateVideo = ({ title }: { title: string }) => {
             className="w-full bg-transparent border-none outline-none"
             onChange={(e) => setPlaylistTitle(e.target.value)}
           />
-          <RadioGroup
-            row
-            defaultValue={playlistType}
-            onChange={(e) => {
-              if (e.target.value === "private" || e.target.value === "public") {
-                setPlaylistType(e.target.value);
-              }
-            }}
-          >
-            <FormControlLabel
-              value="public"
-              control={<Radio />}
-              label="Public"
-            />
-            <FormControlLabel
-              value="private"
-              control={<Radio />}
-              label="Private"
-            />
-          </RadioGroup>
-          {playlistType === "private" && (
-            <input
-              type="text"
-              placeholder="Price"
-              name=""
-              id=""
-              className="w-full bg-transparent border-none outline-none"
-              onChange={(e) => setPlaylistPrice(e.target.value)}
-            />
+          {title === "video" && (
+            <div>
+              <RadioGroup
+                row
+                defaultValue={playlistType}
+                onChange={(e) => {
+                  if (
+                    e.target.value === "private" ||
+                    e.target.value === "public"
+                  ) {
+                    setPlaylistType(e.target.value);
+                  }
+                }}
+              >
+                <FormControlLabel
+                  value="public"
+                  control={<Radio />}
+                  label="Public"
+                />
+                <FormControlLabel
+                  value="private"
+                  control={<Radio />}
+                  label="Private"
+                />
+              </RadioGroup>
+              {playlistType === "private" && (
+                <input
+                  type="text"
+                  placeholder="Price"
+                  name=""
+                  id=""
+                  className="w-full bg-transparent border-none outline-none"
+                  onChange={(e) => setPlaylistPrice(e.target.value)}
+                />
+              )}
+            </div>
           )}
         </div>
         <div
@@ -199,11 +221,19 @@ const CreateVideo = ({ title }: { title: string }) => {
           name="playlists"
           sx={{ backgroundColor: "#c6d9e6", textAlign: "start" }}
         >
-          {playlists?.map((playlist) => (
-            <MenuItem key={playlist.value} value={playlist.value}>
-              {playlist.title}
-            </MenuItem>
-          ))}
+          {title === "video" &&
+            playlists?.map((playlist) => (
+              <MenuItem key={playlist.value} value={playlist.value}>
+                {playlist.title}
+              </MenuItem>
+            ))}
+
+          {title === "article" &&
+            categories?.map((category) => (
+              <MenuItem key={category.value} value={category.value}>
+                {category.title}
+              </MenuItem>
+            ))}
         </Select>
       </FormControl>
 
