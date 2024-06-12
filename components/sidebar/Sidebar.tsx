@@ -94,31 +94,6 @@ const Sidebar = () => {
           <OndemandVideoIcon />
           <p className={styles.menuText}>Videos</p>
         </Link>
-
-        <div className="w-full">
-          <div className="flex justify-center border-b border-dashed border-white">
-            <h3 className="h3  inline ">P</h3>
-            <h3 className={`${styles.menuText}  h3 `}>laylists</h3>
-          </div>
-          <div className="flex flex-col space-y-2 pt-4 overflow-y-scroll ">
-            {isLoading ? (
-              <CircularProgress
-                sx={{ color: "black", transform: "scale(.7)" }}
-              />
-            ) : (
-              playlists?.map((playlist) => (
-                <Link
-                  key={playlist.id}
-                  href={`/hub/videos/playlist/${playlist.value}`}
-                  className="flex items-center justify-around hover:bg-white transition px-2"
-                >
-                  <p>{playlist.title}</p>
-                  {playlist.type === "private" && <WorkspacePremiumIcon />}
-                </Link>
-              ))
-            )}
-          </div>
-        </div>
       </div>
     </div>
   );

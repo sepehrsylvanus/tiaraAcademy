@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import styles from "../blogs/blogs.module.css";
 
@@ -6,8 +7,11 @@ import Link from "next/link";
 import GrammarCarousel from "@/components/carousel/GrammarCarousel";
 import Image from "next/image";
 import { Card, CardContent, CardMedia, Chip, Divider } from "@mui/material";
+import { useGetPlaylists } from "@/hooks/usePlayList";
+import { Playlist } from "@/utils/types";
 
 const Videos = () => {
+  const { data: playlists } = useGetPlaylists();
   return (
     <div className={styles.container}>
       <div className="header flex flex-col items-center md:items-center md:justify-between text-center gap-4">
@@ -15,6 +19,16 @@ const Videos = () => {
         <p className=" w-fit md:w-[30rem]">
           Your Daily Dose of Viral Sensations
         </p>
+      </div>
+      <div className="flex gap-4">
+        {playlists?.map((playlist: Playlist) => (
+          <Link href={`/hub/videos/playlist/${playlist.value}`}>
+            <Chip
+              label={playlist.title}
+              className=" hover:bg-extraText hover:text-white transition"
+            />
+          </Link>
+        ))}
       </div>
       <Divider sx={{ border: "1px solid #b2bec3" }} />
       <div className="trending grid grid-cols-1 md:grid-cols-2 gap-5">

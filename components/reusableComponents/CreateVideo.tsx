@@ -68,7 +68,9 @@ const CreateVideo = ({ title }: { title: string }) => {
     mutationFn: (title: string) => deletePlaylist(title),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["getPlaylist"] });
-      toast.success("Your desired deleted");
+      toast.success(
+        `Your desired ${title === "video" ? "playlist" : "category"} deleted`
+      );
     },
     onError: (error) => {
       console.log(error.message);
