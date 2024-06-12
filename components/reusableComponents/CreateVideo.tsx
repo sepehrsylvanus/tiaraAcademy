@@ -4,8 +4,10 @@ import { Button } from "@/components/ui/button";
 
 import React, { ChangeEvent, useEffect, useState } from "react";
 import {
+  deleteCategory,
   deletePlaylist,
   getPlaylists,
+  makeArticle,
   makeCategories,
   makePlaylist,
   postVideo,
@@ -72,13 +74,19 @@ const CreateVideo = ({ title }: { title: string }) => {
     mutationFn: (title: string) => deletePlaylist(title),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["getPlaylist"] });
-      toast.success(
-        `Your desired ${title === "video" ? "playlist" : "category"} deleted`
-      );
+      toast.success("Your desired playist deleted");
     },
     onError: (error) => {
       console.log(error.message);
       toast.error(error.message);
+    },
+  });
+
+  const deleteCatMutation = useMutation({
+    mutationFn: async (title: string) => await deleteCategory(title),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["getCategory"] });
+      toast.success("Your desired category deleted");
     },
   });
   const createCatMutation = useMutation({
@@ -88,6 +96,7 @@ const CreateVideo = ({ title }: { title: string }) => {
       toast.success("New category added");
     },
   });
+
   const handleSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
@@ -99,7 +108,12 @@ const CreateVideo = ({ title }: { title: string }) => {
     const myCaption = formData.get("caption");
     console.log(myCaption);
     try {
-      await postVideo(formData);
+      if (title === "video") {
+        await postVideo(formData);
+      } else {
+        await makeArticle(formData);
+        console.log(formData);
+      }
       toast.success(`-${title}- uploaded successfully`);
     } catch (error) {
       toast.error("There was an error in uploading video:" + error);
@@ -124,8 +138,10 @@ const CreateVideo = ({ title }: { title: string }) => {
     }
   };
   const handleDeletePlayList = () => {
-    if (playlistTitle) {
+    if (playlistTitle && title === "video") {
       deleteMutation.mutate(playlistTitle);
+    } else if (title === "article") {
+      deleteCatMutation.mutate(playlistTitle!);
     } else {
       console.error("There is error in deletion");
     }
@@ -145,7 +161,9 @@ const CreateVideo = ({ title }: { title: string }) => {
         <div className="flex flex-col w-full">
           <input
             type="text"
-            placeholder="Add a new category then choose"
+            placeholder={`Add a new ${
+              title === "video" ? "playlist" : "category"
+            } then choose`}
             name=""
             id=""
             className="w-full bg-transparent border-none outline-none"

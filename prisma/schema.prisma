@@ -40,6 +40,7 @@ model User {
   Class         Class[]
   Writing       Writing[]
   PlaylistUsers PlaylistUsers[]
+  Blog          Blog[]
 }
 
 model Class {
@@ -112,11 +113,15 @@ model Video {
 }
 
 model Blog {
-  id        String   @id @default(cuid()) @map("_id")
-  image     String
-  author    String
-  text      String
-  createdAt DateTime @default(now())
+  id         String   @id @default(cuid()) @map("_id")
+  title      String
+  image      String?
+  author     User?    @relation(fields: [authorId], references: [id])
+  categories String[]
+  text       String
+  createdAt  DateTime @default(now())
+  authorId   String
+  bucketKey  String?
 }
 
 model Otp {

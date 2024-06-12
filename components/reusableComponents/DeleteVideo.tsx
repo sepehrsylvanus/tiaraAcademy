@@ -11,7 +11,7 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import { deleteVideo } from "@/actions/actions";
+import { deleteArticle, deleteVideo } from "@/actions/actions";
 import { ChangeEvent, useState } from "react";
 import { toast } from "react-toastify";
 import { CircularProgress } from "@mui/material";
@@ -31,9 +31,12 @@ const DeleteVideo = ({ title }: { title: string }) => {
         toast.success(`-${id}- deleted successfully`);
         setvideoId("");
       } else if (title === "article") {
+        await deleteArticle(id);
+        toast.success(`-${id}- deleted successfully`);
+        setvideoId("");
       }
     } catch (error) {
-      toast.error("There was an error in uploading video:" + error);
+      toast.error(`There was an error in deleting ${title}:` + error);
     } finally {
       setLoading(false);
     }

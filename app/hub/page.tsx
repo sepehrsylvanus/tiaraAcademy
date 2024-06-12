@@ -85,7 +85,7 @@ const Hub = async () => {
 
                 <div>
                   <p className="mb-2 text-start font-bold">Delete article</p>
-                  <DeleteVideo title="aritcle" />
+                  <DeleteVideo title="article" />
                 </div>
                 <div>
                   <p className="mb-2 text-start font-bold">Create article</p>

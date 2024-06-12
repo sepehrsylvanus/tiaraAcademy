@@ -233,7 +233,9 @@ export const postVideo = async (data: FormData) => {
   const newvideo = await prisma.video.create({
     data: videoData,
   });
-
+  if (!newvideo) {
+    throw new Error("Video creation interrupted!");
+  }
   const name = newvideo.id + "." + video.name.split(".").pop();
 
   try {
@@ -265,11 +267,10 @@ export const postVideo = async (data: FormData) => {
       },
     });
 
-    if (response) {
-    }
-
     return "Your video created sucessfully";
-  } catch (error) {}
+  } catch (error: any) {
+    throw new Error("There is an error in server: ", error);
+  }
 };
 
 export const deleteVideo = async (data: FormData) => {
@@ -298,15 +299,14 @@ export const deleteVideo = async (data: FormData) => {
     },
   });
 };
-export const deleteArticle = async (data: FormData) => {
-  const id = data.get("id") as string;
-
+export const deleteArticle = async (id: string) => {
+  console.log(id);
   const s3 = new S3({
     accessKeyId: process.env.NEXT_PUBLIC_LIARA_ACCESS_KEY_ID,
     secretAccessKey: process.env.NEXT_PUBLIC_LIARA_SECRET_ACCESS_KEY,
     endpoint: process.env.NEXT_PUBLIC_LIARA_ENDPOINT,
   });
-  const video = await prisma.video.findUnique({
+  const article = await prisma.blog.findUnique({
     where: {
       id,
     },
@@ -315,10 +315,10 @@ export const deleteArticle = async (data: FormData) => {
   const bucketName: string = process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME!;
 
   await s3
-    .deleteObject({ Bucket: bucketName, Key: video?.bucketKey! })
+    .deleteObject({ Bucket: bucketName, Key: article?.bucketKey! })
     .promise();
 
-  await prisma.video.delete({
+  await prisma.blog.delete({
     where: {
       id: id,
     },
@@ -503,50 +503,112 @@ export const makeCategories = async (title: string) => {
   });
 };
 
-// export const deleteCategory = async (title: string) => {
-//   console.log(title);
-//   try {
-//     const oneToDelete = await prisma.playlist.findUnique({
-//       where: {
-//         title,
-//       },
-//     });
-//     if (!oneToDelete) {
-//       throw new Error("Desired playlist hasn't been found");
-//     } else {
-//       const videosToUpdate = await prisma.video.findMany({
-//         where: {
-//           playlist: {
-//             has: title.toLowerCase(),
-//           },
-//         },
-//       });
-//       console.log(videosToUpdate);
+export const deleteCategory = async (title: string) => {
+  console.log(title);
+  try {
+    const oneToDelete = await prisma.category.findUnique({
+      where: {
+        title,
+      },
+    });
+    if (!oneToDelete) {
+      throw new Error("Desired category hasn't been found");
+    } else {
+      const articlesToUpdate = await prisma.blog.findMany({
+        where: {
+          categories: {
+            has: title.toLowerCase(),
+          },
+        },
+      });
+      console.log(articlesToUpdate);
 
-//       if (videosToUpdate) {
-//         for (const video of videosToUpdate) {
-//           await prisma.video.updateMany({
-//             where: {
-//               id: video.id,
-//             },
-//             data: {
-//               playlist: {
-//                 set: video.playlist.filter(
-//                   (item) => item !== title.toLowerCase()
-//                 ),
-//               },
-//             },
-//           });
-//         }
-//       }
-//       await prisma.playlist.delete({
-//         where: {
-//           title,
-//         },
-//       });
-//     }
-//   } catch (error: any) {
-//     console.log(error.message);
-//     throw new Error(error.message);
-//   }
-// };
+      if (articlesToUpdate) {
+        for (const article of articlesToUpdate) {
+          await prisma.blog.updateMany({
+            where: {
+              id: article.id,
+            },
+            data: {
+              categories: {
+                set: article.categories.filter(
+                  (item) => item !== title.toLowerCase()
+                ),
+              },
+            },
+          });
+        }
+      }
+      await prisma.category.delete({
+        where: {
+          title,
+        },
+      });
+    }
+  } catch (error: any) {
+    console.log(error.message);
+    throw new Error(error.message);
+  }
+};
+
+export const makeArticle = async (formData: FormData) => {
+  const token = await getToken()!;
+  const currentUser = await getSingleUser(token?.value);
+  const title = formData.get("title") as string;
+  const categories = formData.get("playlists") as string;
+  const image = formData.get("image") as File;
+  const authorId = currentUser?.id as string;
+  console.log(authorId);
+  const text = formData.get("caption") as string;
+  console.log(image);
+  const bytes = await image.arrayBuffer();
+  console.log(bytes);
+  const buffer = await Buffer.from(bytes);
+  console.log(buffer);
+  const articleData = {
+    title,
+
+    authorId,
+
+    categories: categories.split(","),
+    text,
+  };
+
+  const { id } = await prisma.blog.create({
+    data: articleData,
+  });
+  if (!id) {
+    throw new Error("Your article creation interrupted");
+  }
+  const name = id + "." + image.name.split(".").pop();
+  try {
+    const s3 = new S3({
+      accessKeyId: process.env.NEXT_PUBLIC_LIARA_ACCESS_KEY_ID,
+      secretAccessKey: process.env.NEXT_PUBLIC_LIARA_SECRET_ACCESS_KEY,
+      endpoint: process.env.NEXT_PUBLIC_LIARA_ENDPOINT,
+    });
+
+    const params = {
+      Bucket: process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME!,
+      Key: name,
+      Body: buffer!,
+    };
+    const response = await s3.upload(params).promise();
+    const permanentSignedUrl = s3.getSignedUrl("getObject", {
+      Bucket: process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME,
+      Key: name,
+      Expires: 31536000, // 1 year
+    });
+    await prisma.blog.update({
+      where: {
+        id,
+      },
+      data: {
+        bucketKey: name,
+        image: permanentSignedUrl,
+      },
+    });
+  } catch (error: any) {
+    throw new Error("There is an error in server: ", error);
+  }
+};
