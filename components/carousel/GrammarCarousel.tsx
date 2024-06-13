@@ -8,7 +8,7 @@ import {
 import { slides } from "@/utils/fakeData";
 import styles from "./grammarCarousel.module.css";
 import Link from "next/link";
-import { Slide } from "@/utils/types";
+import { Slide, Video } from "@/utils/types";
 import { Divider } from "@mui/material";
 
 const chunkedSlides: Slide[][] = [];
@@ -16,7 +16,7 @@ for (let i = 0; i < slides.length; i += 3) {
   chunkedSlides.push(slides.slice(i, i + 3));
 }
 
-const GrammarCarousel = () => {
+const GrammarCarousel = ({ videos }: { videos: Video[] }) => {
   return (
     <div>
       <div>

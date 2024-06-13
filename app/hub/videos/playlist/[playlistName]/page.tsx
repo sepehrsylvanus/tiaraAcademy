@@ -120,16 +120,14 @@ const PlayListPage = async ({ params }: ParamsProps) => {
                   </div>
                 </Link>
 
-                {video.playlist.map((eachPlaylist) => (
-                  <Chip
-                    label={eachPlaylist}
-                    sx={{
-                      color: "#072d44",
-                      backgroundColor: "#D0D7E1",
-                      margin: "1em 0",
-                    }}
-                  />
-                ))}
+                <Chip
+                  label={video.playlist}
+                  sx={{
+                    color: "#072d44",
+                    backgroundColor: "#D0D7E1",
+                    margin: "1em 0",
+                  }}
+                />
               </CardContent>
               <CardFooter className="flex flex-col  items-start p-4 pl-0 font-semibold">
                 {video.title}

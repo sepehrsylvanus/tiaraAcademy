@@ -6,7 +6,14 @@ import OtherBlogs from "@/components/otherBlogs/OtherBlogs";
 import Link from "next/link";
 import GrammarCarousel from "@/components/carousel/GrammarCarousel";
 import Image from "next/image";
-import { Card, CardContent, CardMedia, Chip, Divider } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  CardMedia,
+  Chip,
+  CircularProgress,
+  Divider,
+} from "@mui/material";
 import { useGetPlaylists } from "@/hooks/usePlayList";
 import { Playlist, Video } from "@/utils/types";
 import { useGetVideos } from "@/hooks/useVideos";
@@ -38,7 +45,7 @@ const Videos = () => {
       {trendVideos && trendVideos?.length > 0 ? (
         <div className="trending grid grid-cols-1 md:grid-cols-2 gap-5">
           <div>
-            <Link href={"/hub/blogs/123465"}>
+            <Link href={`/hub/videos/${trendVideos[length - 1].id}`}>
               <Card className="h-full  transition hover:shadow-2xl ">
                 <CardMedia
                   sx={{ height: 200 }}
@@ -54,14 +61,13 @@ const Videos = () => {
                 >
                   <Chip
                     sx={{ color: "white" }}
-                    label="Grammer"
+                    label={trendVideos[length - 1].playlist}
                     variant="outlined"
                     className=" w-fit"
                   />
                   <div className="flex flex-col gap-4">
                     <h4 className=" font-bold text-2xl">
-                      Unraveling the Mysteries of Grammar: A Deep Dive into
-                      Language Structure
+                      {trendVideos[length - 1].title}
                     </h4>
                     <p className="text-sm">
                       Deciphering the Code of Communication: The Role of Grammar
@@ -69,7 +75,17 @@ const Videos = () => {
                     </p>
                   </div>
                   <p className="text-xs flex gap-2">
-                    <span>Khashayar Mohammadi</span>•<span>03 March 2020</span>
+                    <span>{`${trendVideos[length - 1].creator.fName} ${
+                      trendVideos[length - 1].creator.lName
+                    }`}</span>
+                    •
+                    <span>{`${trendVideos[
+                      length - 1
+                    ].createDate.getFullYear()} / ${trendVideos[
+                      length - 1
+                    ].createDate.getMonth()} / ${trendVideos[
+                      length - 1
+                    ].createDate.getDay()}`}</span>
                   </p>
                 </CardContent>
               </Card>
@@ -87,16 +103,25 @@ const Videos = () => {
               <div className="flex flex-col justify-between gap-4 md:gap-0 items-center md:items-start">
                 <Chip
                   variant="outlined"
-                  label="Vocabulary"
+                  label={trendVideos[length - 2].playlist}
                   className=" w-fit"
                 />
                 <div>
                   <h4 className=" mb-2 font-extrabold text-center md:text-start">
-                    Mastering the Lexicon: Unlocking the Power of Words for
-                    Effective Communication and Learning
+                    {trendVideos[length - 2].title}
                   </h4>
                   <p className="text-xs flex gap-2 justify-center md:justify-start">
-                    <span>Khashayar Mohammadi</span>•<span>03 March 2020</span>
+                    <span>{`${trendVideos[length - 2].creator.fName} ${
+                      trendVideos[length - 2].creator.lName
+                    }`}</span>
+                    •
+                    <span>{`${trendVideos[
+                      length - 2
+                    ].createDate.getFullYear()} / ${trendVideos[
+                      length - 2
+                    ].createDate.getMonth()} / ${trendVideos[
+                      length - 2
+                    ].createDate.getDay()}`}</span>
                   </p>
                 </div>
               </div>
@@ -112,16 +137,25 @@ const Videos = () => {
               <div className="flex flex-col justify-between gap-4 md:gap-0 items-center md:items-start">
                 <Chip
                   variant="outlined"
-                  label="Vocabulary"
+                  label={trendVideos[length - 3].playlist}
                   className=" w-fit"
                 />
                 <div>
                   <h4 className=" mb-2 font-extrabold text-center md:text-start">
-                    Mastering the Lexicon: Unlocking the Power of Words for
-                    Effective Communication and Learning
+                    {trendVideos[length - 3].title}
                   </h4>
                   <p className="text-xs flex gap-2 justify-center md:justify-start">
-                    <span>Khashayar Mohammadi</span>•<span>03 March 2020</span>
+                    <span>{`${trendVideos[length - 1].creator.fName} ${
+                      trendVideos[length - 3].creator.lName
+                    }`}</span>
+                    •{" "}
+                    <span>{`${trendVideos[
+                      length - 3
+                    ].createDate.getFullYear()} / ${trendVideos[
+                      length - 3
+                    ].createDate.getMonth()} / ${trendVideos[
+                      length - 3
+                    ].createDate.getDay()}`}</span>
                   </p>
                 </div>
               </div>
@@ -137,16 +171,25 @@ const Videos = () => {
               <div className="flex flex-col justify-between gap-4 md:gap-0 items-center md:items-start">
                 <Chip
                   variant="outlined"
-                  label="Vocabulary"
+                  label={trendVideos[length - 4].playlist}
                   className=" w-fit"
                 />
                 <div>
                   <h4 className=" mb-2 font-extrabold text-center md:text-start">
-                    Mastering the Lexicon: Unlocking the Power of Words for
-                    Effective Communication and Learning
+                    {trendVideos[length - 4].title}
                   </h4>
                   <p className="text-xs flex gap-2 justify-center md:justify-start">
-                    <span>Khashayar Mohammadi</span>•<span>03 March 2020</span>
+                    <span>{`${trendVideos[length - 4].creator.fName} ${
+                      trendVideos[length - 4].creator.lName
+                    }`}</span>
+                    •
+                    <span>{`${trendVideos[
+                      length - 4
+                    ].createDate.getFullYear()} / ${trendVideos[
+                      length - 4
+                    ].createDate.getMonth()} / ${trendVideos[
+                      length - 4
+                    ].createDate.getDay()}`}</span>
                   </p>
                 </div>
               </div>
@@ -159,16 +202,18 @@ const Videos = () => {
         </div>
       )}
 
-      <div className="grammarCarousel">
-        <GrammarCarousel />
-      </div>
-
       <div>
-        <h3 className="h1 text-4xl mb-3">Grammar Article</h3>
+        <h3 className="h1 text-4xl mb-3 text-center">All videos</h3>
         <Divider sx={{ border: "1px solid #b2bec3", margin: "1em 0" }} />
       </div>
 
-      <OtherBlogs />
+      {videos ? (
+        <OtherBlogs videos={videos} />
+      ) : (
+        <div className="w-full flex justify-center">
+          <CircularProgress sx={{ color: "#072d44" }} />
+        </div>
+      )}
     </div>
   );
 };

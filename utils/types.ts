@@ -1,3 +1,6 @@
+import { User } from "lucide-react";
+import { boolean } from "zod";
+
 export interface User {
   id: string;
   fName: string;
@@ -74,8 +77,24 @@ export interface Video {
   title: string;
   videoLink: string | null;
   bucketKey: string | null;
-  playlist: string[];
+  playlist: string;
   caption: string;
+  trend: boolean;
+  creatorId: string;
+  creator?: User;
+  createDate: Date;
+}
+
+export interface Blogs {
+  id: string;
+  title: string;
+  image: string | null;
+  author: User;
+  categories: string;
+  text: string;
+  createdAt: Date;
+  authorId: string;
+  bucketKey: string | null;
   trend: boolean;
 }
 
@@ -89,5 +108,5 @@ export interface Playlist {
   title: string;
   value: string;
   type: "private" | "public";
-  price?: string;
+  price: string | null;
 }

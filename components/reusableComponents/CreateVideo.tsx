@@ -102,19 +102,22 @@ const CreateVideo = ({ title }: { title: string }) => {
     setLoading(true);
 
     const formData = new FormData(e.currentTarget);
-    const title = formData.get("title") as string;
-
+    const formTitle = formData.get("title") as string;
+    console.log(formData);
+    console.log(title);
     formData.set("caption", caption);
     const myCaption = formData.get("caption");
     console.log(myCaption);
     try {
       if (title === "video") {
+        console.log("here");
         await postVideo(formData);
-      } else {
+        toast.success(`-${title}- uploaded successfully`);
+      } else if (title === "article") {
         await makeArticle(formData);
         console.log(formData);
+        toast.success(`-${title}- uploaded successfully`);
       }
-      toast.success(`-${title}- uploaded successfully`);
     } catch (error) {
       toast.error("There was an error in uploading video:" + error);
     } finally {
@@ -234,7 +237,6 @@ const CreateVideo = ({ title }: { title: string }) => {
         <Select
           defaultValue={playlist}
           onChange={handlePlaylistChange}
-          multiple
           label="Select your playlist"
           name="playlists"
           sx={{ backgroundColor: "#c6d9e6", textAlign: "start" }}

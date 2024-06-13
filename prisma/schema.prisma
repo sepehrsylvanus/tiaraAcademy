@@ -41,6 +41,7 @@ model User {
   Writing       Writing[]
   PlaylistUsers PlaylistUsers[]
   Blog          Blog[]
+  Video         Video[]
 }
 
 model Class {
@@ -103,25 +104,29 @@ model writingAnswer {
 }
 
 model Video {
-  id        String   @id @default(cuid()) @map("_id")
-  title     String
-  bucketKey String?
-  videoLink String?
-  playlist  String[]
-  caption   String
-  trend     Boolean  @default(false)
+  id         String   @id @default(cuid()) @map("_id")
+  title      String
+  bucketKey  String?
+  videoLink  String?
+  playlist   String
+  caption    String
+  creatorId  String
+  creator    User     @relation(fields: [creatorId], references: [id])
+  trend      Boolean  @default(false)
+  createDate DateTime @default(now())
 }
 
 model Blog {
   id         String   @id @default(cuid()) @map("_id")
   title      String
   image      String?
-  author     User?    @relation(fields: [authorId], references: [id])
-  categories String[]
+  author     User     @relation(fields: [authorId], references: [id])
+  categories String
   text       String
   createdAt  DateTime @default(now())
   authorId   String
   bucketKey  String?
+  trend      Boolean  @default(false)
 }
 
 model Otp {

@@ -17,6 +17,7 @@
   padding: 0 4em;
   gap: 7em;
   overflow: hidden;
+  height: 100vh;
   @media (min-width: 768px) {
     overflow-y: scroll;
     padding: 0 7em;

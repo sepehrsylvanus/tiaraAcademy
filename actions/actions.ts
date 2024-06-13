@@ -217,17 +217,23 @@ export const getTeacherAnswer = async (writingId: string) => {
   return teacherAnswer;
 };
 export const postVideo = async (data: FormData) => {
+  const token = await getToken()!;
+  const currentUser = await getSingleUser(token?.value);
   const title = data.get("title") as string;
-  const playlists = data.get("playlists") as string;
+  const playlist = data.get("playlists") as string;
   const video = data.get("video") as File;
   const caption = data.get("caption") as string;
   console.log(caption);
+  console.log(video);
   const bytes = await video.arrayBuffer();
+  console.log(bytes);
   const buffer = await Buffer.from(bytes);
+  console.log(buffer);
   const videoData = {
     title,
-    playlist: playlists.split(","),
+    playlist,
     caption,
+    creatorId: currentUser?.id!,
   };
 
   const newvideo = await prisma.video.create({
@@ -325,7 +331,11 @@ export const deleteArticle = async (id: string) => {
   });
 };
 export const getVideos = async () => {
-  const videos = await prisma.video.findMany();
+  const videos = await prisma.video.findMany({
+    include: {
+      creator: true,
+    },
+  });
   return videos;
 };
 export const getPlaylists = async () => {
@@ -404,9 +414,7 @@ export const deletePlaylist = async (title: string) => {
     } else {
       const videosToUpdate = await prisma.video.findMany({
         where: {
-          playlist: {
-            has: title.toLowerCase(),
-          },
+          playlist: title.toLowerCase(),
         },
       });
       console.log(videosToUpdate);
@@ -418,11 +426,7 @@ export const deletePlaylist = async (title: string) => {
               id: video.id,
             },
             data: {
-              playlist: {
-                set: video.playlist.filter(
-                  (item) => item !== title.toLowerCase()
-                ),
-              },
+              playlist: title.toLowerCase(),
             },
           });
         }
@@ -516,9 +520,7 @@ export const deleteCategory = async (title: string) => {
     } else {
       const articlesToUpdate = await prisma.blog.findMany({
         where: {
-          categories: {
-            has: title.toLowerCase(),
-          },
+          categories: title.toLowerCase(),
         },
       });
       console.log(articlesToUpdate);
@@ -530,11 +532,7 @@ export const deleteCategory = async (title: string) => {
               id: article.id,
             },
             data: {
-              categories: {
-                set: article.categories.filter(
-                  (item) => item !== title.toLowerCase()
-                ),
-              },
+              categories: title.toLowerCase(),
             },
           });
         }
@@ -570,7 +568,7 @@ export const makeArticle = async (formData: FormData) => {
 
     authorId,
 
-    categories: categories.split(","),
+    categories: categories,
     text,
   };
 
@@ -611,4 +609,14 @@ export const makeArticle = async (formData: FormData) => {
   } catch (error: any) {
     throw new Error("There is an error in server: ", error);
   }
+};
+
+export const getArticles = async () => {
+  const articles = await prisma.blog.findMany({
+    include: {
+      author: true,
+    },
+  });
+
+  return articles;
 };
