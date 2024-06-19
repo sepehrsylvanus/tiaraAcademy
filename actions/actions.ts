@@ -620,3 +620,15 @@ export const getArticles = async () => {
 
   return articles;
 };
+
+export const getSignleArticle = async (id: string) => {
+  const article = await prisma.blog.findUnique({
+    where: {
+      id,
+    },
+    include: {
+      author: true,
+    },
+  });
+  return article;
+};

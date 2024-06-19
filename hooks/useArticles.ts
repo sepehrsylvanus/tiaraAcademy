@@ -1,4 +1,4 @@
-import { getArticles } from "@/actions/actions";
+import { getArticles, getSignleArticle } from "@/actions/actions";
 import { useQuery } from "@tanstack/react-query";
 
 export const useGetBlogs = () => {
@@ -7,6 +7,16 @@ export const useGetBlogs = () => {
     queryFn: async () => {
       const articles = await getArticles();
       return articles;
+    },
+  });
+};
+
+export const useGetSingleBlog = (id: string) => {
+  return useQuery({
+    queryKey: ["getSingleBlog"],
+    queryFn: async () => {
+      const article = await getSignleArticle(id);
+      return article;
     },
   });
 };

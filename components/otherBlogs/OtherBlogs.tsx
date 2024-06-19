@@ -1,13 +1,15 @@
 "use client";
-import { slides } from "@/utils/fakeData";
+
 import { CardMedia, Chip } from "@mui/material";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 
 import Link from "next/link";
 import React, { useState } from "react";
 import { Button } from "../ui/button";
 import { Blogs, Video } from "@/utils/types";
 import { usePathname } from "next/navigation";
+import { useGetCurrentUser } from "@/hooks/useGetUsers";
+import { toast } from "react-toastify";
 
 const OtherBlogs = ({
   videos,
@@ -21,6 +23,15 @@ const OtherBlogs = ({
   console.log(pathName);
   const handleLoadMore = () => {
     setItemsToShow(itemsToShow + 3);
+  };
+  const { data: currentUser } = useGetCurrentUser();
+  const copyToClipboard = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      toast("Copied to clipboard");
+    } catch (err) {
+      console.error("Failed to copy text: ", err);
+    }
   };
   return (
     <div className="text-center">
@@ -56,6 +67,18 @@ const OtherBlogs = ({
                     <span>{`${article.createdAt.getFullYear()} / ${article.createdAt.getMonth()} / ${article.createdAt.getDay()}`}</span>
                   </p>
                 </CardContent>
+                <CardFooter>
+                  {(currentUser?.role.includes("admin") ||
+                    currentUser?.role.includes("adminTeacher") ||
+                    currentUser?.role.includes("teacher")) && (
+                    <p
+                      className=" cursor-pointer text-lg  md:text-base md:hover:scale-110 transition"
+                      onClick={() => copyToClipboard(article.id)}
+                    >
+                      {article.id}
+                    </p>
+                  )}
+                </CardFooter>
               </Card>
             </Link>
           ))}
@@ -92,6 +115,18 @@ const OtherBlogs = ({
                     <span>{`${video.createDate.getFullYear()} / ${video.createDate.getMonth()} / ${video.createDate.getDay()}`}</span>
                   </p>
                 </CardContent>
+                <CardFooter>
+                  {(currentUser?.role.includes("admin") ||
+                    currentUser?.role.includes("adminTeacher") ||
+                    currentUser?.role.includes("teacher")) && (
+                    <p
+                      className=" cursor-pointer text-lg  md:text-base md:hover:scale-110 transition"
+                      onClick={() => copyToClipboard(video.id)}
+                    >
+                      {video.id}
+                    </p>
+                  )}
+                </CardFooter>
               </Card>
             </Link>
           ))}

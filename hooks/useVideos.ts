@@ -5,7 +5,7 @@ export const useGetVideos = () => {
   return useQuery({
     queryKey: ["getVideos"],
     queryFn: async () => {
-      const videos = await getVideos();
+    const videos = await getVideos();
       return videos;
     },
   });

@@ -13,7 +13,7 @@ const nextConfig = {
         hostname: "firebasestorage.googleapis.com",
       },
       {
-        hostname: "blissful-aryabhata-vfxiizwlv.storage.iran.liara.space",
+        hostname: "infallible-zhukovsky-7f1f128am.storage.iran.liara.space",
       },
     ],
   },

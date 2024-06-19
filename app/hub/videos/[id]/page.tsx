@@ -38,7 +38,7 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
         <div
           className=" ml-3 md:ml-[5em] p-4 pr-8 mt-4 rounded-xl bg-slate-50 w-fit mb-[10em]"
           dangerouslySetInnerHTML={{ __html: video?.caption }}
-        ></div>
+        />
       )}
     </div>
   );
