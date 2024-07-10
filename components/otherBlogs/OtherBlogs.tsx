@@ -90,11 +90,11 @@ const OtherBlogs = ({
       {pathName === "/hub/videos" && videos && videos?.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {videos?.slice(0, itemsToShow).map((video, index) => (
-            <Link href={`/hub/videos/${video.id}`}>
-              <Card
-                className="transition hover:shadow-xl bg-extraBg text-lightPrime"
-                key={index}
-              >
+            <Card
+              className="transition hover:shadow-xl bg-extraBg text-lightPrime"
+              key={index}
+            >
+              <Link href={`/hub/videos/${video.id}`}>
                 <CardMedia sx={{ height: 140 }} image="/article.jpg" />
                 <CardContent className="flex flex-col mt-4 items-center md:items-start gap-4">
                   <div className="flex items-center gap-5">
@@ -115,20 +115,21 @@ const OtherBlogs = ({
                     <span>{`${video.createDate.getFullYear()} / ${video.createDate.getMonth()} / ${video.createDate.getDay()}`}</span>
                   </p>
                 </CardContent>
-                <CardFooter>
-                  {(currentUser?.role.includes("admin") ||
-                    currentUser?.role.includes("adminTeacher") ||
-                    currentUser?.role.includes("teacher")) && (
-                    <p
-                      className=" cursor-pointer text-lg  md:text-base md:hover:scale-110 transition"
-                      onClick={() => copyToClipboard(video.id)}
-                    >
-                      {video.id}
-                    </p>
-                  )}
-                </CardFooter>
-              </Card>
-            </Link>
+              </Link>
+
+              <CardFooter>
+                {(currentUser?.role.includes("admin") ||
+                  currentUser?.role.includes("adminTeacher") ||
+                  currentUser?.role.includes("teacher")) && (
+                  <p
+                    className=" cursor-pointer text-lg  md:text-base md:hover:scale-110 transition"
+                    onClick={() => copyToClipboard(video.id)}
+                  >
+                    {video.id}
+                  </p>
+                )}
+              </CardFooter>
+            </Card>
           ))}
         </div>
       ) : (

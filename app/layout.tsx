@@ -9,7 +9,7 @@ import Loading from "./loading";
 import ClientCookieProvider from "@/providers/ClientCookieProvider";
 import ReactQueryProvider from "@/providers/ReactQueryProvider";
 import DateProvider from "@/providers/DateProvider";
-
+import logo from "../public/logo.png";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -24,6 +24,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className=" scroll-smooth">
+      <head>
+        <link rel="shortcut icon" href="/logo.svg" type="image/x-icon" />
+      </head>
       <body className={`${inter.className} bg-lightPrime text-lightText `}>
         <ReactQueryProvider>
           <ClientCookieProvider>

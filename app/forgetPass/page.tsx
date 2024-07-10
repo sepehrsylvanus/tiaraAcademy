@@ -126,7 +126,7 @@ const ForgetPass = () => {
       }, 0);
     }
   };
-
+  console.log("Hello world");
   useEffect(() => {
     if (countdown > 0) {
       const timerId = setTimeout(() => setCountdown(countdown - 1), 1000);

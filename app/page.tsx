@@ -22,7 +22,12 @@ export default async function Home() {
   return (
     <div className={`${styles.container} bg-lightPrime `}>
       <section className={`${styles.navbar} bg-lightPrime text-extraText`}>
-        <h3 className="h3 ">Tiara Academy</h3>
+        <Image
+          src={"/logo.png"}
+          alt="Tiara Academy logo"
+          width={85}
+          height={85}
+        />
         <div className={`${styles.navbarLeft} bg-lightPrime text-lightText`}>
           {" "}
           <Link className="text-lightText" href={"#services"}>
