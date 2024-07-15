@@ -66,7 +66,7 @@ const PlayListPage = async ({ params }: ParamsProps) => {
   };
 
   return (
-    <div className="lg:pl-[3.5em] mt-8">
+    <div className="lg:pl-[3.5em] pt-8">
       <h1 className="h1 text-center">{params.playlistName.toUpperCase()}</h1>
 
       <p>{singPlaylist?.description}</p>
