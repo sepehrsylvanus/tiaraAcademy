@@ -389,8 +389,10 @@ export const getRegisteredPlaylist = async (playlistTitle: string) => {
 export const makePlaylist = async (
   title: string,
   type: Type,
-  price: string
+  price: string,
+  description: string
 ) => {
+  console.log(description);
   const capitalizedTitle = title.charAt(0).toUpperCase() + title.slice(1);
   await prisma.playlist.create({
     data: {
@@ -398,6 +400,7 @@ export const makePlaylist = async (
       type,
       value: title.toLowerCase(),
       price,
+      description,
     },
   });
 };
@@ -631,4 +634,14 @@ export const getSignleArticle = async (id: string) => {
     },
   });
   return article;
+};
+
+export const getSinglePlaylist = async (title: string) => {
+  const myPlaylist = await prisma.playlist.findUnique({
+    where: {
+      title,
+    },
+  });
+
+  return myPlaylist;
 };

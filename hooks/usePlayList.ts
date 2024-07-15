@@ -1,6 +1,7 @@
 import {
   getPlaylists,
   getRegisteredPlaylist,
+  getSinglePlaylist,
   registerPlayList,
 } from "@/actions/actions";
 import prisma from "@/utils/db";
@@ -23,6 +24,16 @@ export function userGetPlaylist(title: string) {
     queryFn: async () => {
       const resgisteredPlaylist = await getRegisteredPlaylist(title);
       return resgisteredPlaylist;
+    },
+  });
+}
+
+export function useGetSinglePlaylist(title: string) {
+  return useQuery({
+    queryKey: ["singlePlaylist"],
+    queryFn: async () => {
+      const playlist = await getSinglePlaylist(title);
+      return playlist;
     },
   });
 }

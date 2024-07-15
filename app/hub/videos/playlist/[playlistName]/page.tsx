@@ -12,7 +12,7 @@ import Link from "next/link";
 import { getSingleUser } from "@/actions/userActions";
 import { toast } from "react-toastify";
 import { Playlist, User, Video } from "@/utils/types";
-import { userGetPlaylist } from "@/hooks/usePlayList";
+import { useGetSinglePlaylist, userGetPlaylist } from "@/hooks/usePlayList";
 import styles from "@/app/hub/teachers/teacher.module.css";
 import { PlaylistUsers } from "@prisma/client";
 type ParamsProps = {
@@ -28,6 +28,12 @@ const PlayListPage = async ({ params }: ParamsProps) => {
   const { data: thisPlaylist, isLoading } = userGetPlaylist(
     params.playlistName.charAt(0).toUpperCase() + params.playlistName.slice(1)
   );
+
+  const { data: singPlaylist, isLoading: singlePlaylistLoading } =
+    useGetSinglePlaylist(
+      params.playlistName.charAt(0).toUpperCase() + params.playlistName.slice(1)
+    );
+  console.log(singPlaylist);
   console.log(thisPlaylist);
   useEffect(() => {
     const renderPage = async () => {
@@ -60,8 +66,11 @@ const PlayListPage = async ({ params }: ParamsProps) => {
   };
 
   return (
-    <div className="lg:pl-[3.5em]">
+    <div className="lg:pl-[3.5em] mt-8">
       <h1 className="h1 text-center">{params.playlistName.toUpperCase()}</h1>
+
+      <p>{singPlaylist?.description}</p>
+
       {finalVideos && finalVideos?.length === 0 && (
         <h2 className="text-center mt-4">
           In order to see after part 3 you can{" "}

@@ -142,6 +142,7 @@ model Playlist {
   value         String
   price         String?
   PlaylistUsers PlaylistUsers[]
+  description   String
 }
 
 model Category {

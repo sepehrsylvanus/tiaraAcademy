@@ -23,10 +23,9 @@ import {
   RadioGroup,
   Select,
 } from "@mui/material";
-import { SelectChangeEvent, selectClasses } from "@mui/material/Select";
-import { root } from "postcss";
+import { SelectChangeEvent } from "@mui/material/Select";
 import styles from "./components.module.css";
-import { playlists } from "@/constants";
+
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { Add, Delete } from "@mui/icons-material";
@@ -35,6 +34,7 @@ import { Playlist } from "@/utils/types";
 import { useGetPlaylists } from "@/hooks/usePlayList";
 import { Type } from "@prisma/client";
 import { useGetCategory } from "@/hooks/useCategory";
+import { Input } from "../ui/input";
 
 const CreateVideo = ({ title }: { title: string }) => {
   const [loading, setLoading] = useState(false);
@@ -43,6 +43,7 @@ const CreateVideo = ({ title }: { title: string }) => {
   const [playlistTitle, setPlaylistTitle] = useState<string>();
   const [playlistType, setPlaylistType] = useState<Type>("public");
   const [playlistPrice, setPlaylistPrice] = useState("");
+  const [playlistDescription, setPlaylistDescription] = useState("");
   const handlePlaylistChange = (e: SelectChangeEvent<string[]>) => {
     const selectedPlaylists = Array.isArray(e.target.value)
       ? e.target.value
@@ -53,18 +54,23 @@ const CreateVideo = ({ title }: { title: string }) => {
   const { data: playlists } = useGetPlaylists();
   console.log(playlist);
   const { data: categories } = useGetCategory();
-  console.log(categories);
+  useEffect(() => {
+    console.log(playlistDescription);
+  }, [playlistDescription]);
+
   const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: ({
       title,
       type,
       price,
+      description,
     }: {
       title: string;
       type: Type;
       price: string;
-    }) => makePlaylist(title, type, price),
+      description: string;
+    }) => makePlaylist(title, type, price, description),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["getPlaylist"] });
       toast.success("New playlist added");
@@ -102,15 +108,16 @@ const CreateVideo = ({ title }: { title: string }) => {
     setLoading(true);
 
     const formData = new FormData(e.currentTarget);
-    const formTitle = formData.get("title") as string;
     console.log(formData);
     console.log(title);
     formData.set("caption", caption);
     const myCaption = formData.get("caption");
+
     console.log(myCaption);
     try {
       if (title === "video") {
         console.log("here");
+
         await postVideo(formData);
         toast.success(`-${title}- uploaded successfully`);
       } else if (title === "article") {
@@ -130,6 +137,7 @@ const CreateVideo = ({ title }: { title: string }) => {
         title: playlistTitle,
         type: playlistType!,
         price: playlistPrice,
+        description: playlistDescription,
       };
       if (title === "video") {
         mutation.mutate(playlistData);
@@ -167,8 +175,6 @@ const CreateVideo = ({ title }: { title: string }) => {
             placeholder={`Add a new ${
               title === "video" ? "playlist" : "category"
             } then choose`}
-            name=""
-            id=""
             className="w-full bg-transparent border-none outline-none"
             onChange={(e) => setPlaylistTitle(e.target.value)}
           />
@@ -208,6 +214,17 @@ const CreateVideo = ({ title }: { title: string }) => {
                 />
               )}
             </div>
+          )}
+
+          {title === "video" && (
+            <input
+              type="text"
+              name="description"
+              value={playlistDescription}
+              onChange={(e) => setPlaylistDescription(e.target.value)}
+              placeholder="Enter your description"
+              className="w-full bg-transparent border-none outline-none border-trans"
+            />
           )}
         </div>
         <div
