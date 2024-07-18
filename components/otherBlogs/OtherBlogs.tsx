@@ -10,7 +10,9 @@ import { Blogs, Video } from "@/utils/types";
 import { usePathname } from "next/navigation";
 import { useGetCurrentUser } from "@/hooks/useGetUsers";
 import { toast } from "react-toastify";
-
+import { Whatshot, WhatshotOutlined } from "@mui/icons-material";
+import { useMutation } from "@tanstack/react-query";
+import { useChangeTrend } from "@/hooks/useArticles";
 const OtherBlogs = ({
   videos,
   articles,
@@ -20,11 +22,22 @@ const OtherBlogs = ({
 }) => {
   const [itemsToShow, setItemsToShow] = useState(3);
   const pathName = usePathname();
-  console.log(pathName);
+  const trendArticles = articles?.filter((article) => article.trend);
+  const { data: currentUser } = useGetCurrentUser();
+  const { mutate } = useChangeTrend();
+
+  const handleToggleTrend = async (id: string) => {
+    if (trendArticles && trendArticles.length >= 4) {
+      toast.error("Trend articles more thant 4");
+    } else {
+      await mutate(id);
+    }
+  };
+
   const handleLoadMore = () => {
     setItemsToShow(itemsToShow + 3);
   };
-  const { data: currentUser } = useGetCurrentUser();
+
   const copyToClipboard = async (text: string) => {
     try {
       await navigator.clipboard.writeText(text);
@@ -46,11 +59,49 @@ const OtherBlogs = ({
       {pathName === "/hub/blogs" && articles && articles?.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {articles?.slice(0, itemsToShow).map((article, index) => (
-            <Link href={`/hub/blogs/${article.id}`}>
-              <Card
-                className="transition hover:shadow-xl bg-extraBg text-lightPrime h-[31rem]"
-                key={index}
-              >
+            <Card
+              className="transition hover:shadow-xl bg-extraBg text-lightPrime h-[31rem] relative"
+              key={index}
+            >
+              {article.trend ? (
+                <div
+                  className="absolute top-4 right-4"
+                  onClick={() => handleToggleTrend(article.id)}
+                >
+                  <Whatshot
+                    sx={{
+                      color: "#f1c40f",
+                      borderRadius: 5,
+                      border: "1px solid black",
+                      cursor: "pointer",
+                      "&:hover": {
+                        transition: ".5s all",
+                        color: "black",
+                      },
+                    }}
+                  />
+                </div>
+              ) : (
+                <div
+                  className="absolute top-4 right-4"
+                  onClick={() => handleToggleTrend(article.id)}
+                >
+                  <WhatshotOutlined
+                    sx={{
+                      color: "black",
+                      border: "1px solid  black",
+                      borderRadius: 5,
+                      cursor: "pointer",
+                      "&:hover": {
+                        transition: ".5s all",
+                        color: "#f1c40f",
+                      },
+                    }}
+                  />
+                </div>
+              )}
+
+              <Link href={`/hub/blogs/${article.id}`}>
                 {article.image && (
                   <CardMedia
                     sx={{ height: 250 }}
@@ -67,11 +118,11 @@ const OtherBlogs = ({
                     />
                   </div>
 
-                  <p className="text-lg font-bold md:text-start text-center">
+                  <p className="text-lg font-bold md:text-start text-center text-lightPrime">
                     {article.title}
                   </p>
 
-                  <p className="text-sm flex gap-2 justify-center">
+                  <p className="text-sm flex gap-2 justify-center text-lightPrime">
                     {article.author && (
                       <span>{`${article.author.fName} ${article.author.lName}`}</span>
                     )}
@@ -79,20 +130,20 @@ const OtherBlogs = ({
                     <span>{`${article.createdAt.getFullYear()} / ${article.createdAt.getMonth()} / ${article.createdAt.getDay()}`}</span>
                   </p>
                 </CardContent>
-                <CardFooter>
-                  {(currentUser?.role.includes("admin") ||
-                    currentUser?.role.includes("adminTeacher") ||
-                    currentUser?.role.includes("teacher")) && (
-                    <p
-                      className=" cursor-pointer text-lg  md:text-base md:hover:scale-110 transition"
-                      onClick={() => copyToClipboard(article.id)}
-                    >
-                      {article.id}
-                    </p>
-                  )}
-                </CardFooter>
-              </Card>
-            </Link>
+              </Link>
+              <CardFooter>
+                {(currentUser?.role.includes("admin") ||
+                  currentUser?.role.includes("adminTeacher") ||
+                  currentUser?.role.includes("teacher")) && (
+                  <p
+                    className=" cursor-pointer text-lg  md:text-base md:hover:scale-110 transition"
+                    onClick={() => copyToClipboard(article.id)}
+                  >
+                    {article.id}
+                  </p>
+                )}
+              </CardFooter>
+            </Card>
           ))}
         </div>
       ) : (

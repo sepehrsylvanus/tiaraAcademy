@@ -1,5 +1,5 @@
-import { getArticles, getSignleArticle } from "@/actions/actions";
-import { useQuery } from "@tanstack/react-query";
+import { getArticles, getSignleArticle, makeItTrend } from "@/actions/actions";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const useGetBlogs = () => {
   return useQuery({
@@ -18,5 +18,19 @@ export const useGetSingleBlog = (id: string) => {
       const article = await getSignleArticle(id);
       return article;
     },
+  });
+};
+
+export const useChangeTrend = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationKey: ["toggleTrend"],
+    mutationFn: async (id: string) => {
+      makeItTrend(id);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["getArticles"] });
+    },
+    onError: (err) => err,
   });
 };

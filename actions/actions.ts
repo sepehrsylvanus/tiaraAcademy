@@ -645,3 +645,18 @@ export const getSinglePlaylist = async (title: string) => {
 
   return myPlaylist;
 };
+export const makeItTrend = async (id: string) => {
+  const article = await prisma.blog.findUnique({
+    where: {
+      id,
+    },
+  });
+  await prisma.blog.update({
+    where: {
+      id,
+    },
+    data: {
+      trend: !article?.trend,
+    },
+  });
+};
