@@ -47,7 +47,7 @@ const OtherBlogs = ({
     }
   };
   articles = articles?.sort(
-    (a, b) => b.createdAt.getTime() - b.createdAt.getTime()
+    (a, b) => b.createdAt.getTime() - a.createdAt.getTime()
   );
   console.log("Videos =>", videos);
   videos = videos?.sort(

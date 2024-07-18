@@ -19,7 +19,7 @@ const SingleBlog = (params: ParamsProps) => {
   if (article) {
     return (
       <div className={styles.container}>
-        <TracingBeam className="px-6 h-scr">
+        <TracingBeam className="px-6 h-fit">
           <div>
             <div className="header   text-center flex flex-col gap-5 mb-4">
               <Chip className="w-fit mx-auto" label="Grammar" />
