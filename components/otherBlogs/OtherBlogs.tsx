@@ -33,6 +33,14 @@ const OtherBlogs = ({
       console.error("Failed to copy text: ", err);
     }
   };
+  articles = articles?.sort(
+    (a, b) => b.createdAt.getTime() - b.createdAt.getTime()
+  );
+  console.log("Videos =>", videos);
+  videos = videos?.sort(
+    (a, b) => b.createDate.getTime() - a.createDate.getTime()
+  );
+  console.log("Sorted videos =>", videos);
   return (
     <div className="text-center">
       {pathName === "/hub/blogs" && articles && articles?.length > 0 ? (
@@ -40,11 +48,15 @@ const OtherBlogs = ({
           {articles?.slice(0, itemsToShow).map((article, index) => (
             <Link href={`/hub/blogs/${article.id}`}>
               <Card
-                className="transition hover:shadow-xl bg-extraBg text-lightPrime"
+                className="transition hover:shadow-xl bg-extraBg text-lightPrime h-[31rem]"
                 key={index}
               >
                 {article.image && (
-                  <CardMedia sx={{ height: 140 }} image={article.image} />
+                  <CardMedia
+                    sx={{ height: 250 }}
+                    image={article.image}
+                    className="object-center"
+                  />
                 )}
                 <CardContent className="flex flex-col mt-4 items-center md:items-start gap-4">
                   <div className="flex items-center gap-5">
@@ -55,7 +67,7 @@ const OtherBlogs = ({
                     />
                   </div>
 
-                  <p className="h3 md:text-start text-center">
+                  <p className="text-lg font-bold md:text-start text-center">
                     {article.title}
                   </p>
 
