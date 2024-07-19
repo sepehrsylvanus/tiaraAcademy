@@ -66,7 +66,7 @@ const PlayListPage = async ({ params }: ParamsProps) => {
       console.error("Failed to copy text: ", err);
     }
   };
-
+  console.log(singPlaylist);
   return (
     <div className="lg:pl-[3.5em] pt-8">
       <h1 className="h1 text-center">

@@ -20,7 +20,7 @@ export function useGetPlaylists() {
 
 export function userGetPlaylist(title: string) {
   return useQuery({
-    queryKey: ["registeredPlaylist"],
+    queryKey: ["registeredPlaylist", title],
     queryFn: async () => {
       const resgisteredPlaylist = await getRegisteredPlaylist(title);
       return resgisteredPlaylist;
@@ -30,7 +30,7 @@ export function userGetPlaylist(title: string) {
 
 export function useGetSinglePlaylist(title: string) {
   return useQuery({
-    queryKey: ["singlePlaylist"],
+    queryKey: ["singlePlaylist", title],
     queryFn: async () => {
       const playlist = await getSinglePlaylist(title);
       return playlist;

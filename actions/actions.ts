@@ -639,7 +639,7 @@ export const getSignleArticle = async (id: string) => {
 export const getSinglePlaylist = async (title: string) => {
   const myPlaylist = await prisma.playlist.findUnique({
     where: {
-      title,
+      title: title.replace("%20", " "),
     },
   });
 
