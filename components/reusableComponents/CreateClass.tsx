@@ -96,6 +96,14 @@ const CreateClass = () => {
   async function createClass(values: z.infer<typeof formSchema>) {
     setSending(true);
     console.log(values);
+    if (values.capacity === 0) {
+      setSending(false);
+      return form.setError("capacity", {
+        type: "required",
+        message: "Capacity can't be 0",
+      });
+    }
+
     Axios.post("/classes", values)
       .then((res) => {
         toast.success(res.data.message, {
@@ -224,25 +232,31 @@ const CreateClass = () => {
           )}
         />
       </FormControl>
-      <Controller
-        name="capacity"
-        control={form.control}
-        render={({ field }) => (
-          <input
-            {...field}
-            className="border p-4 rounded-md formInput"
-            type="number"
-            name=""
-            id=""
-            placeholder="Capacity"
-            onChange={(e) => {
-              const inputValue = parseInt(e.target.value);
-              const positiveValue = Math.max(0, inputValue); // Ensure positive value
-              field.onChange(positiveValue);
-            }}
-          />
+      <div className="flex flex-col relative top-3">
+        <Controller
+          name="capacity"
+          control={form.control}
+          render={({ field }) => (
+            <input
+              {...field}
+              className="border p-4 rounded-md formInput"
+              type="number"
+              name=""
+              id=""
+              placeholder="Capacity"
+              onChange={(e) => {
+                const inputValue = parseInt(e.target.value);
+                const positiveValue = Math.max(0, inputValue); // Ensure positive value
+                field.onChange(positiveValue);
+              }}
+            />
+          )}
+        />
+        {errors.capacity && (
+          <p className="text-red-500 font-bold">{errors.capacity.message}</p>
         )}
-      />
+        {!errors.capacity && <p className="invisible font-bold">Some error</p>}
+      </div>
       <FormControl>
         <InputLabel
           classes={{

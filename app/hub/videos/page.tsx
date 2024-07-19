@@ -25,7 +25,7 @@ const Videos = () => {
   return (
     <div className={styles.container}>
       <div className="header flex flex-col items-center md:items-center md:justify-between text-center gap-4">
-        <div className="flex gap-4">
+        <div className="grid grid-cols-2 gap-y-4 lg:flex lg:gap-4 ">
           {playlists?.map((playlist: Playlist) => {
             console.log(playlist.title);
 
