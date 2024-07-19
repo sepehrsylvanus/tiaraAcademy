@@ -113,35 +113,43 @@ const Blogs = () => {
                 {trendingAtricles.length > 1 && (
                   <div className="eacHeadBlog flex flex-col md:flex-row gap-4 transition hover:shadow-xl hover:-translate-y-1 items-center">
                     <Image
-                      src={"/article.jpg"}
-                      alt="article"
-                      width={200}
-                      height={90}
+                      src={
+                        trendingAtricles[trendingAtricles.length - 2].image ??
+                        "/empty.png"
+                      }
+                      alt={trendingAtricles[trendingAtricles.length - 2].title}
+                      width={100}
+                      height={50}
                       className=" rounded-lg"
                     />
                     <div className="flex flex-col justify-between gap-4 md:gap-0 items-center md:items-start">
                       <Chip
                         variant="outlined"
-                        label={trendingAtricles[length - 2]?.categories}
+                        label={
+                          trendingAtricles[trendingAtricles.length - 2]
+                            ?.categories
+                        }
                         className=" w-fit"
                       />
                       <div>
                         <h4 className=" mb-2 font-extrabold text-center md:text-start">
-                          {trendingAtricles[length - 2]?.title}
+                          {trendingAtricles[trendingAtricles.length - 2]?.title}
                         </h4>
                         <p className="text-xs flex gap-2 justify-center md:justify-start">
                           <span>{`${
-                            trendingAtricles[length - 2]?.author.fName
+                            trendingAtricles[trendingAtricles.length - 2]
+                              ?.author.fName
                           } ${
-                            trendingAtricles[length - 2]?.author.lName
+                            trendingAtricles[trendingAtricles.length - 2]
+                              ?.author.lName
                           }`}</span>
                           •{" "}
                           <span>{`${trendingAtricles[
-                            length - 2
+                            trendingAtricles.length - 2
                           ]?.createdAt.getFullYear()} / ${trendingAtricles[
-                            length - 2
+                            trendingAtricles.length - 2
                           ]?.createdAt.getMonth()} / ${trendingAtricles[
-                            length - 2
+                            trendingAtricles.length - 2
                           ]?.createdAt.getDay()}`}</span>
                         </p>
                       </div>
@@ -151,35 +159,43 @@ const Blogs = () => {
                 {trendingAtricles.length > 2 && (
                   <div className="eacHeadBlog flex flex-col md:flex-row gap-4 transition hover:shadow-xl hover:-translate-y-1 items-center">
                     <Image
-                      src={"/article.jpg"}
-                      alt="article"
-                      width={200}
-                      height={90}
+                      src={
+                        trendingAtricles[trendingAtricles.length - 3].image ??
+                        "/empty.png"
+                      }
+                      alt={trendingAtricles[trendingAtricles.length - 3].title}
+                      width={100}
+                      height={50}
                       className=" rounded-lg"
                     />
                     <div className="flex flex-col justify-between gap-4 md:gap-0 items-center md:items-start">
                       <Chip
                         variant="outlined"
-                        label={trendingAtricles[length - 3]?.categories}
+                        label={
+                          trendingAtricles[trendingAtricles.length - 3]
+                            ?.categories
+                        }
                         className=" w-fit"
                       />
                       <div>
                         <h4 className=" mb-2 font-extrabold text-center md:text-start">
-                          {trendingAtricles[length - 3]?.title}
+                          {trendingAtricles[trendingAtricles.length - 3]?.title}
                         </h4>
                         <p className="text-xs flex gap-2 justify-center md:justify-start">
                           <span>{`${
-                            trendingAtricles[length - 3]?.author.fName
+                            trendingAtricles[trendingAtricles.length - 3]
+                              ?.author.fName
                           } ${
-                            trendingAtricles[length - 3]?.author.lName
+                            trendingAtricles[trendingAtricles.length - 3]
+                              ?.author.lName
                           }`}</span>
                           •{" "}
                           <span>{`${trendingAtricles[
-                            length - 3
+                            trendingAtricles.length - 3
                           ]?.createdAt.getFullYear()} / ${trendingAtricles[
-                            length - 3
+                            trendingAtricles.length - 3
                           ]?.createdAt.getMonth()} / ${trendingAtricles[
-                            length - 3
+                            trendingAtricles.length - 3
                           ]?.createdAt.getDay()}`}</span>
                         </p>
                       </div>
@@ -189,35 +205,43 @@ const Blogs = () => {
                 {trendingAtricles.length > 3 && (
                   <div className="eacHeadBlog flex flex-col md:flex-row gap-4 transition hover:shadow-xl hover:-translate-y-1 items-center">
                     <Image
-                      src={"/article.jpg"}
-                      alt="article"
-                      width={200}
-                      height={90}
+                      src={
+                        trendingAtricles[trendingAtricles.length - 4].image ??
+                        "/empty.png"
+                      }
+                      alt={trendingAtricles[trendingAtricles.length - 4].title}
+                      width={100}
+                      height={50}
                       className=" rounded-lg"
                     />
                     <div className="flex flex-col justify-between gap-4 md:gap-0 items-center md:items-start">
                       <Chip
                         variant="outlined"
-                        label={trendingAtricles[length - 4]?.categories}
+                        label={
+                          trendingAtricles[trendingAtricles.length - 4]
+                            ?.categories
+                        }
                         className=" w-fit"
                       />
                       <div>
                         <h4 className=" mb-2 font-extrabold text-center md:text-start">
-                          {trendingAtricles[length - 4]?.title}
+                          {trendingAtricles[trendingAtricles.length - 4]?.title}
                         </h4>
                         <p className="text-xs flex gap-2 justify-center md:justify-start">
                           <span>{`${
-                            trendingAtricles[length - 4]?.author.fName
+                            trendingAtricles[trendingAtricles.length - 4]
+                              ?.author.fName
                           } ${
-                            trendingAtricles[length - 4]?.author.lName
+                            trendingAtricles[trendingAtricles.length - 4]
+                              ?.author.lName
                           }`}</span>
                           •{" "}
                           <span>{`${trendingAtricles[
-                            length - 4
+                            trendingAtricles.length - 4
                           ]?.createdAt.getFullYear()} / ${trendingAtricles[
-                            length - 4
+                            trendingAtricles.length - 4
                           ]?.createdAt.getMonth()} / ${trendingAtricles[
-                            length - 4
+                            trendingAtricles.length - 4
                           ]?.createdAt.getDay()}`}</span>
                         </p>
                       </div>

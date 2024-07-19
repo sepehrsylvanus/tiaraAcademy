@@ -43,7 +43,7 @@ const OtherBlogs = ({
       await navigator.clipboard.writeText(text);
       toast("Copied to clipboard");
     } catch (err) {
-      console.error("Failed to copy text: ", err);
+    console.error("Failed to copy text: ", err);
     }
   };
   articles = articles?.sort(

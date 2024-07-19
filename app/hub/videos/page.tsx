@@ -26,14 +26,18 @@ const Videos = () => {
     <div className={styles.container}>
       <div className="header flex flex-col items-center md:items-center md:justify-between text-center gap-4">
         <div className="flex gap-4">
-          {playlists?.map((playlist: Playlist) => (
-            <Link href={`/hub/videos/playlist/${playlist.value}`}>
-              <Chip
-                label={playlist.title}
-                className=" hover:bg-extraText hover:text-white transition"
-              />
-            </Link>
-          ))}
+          {playlists?.map((playlist: Playlist) => {
+            console.log(playlist.title);
+
+            return (
+              <Link href={`/hub/videos/playlist/${playlist.value}`}>
+                <Chip
+                  label={playlist.title}
+                  className=" hover:bg-extraText hover:text-white transition"
+                />
+              </Link>
+            );
+          })}
         </div>
         <h3 className="h1 text-4xl ">Trending Videos</h3>
         <p className=" w-fit md:w-[30rem]">

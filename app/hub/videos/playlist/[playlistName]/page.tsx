@@ -26,15 +26,17 @@ const PlayListPage = async ({ params }: ParamsProps) => {
   // const [thisPlaylist, setThisPlaylist] = useState<PlaylistUsers[]>();
   // const [isLoading, setIsLoading] = useState();
   const { data: thisPlaylist, isLoading } = userGetPlaylist(
-    params.playlistName.charAt(0).toUpperCase() + params.playlistName.slice(1)
+    params.playlistName.replace("%20", " ").charAt(0).toUpperCase() +
+      params.playlistName.slice(1)
   );
-
+  console.log(params.playlistName.replace("%20", " "));
   const { data: singPlaylist, isLoading: singlePlaylistLoading } =
     useGetSinglePlaylist(
-      params.playlistName.charAt(0).toUpperCase() + params.playlistName.slice(1)
+      params.playlistName.replace("%20", " ").charAt(0).toUpperCase() +
+        params.playlistName.slice(1)
     );
-  console.log(singPlaylist);
   console.log(thisPlaylist);
+  console.log(singPlaylist);
   useEffect(() => {
     const renderPage = async () => {
       const token = await getToken()!;
@@ -53,7 +55,7 @@ const PlayListPage = async ({ params }: ParamsProps) => {
   }, []);
 
   const finalVideos = videos?.filter((video) =>
-    video.playlist.includes(params.playlistName)
+    video.playlist.includes(params.playlistName.replace("%20", " "))
   );
 
   const copyToClipboard = async (text: string) => {
@@ -67,7 +69,9 @@ const PlayListPage = async ({ params }: ParamsProps) => {
 
   return (
     <div className="lg:pl-[3.5em] pt-8">
-      <h1 className="h1 text-center">{params.playlistName.toUpperCase()}</h1>
+      <h1 className="h1 text-center">
+        {params.playlistName.toUpperCase().replace("%20", " ")}
+      </h1>
 
       <p>{singPlaylist?.description}</p>
 
