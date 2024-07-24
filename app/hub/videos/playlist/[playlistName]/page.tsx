@@ -29,10 +29,10 @@ const PlayListPage = async ({ params }: ParamsProps) => {
     params.playlistName.replace("%20", " ").charAt(0).toUpperCase() +
       params.playlistName.slice(1)
   );
-  console.log(params.playlistName.replace("%20", " "));
+  console.log(params.playlistName.split("%20").join(" "));
   const { data: singPlaylist, isLoading: singlePlaylistLoading } =
     useGetSinglePlaylist(
-      params.playlistName.replace("%20", " ").charAt(0).toUpperCase() +
+      params.playlistName.split("%20").join(" ").charAt(0).toUpperCase() +
         params.playlistName.slice(1)
     );
   console.log(thisPlaylist);
@@ -70,7 +70,7 @@ const PlayListPage = async ({ params }: ParamsProps) => {
   return (
     <div className="lg:pl-[3.5em] pt-8">
       <h1 className="h1 text-center">
-        {params.playlistName.toUpperCase().replace("%20", " ")}
+        {params.playlistName.toUpperCase().split("%20").join(" ")}
       </h1>
 
       <p>{singPlaylist?.description}</p>

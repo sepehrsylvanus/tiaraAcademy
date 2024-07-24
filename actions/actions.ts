@@ -223,6 +223,8 @@ export const postVideo = async (data: FormData) => {
   const playlist = data.get("playlists") as string;
   const video = data.get("video") as File;
   const caption = data.get("caption") as string;
+  const playlistTitle = data.get("playlists") as string;
+  console.log(playlistTitle);
   console.log(caption);
   console.log(video);
   const bytes = await video.arrayBuffer();
@@ -233,6 +235,7 @@ export const postVideo = async (data: FormData) => {
     title,
     playlist,
     caption,
+    playlistTitle,
     creatorId: currentUser?.id!,
   };
 
@@ -445,6 +448,15 @@ export const deletePlaylist = async (title: string) => {
     throw new Error(error.message);
   }
 };
+export const getPLaylist = async (title: string) => {
+  const playlist = await prisma.playlist.findFirst({
+    where: {
+      title,
+    },
+  });
+  return playlist;
+};
+
 export const getSingleClass = async (id: string) => {
   const result = await prisma.class.findUnique({
     where: {

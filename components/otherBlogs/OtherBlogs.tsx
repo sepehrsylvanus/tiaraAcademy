@@ -43,7 +43,7 @@ const OtherBlogs = ({
       await navigator.clipboard.writeText(text);
       toast("Copied to clipboard");
     } catch (err) {
-    console.error("Failed to copy text: ", err);
+      console.error("Failed to copy text: ", err);
     }
   };
   articles = articles?.sort(
@@ -160,17 +160,21 @@ const OtherBlogs = ({
               <Link href={`/hub/videos/${video.id}`}>
                 <CardMedia sx={{ height: 140 }} image="/article.jpg" />
                 <CardContent className="flex flex-col mt-4 items-center md:items-start gap-4">
-                  <div className="flex items-center gap-5">
-                    <Chip
-                      sx={{ color: "#D0D7E1" }}
-                      variant="outlined"
-                      label={video.playlist}
-                    />
-                  </div>
+                  {video.playlist && (
+                    <div className="flex items-center gap-5">
+                      <Chip
+                        sx={{ color: "#D0D7E1" }}
+                        variant="outlined"
+                        label={video.playlist}
+                      />
+                    </div>
+                  )}
 
-                  <p className="h3 md:text-start text-center">{video.title}</p>
+                  <p className="h3 md:text-start text-center text-lightPrime">
+                    {video.title}
+                  </p>
 
-                  <p className="text-sm flex gap-2 justify-center">
+                  <p className="text-sm flex gap-2 justify-center text-lightPrime">
                     {video.creator && (
                       <span>{`${video.creator.fName} ${video.creator.lName}`}</span>
                     )}

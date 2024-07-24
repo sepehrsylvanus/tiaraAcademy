@@ -28,20 +28,22 @@ enum Type {
 }
 
 model User {
-  id       String  @id @default(cuid()) @map("_id")
-  fName    String
-  lName    String?
-  email    String  @unique
-  password String
-  pNumber  String  @unique
-  role     Role    @default(student)
-
-  ClassUsers    ClassUsers[]
-  Class         Class[]
-  Writing       Writing[]
-  PlaylistUsers PlaylistUsers[]
-  Blog          Blog[]
-  Video         Video[]
+  id                  String          @id @default(cuid()) @map("_id")
+  fName               String
+  lName               String?
+  email               String          @unique
+  additionalEmails    String[]
+  password            String
+  pNumber             String          @unique
+  addintionalPNumbers String[]
+  role                Role            @default(student)
+  image               String?
+  ClassUsers          ClassUsers[]
+  Class               Class[]
+  Writing             Writing[]
+  PlaylistUsers       PlaylistUsers[]
+  Blog                Blog[]
+  Video               Video[]
 }
 
 model Class {
@@ -104,16 +106,17 @@ model writingAnswer {
 }
 
 model Video {
-  id         String   @id @default(cuid()) @map("_id")
-  title      String
-  bucketKey  String?
-  videoLink  String?
-  playlist   String
-  caption    String
-  creatorId  String
-  creator    User     @relation(fields: [creatorId], references: [id])
-  trend      Boolean  @default(false)
-  createDate DateTime @default(now())
+  id            String   @id @default(cuid()) @map("_id")
+  title         String
+  bucketKey     String?
+  videoLink     String?
+  playlistTitle String
+  Playlist      Playlist @relation(fields: [playlistTitle], references: [title])
+  caption       String
+  creatorId     String
+  creator       User     @relation(fields: [creatorId], references: [id])
+  trend         Boolean  @default(false)
+  createDate    DateTime @default(now())
 }
 
 model Blog {
@@ -143,6 +146,7 @@ model Playlist {
   price         String?
   PlaylistUsers PlaylistUsers[]
   description   String
+  Video         Video[]
 }
 
 model Category {
