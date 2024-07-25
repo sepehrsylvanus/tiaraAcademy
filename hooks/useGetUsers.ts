@@ -1,12 +1,15 @@
 import { getToken, retieveUsers } from "@/actions/actions";
 import {
   addEmail,
+  addPhone,
   editProf,
   getSingleUser,
+  removeEmail,
   removeProf,
 } from "@/actions/userActions";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 
 const getUsers = async () => {
   const users = await retieveUsers();
@@ -39,6 +42,7 @@ export function useUpdateUser() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["getCurrentUser"] });
+      toast.success("User details updated");
     },
   });
 }
@@ -50,6 +54,7 @@ export function useRemoveProf() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["getCurrentUser"] });
+      toast.success("Profile picture removed");
     },
   });
 }
@@ -61,6 +66,29 @@ export function useAddEmail() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["getCurrentUser"] });
+    },
+  });
+}
+export function useRemoveEmail() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (emailToDelete: string) => {
+      console.log(emailToDelete);
+      await removeEmail(emailToDelete);
+      return `${emailToDelete} deleted`;
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["getCurrentUser"] });
+      console.log(data);
+      toast.success(data);
+    },
+  });
+}
+export function useAddPhone() {
+  return useMutation({
+    mutationFn: async (additionalPhone: string) => {
+      await addPhone(additionalPhone);
     },
   });
 }

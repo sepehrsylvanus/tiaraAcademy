@@ -9,7 +9,9 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import MenuIcon from "@mui/icons-material/Menu";
 import {
   useAddEmail,
+  useAddPhone,
   useGetCurrentUser,
+  useRemoveEmail,
   useRemoveProf,
   useUpdateUser,
 } from "@/hooks/useGetUsers";
@@ -19,32 +21,52 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Avatar } from "@mui/material";
+import { Avatar, CircularProgress } from "@mui/material";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import AddIcon from "@mui/icons-material/Add";
 import { Axios } from "@/utils/axiosIn";
 import { editProf } from "@/actions/userActions";
 import { useRouter } from "next/navigation";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { toast } from "react-toastify";
+
 const ManageAccount = () => {
   const { data: currentUser } = useGetCurrentUser();
-  const { mutate: removePic } = useRemoveProf();
+  const { mutate: removePic, isPending: pRemoveP } = useRemoveProf();
   const { mutate: addEmail } = useAddEmail();
+  const { mutate: removeEmail, data: rEmailRes } = useRemoveEmail();
+  const { mutate, isPending: pUpdateUser } = useUpdateUser();
+
+  const { mutate: addPhone } = useAddPhone();
   const [openEditProf, setOpenEditProf] = useState(false);
   const [openAddEmail, setOpenAddEmail] = useState(false);
   const [openAddPhone, setOpenAddPhone] = useState(false);
+  const [profilePicture, setProfilePicture] = useState<File>();
   const [email, setEmail] = useState("");
-
+  const [phone, setPhone] = useState("");
   useEffect(() => {
     console.log(currentUser);
   }, [currentUser]);
-  const { mutate } = useUpdateUser();
 
   const handleImage = (e: ChangeEvent<HTMLInputElement>) => {
-    const formData = new FormData();
-
-    mutate(formData);
+    setProfilePicture(e.target.files?.[0]);
   };
+
+  useEffect(() => {
+    const formData = new FormData();
+    console.log(profilePicture);
+    console.log(formData);
+    formData.set("profPic", profilePicture!);
+    mutate(formData);
+  }, [profilePicture]);
 
   async function updateProfile(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -52,6 +74,7 @@ const ManageAccount = () => {
     mutate(formData);
     setOpenEditProf(false);
   }
+
   return (
     <Dialog>
       <DialogTrigger
@@ -105,12 +128,18 @@ const ManageAccount = () => {
 
                   <div className="flex flex-col">
                     <div className="flex gap-4 mb-2">
-                      <label
-                        htmlFor="profPic"
-                        className="bg-transparent hover:bg-transparent text-gray-400 border border-gray-200 shadow-md hover:shadow-xl hover:text-gray-400 grid place-content-center px-2 rounded-md"
-                      >
-                        Upload
-                      </label>
+                      {pUpdateUser ? (
+                        <label className="bg-transparent hover:bg-transparent text-gray-400 border border-gray-200 shadow-md hover:shadow-xl hover:text-gray-400 grid place-content-center px-2 rounded-md ">
+                          <CircularProgress sx={{ color: "gray" }} />
+                        </label>
+                      ) : (
+                        <label
+                          htmlFor="profPic"
+                          className="bg-transparent hover:bg-transparent text-gray-400 border border-gray-200 shadow-md hover:shadow-xl hover:text-gray-400 grid place-content-center px-2 rounded-md"
+                        >
+                          Upload
+                        </label>
+                      )}
                       <input
                         type="file"
                         name="profPic"
@@ -119,13 +148,24 @@ const ManageAccount = () => {
                         onChange={handleImage}
                         accept="image/png, image/jpg, image/jpeg"
                       />
-                      <Button
-                        className="text-red-500 hover:text-red-500"
-                        variant="ghost"
-                        onClick={() => removePic()}
-                      >
-                        Remove
-                      </Button>
+                      {pRemoveP ? (
+                        <Button
+                          className="text-red-500 hover:text-red-500"
+                          variant="ghost"
+                          type="button"
+                        >
+                          <CircularProgress className="text-red-500" />
+                        </Button>
+                      ) : (
+                        <Button
+                          className="text-red-500 hover:text-red-500"
+                          variant="ghost"
+                          onClick={() => removePic()}
+                          type="button"
+                        >
+                          Remove
+                        </Button>
+                      )}
                     </div>
                     <p className="text-gray-400 text-sm">
                       Recomended size 1:1 up to 10MB
@@ -148,6 +188,7 @@ const ManageAccount = () => {
                   <Button
                     variant="ghost"
                     onClick={() => setOpenEditProf(false)}
+                    type="button"
                   >
                     Cancel
                   </Button>
@@ -185,7 +226,9 @@ const ManageAccount = () => {
                       </div>
                     </PopoverTrigger>
                     <PopoverContent className="w-fit relative right-[2em] p-2">
-                      <p className="text-red-500">Remove email</p>
+                      <p className="text-red-500 cursor-pointer">
+                        Remove email
+                      </p>
                     </PopoverContent>
                   </Popover>
                 </div>
@@ -198,16 +241,24 @@ const ManageAccount = () => {
                       <p className="flex items-center text-[13px] gap-2 ml-3 mt-3">
                         {email}
                       </p>
-                      <Popover>
-                        <PopoverTrigger>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger>
                           <div className="relative top-1 h-full">
                             <MoreHorizIcon className="opacity-20" />
                           </div>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-fit relative right-[2em] p-2">
-                          <p className="text-red-500">Remove email</p>
-                        </PopoverContent>
-                      </Popover>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent className="w-fit relative right-[2em] p-2">
+                          <p
+                            className="text-red-500 cursor-pointer z-20"
+                            onClick={() => {
+                              removeEmail(email);
+                              // toast.success(rEmailRes);
+                            }}
+                          >
+                            Remove email
+                          </p>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
                     </div>
                   ))}
                 </div>
@@ -274,25 +325,48 @@ const ManageAccount = () => {
                 openAddEmail
                   ? "opacity-0 invisible absolute "
                   : "opacity-100 visible static"
-              }`}
+              } `}
               style={{ transition: "opacity 0.3s, visibility 0.3s" }}
             >
-              <p className="flex items-center text-[13px] gap-2 ml-3 mt-3">
-                {currentUser?.pNumber}
-                <span className="bg-[#ededed] rounded-sm shadow-2xl shadow-black p-1">
-                  Primary
-                </span>
-              </p>
-              <Popover>
-                <PopoverTrigger>
-                  <div className="relative top-1 h-full">
-                    <MoreHorizIcon className="opacity-20" />
-                  </div>
-                </PopoverTrigger>
-                <PopoverContent className="w-fit relative right-[2em] p-2">
-                  <p className="text-red-500">Remove email</p>
-                </PopoverContent>
-              </Popover>
+              <div className=" flex items-center justify-between w-full">
+                <p className="flex items-center  text-[13px] gap-2 ml-3 mt-3">
+                  {currentUser?.pNumber}
+                  <span className="bg-[#ededed] rounded-sm shadow-2xl shadow-black p-1">
+                    Primary
+                  </span>
+                </p>
+                <Popover>
+                  <PopoverTrigger>
+                    <div className="relative top-1 h-full">
+                      <MoreHorizIcon className="opacity-20" />
+                    </div>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-fit relative right-[2em] p-2">
+                    <p className="text-red-500">Remove email</p>
+                  </PopoverContent>
+                </Popover>
+              </div>
+
+              {currentUser?.addintionalPNumbers.map((phone) => (
+                <div key={phone}>
+                  <p className="flex items-center  text-[13px] gap-2 ml-3 mt-3">
+                    {phone}
+                    <span className="bg-[#ededed] rounded-sm shadow-2xl shadow-black p-1">
+                      Primary
+                    </span>
+                  </p>
+                  <Popover>
+                    <PopoverTrigger>
+                      <div className="relative top-1 h-full">
+                        <MoreHorizIcon className="opacity-20" />
+                      </div>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-fit relative right-[2em] p-2">
+                      <p className="text-red-500">Remove email</p>
+                    </PopoverContent>
+                  </Popover>
+                </div>
+              ))}
             </div>
 
             <p
@@ -325,7 +399,7 @@ const ManageAccount = () => {
               <div className="  mt-6 w-full">
                 <div>
                   <p>Phone number</p>
-                  <Input />
+                  <Input onChange={(e) => setPhone(e.target.value)} />
                 </div>
               </div>
 
@@ -333,7 +407,15 @@ const ManageAccount = () => {
                 <Button variant="ghost" onClick={() => setOpenAddPhone(false)}>
                   Cancel
                 </Button>
-                <Button className="hover:bg-extraText">Add</Button>
+                <Button
+                  className="hover:bg-extraText"
+                  onClick={() => {
+                    addPhone(phone);
+                    setOpenAddPhone(false);
+                  }}
+                >
+                  Add
+                </Button>
               </div>
             </div>
           </section>
