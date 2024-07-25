@@ -67,6 +67,7 @@ export function useAddEmail() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["getCurrentUser"] });
+      toast.success("New email added");
     },
   });
 }

@@ -160,12 +160,12 @@ const OtherBlogs = ({
               <Link href={`/hub/videos/${video.id}`}>
                 <CardMedia sx={{ height: 140 }} image="/article.jpg" />
                 <CardContent className="flex flex-col mt-4 items-center md:items-start gap-4">
-                  {video.playlist && (
+                  {video.playlistTitle && (
                     <div className="flex items-center gap-5">
                       <Chip
                         sx={{ color: "#D0D7E1" }}
                         variant="outlined"
-                        label={video.playlist}
+                        label={video.playlistTitle}
                       />
                     </div>
                   )}

@@ -55,7 +55,7 @@ const PlayListPage = async ({ params }: ParamsProps) => {
   }, []);
 
   const finalVideos = videos?.filter((video) =>
-    video.playlist.includes(params.playlistName.replace("%20", " "))
+    video.playlistTitle.includes(params.playlistName.replace("%20", " "))
   );
 
   const copyToClipboard = async (text: string) => {
@@ -134,7 +134,7 @@ const PlayListPage = async ({ params }: ParamsProps) => {
                 </Link>
 
                 <Chip
-                  label={video.playlist}
+                  label={video.playlistTitle}
                   sx={{
                     color: "#072d44",
                     backgroundColor: "#D0D7E1",

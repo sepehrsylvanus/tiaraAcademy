@@ -10,6 +10,9 @@ export interface User {
   role: string;
   pNumber: string;
   classes?: Class[];
+  additionalEmails: string[];
+  addintionalPNumbers: string[];
+  image: string | null;
 }
 
 export interface Class {
@@ -77,7 +80,8 @@ export interface Video {
   title: string;
   videoLink: string | null;
   bucketKey: string | null;
-  playlist: string;
+  playlistTitle: string;
+  Playlist?: Playlist;
   caption: string;
   trend: boolean;
   creatorId: string;
@@ -109,4 +113,6 @@ export interface Playlist {
   value: string;
   type: "private" | "public";
   price: string | null;
+  description: string;
+  Video?: Video;
 }

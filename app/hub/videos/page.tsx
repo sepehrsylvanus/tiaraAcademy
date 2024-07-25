@@ -21,7 +21,7 @@ import { useGetVideos } from "@/hooks/useVideos";
 const Videos = () => {
   const { data: playlists } = useGetPlaylists();
   const { data: videos, isLoading: videoLoad } = useGetVideos();
-  const trendVideos = videos?.filter((video: Video) => video.trend);
+  const trendVideos = videos?.filter((video) => video.trend);
   return (
     <div className={styles.container}>
       <div className="header flex flex-col items-center md:items-center md:justify-between text-center gap-4">
@@ -65,7 +65,7 @@ const Videos = () => {
                 >
                   <Chip
                     sx={{ color: "white" }}
-                    label={trendVideos[length - 1].playlist}
+                    label={trendVideos[length - 1].playlistTitle}
                     variant="outlined"
                     className=" w-fit"
                   />
@@ -107,7 +107,7 @@ const Videos = () => {
               <div className="flex flex-col justify-between gap-4 md:gap-0 items-center md:items-start">
                 <Chip
                   variant="outlined"
-                  label={trendVideos[length - 2].playlist}
+                  label={trendVideos[length - 2].playlistTitle}
                   className=" w-fit"
                 />
                 <div>
@@ -141,7 +141,7 @@ const Videos = () => {
               <div className="flex flex-col justify-between gap-4 md:gap-0 items-center md:items-start">
                 <Chip
                   variant="outlined"
-                  label={trendVideos[length - 3].playlist}
+                  label={trendVideos[length - 3].playlistTitle}
                   className=" w-fit"
                 />
                 <div>
@@ -175,7 +175,7 @@ const Videos = () => {
               <div className="flex flex-col justify-between gap-4 md:gap-0 items-center md:items-start">
                 <Chip
                   variant="outlined"
-                  label={trendVideos[length - 4].playlist}
+                  label={trendVideos[length - 4].playlistTitle}
                   className=" w-fit"
                 />
                 <div>

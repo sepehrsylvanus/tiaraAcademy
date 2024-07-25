@@ -19,7 +19,9 @@ import { getSingleUser } from "@/actions/userActions";
 import { Avatar, CircularProgress } from "@mui/material";
 import { Axios } from "@/utils/axiosIn";
 import ManageAccount from "../clerckManage/ManageAccount";
+import { useGetCurrentUser } from "@/hooks/useGetUsers";
 const ClerkAvatar = () => {
+  const { data: currentUser } = useGetCurrentUser();
   const [loading, setLoading] = useState(false);
   const [token, setToken] = useState<string>();
   const [user, setUser] = useState<UserProps>();
@@ -72,11 +74,11 @@ const ClerkAvatar = () => {
   return (
     <Popover>
       <PopoverTrigger>
-        <Avatar />
+        <Avatar src={currentUser?.image!} />
       </PopoverTrigger>
       <PopoverContent className=" w-[374px] z-[11] relative left-4 space-y-4 p-5">
         <div className="flex gap-4">
-          <Avatar />
+          <Avatar src={currentUser?.image!} />
           <div>
             {user && (
               <>

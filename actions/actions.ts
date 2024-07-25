@@ -420,7 +420,7 @@ export const deletePlaylist = async (title: string) => {
     } else {
       const videosToUpdate = await prisma.video.findMany({
         where: {
-          playlist: title.toLowerCase(),
+          playlistTitle: title.toLowerCase(),
         },
       });
       console.log(videosToUpdate);
@@ -432,7 +432,7 @@ export const deletePlaylist = async (title: string) => {
               id: video.id,
             },
             data: {
-              playlist: title.toLowerCase(),
+              playlistTitle: title.toLowerCase(),
             },
           });
         }

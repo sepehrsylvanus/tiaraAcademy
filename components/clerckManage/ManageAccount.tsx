@@ -32,6 +32,16 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { toast } from "react-toastify";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
 
 const ManageAccount = () => {
   const { data: currentUser } = useGetCurrentUser();
@@ -79,13 +89,29 @@ const ManageAccount = () => {
       >
         <SettingsIcon sx={{ width: ".8em" }} /> Manage account
       </DialogTrigger>
-      <DialogContent className="p-0 w-[95%] mx-auto bg-[#F7F7F7] rounded-lg flex flex-col gap-0">
-        <div className="flex gap-3 items-center px-6 py-4">
-          <MenuIcon /> <h2>Account</h2>
-        </div>
+      <DialogContent className="p-0 w-[95%] mx-auto bg-[#F7F7F7] rounded-lg flex flex-col gap-0 ">
+        {/* <Drawer>
+          <DrawerTrigger className="flex gap-3 items-center px-6 py-4">
+            <MenuIcon /> <h2>Account</h2>
+          </DrawerTrigger>
+          <DrawerContent>
+            <DrawerHeader>
+              <DrawerTitle>Are you absolutely sure?</DrawerTitle>
+              <DrawerDescription>
+                This action cannot be undone.
+              </DrawerDescription>
+            </DrawerHeader>
+            <DrawerFooter>
+              <Button>Submit</Button>
+              <DrawerClose>
+                <Button variant="outline">Cancel</Button>
+              </DrawerClose>
+            </DrawerFooter>
+          </DrawerContent>
+        </Drawer> */}
 
         <div className="container bg-white rounded-md shadow-2xl  h-[550px] overflow-y-scroll">
-          <h2 className="mt-8">Profile details</h2>
+          <h2 className="mt-8 md:text-xl">Profile details</h2>
           <Separator className="my-4" />
 
           <div>
@@ -200,15 +226,15 @@ const ManageAccount = () => {
           <section>
             <p className="text-xl">Email addresses</p>
             <div
-              className={`flex flex-col justify-between items-center ${
+              className={`flex flex-col justify-between items-center md:items-start ${
                 openAddEmail
                   ? "opacity-0 invisible absolute "
                   : "opacity-100 visible static"
               }`}
               style={{ transition: "opacity 0.3s, visibility 0.3s" }}
             >
-              <div className="flex flex-col">
-                <div className="flex items-center gap-2">
+              <div className="flex flex-col w-full">
+                <div className="flex items-center md:w-full gap-2">
                   <p className="flex items-center text-[13px] gap-2 ml-3 mt-3">
                     {currentUser?.email}{" "}
                     <span className="bg-[#ededed] rounded-sm shadow-2xl shadow-black p-1">
@@ -249,7 +275,7 @@ const ManageAccount = () => {
             </div>
 
             <p
-              className={`text-extraText flex items-center gap-2 ml-3 mt-6 ${
+              className={`text-extraText flex items-center gap-2 ml-3 mt-6 cursor-pointer ${
                 openAddEmail
                   ? "opacity-0 invisible absolute "
                   : "opacity-100 visible static"
@@ -350,7 +376,7 @@ const ManageAccount = () => {
             </div>
 
             <p
-              className={`text-extraText flex items-center gap-2 ml-3 mt-6 ${
+              className={`text-extraText flex items-center gap-2 ml-3 mt-6 cursor-pointer ${
                 openAddPhone
                   ? "opacity-0 invisible absolute "
                   : "opacity-100 visible static"
@@ -369,7 +395,7 @@ const ManageAccount = () => {
               } mt-4`}
               style={{ transition: "opacity 0.3s, visibility 0.3s" }}
             >
-              <p className="font-semibold mb-1">Add phone number</p>
+              <p className="font-semibold mb-1 ">Add phone number</p>
 
               <p className="text-gray-500 text-sm">
                 A text message containing a verification code will be sent to
