@@ -24,8 +24,8 @@ export const editProf = async (data: FormData) => {
   const profPic = data.get("profPic") as File;
   const firstName = data.get("firstName") as string;
   const lastName = data.get("lastName") as string;
-  const imageToSend = await profPic?.arrayBuffer()!;
-  console.log(profPic);
+  const imageToSend = profPic && (await profPic?.arrayBuffer()!);
+  console.log(imageToSend);
   const buffer = Buffer.from(imageToSend);
 
   try {
@@ -122,7 +122,6 @@ export const addEmail = async (additionalEmail: string) => {
   });
 };
 export const removeEmail = async (emailToDelete: string) => {
-  console.log(emailToDelete);
   const token = await getToken()!;
   const email = await verifyToken(token.value).data;
   const currentUser = await prisma.user.findUnique({
@@ -153,6 +152,27 @@ export const addPhone = async (additionalPhone: string) => {
     },
     data: {
       addintionalPNumbers: { push: additionalPhone },
+    },
+  });
+};
+export const removePhone = async (phoneToDelete: string) => {
+  const token = await getToken()!;
+  const email = await verifyToken(token.value).data;
+  const currentUser = await prisma.user.findUnique({
+    where: {
+      email,
+    },
+  });
+  const index = currentUser?.addintionalPNumbers.findIndex(
+    (item) => item === phoneToDelete
+  )!;
+  currentUser?.addintionalPNumbers.splice(index, 1);
+  await prisma.user.update({
+    where: {
+      email,
+    },
+    data: {
+      addintionalPNumbers: currentUser?.addintionalPNumbers,
     },
   });
 };

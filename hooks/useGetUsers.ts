@@ -5,6 +5,7 @@ import {
   editProf,
   getSingleUser,
   removeEmail,
+  removePhone,
   removeProf,
 } from "@/actions/userActions";
 
@@ -81,14 +82,34 @@ export function useRemoveEmail() {
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["getCurrentUser"] });
       console.log(data);
-      toast.success(data);
+      toast.warning("Email deleted");
     },
   });
 }
 export function useAddPhone() {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: async (additionalPhone: string) => {
       await addPhone(additionalPhone);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["getCurrentUser"] });
+      toast.success("New phone number added");
+    },
+  });
+}
+export function useRemovePhone() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (phoneToDelete: string) => {
+      await removePhone(phoneToDelete);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["getCurrentUser"] });
+
+      toast.warning("Additional phone number deleted");
     },
   });
 }

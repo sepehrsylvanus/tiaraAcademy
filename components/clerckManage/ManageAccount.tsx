@@ -12,6 +12,7 @@ import {
   useAddPhone,
   useGetCurrentUser,
   useRemoveEmail,
+  useRemovePhone,
   useRemoveProf,
   useUpdateUser,
 } from "@/hooks/useGetUsers";
@@ -25,15 +26,9 @@ import { Avatar, CircularProgress } from "@mui/material";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import AddIcon from "@mui/icons-material/Add";
-import { Axios } from "@/utils/axiosIn";
-import { editProf } from "@/actions/userActions";
-import { useRouter } from "next/navigation";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { toast } from "react-toastify";
@@ -44,8 +39,9 @@ const ManageAccount = () => {
   const { mutate: addEmail } = useAddEmail();
   const { mutate: removeEmail, data: rEmailRes } = useRemoveEmail();
   const { mutate, isPending: pUpdateUser } = useUpdateUser();
-
   const { mutate: addPhone } = useAddPhone();
+  const { mutate: removePhone } = useRemovePhone();
+
   const [openEditProf, setOpenEditProf] = useState(false);
   const [openAddEmail, setOpenAddEmail] = useState(false);
   const [openAddPhone, setOpenAddPhone] = useState(false);
@@ -219,18 +215,6 @@ const ManageAccount = () => {
                       Primary
                     </span>
                   </p>
-                  <Popover>
-                    <PopoverTrigger>
-                      <div className="relative top-1 h-full">
-                        <MoreHorizIcon className="opacity-20" />
-                      </div>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-fit relative right-[2em] p-2">
-                      <p className="text-red-500 cursor-pointer">
-                        Remove email
-                      </p>
-                    </PopoverContent>
-                  </Popover>
                 </div>
                 <div className="flex flex-col">
                   {currentUser?.additionalEmails.map((email) => (
@@ -252,7 +236,6 @@ const ManageAccount = () => {
                             className="text-red-500 cursor-pointer z-20"
                             onClick={() => {
                               removeEmail(email);
-                              // toast.success(rEmailRes);
                             }}
                           >
                             Remove email
@@ -325,7 +308,7 @@ const ManageAccount = () => {
                 openAddEmail
                   ? "opacity-0 invisible absolute "
                   : "opacity-100 visible static"
-              } `}
+              } flex flex-col`}
               style={{ transition: "opacity 0.3s, visibility 0.3s" }}
             >
               <div className=" flex items-center justify-between w-full">
@@ -335,36 +318,33 @@ const ManageAccount = () => {
                     Primary
                   </span>
                 </p>
-                <Popover>
-                  <PopoverTrigger>
-                    <div className="relative top-1 h-full">
-                      <MoreHorizIcon className="opacity-20" />
-                    </div>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-fit relative right-[2em] p-2">
-                    <p className="text-red-500">Remove email</p>
-                  </PopoverContent>
-                </Popover>
               </div>
 
               {currentUser?.addintionalPNumbers.map((phone) => (
-                <div key={phone}>
+                <div
+                  key={phone}
+                  className="flex justify-between  items-center w-full"
+                >
                   <p className="flex items-center  text-[13px] gap-2 ml-3 mt-3">
                     {phone}
-                    <span className="bg-[#ededed] rounded-sm shadow-2xl shadow-black p-1">
-                      Primary
-                    </span>
                   </p>
-                  <Popover>
-                    <PopoverTrigger>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger>
                       <div className="relative top-1 h-full">
                         <MoreHorizIcon className="opacity-20" />
                       </div>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-fit relative right-[2em] p-2">
-                      <p className="text-red-500">Remove email</p>
-                    </PopoverContent>
-                  </Popover>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="w-fit relative right-[2em] p-2">
+                      <p
+                        className="text-red-500 cursor-pointer z-20"
+                        onClick={() => {
+                          removePhone(phone);
+                        }}
+                      >
+                        Remove phone
+                      </p>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 </div>
               ))}
             </div>
