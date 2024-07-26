@@ -21,6 +21,13 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/api/newsletter.js", "components/reusableComponents/pdfPallete.js"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "app/[locale]/api/newsletter.js",
+    "components/reusableComponents/pdfPallete.js"
+  ],
   "exclude": ["node_modules"]
 }

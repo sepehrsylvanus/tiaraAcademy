@@ -15,6 +15,8 @@ import { Button } from "@/components/ui/button";
 import { cookies } from "next/headers";
 import ClerkAvatar from "@/components/reusableComponents/ClerkAvatar";
 import { getLocale, getMessages } from "next-intl/server";
+import { setUserLocale } from "@/services/locale";
+import ChangeLocale from "@/components/changeLocale/ChangeLocale";
 
 export default async function Home() {
   const cookieStore = cookies();
@@ -49,11 +51,7 @@ export default async function Home() {
             {message.Navbar.enterHub}
           </Link>
           <Divider orientation="vertical" style={{ height: "20px" }} />
-          <Link href={language === "fa" ? "/en" : "/fa"}>
-            <Button className="hover:bg-extraText transition">
-              {message.Navbar.language}
-            </Button>
-          </Link>
+          <ChangeLocale />
         </div>
         <div className={`${styles.navbarRight} bg-lightPrime`}>
           <div className=" scale-75 lg:scale-100">

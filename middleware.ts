@@ -1,8 +1,6 @@
-import createMiddleware from "next-intl/middleware";
-import { NextRequest } from "next/server";
+import type { NextRequest } from "next/server";
 
-export default async function middleware(request: NextRequest) {
-  const defaultLocale = request.headers.get("x-your-custom-locale") || "fa";
+export function middleware(request: NextRequest) {
   const currentUser = request.cookies.get("token")?.value;
 
   if (!currentUser && request.nextUrl.pathname.startsWith("/hub")) {
@@ -14,18 +12,8 @@ export default async function middleware(request: NextRequest) {
   ) {
     return Response.redirect(new URL("/hub", request.url));
   }
-  const handleI18nRouting = createMiddleware({
-    locales: ["en", "fa"],
-    defaultLocale: "fa",
-  });
-  const response = handleI18nRouting(request);
-
-  response.headers.set("x-your-custom-locale", defaultLocale);
-
-  return response;
 }
 
 export const config = {
-  // Match only internationalized pathnames
-  matcher: ["/", "/(fa|en)/:path*"],
+  matcher: ["/((?!api|_next/static|_next/image|.*\\.png$).*)"],
 };
