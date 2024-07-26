@@ -14,36 +14,45 @@ import CustomHamburger from "@/components/hamburger/CustomHamburger";
 import { Button } from "@/components/ui/button";
 import { cookies } from "next/headers";
 import ClerkAvatar from "@/components/reusableComponents/ClerkAvatar";
+import { getLocale, getMessages } from "next-intl/server";
 
 export default async function Home() {
   const cookieStore = cookies();
   const token = cookieStore.get("token");
-
+  const message = (await getMessages()) as any;
+  const language = await getLocale();
+  console.log(message);
+  console.log(message.Navbar.language);
   return (
     <div className={`${styles.container} bg-lightPrime `}>
-      <section className={`${styles.navbar} bg-lightPrime text-extraText`}>
-        <Image
-          src={"/logo.png"}
-          alt="Tiara Academy logo"
-          width={85}
-          height={85}
-        />
-        <div className={`${styles.navbarLeft} bg-lightPrime text-lightText`}>
+      <section
+        className={`${styles.navbar} bg-lightPrime text-extraText flex items-center`}
+      >
+        <Image src={"/logo.png"} alt={message.logoAlt} width={85} height={85} />
+        <div
+          className={`${styles.navbarLeft} bg-lightPrime text-lightText items-center`}
+        >
           {" "}
           <Link className="text-lightText" href={"#services"}>
-            Services
+            {message.Navbar.services}
           </Link>
           <Divider orientation="vertical" style={{ height: "20px" }} />
           <Link className="text-lightText" href={"#levels"}>
-            Levels
+            {message.Navbar.levels}
           </Link>
           <Divider orientation="vertical" style={{ height: "20px" }} />
           <Link className="text-lightText" href={"#testimonials"}>
-            Testimonials
+            {message.Navbar.testimonials}
           </Link>
           <Divider orientation="vertical" style={{ height: "20px" }} />
           <Link className="text-lightText" href={"/hub"}>
-            Enter Hub
+            {message.Navbar.enterHub}
+          </Link>
+          <Divider orientation="vertical" style={{ height: "20px" }} />
+          <Link href={language === "fa" ? "/en" : "/fa"}>
+            <Button className="hover:bg-extraText transition">
+              {message.Navbar.language}
+            </Button>
           </Link>
         </div>
         <div className={`${styles.navbarRight} bg-lightPrime`}>
@@ -51,7 +60,7 @@ export default async function Home() {
             {token ? (
               <div className=" pt-4 mb-3 gap-8 flex items-center justify-between">
                 <Link href={"/hub"} className="brownLink">
-                  Enter Hub
+                  {message.Navbar.enterHub}
                 </Link>
 
                 <div className=" scale-150">
@@ -59,9 +68,9 @@ export default async function Home() {
                 </div>
               </div>
             ) : (
-              <div className=" mb-3 pt-6  ">
+              <div className=" mb-3 pt-6 md:pt-0 md:mb-0 ">
                 <Link href={"/sign-in"} className="brownLink">
-                  Sign in / Sign up
+                  {message.Navbar.signInUp}
                 </Link>
               </div>
             )}
@@ -76,24 +85,21 @@ export default async function Home() {
             style={{ marginBottom: "2em", fontWeight: 700 }}
             className=" text-lightText"
           >
-            Introduction
+            {message.Hero.introduction}
           </p>
           <p className=" text-4xl font-bold md:text-5xl lg:text-6xl">
-            <span>Tiara Academy</span>
+            <span>{message.Hero.academy}</span>
             <br className="hidden md:block" />
-            <span> Smart</span>
+            <span> {message.Hero.smart}</span>
             <br className="hidden md:block" />
-            <span> Learning</span>
+            <span>{message.Hero.learning}</span>
           </p>
           <p style={{ marginBottom: "1em" }} className="text-lightText">
-            New smart way to learn and study english
+            {message.Hero.description}
           </p>
           <div className="flex gap-4 items-center flex-col md:flex-row ">
-            <Link href={"/sign-in"} className="brownLink">
-              Try for free
-            </Link>
-            <Button className=" cursor-default hover:scale-110 hover:border-lightText border rounded border-lightText bg-transparent text-lightText">
-              <Link href={"#howToUse"}>See how it works</Link>
+            <Button className=" cursor-default hover:scale-110 hover:border-lightText border rounded border-lightText bg-transparent text-lightText mb-4">
+              <Link href={"#howToUse"}>{message.Hero.seeHowItWorks}</Link>
             </Button>
           </div>
         </div>
@@ -101,7 +107,7 @@ export default async function Home() {
         <div className=" hidden md:block">
           <Image
             src="/Online-communication-skills.png"
-            alt="Introduction"
+            alt={message.Hero.introImageAlt}
             width={400}
             height={500}
           />
@@ -118,12 +124,9 @@ export default async function Home() {
             style={{ fontWeight: 700, fontSize: 40 }}
             className=" text-extraText text-center w-screen"
           >
-            Introducing good solution
+            {message.Guidance.guidance}
           </h4>
-          <p className="text-center mb-4">
-            Complete tutorial from the devloper in order to guide you through
-            website
-          </p>
+          <p className="text-center mb-4">{message.Guidance.description}</p>
         </div>
         <div className="hidden md:block mb-4">
           <Image
@@ -147,39 +150,39 @@ export default async function Home() {
           />
         </div>
         <div className={styles.secondServiceRight}>
-          <p style={{ marginBottom: "2em", fontWeight: 700 }}>About us</p>
+          <p style={{ marginBottom: "2em", fontWeight: 700 }}>
+            {message.About.title}
+          </p>
           <h4
             style={{ fontWeight: 700, fontSize: 30 }}
             className=" text-extraText"
           >
-            About our amazing team
+            {message.About.description}
           </h4>
-          <p>Get to know our institute and professional team</p>
+          <p>{message.About.explain}</p>
           <Link href={"/about"} className="font-bold underline text-extraText">
-            Read More
+            {message.About.readMore}
           </Link>
         </div>
       </section>
       <Divider sx={{ margin: "1em 0" }} />
       <section className={styles.thirdService}>
         <div className={styles.leftThirdService}>
-          <p style={{ marginBottom: "2em", fontWeight: 700 }}>Contact us</p>
+          <p style={{ marginBottom: "2em", fontWeight: 700 }}>
+            {message.Contact.title}
+          </p>
           <h4
             style={{ fontWeight: 700, fontSize: 30 }}
             className="text-extraText"
           >
-            Be connect with us and ask your questions
+            {message.Contact.subtitle}
           </h4>
-          <p>
-            We'd love to hear from you! Whether you have a question, need
-            support, or just want to share your language learning journey, our
-            team is here to help.
-          </p>
+          <p>{message.Contact.description}</p>
           <Link
             href={"/contact"}
             className="font-bold underline text-extraText"
           >
-            Know More
+            {message.Contact.knowMore}
           </Link>
         </div>
         <div className="hidden md:block">
@@ -206,33 +209,33 @@ export default async function Home() {
             style={{ fontWeight: 700, fontSize: 30 }}
             className="text-extraText"
           >
-            How to join our community
+            {message.Levels.title}
           </h3>
-          <p>Just 3 simple steps to join our fantastic english community!</p>
+          <p>{message.Levels.description}</p>
           <Link href={"/sign-up"} className="brownLink w-fit">
-            Sign up now
+            {message.Levels.signUpNow}
           </Link>
         </div>
         <div className={styles.rightLevels}>
           <div className={`${styles.eachLevel}`}>
-            <h4>Step 1</h4>
-            <p>
-              Make an account for yourself using{" "}
+            <h4>{message.Levels.step1}</h4>
+            <p className="flex gap-2 items-center">
+              {message.Levels.step1Desc}
               <span className="bg-lightText text-lightPrime px-4 py-2 rounded-md">
-                Sign up now
+                {message.Levels.signUpNow}
               </span>{" "}
-              button
+              {message.Levels.button}
             </p>
           </div>
 
           <div className={`${styles.eachLevel}`}>
-            <h4>Step 2</h4>
-            <p>Choose your class and time and reserve it</p>
+            <h4>{message.Levels.step2}</h4>
+            <p>{message.Levels.step2Desc}</p>
           </div>
 
           <div className={`${styles.eachLevel}`}>
-            <h4>Step 3</h4>
-            <p>Use and enjoy our fantastic services</p>
+            <h4>{message.Levels.step3}</h4>
+            <p>{message.Levels.step3Desc}</p>
           </div>
         </div>
       </section>
@@ -243,9 +246,9 @@ export default async function Home() {
           style={{ fontSize: 40, marginBottom: ".5em" }}
           className="text-extraText"
         >
-          Testimonials
+          {message.Testimonials.title}
         </h3>
-        <p>People love what we do and we want to let your know</p>
+        <p>{message.Testimonials.description}</p>
         <div className={styles.commentsContainer}>
           <div
             className={`${styles.eachComment} bg-extraBg text-lightPrime shadow-md rounded-md`}
@@ -306,11 +309,9 @@ export default async function Home() {
         <div className={`${styles.footerSectionsContainer} bg-lightPrime`}>
           <div className={styles.eachCol}>
             <h4 style={{ fontSize: 30 }} className="text-extraText">
-              Tiara Academy
+              {message.Footer.tiaraAc}
             </h4>
-            <p>
-              Join our newsletter to stay up to date on features and releases.
-            </p>
+            <p>{message.Footer.newsLetter}</p>
             <form className={styles.newsletterForm} action="">
               <TextField
                 sx={{
@@ -329,15 +330,12 @@ export default async function Home() {
           </div>
 
           <div className={`${styles.eachCol} lg:self-start`}>
-            <h5>Contact with us</h5>
-          </div>
-          <div className={`${styles.eachCol} lg:self-start`}>
-            <h5>Website map</h5>
-            <Link href={"#"}>Classes</Link>
-            <Link href={"#"}>Writing center</Link>
-            <Link href={"#"}>Teachers</Link>
-            <Link href={"#"}>Notes</Link>
-            <Link href={"#"}>Video center</Link>
+            <h5>{message.Footer.websiteMap}</h5>
+            <Link href={"/hub/classes"}>{message.Footer.classes}</Link>
+            <Link href={"#"}>{message.Footer.writingCenter}</Link>
+            <Link href={"#"}>{message.Footer.teachers}</Link>
+            <Link href={"#"}>{message.Footer.notes}</Link>
+            <Link href={"#"}>{message.Footer.videoCenter}</Link>
           </div>
           <div className={`${styles.eachCol} lg:self-start`}>
             <h5>Follow Us</h5>

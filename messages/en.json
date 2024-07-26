@@ -1,0 +1,71 @@
+{
+  "Layout": {
+    "copyright": "All rights reserved for Tiara Academy. Designed and developed by the Sani dev team."
+  },
+  "Navbar": {
+    "logoAlt": "Tiara Academy logo",
+    "services": "Services",
+    "levels": "Levels",
+    "testimonials": "Testimonials",
+    "enterHub": "Enter Hub",
+    "signInUp": "Sign in / Sign up",
+    "language": "Change to persian"
+  },
+  "Hero": {
+    "introduction": "Introduction",
+    "academy": "Tiara Academy",
+    "smart": "Smart",
+    "learning": "Learning",
+    "description": "New smart way to learn and study English",
+    "seeHowItWorks": "See how it works",
+    "introImageAlt": "Introduction"
+  },
+  "Guidance": {
+    "guidance": "Introducing good solution",
+    "description": "For a better use of the website, watch the video below"
+  },
+  "About": {
+    "title": "About us",
+    "description": "About our amazing team",
+    "readMore": "Get to know our institute and professional team",
+    "explain": "Read More"
+  },
+  "Contact": {
+    "title": "Contact us",
+    "subtitle": "Be connect with us and ask your questions",
+    "description": "We'd love to hear from you! Whether you have a question, need support, or just want to share your language learning journey, our team is here to help.",
+    "knowMore": "Know More"
+  },
+  "Levels": {
+    "title": "How to join our community",
+    "description": "Just 3 simple steps to join our fantastic english community!",
+    "signUpNow": "Sign up now",
+    "step1": "Step 1",
+    "step1Desc": "Make an account for yourself using",
+    "button": "button",
+    "step2": "Step 2",
+    "step2Desc": "Choose your class and reserve it",
+    "step3": "Step 3",
+    "step3Desc": "Use and enjoy our fantastic services"
+  },
+  "Testimonials": {
+    "title": "Testimonials",
+    "description": "People love what we do and we want to let your know"
+  },
+  "Footer": {
+    "followUs": "Follow Us",
+    "websiteMap": "Website map",
+    "facebook": "Facebook",
+    "instagram": "Instagram",
+    "x": "X",
+    "youtube": "Youtube",
+    "tiaraAc": "Tiara Academy",
+    "newsLetter": "Join our newsletter to stay up to date on features and releases.",
+    "subscribe": "Subscribe",
+    "classes": "Classes",
+    "writingCenter": "Writing Center",
+    "teachers": "Teachers",
+    "notes": "Articles",
+    "videoCenter": "Video Center"
+  }
+}
