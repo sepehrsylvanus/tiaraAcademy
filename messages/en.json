@@ -80,7 +80,10 @@
     "button": "Sign in",
     "formChange": "Sign up",
     "noAcc": "No account?",
-    "toast": "Login successful, You will be redirect to your Hub"
+    "toast": "Login successful, You will be redirect to your Hub",
+    "notFound": "کاربری با مشخصات داده شده یافت نشد",
+    "wrongCredentials": "پست الکترونیکی یا رمز عبور اشتباه است",
+    "success": "کاربر با موفقیت وارد شد"
   },
   "SignUp": {
     "formDescription": "Create account in order to have access to your Hub and extra features",
@@ -92,6 +95,10 @@
     "cPassword": "Confirm password",
     "button": "Sign up",
     "account": "Have an account?",
-    "signIn": "Sign in"
+    "signIn": "Sign in",
+    "allreadyUser": "User already there",
+    "user": "User",
+    "created": "successfully created",
+    "crashed": "Creating user crashed"
   }
 }

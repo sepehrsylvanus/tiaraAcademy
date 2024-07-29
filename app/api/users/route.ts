@@ -15,8 +15,9 @@ type FormDataProps = {
 
 // ============ REGISTER USER ============
 export const POST = async (req: NextRequest, res: NextResponse) => {
-  const t = await getMessages({ locale: "SignUp" });
-  console.log(t);
+  const t = (await getMessages()) as any;
+  const signUpT = t.SignUp;
+  console.log(signUpT);
   if (req.headers.get("apiKey")) {
     try {
       const formData: FormDataProps = await req.json();
@@ -41,7 +42,7 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
 
       if (alreadyRegistered) {
         return NextResponse.json(
-          { error: "User Already there!" },
+          { error: signUpT.allreadyUser },
           { status: 409 }
         );
       }
@@ -51,14 +52,11 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
       });
 
       return NextResponse.json({
-        message: `New user successfully created: ${newUser.fName} ${newUser.lName}`,
+        message: `${signUpT.user} ${newUser.fName} ${newUser.lName} ${signUpT.created}`,
       });
     } catch (error) {
       console.log(error);
-      return NextResponse.json(
-        { error: "Creating user crashed" },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: signUpT.crashed }, { status: 500 });
     }
   } else {
     return NextResponse.json({ message: "Access denied" }, { status: 401 });

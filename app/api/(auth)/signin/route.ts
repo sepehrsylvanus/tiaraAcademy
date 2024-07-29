@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 const bcrypt = require("bcryptjs");
 import prisma from "@/utils/db";
+import { getMessages } from "next-intl/server";
 const { sign } = require("jsonwebtoken");
 
 type formDataProps = {
@@ -10,7 +11,8 @@ type formDataProps = {
 
 export const POST = async (req: NextRequest, res: NextResponse) => {
   const formData: formDataProps = await req.json();
-
+  const messages = (await getMessages()) as any;
+  const signInT = messages.SignIn;
   const user = await prisma.user.findUnique({
     where: {
       email: formData.email,
@@ -18,14 +20,14 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
   });
 
   if (!user) {
-    return NextResponse.json({ error: "User not found" }, { status: 404 });
+    return NextResponse.json({ error: signInT.notFound }, { status: 404 });
   }
 
   const isPassValid = bcrypt.compareSync(formData.password, user.password);
 
   if (!isPassValid) {
     return NextResponse.json(
-      { error: "Email or password is wrong" },
+      { error: signInT.wrongCredentials },
       { status: 403 }
     );
   }
@@ -41,7 +43,7 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
   );
   if (req.headers.get("apiKey")) {
     const response = NextResponse.json({
-      message: "User logged in successfully",
+      message: signInT.success,
     });
 
     response.cookies.set("token", token, {
