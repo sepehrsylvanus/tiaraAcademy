@@ -1,5 +1,6 @@
 "use server";
 import prisma from "@/utils/db";
+import { getMessages } from "next-intl/server";
 
 import { NextRequest, NextResponse } from "next/server";
 const bcrypt = require("bcryptjs");
@@ -14,6 +15,8 @@ type FormDataProps = {
 
 // ============ REGISTER USER ============
 export const POST = async (req: NextRequest, res: NextResponse) => {
+  const t = await getMessages({ locale: "SignUp" });
+  console.log(t);
   if (req.headers.get("apiKey")) {
     try {
       const formData: FormDataProps = await req.json();

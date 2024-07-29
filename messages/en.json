@@ -67,5 +67,31 @@
     "teachers": "Teachers",
     "notes": "Articles",
     "videoCenter": "Video Center"
+  },
+  "SignIn": {
+    "title": "Tiara Academy: Smart English Learning",
+    "description": "Please login in order to access videos, weekly schedules, upload writing and much more",
+    "formTitle": "Welcome to Tiara Academy",
+    "formDescription": "Login in order to have access to your Hub and extra features",
+    "user": "Email Address | User Name",
+    "password": "password",
+    "forgetQuestion": "If you can't remember your password?",
+    "change": "Change password",
+    "button": "Sign in",
+    "formChange": "Sign up",
+    "noAcc": "No account?",
+    "toast": "Login successful, You will be redirect to your Hub"
+  },
+  "SignUp": {
+    "formDescription": "Create account in order to have access to your Hub and extra features",
+    "fName": "First name",
+    "lName": "Last name",
+    "pNumber": "Phone number",
+    "email": "Email Address",
+    "password": "Password",
+    "cPassword": "Confirm password",
+    "button": "Sign up",
+    "account": "Have an account?",
+    "signIn": "Sign in"
   }
 }

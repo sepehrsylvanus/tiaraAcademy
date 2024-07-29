@@ -15,11 +15,14 @@ import { CircularProgress } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { Axios } from "@/utils/axiosIn";
+import { useTranslations } from "next-intl";
 const formSchema = z.object({
   email: z.string().min(2).max(50),
   password: z.string(),
 });
 const Login = () => {
+  const t = useTranslations("SignIn");
+
   const router = useRouter();
   const [sending, setSending] = useState(false);
   const [error, setError] = useState("");
@@ -35,7 +38,7 @@ const Login = () => {
     Axios.post("/signin", values)
       .then((res) => {
         setSending(false);
-        toast.success("Login successful, You will be redirect to your Hub");
+        toast.success(t("toast"));
         router.push("/hub");
       })
       .catch((e) => {
@@ -55,25 +58,22 @@ const Login = () => {
           className={styles.loginImg}
         />
 
-        <h1>Tiara Academy: Smart English Learning</h1>
+        <h1 className="text-center">{t("title")}</h1>
 
-        <p className="w-[80%] text-center mt-4">
-          Please login in order to access videos, weekly schedules, upload
-          writing and much more
-        </p>
+        <p className="w-[80%] text-center mt-4">{t("description")}</p>
       </div>
       <div className={styles.loginForm}>
         <div className="max-w-md w-full mx-auto  rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black">
           <h2 className="font-bold text-xl text-neutral-800 dark:text-neutral-200">
-            Welcome to Tiara Academy
+            {t("formTitle")}
           </h2>
           <p className="text-neutral-600 text-sm max-w-sm mt-2 dark:text-neutral-300">
-            Login in order to have access to your Hub and extra features
+            {t("formDescription")}
           </p>
 
           <form className="my-8" onSubmit={signinForm.handleSubmit(signin)}>
             <LabelInputContainer className="mb-4">
-              <Label htmlFor="email">Email Address | User Name</Label>
+              <Label htmlFor="email">{t("user")}</Label>
               <Controller
                 name="email"
                 control={signinForm.control}
@@ -88,7 +88,7 @@ const Login = () => {
               />
             </LabelInputContainer>
             <LabelInputContainer className="mb-4">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password">{t("password")}</Label>
               <Controller
                 name="password"
                 control={signinForm.control}
@@ -103,12 +103,12 @@ const Login = () => {
               />
             </LabelInputContainer>
             <div className="text-black flex flex-col mb-4">
-              <p>If you can't remember your password?</p>
+              <p>{t("forgetQuestion")}</p>
               <Link
                 className=" font-bold text-blue-500 hover:scale-105 transition"
                 href={"/forgetPass"}
               >
-                Change password
+                {t("change")}
               </Link>
             </div>
 
@@ -121,19 +121,19 @@ const Login = () => {
                   <CircularProgress sx={{ color: "white" }} />
                 </div>
               ) : (
-                "Sign in"
+                t("button")
               )}
               <BottomGradient />
             </button>
             <p className=" text-red-500 font-bold">{error}</p>
           </form>
           <p className="text-black flex gap-2">
-            No account?
+            {t("formChange")}
             <Link
               className=" font-bold text-blue-500 hover:scale-110 transition"
               href={"/sign-up"}
             >
-              Sign up
+              {t("noAcc")}
             </Link>
           </p>
         </div>

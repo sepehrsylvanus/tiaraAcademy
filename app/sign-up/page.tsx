@@ -16,6 +16,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { CircularProgress } from "@mui/material";
 import { Axios } from "@/utils/axiosIn";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 const signupSchema = z.object({
   fName: z.string().min(4, { message: "Please enter a proper name" }),
@@ -29,7 +30,8 @@ const signupSchema = z.object({
 const SignUp = () => {
   const router = useRouter();
   const [sending, setSending] = useState(false);
-
+  const bannerT = useTranslations("SignIn");
+  const t = useTranslations("SignUp");
   const form = useForm<z.infer<typeof signupSchema>>({
     resolver: zodResolver(signupSchema),
     defaultValues: {
@@ -84,27 +86,23 @@ const SignUp = () => {
           className={styles.loginImg}
         />
 
-        <h1>Tiara Academy: Smart English Learning</h1>
+        <h1 className="text-center">{bannerT("title")}</h1>
 
-        <p className="w-[80%] text-center mt-4">
-          Please login in order to access videos, weekly schedules, upload
-          writing and much more
-        </p>
+        <p className="w-[80%] text-center mt-4">{bannerT("description")}</p>
       </div>
       <div className={styles.loginForm}>
         <div className={styles.loginForm}>
           <div className="max-w-md w-full mx-auto rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black">
             <h2 className="font-bold text-xl text-neutral-800 dark:text-neutral-200">
-              Welcome to Tiara Academy
+              {bannerT("formTitle")}
             </h2>
             <p className="text-neutral-600 text-sm max-w-sm mt-2 dark:text-neutral-300">
-              Create account in order to have access to your Hub and extra
-              features
+              {t("formDescription")}
             </p>
             <form className="my-8" onSubmit={form.handleSubmit(signupUser)}>
               <div className="grid grid-cols-2 gap-[3.5em]">
                 <LabelInputContainer className="mb-4">
-                  <Label htmlFor="email">First name</Label>
+                  <Label htmlFor="email">{t("fName")}</Label>
                   <Controller
                     name="fName"
                     control={form.control}
@@ -119,7 +117,7 @@ const SignUp = () => {
                   />
                 </LabelInputContainer>
                 <LabelInputContainer className="mb-4">
-                  <Label htmlFor="lName">Last name</Label>
+                  <Label htmlFor="lName">{t("lName")}</Label>
                   <Controller
                     name="lName"
                     control={form.control}
@@ -135,7 +133,7 @@ const SignUp = () => {
                 </LabelInputContainer>
               </div>
               <LabelInputContainer className="mb-4">
-                <Label htmlFor="pNumber">Phone Number</Label>
+                <Label htmlFor="pNumber">{t("pNumber")}</Label>
                 <Controller
                   name="pNumber"
                   control={form.control}
@@ -150,7 +148,7 @@ const SignUp = () => {
                 />
               </LabelInputContainer>
               <LabelInputContainer className="mb-4">
-                <Label htmlFor="email">Email Address </Label>
+                <Label htmlFor="email">{t("email")}</Label>
                 <Controller
                   name="email"
                   control={form.control}
@@ -165,7 +163,7 @@ const SignUp = () => {
                 />
               </LabelInputContainer>
               <LabelInputContainer className="mb-4">
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password">{t("password")}</Label>
                 <Controller
                   name="password"
                   control={form.control}
@@ -180,7 +178,7 @@ const SignUp = () => {
                 />
               </LabelInputContainer>
               <LabelInputContainer className="mb-4">
-                <Label htmlFor="password">Confirm password</Label>
+                <Label htmlFor="password">{t("cPassword")}</Label>
                 <Controller
                   name="passwordRepeat"
                   control={form.control}
@@ -204,18 +202,18 @@ const SignUp = () => {
                     <CircularProgress sx={{ color: "white" }} />
                   </div>
                 ) : (
-                  "Sign up"
+                  t("button")
                 )}
                 <BottomGradient />
               </button>
             </form>
             <p className="text-black flex gap-2">
-              Have an account?
+              {t("account")}
               <Link
                 className=" font-bold text-blue-500 hover:scale-110 transition"
                 href={"/sign-in"}
               >
-                Sign in
+                {t("signIn")}
               </Link>
             </p>
           </div>
