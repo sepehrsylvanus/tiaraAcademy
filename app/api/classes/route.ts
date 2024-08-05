@@ -16,14 +16,15 @@ export const POST = async (req: NextRequest) => {
       const newClass = await prisma.class.create({
         data: {
           ...data,
-          creatorId: user?.id,
+          userId: user?.id,
         },
       });
       return NextResponse.json({
         message: `Your new class created => ${newClass.title}`,
       });
-    } catch (error) {
-      return NextResponse.json({ message: error }, { status: 500 });
+    } catch (error: any) {
+      console.log(error.message);
+      return NextResponse.json({ message: error.message }, { status: 500 });
     }
   } else {
     return NextResponse.json({ message: "access denied" }, { status: 401 });
@@ -35,12 +36,13 @@ export const GET = async (req: NextRequest) => {
     try {
       const classes = await prisma.class.findMany({
         include: {
-          creator: true,
+          teacher: true,
         },
       });
 
       return NextResponse.json({ classes });
     } catch (error) {
+      console.log(error);
       return NextResponse.json({ message: error }, { status: 500 });
     }
   } else {

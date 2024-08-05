@@ -132,3 +132,22 @@ export const privateTimes = [
 ];
 
 export const publicTimes = ["9", "10:45", "14", "15:45", "17:30", "19:15"];
+
+export const classesType = [
+  {
+    title: "Placement",
+    type: "placement",
+  },
+  {
+    title: "1-to-1 Classes",
+    type: "1v1",
+  },
+  {
+    title: "Group Classes",
+    type: "group",
+  },
+  {
+    title: "Workshops",
+    type: "workshop",
+  },
+];

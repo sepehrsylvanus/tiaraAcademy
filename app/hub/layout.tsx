@@ -1,11 +1,13 @@
 import { getToken } from "@/actions/actions";
 import CustomHamburger from "@/components/hamburger/CustomHamburger";
 import Sidebar from "@/components/sidebar/Sidebar";
+import { getLocale } from "next-intl/server";
 import React from "react";
 
 const layout = async ({ children }: { children: React.ReactNode }) => {
   const token = await getToken()!;
-
+  const locale = await getLocale();
+  console.log(locale);
   return (
     <div>
       <div className="hidden md:block">
@@ -16,7 +18,11 @@ const layout = async ({ children }: { children: React.ReactNode }) => {
         <CustomHamburger navbar={false} sidebar={true} />
       </div>
 
-      <div className=" lg:pl-[2.5em]">{children}</div>
+      <div
+        className={` ${locale === "fa" ? "lg:pr-[2.5em]" : "lg:pl-[2.5em]"}`}
+      >
+        {children}
+      </div>
     </div>
   );
 };

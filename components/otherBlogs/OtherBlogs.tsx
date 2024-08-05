@@ -25,7 +25,9 @@ const OtherBlogs = ({
   const trendArticles = articles?.filter((article) => article.trend);
   const { data: currentUser } = useGetCurrentUser();
   const { mutate } = useChangeTrend();
-
+  const filteredVideos = videos?.filter(
+    (video) => !video.Playlist?.price || !video.Playlist
+  );
   const handleToggleTrend = async (id: string) => {
     if (trendArticles && trendArticles.length >= 4) {
       toast.error("Trend articles more thant 4");

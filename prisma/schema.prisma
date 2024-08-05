@@ -47,19 +47,20 @@ model User {
 }
 
 model Class {
-  id         String       @id @default(cuid()) @map("_id")
-  createdAt  DateTime     @default(now())
+  id String @id @default(cuid()) @map("_id")
+
+  ClassUsers ClassUsers[]
+  teacher    User?        @relation(fields: [teacherId], references: [id])
+  teacherId  String?
   title      String
-  days       String[]
+  type       String
   price      String
-  type       Type
   capacity   Int
-  times      String[]
-  classUsers ClassUsers[]
-  fix        Boolean      @default(false)
-  creatorId  String
-  creator    User         @relation(fields: [creatorId], references: [id])
+  days       String[]
+  date       DateTime?
   duration   String[]
+  times      String[]
+  userId     String
 }
 
 model ClassUsers {

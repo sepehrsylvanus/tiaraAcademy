@@ -21,6 +21,7 @@ import {
   InputOTPSeparator,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
+import { useTranslations } from "next-intl";
 
 const ForgetPass = () => {
   const router = useRouter();
@@ -31,6 +32,7 @@ const ForgetPass = () => {
   const [countdown, setCountdown] = useState<number>(0);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [disableForm, setDisableForm] = useState(true);
+  const banner = useTranslations('SignIn')
   const formSchema = z
     .object({
       verification: z
@@ -126,7 +128,7 @@ const ForgetPass = () => {
       }, 0);
     }
   };
-  console.log("Hello world");
+
   useEffect(() => {
     if (countdown > 0) {
       const timerId = setTimeout(() => setCountdown(countdown - 1), 1000);
@@ -160,7 +162,7 @@ const ForgetPass = () => {
           className={styles.loginImg}
         />
 
-        <h1>Tiara Academy: Smart English Learning</h1>
+        <h1 className="text-center">{banner('title')}</h1>
 
         <p className="w-[80%] text-center mt-4">
           Here you can change your password and get a new one

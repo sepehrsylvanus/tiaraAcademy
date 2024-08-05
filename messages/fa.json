@@ -100,5 +100,24 @@
     "user": "کاربر",
     "created": "با موفقیت ساخته شد",
     "crashed": "ساختن حساب جدید با موشکل مواجه شد"
+  },
+  "AdminHub": {
+    "landingPage": "صفحه‌ی اصلی",
+
+    "contentManagement": "مدیریت محتوا",
+    "videoSection": "بخش ویدیو",
+    "videoSectionDescription": "پست کردن یا پاک کردن ویدیو",
+    "deleteVideo": "پاک کردن ویدیو",
+    "delete": "پاک کردن",
+    "deletePlaceholder": "شناسه‌ی ویدیوی خود را وارد کنید",
+    "createVideo": "پست کردن ویدیو",
+    "titlePlaceholder": "عنوان...",
+    "filePlaceholder": "فایلی انتخاب نشده است",
+    "addANew": "یک",
+    "create": "ایجاد کنید",
+    "category": "دسته بندی",
+    "thenChoose": "بعد انتخاب کنید",
+    "playlist": "لیست پخش",
+    "descripitonPlaceholder": "این را پاک کنید و متنِ خود را بنویسید"
   }
 }

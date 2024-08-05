@@ -81,9 +81,9 @@
     "formChange": "Sign up",
     "noAcc": "No account?",
     "toast": "Login successful, You will be redirect to your Hub",
-    "notFound": "کاربری با مشخصات داده شده یافت نشد",
-    "wrongCredentials": "پست الکترونیکی یا رمز عبور اشتباه است",
-    "success": "کاربر با موفقیت وارد شد"
+    "notFound": "User not found",
+    "wrongCredentials": "Email or password is wrong",
+    "success": "User logged in successfully"
   },
   "SignUp": {
     "formDescription": "Create account in order to have access to your Hub and extra features",
@@ -100,5 +100,26 @@
     "user": "User",
     "created": "successfully created",
     "crashed": "Creating user crashed"
+  },
+  "forgetPass": {
+    "description": "Here you can change your password and get a new one"
+  },
+  "AdminHub": {
+    "landingPage": "Landing page",
+    "AdminTeacher": "Admin | Teacher",
+    "contentManagement": "Content Management",
+    "videoSection": "Video Section",
+    "videoSectionDescription": "Post or delete videos",
+    "deleteVideo": "Delete video",
+    "delete": "Delete",
+    "deletePlaceholder": "Enter your video id",
+    "createVideo": "Create Video",
+    "titlePlaceholder": "Title...",
+    "filePlaceholder": "No file chosen",
+    "addANew": "Add a new",
+    "category": "Category",
+    "thenChoose": "then choose",
+    "playlist": "Playlist",
+    "descripitonPlaceholder": "Erase this and write your caption"
   }
 }
