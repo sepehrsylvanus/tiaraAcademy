@@ -129,7 +129,7 @@ const CreateClass = () => {
   async function createClass(values: z.infer<typeof formSchema>) {
     setSending(true);
 
-    if (!values.duration && !values.date) {
+    if (!values.duration && !values.date && values.type !== "placement") {
       toast.error("please choose your date or dates");
       setSending(false);
       return;
@@ -325,7 +325,9 @@ const CreateClass = () => {
             </div>
             <div
               className={
-                chosenType === "group" ? "opacity-50 pointer-events-none" : ""
+                chosenType === "group" || chosenType === "placement"
+                  ? "opacity-50 pointer-events-none"
+                  : ""
               }
             >
               <Label htmlFor="date">Date</Label>

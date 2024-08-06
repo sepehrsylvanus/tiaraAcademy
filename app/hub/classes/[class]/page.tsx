@@ -19,6 +19,7 @@ import ClassesDate from "@/components/classesDate/ClassesDate";
 import CustomSelect from "@/components/customSelect/CustomSelect";
 
 import {
+  getClasses,
   getRegisterdClasses,
   getSingleClass,
   getToken,
@@ -34,6 +35,7 @@ import { useGetRegisteredClasses } from "@/hooks/useGetRegisteredClasses";
 import { useQuery } from "@tanstack/react-query";
 import { getSingleUser } from "@/actions/userActions";
 import prisma from "@/utils/db";
+import { useGetClasses } from "@/hooks/useClasses";
 
 type DetailsProps = {
   params: {
@@ -48,20 +50,20 @@ const classValidation = z.object({
 });
 const MyClass = (details: DetailsProps) => {
   const { params } = details;
+  console.log(params.class);
+  const { data: classes } = useGetClasses();
   const [singleClass, setSingleClass] = useState<Class>();
+  useEffect(() => {
+    if (classes) {
+      setSingleClass(classes.filter((cls) => cls.id === params.class)[0]);
+    }
+  }, [classes]);
+
   // const [registeredClasses, setRegisteredClasses] = useState<
   //   UserClasses[] | undefined
   // >();
   const [loading, setLoading] = useState(false);
-  useEffect(() => {
-    const fetchClassData = async () => {
-      const singleClass = await getSingleClass(params.class);
-      if (singleClass) {
-        setSingleClass(singleClass);
-      }
-    };
-    fetchClassData();
-  }, []);
+
   const { data: token } = useQuery({
     queryKey: ["getToken"],
     queryFn: async () => await getToken(),
@@ -78,18 +80,6 @@ const MyClass = (details: DetailsProps) => {
   // FORM OPERATIONS
   console.log(token);
   console.log(currentUser);
-  // useEffect(() => {
-  //   const fetchRegisteredClasses = async () => {
-  //     if (currentUser) {
-  //       const myRegistered = await getRegisterdClasses(
-  //         params.class,
-  //         currentUser?.id
-  //       );
-  //       setRegisteredClasses(myRegistered);
-  //     }
-  //   };
-  //   fetchRegisteredClasses();
-  // }, [currentUser]);
 
   const registerForm = useForm<z.infer<typeof classValidation>>({
     resolver: zodResolver(classValidation),
@@ -137,14 +127,14 @@ const MyClass = (details: DetailsProps) => {
               تغییر کلاس جاری
             </Link>
           </div>
-          {singleClass?.creator ? (
+          {singleClass?.teacher ? (
             <h2 className={styles.title}>{`${singleClass?.title
               .split("-")
               .map(
                 (word: string) => word.charAt(0).toUpperCase() + word.slice(1)
               )
-              .join(" ")} - ${singleClass?.creator.fName} ${
-              singleClass?.creator.lName
+              .join(" ")} - ${singleClass?.teacher.fName} ${
+              singleClass?.teacher.lName
             }`}</h2>
           ) : (
             <div className="flex justify-center">
