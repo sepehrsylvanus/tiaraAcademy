@@ -50,8 +50,8 @@ model Class {
   id String @id @default(cuid()) @map("_id")
 
   ClassUsers ClassUsers[]
-  teacher    User?        @relation(fields: [teacherId], references: [id])
-  teacherId  String?
+  teacher    User         @relation(fields: [teacherId], references: [id])
+  teacherId  String
   title      String
   type       String
   price      String
@@ -60,7 +60,6 @@ model Class {
   date       DateTime?
   duration   String[]
   times      String[]
-  userId     String
 }
 
 model ClassUsers {

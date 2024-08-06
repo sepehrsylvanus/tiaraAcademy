@@ -1,6 +1,7 @@
 "use client";
 import {
   CircularProgress,
+  duration,
   FormControl,
   InputLabel,
   MenuItem,
@@ -73,6 +74,24 @@ const CreateClass = () => {
   const [dateRange, setDateRange] = useState<DateObject>();
   const [chosenType, setChosenType] = useState("placement");
   const [date, setDate] = useState<Date>();
+  const [price, setPrice] = useState<{ price: string; index: number }>({
+    price: "",
+    index: 0,
+  });
+  const [capacity, setCapacity] = useState<{
+    capacity: number;
+    index: number;
+  }>({ capacity: 0, index: 0 });
+  const givePrice = (index: number) => {
+    if (index === price?.index) {
+      return price?.price;
+    }
+  };
+  const giveCapacity = (index: number) => {
+    if (index === capacity?.index) {
+      return capacity?.capacity;
+    }
+  };
   useEffect(() => {
     console.log(chosenType);
   }, [chosenType]);
@@ -103,15 +122,18 @@ const CreateClass = () => {
   const {
     formState: { errors },
   } = form;
+  const duration = form.watch("duration");
   console.log(errors);
   const classType = form.watch("type");
-  useEffect(() => {
-    console.log(chosenType);
-    form.setValue("type", chosenType);
-  }, [chosenType]);
 
   async function createClass(values: z.infer<typeof formSchema>) {
     setSending(true);
+
+    if (!values.duration && !values.date) {
+      toast.error("please choose your date or dates");
+      setSending(false);
+      return;
+    }
 
     console.log(values);
     Axios.post("/classes", values)
@@ -127,10 +149,17 @@ const CreateClass = () => {
           theme: "light",
         });
 
-        form.reset({});
+        form.reset();
+        setPrice({ price: "", index: 0 });
+        setCapacity({ capacity: 0, index: 0 });
+        givePrice(0);
+        giveCapacity(0);
+        form.setValue("date", undefined);
+        form.setValue("duration", undefined);
+        setDate(undefined);
         setSending(false);
       })
-      .catch((e) => {
+      .catch((e: any) => {
         toast.error(e.response.data.error, {
           position: "bottom-right",
           autoClose: 5000,
@@ -144,7 +173,19 @@ const CreateClass = () => {
         setSending(false);
       });
   }
-
+  useEffect(() => {
+    console.log(chosenType);
+    form.setValue("type", chosenType);
+    if (price) {
+      form.setValue("price", price?.price);
+    }
+    if (capacity) {
+      form.setValue("capacity", capacity.capacity);
+    }
+    if (date) {
+      form.setValue("date", date);
+    }
+  }, [chosenType, price, capacity, date]);
   const renderIcon = (index: number) => {
     switch (index) {
       case 0:
@@ -194,35 +235,23 @@ const CreateClass = () => {
               <p className="text-lg font-semibold">{type.title}</p>
 
               <div className="w-full mt-4">
-                <Controller
-                  name="price"
-                  control={form.control}
-                  render={({ field }) => (
-                    <input
-                      {...field}
-                      className="formInput mb-2 w-full"
-                      placeholder="Enter price"
-                      style={{ boxSizing: "border-box" }}
-                    />
-                  )}
+                <input
+                  className="formInput mb-2 w-full"
+                  placeholder="Enter price"
+                  style={{ boxSizing: "border-box" }}
+                  onChange={(e) => setPrice({ price: e.target.value, index })}
+                  value={givePrice(index)}
                 />
                 <div className="flex gap-4 items-center">
                   <p className="flex-1">Capacity</p>
-                  <Controller
-                    name="capacity"
-                    control={form.control}
-                    render={({ field }) => (
-                      <input
-                        {...field}
-                        type="number"
-                        min={0}
-                        className="formInput w-full flex-1"
-                        onChange={(e) => {
-                          const numericValue = parseInt(e.target.value, 10);
-                          field.onChange(numericValue);
-                        }}
-                      />
-                    )}
+                  <input
+                    type="text"
+                    min={0}
+                    className="formInput w-full flex-1"
+                    onChange={(e) =>
+                      setCapacity({ capacity: Number(e.target.value), index })
+                    }
+                    value={giveCapacity(index)}
                   />
                 </div>
               </div>
@@ -265,7 +294,7 @@ const CreateClass = () => {
             />
             <div
               className={`  col-span-2 ${
-                chosenType === "workshop" ? "" : "opacity-50"
+                chosenType === "group" ? "" : "opacity-50"
               }`}
             >
               <Controller
@@ -274,12 +303,12 @@ const CreateClass = () => {
                 render={({ field }) => (
                   <DatePicker
                     range
-                    disabled={chosenType !== "workshop"}
+                    disabled={chosenType !== "group"}
                     weekStartDayIndex={6}
                     dateSeparator="|"
                     minDate={new Date()}
                     placeholder={
-                      chosenType !== "workshop"
+                      chosenType !== "group"
                         ? "Deactive"
                         : "Choose your class duration"
                     }
@@ -296,9 +325,7 @@ const CreateClass = () => {
             </div>
             <div
               className={
-                chosenType === "workshop"
-                  ? "opacity-50 pointer-events-none"
-                  : ""
+                chosenType === "group" ? "opacity-50 pointer-events-none" : ""
               }
             >
               <Label htmlFor="date">Date</Label>
@@ -352,15 +379,15 @@ const CreateClass = () => {
                     value={field.value}
                     multiple
                     sx={{ backgroundColor: "#c6d9e6", width: "100%" }}
-                    disabled={chosenType === "placement"}
                   >
-                    {(chosenType === "workshop" || chosenType === "group") &&
+                    {(chosenType === "1v1" || chosenType === "group") &&
                       publicTimes.map((time) => (
                         <MenuItem key={time} value={time}>
                           {time}
                         </MenuItem>
                       ))}
-                    {chosenType === "1v1" &&
+                    {(chosenType === "workshop" ||
+                      chosenType === "placement") &&
                       privateTimes.map((time) => (
                         <MenuItem key={time} value={time}>
                           {time}

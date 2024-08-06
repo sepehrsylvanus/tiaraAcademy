@@ -33,17 +33,36 @@ import { getToken, registerPlayList } from "@/actions/actions";
 import { getSingleUser } from "@/actions/userActions";
 import { Axios } from "@/utils/axiosIn";
 import { useGetPlaylists } from "@/hooks/usePlayList";
+import { useGetClasses } from "@/hooks/useClasses";
+import { date } from "zod";
+import { useGetTeacherNames } from "@/hooks/useUsers";
 
 const Classes = () => {
   const [loading, setLoading] = useState(true);
-  const [classes, setClasses] = useState<Class[]>();
-  const [filteredClasses, setFilteredClasses] = useState(classes);
-  const [teachersname, setTeachersname] = useState<string[]>();
   const [currentUser, setCurrentUser] = useState<User>();
+
+  const { data: classes, isLoading: classesLoading } = useGetClasses();
   const { data: playlists, isLoading } = useGetPlaylists();
+  const { data: teachersName } = useGetTeacherNames();
   console.log(playlists);
+  const [filteredClasses, setFilteredClasses] = useState(classes);
   const searchParams = useSearchParams();
   const teacherParam = searchParams.get("teacher");
+
+  if (classes) {
+    console.log(classes);
+  }
+  useEffect(() => {
+    if (classes) {
+      setFilteredClasses(classes);
+    }
+    const teachersName = classes?.map(
+      (cls) => `${cls.teacher.fName} ${cls.teacher.lName}`
+    );
+  }, [classes]);
+  useEffect(() => {
+    console.log(filteredClasses);
+  }, [filteredClasses]);
 
   const handleJoin = () => {
     toast.success("You successfully registered in this class");
@@ -58,45 +77,6 @@ const Classes = () => {
       }
     };
     fetchUser();
-  }, []);
-
-  useEffect(() => {
-    console.log(filteredClasses);
-  }, [filteredClasses]);
-
-  useEffect(() => {
-    Axios.get("/classes")
-      .then((res) => {
-        setClasses(res.data.classes);
-        setFilteredClasses(res.data.classes);
-
-        const teachersNameSet: Set<string> = new Set();
-        res.data.classes.forEach((item: Class) => {
-          const fullName = `${item.creator!.fName} ${item.creator?.lName}`;
-          teachersNameSet.add(fullName);
-        });
-
-        const uniqueTeachersName: string[] = Array.from(teachersNameSet);
-
-        setTeachersname(uniqueTeachersName);
-        if (teacherParam) {
-          const filterVal = teacherParam.split("-").join("").toLowerCase();
-
-          const classes: Class[] = res.data.classes;
-          const result = classes.filter((eachClass) =>
-            `${eachClass.creator!.fName}${eachClass.creator?.lName}`
-              .toLowerCase()
-              .startsWith(filterVal)
-          );
-
-          setFilteredClasses(result);
-        }
-        setLoading(false);
-      })
-      .catch((e) => toast.error(e.response.data.error))
-      .finally(() => {
-        setLoading(false);
-      });
   }, []);
 
   const teacherName = searchParams.get("teacher");
@@ -118,56 +98,33 @@ const Classes = () => {
   const classNameInput = watch("className", "");
   const teacherNameInput = watch("teacherName", "");
 
-  const filterData = (data: FormInputs) => {
-    const { className, teacherName } = data;
-
-    const classFilterValue = className.split(" ").join("").toLowerCase();
-    if (className && teacherName) {
-      const result = classes?.filter((eachClass) => {
-        const classToFilter = eachClass.title.split(" ").join("").toLowerCase();
-        const teacherToFilter = `${eachClass.creator!.fName} ${
-          eachClass.creator?.lName
-        }`
-          .split(" ")
-          .join("")
-          .toLowerCase();
-
-        return (
-          classToFilter.startsWith(classFilterValue) &&
-          teacherToFilter === teacherName
-        );
-      });
-
-      setFilteredClasses(result);
-    } else if (className) {
-      const result = classes?.filter((eachClass) => {
-        const classToFilter = eachClass.title.split(" ").join("").toLowerCase();
-
-        return classToFilter.startsWith(classFilterValue);
-      });
-      setFilteredClasses(result);
-    } else if (teacherName) {
-      const result = classes?.filter((eachClass) => {
-        const teacherToFilter = `${eachClass.creator!.fName} ${
-          eachClass.creator?.lName
-        }`
-          .split(" ")
-          .join("")
-          .toLowerCase();
-
-        return teacherToFilter === teacherName;
-      });
-      setFilteredClasses(result);
+  useEffect(() => {
+    console.log("here");
+    if (classNameInput && teacherNameInput) {
+      setFilteredClasses(
+        classes?.filter(
+          (cls) =>
+            (cls.title.startsWith(classNameInput) &&
+              cls.teacher.fName.startsWith(teacherNameInput)) ||
+            cls.teacher.lName?.startsWith(teacherNameInput)
+        )
+      );
+    } else if (classNameInput) {
+      setFilteredClasses(
+        classes?.filter((cls) => cls.title.startsWith(classNameInput))
+      );
+    } else if (teacherNameInput) {
+      setFilteredClasses(
+        classes?.filter(
+          (cls) =>
+            cls.teacher.fName.startsWith(teacherNameInput) ||
+            cls.teacher.lName?.startsWith(teacherNameInput)
+        )
+      );
     } else {
       setFilteredClasses(classes);
     }
-  };
-
-  // useEffect(() => {
-  //   if (searchParams) {
-  //     const result = filteredClasses
-  //   }
-  // }, []);
+  }, [classNameInput, teacherNameInput]);
 
   // END FILTER DATA
   const copyToClipboard = async (text: string) => {
@@ -215,11 +172,8 @@ const Classes = () => {
                     label="Choose your teacher"
                   >
                     <MenuItem value="">Without filter</MenuItem>
-                    {teachersname?.map((eachName, index) => (
-                      <MenuItem
-                        key={index}
-                        value={eachName.split(" ").join("").toLowerCase()}
-                      >
+                    {teachersName?.map((eachName, index) => (
+                      <MenuItem key={index} value={eachName}>
                         {eachName}
                       </MenuItem>
                     ))}
@@ -228,18 +182,11 @@ const Classes = () => {
               />
             </FormControl>
           </div>
-
-          <Button
-            onClick={handleSubmit(filterData)}
-            className=" bg-lightText !text-lightPrime text- sm:self-end sm:w-fit"
-          >
-            Filter
-          </Button>
         </div>
       </div>
       <Divider sx={{ margin: "1em 0" }} />
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 pb-[6em]">
-        {loading || isLoading ? (
+        {classesLoading ? (
           <>
             <Skeleton className="w-full h-[250px] rounded-md" />
             <Skeleton className="w-full h-[250px] rounded-md" />
@@ -256,23 +203,23 @@ const Classes = () => {
               let days = eachClass.days.join(" / ");
               console.log(eachClass.duration);
               return (
-                <Card key={eachClass.id} className="text-center ">
+                <Card
+                  key={eachClass.id}
+                  className="text-center flex flex-col justify-between"
+                >
                   <CardHeader>
                     <CardTitle>{eachClass.title}</CardTitle>
                   </CardHeader>
                   <CardContent className=" relative overflow-hidden">
                     <Meteors />
                     <div className="flex items-center justify-around gap-4">
-                      <p>{`${eachClass.creator!.fName} ${
-                        eachClass.creator?.lName
+                      <p>{`${eachClass.teacher!.fName} ${
+                        eachClass.teacher?.lName
                       }`}</p>
 
                       <p>{eachClass.price}</p>
                       <div className="flex flex-col gap-2">
                         <Chip label={eachClass.type} />
-                        {eachClass.fix && (
-                          <Chip label={eachClass.fix && "Fix"} />
-                        )}
                       </div>
                     </div>
 
@@ -285,22 +232,16 @@ const Classes = () => {
                         {`${eachClass.duration[0]} | ${eachClass.duration[1]}`}
                       </p>
                     )}
+                    {eachClass.date && <p>{`${eachClass.date.getDay()}`}</p>}
                   </CardContent>
                   <CardFooter className="flex flex-col gap-2">
-                    {!eachClass.fix ? (
-                      <Link
-                        href={`/hub/classes/${eachClass.id}`}
-                        className="w-full"
-                      >
-                        <Button className="w-full">Join</Button>
-                      </Link>
-                    ) : (
-                      <Link href={`#`} className="w-full">
-                        <Button className="w-full" onClick={handleJoin}>
-                          Join
-                        </Button>
-                      </Link>
-                    )}
+                    <Link
+                      href={`/hub/classes/${eachClass.id}`}
+                      className="w-full"
+                    >
+                      <Button className="w-full">Join</Button>
+                    </Link>
+
                     {(currentUser?.role.includes("admin") ||
                       currentUser?.role.includes("adminTeacher") ||
                       currentUser?.role.includes("teacher")) && (

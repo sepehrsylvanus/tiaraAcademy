@@ -16,7 +16,7 @@ export const POST = async (req: NextRequest) => {
       const newClass = await prisma.class.create({
         data: {
           ...data,
-          userId: user?.id,
+          teacherId: user?.id,
         },
       });
       return NextResponse.json({
@@ -28,24 +28,5 @@ export const POST = async (req: NextRequest) => {
     }
   } else {
     return NextResponse.json({ message: "access denied" }, { status: 401 });
-  }
-};
-
-export const GET = async (req: NextRequest) => {
-  if (req.headers.get("apiKey")) {
-    try {
-      const classes = await prisma.class.findMany({
-        include: {
-          teacher: true,
-        },
-      });
-
-      return NextResponse.json({ classes });
-    } catch (error) {
-      console.log(error);
-      return NextResponse.json({ message: error }, { status: 500 });
-    }
-  } else {
-    return NextResponse.json({ message: "Access denied" }, { status: 401 });
   }
 };

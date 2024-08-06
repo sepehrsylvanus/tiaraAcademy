@@ -463,7 +463,7 @@ export const getSingleClass = async (id: string) => {
       id,
     },
     include: {
-      creator: true,
+      teacher: true,
     },
   });
 
@@ -479,11 +479,18 @@ export const getSingleUserDetails = async (id: string) => {
 };
 
 export const getClasses = async () => {
-  return prisma.class.findMany({
-    include: {
-      creator: true,
-    },
-  });
+  try {
+    const classes = await prisma.class.findMany({
+      include: {
+        teacher: true,
+      },
+    });
+    console.log(classes);
+    return classes;
+  } catch (error: any) {
+    console.log(error.message);
+    return error;
+  }
 };
 
 export const getRegisterdClasses = async (classId: string, userId: string) => {

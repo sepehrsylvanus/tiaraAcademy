@@ -25,25 +25,25 @@ export default function StudentHub() {
   const handleJoin = () => {
     toast.success("You successfully registered in this class");
   };
-  useEffect(() => {
-    try {
-      Axios.get("/classes").then((res) => {
-        const classes: Class[] = res.data.classes;
-        const result = classes.filter((cls) => {
-          const cutoffDate = new Date();
-          cutoffDate.setDate(cutoffDate.getDate() - 7);
-          const classCreatedDate = new Date(cls.createdAt);
-          return classCreatedDate >= cutoffDate;
-        });
+  // useEffect(() => {
+  //   try {
+  //     Axios.get("/classes").then((res) => {
+  //       const classes: Class[] = res.data.classes;
+  //       const result = classes.filter((cls) => {
+  //         const cutoffDate = new Date();
+  //         cutoffDate.setDate(cutoffDate.getDate() - 7);
+  //         const classCreatedDate = new Date(cls.createdAt);
+  //         return classCreatedDate >= cutoffDate;
+  //       });
 
-        setFeaturedClasses(result);
-      });
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+  //       setFeaturedClasses(result);
+  //     });
+  //   } catch (error) {
+  //     console.log(error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // }, []);
 
   return (
     <div className="px-2 pb-[3em]   md:mb-10 pt-[3em]  md:pl-[2em]">
@@ -97,7 +97,7 @@ export default function StudentHub() {
                     </h4>
                   </CardContent>
                   <CardFooter>
-                    {!featuredClass.fix ? (
+                    {/* {!featuredClass.fix ? (
                       <Link
                         href={`/hub/classes/${featuredClass.id}`}
                         className="w-full"
@@ -110,7 +110,7 @@ export default function StudentHub() {
                           Join
                         </Button>
                       </Link>
-                    )}
+                    )} */}
                   </CardFooter>
                 </Card>
               );

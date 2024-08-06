@@ -69,7 +69,7 @@ export const GET = async (req: NextRequest) => {
     include: {
       class: {
         include: {
-          creator: true,
+          teacher: true,
         },
       },
     },

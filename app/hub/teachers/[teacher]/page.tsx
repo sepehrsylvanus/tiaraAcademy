@@ -25,7 +25,7 @@ const SingleTeacher = async ({ params }: ParamsProps) => {
   const allClasses = await getClasses();
 
   const classesQuantity = allClasses.filter(
-    (eachClass) => eachClass.creator.id === user?.id
+    (eachClass) => eachClass.teacherId === user?.id
   ).length;
   return (
     <div

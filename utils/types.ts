@@ -17,18 +17,18 @@ export interface User {
 
 export interface Class {
   id: string;
-  createdAt: Date;
-  title: string;
-  days: string[];
-  price: string;
-  type: string;
-  capacity: number;
-  times: string[];
 
-  fix: Boolean;
-  creatorId: string;
-  creator?: User;
+  ClassUsers: UserClasses;
+  teacher: User;
+  teacherId: string;
+  title: string;
+  type: string;
+  price: string;
+  capacity: number;
+  days: string[];
+  date: Date;
   duration: string[];
+  times: string[];
 }
 
 export interface UserProps {
