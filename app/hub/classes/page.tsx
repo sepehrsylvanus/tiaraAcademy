@@ -246,7 +246,7 @@ const Classes = () => {
                       currentUser?.role.includes("adminTeacher") ||
                       currentUser?.role.includes("teacher")) && (
                       <p
-                        className=" cursor-pointer text-lg  md:text-base md:hover:text-lg"
+                        className=" cursor-pointer text-lg transition-all md:text-base md:hover:text-lg"
                         onClick={() => copyToClipboard(eachClass.id)}
                       >
                         {eachClass.id}

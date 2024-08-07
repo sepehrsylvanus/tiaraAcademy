@@ -493,6 +493,50 @@ export const getClasses = async () => {
   }
 };
 
+export const postClassImg = async (formData: FormData, classId: string) => {
+  const classPic = formData.get("classPic") as File;
+  const buffer = await classPic.arrayBuffer();
+  const picToSend = await Buffer.from(buffer);
+
+  console.log(classPic);
+  const now = new Date();
+  const name = now.toString() + classPic.name;
+
+  console.log(classId);
+  try {
+    const s3 = new S3({
+      accessKeyId: process.env.NEXT_PUBLIC_LIARA_ACCESS_KEY_ID,
+      secretAccessKey: process.env.NEXT_PUBLIC_LIARA_SECRET_ACCESS_KEY,
+      endpoint: process.env.NEXT_PUBLIC_LIARA_ENDPOINT,
+    });
+
+    const params = {
+      Bucket: process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME!,
+      Key: name,
+      Body: picToSend,
+    };
+    const response = await s3.upload(params).promise();
+    console.log(response);
+    const permanentSignedUrl = s3.getSignedUrl("getObject", {
+      Bucket: process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME,
+      Key: name,
+      Expires: 31536000, // 1 year
+    });
+    await prisma.class.update({
+      where: {
+        id: classId,
+      },
+      data: {
+        imageLink: permanentSignedUrl,
+        imageName: name,
+      },
+    });
+  } catch (error: any) {
+    console.log(error);
+    throw new Error(error);
+  }
+};
+
 export const getRegisterdClasses = async (classId: string, userId: string) => {
   console.log(classId);
   console.log(userId);

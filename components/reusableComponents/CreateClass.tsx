@@ -24,7 +24,6 @@ import DatePicker, {
   getAllDatesInRange,
 } from "react-multi-date-picker";
 
-import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { Form, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import QuizIcon from "@mui/icons-material/Quiz";
 import ClassIcon from "@mui/icons-material/Class";
@@ -34,8 +33,11 @@ import { Separator } from "../ui/separator";
 import { Label } from "../ui/label";
 
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { CalendarDaysIcon, ClockIcon } from "lucide-react";
+import { CalendarDaysIcon } from "lucide-react";
 import { Calendar } from "../ui/calendar";
+import { TagsInput } from "react-tag-input-component";
+import { postClassImg } from "@/actions/actions";
+
 const transition = require("react-element-popper/animations/transition");
 
 const days = [
@@ -82,6 +84,9 @@ const CreateClass = () => {
     capacity: number;
     index: number;
   }>({ capacity: 0, index: 0 });
+  const [prerequisites, setPrerequisites] = useState<string[]>([]);
+  const [outline, setOutline] = useState<string[]>([]);
+  const [classPic, setClassPic] = useState<File>();
   const givePrice = (index: number) => {
     if (index === price?.index) {
       return price?.price;
@@ -92,13 +97,7 @@ const CreateClass = () => {
       return capacity?.capacity;
     }
   };
-  useEffect(() => {
-    console.log(chosenType);
-  }, [chosenType]);
 
-  useEffect(() => {
-    console.log(dateRange?.format());
-  }, [dateRange]);
   const formSchema = z.object({
     title: z.string().min(2),
     type: z.string(),
@@ -108,6 +107,9 @@ const CreateClass = () => {
     duration: z.array(z.string()).optional(),
     price: z.string(),
     capacity: z.number(),
+
+    prerequisites: z.array(z.string()).optional(),
+    outline: z.array(z.string()),
   });
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -125,9 +127,14 @@ const CreateClass = () => {
   const duration = form.watch("duration");
   console.log(errors);
   const classType = form.watch("type");
+  useEffect(() => {
+    console.log(classPic);
+  }, [classPic]);
 
   async function createClass(values: z.infer<typeof formSchema>) {
     setSending(true);
+    const formData = new FormData();
+    formData.set("classPic", classPic!);
 
     if (!values.duration && !values.date && values.type !== "placement") {
       toast.error("please choose your date or dates");
@@ -136,42 +143,48 @@ const CreateClass = () => {
     }
 
     console.log(values);
-    Axios.post("/classes", values)
-      .then((res) => {
-        toast.success(res.data.message, {
-          position: "bottom-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
+    try {
+      const res = await Axios.post("/classes", values);
 
-        form.reset();
-        setPrice({ price: "", index: 0 });
-        setCapacity({ capacity: 0, index: 0 });
-        givePrice(0);
-        giveCapacity(0);
-        form.setValue("date", undefined);
-        form.setValue("duration", undefined);
-        setDate(undefined);
-        setSending(false);
-      })
-      .catch((e: any) => {
-        toast.error(e.response.data.error, {
-          position: "bottom-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-        setSending(false);
+      console.log(res);
+      await postClassImg(formData, res.data.classId);
+      toast.success(res.data.message, {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
       });
+      form.reset();
+      setPrice({ price: "", index: 0 });
+      setCapacity({ capacity: 0, index: 0 });
+      givePrice(0);
+      giveCapacity(0);
+      form.setValue("date", undefined);
+      form.setValue("duration", undefined);
+      setDate(undefined);
+      setOutline([]);
+      setPrerequisites([]);
+      setClassPic(undefined);
+      setSending(false);
+    } catch (error: any) {
+      setSending(false);
+      console.log(error);
+      toast.error(error.response.data.error, {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+      setSending(false);
+    }
   }
   useEffect(() => {
     console.log(chosenType);
@@ -185,7 +198,13 @@ const CreateClass = () => {
     if (date) {
       form.setValue("date", date);
     }
-  }, [chosenType, price, capacity, date]);
+    if (outline.length > 0) {
+      form.setValue("outline", outline);
+    }
+    if (prerequisites.length > 0) {
+      form.setValue("prerequisites", prerequisites);
+    }
+  }, [chosenType, price, capacity, date, outline, prerequisites]);
   const renderIcon = (index: number) => {
     switch (index) {
       case 0:
@@ -219,6 +238,28 @@ const CreateClass = () => {
             />
           )}
         />
+        <div className="mb-4">
+          <TagsInput
+            value={prerequisites}
+            onChange={setPrerequisites}
+            name="prerequisites"
+            placeHolder="enter prerequisites"
+          />
+        </div>
+        <TagsInput
+          value={outline}
+          onChange={setOutline}
+          name="outline"
+          placeHolder="enter course outlines"
+        />
+        <input
+          className="formInput w-full my-4"
+          type="file"
+          placeholder="Enter Your article title"
+          name={"classPic"}
+          accept={".jpg, .jpeg, .png"}
+          onChange={(e) => setClassPic(e.target.files?.[0])}
+        />
         <div className="grid grid-cols-2 gap-6 w-full">
           {classesType.map((type, index) => (
             <div
@@ -240,7 +281,7 @@ const CreateClass = () => {
                   placeholder="Enter price"
                   style={{ boxSizing: "border-box" }}
                   onChange={(e) => setPrice({ price: e.target.value, index })}
-                  value={givePrice(index)}
+                  value={index === price.index ? price.price : ""}
                 />
                 <div className="flex gap-4 items-center">
                   <p className="flex-1">Capacity</p>
@@ -251,7 +292,7 @@ const CreateClass = () => {
                     onChange={(e) =>
                       setCapacity({ capacity: Number(e.target.value), index })
                     }
-                    value={giveCapacity(index)}
+                    value={index === capacity.index ? capacity.capacity : ""}
                   />
                 </div>
               </div>

@@ -25,9 +25,7 @@ const OtherBlogs = ({
   const trendArticles = articles?.filter((article) => article.trend);
   const { data: currentUser } = useGetCurrentUser();
   const { mutate } = useChangeTrend();
-  const filteredVideos = videos?.filter(
-    (video) => !video.Playlist?.price || !video.Playlist
-  );
+  const filteredVideos = videos?.filter((video) => !video.Playlist?.price);
   const handleToggleTrend = async (id: string) => {
     if (trendArticles && trendArticles.length >= 4) {
       toast.error("Trend articles more thant 4");
@@ -154,7 +152,7 @@ const OtherBlogs = ({
       )}
       {pathName === "/hub/videos" && videos && videos?.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {videos?.slice(0, itemsToShow).map((video, index) => (
+          {filteredVideos?.slice(0, itemsToShow).map((video, index) => (
             <Card
               className="transition hover:shadow-xl bg-extraBg text-lightPrime"
               key={index}

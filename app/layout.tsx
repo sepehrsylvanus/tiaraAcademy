@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Almarai } from "next/font/google";
 import "./globals.css";
 
 import { ToastContainer } from "react-toastify";
@@ -11,7 +11,7 @@ import DateProvider from "@/providers/DateProvider";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
 const inter = Inter({ subsets: ["latin"] });
-
+const tajawal = Almarai({ subsets: ["arabic"], weight: ["400", "700"] });
 export const metadata: Metadata = {
   title: "Tiara academy",
   description: "Learn english in smart way",
@@ -35,7 +35,11 @@ export default async function RootLayout({
         <link rel="shortcut icon" href="/logo.svg" type="image/x-icon" />
       </head>
       <NextIntlClientProvider messages={message}>
-        <body className={`${inter.className} bg-lightPrime text-lightText `}>
+        <body
+          className={`${
+            locale === "fa" ? tajawal.className : inter.className
+          } bg-lightPrime text-lightText `}
+        >
           <ReactQueryProvider>
             <ClientCookieProvider>
               <DateProvider>

@@ -21,6 +21,7 @@ export const POST = async (req: NextRequest) => {
       });
       return NextResponse.json({
         message: `Your new class created => ${newClass.title}`,
+        classId: newClass.id,
       });
     } catch (error: any) {
       console.log(error.message);

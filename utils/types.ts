@@ -29,6 +29,11 @@ export interface Class {
   date: Date;
   duration: string[];
   times: string[];
+  description: string;
+  prerequisites: string[];
+  outline: string[];
+  imageLink?: string;
+  imageName?: string;
 }
 
 export interface UserProps {

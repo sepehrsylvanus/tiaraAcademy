@@ -49,17 +49,21 @@ model User {
 model Class {
   id String @id @default(cuid()) @map("_id")
 
-  ClassUsers ClassUsers[]
-  teacher    User         @relation(fields: [teacherId], references: [id])
-  teacherId  String
-  title      String
-  type       String
-  price      String
-  capacity   Int
-  days       String[]
-  date       DateTime?
-  duration   String[]
-  times      String[]
+  ClassUsers    ClassUsers[]
+  teacher       User         @relation(fields: [teacherId], references: [id])
+  teacherId     String
+  title         String
+  type          String
+  price         String
+  capacity      Int
+  days          String[]
+  date          DateTime?
+  duration      String[]
+  times         String[]
+  prerequisites String[]
+  outline       String[]
+  imageLink     String?
+  imageName     String?
 }
 
 model ClassUsers {

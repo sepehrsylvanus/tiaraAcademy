@@ -1,13 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import styles from "./singleClass.module.css";
-import {
-  Button,
-  CircularProgress,
-  Divider,
-  InputLabel,
-  Select,
-} from "@mui/material";
+import { CircularProgress, Divider, InputLabel, Select } from "@mui/material";
 import Link from "next/link";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import EmojiPeopleIcon from "@mui/icons-material/EmojiPeople";
@@ -36,6 +30,8 @@ import { useQuery } from "@tanstack/react-query";
 import { getSingleUser } from "@/actions/userActions";
 import prisma from "@/utils/db";
 import { useGetClasses } from "@/hooks/useClasses";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 
 type DetailsProps = {
   params: {
@@ -58,6 +54,10 @@ const MyClass = (details: DetailsProps) => {
       setSingleClass(classes.filter((cls) => cls.id === params.class)[0]);
     }
   }, [classes]);
+
+  useEffect(() => {
+    console.log(singleClass);
+  }, [singleClass]);
 
   // const [registeredClasses, setRegisteredClasses] = useState<
   //   UserClasses[] | undefined
@@ -145,103 +145,128 @@ const MyClass = (details: DetailsProps) => {
           )}
         </section>
         <Divider sx={{ marginTop: "1em" }} />
-        <section className={styles.body}>
-          <p className={styles.desc}>
-            در این صفحه می‌توانید ساعت و روز کلاس‌های خود را مشاهده نموده و
-            جلسه‌ای جدید رزرو کنید
-          </p>
-          <div className={styles.classDetailsContainer}>
-            <div className={styles.nextClassContainer}>
-              {/* EACH DETAIL */}
-              {/* <div className={styles.eachClassDetailsContiner}>
-                <CalendarTodayIcon />
-                <span>4 May</span>
-              </div>
-              <Divider
-                orientation="vertical"
-                variant="middle"
-                flexItem
-                sx={{ height: 30 }}
-              /> */}
-              {/* EACH DETAIL */}
-              {/* <div className={styles.eachClassDetailsContiner}>
-                <EmojiPeopleIcon />
-                <span>2</span>
-              </div> */}
-              {/* <Divider
-                orientation="vertical"
-                variant="middle"
-                flexItem
-                sx={{ height: 30 }}
-              /> */}
-              {/* EACH DETAIL */}
-              {/* <div className={styles.eachClassDetailsContiner}>
-                <AccessTimeIcon />
-                <span>
-                  ساعت <span>4</span>
-                </span>
-              </div> */}
-            </div>
-            <div className={styles.accessContainer}>
-              {/* <div className={styles.sessionLinkOrPlaceTitle}>
-                <MeetingRoomIcon /> / <SchoolIcon />
-              </div>
-              <Link
-                className={styles.accessToClass}
-                style={{ textDecoration: "underline" }}
-                href={"#"}
-              >
-                Meeting Link (click here!)
-              </Link> */}
-              {singleClass && (
-                <div className=" scale-125 md:scale-150 my-[4em]">
-                  <ClassesDate
-                    selectedDate={selectedDate?.toISOString()}
-                    classId={params.class}
-                    classDates={singleClass?.days}
-                    singleClass={singleClass}
-                  />
-                </div>
-              )}
-              {selectedDate && singleClass && (
-                <div className={styles.chooseClassTime}>
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "1em",
-                    }}
-                  >
-                    <AccessTimeIcon />
-                    {classTime ? classTime : <span>زمانی انتخاب نشده است</span>}
-                  </div>
-                  <div>
-                    <CustomSelect
-                      classId={params.class}
+        {singleClass?.type === "placement" && (
+          <section className={styles.body}>
+            <p className={styles.desc}>
+              در این صفحه می‌توانید ساعت و روز کلاس‌های خود را مشاهده نموده و
+              جلسه‌ای جدید رزرو کنید
+            </p>
+            <div className={styles.classDetailsContainer}>
+              <div className={styles.nextClassContainer}></div>
+              <div className={styles.accessContainer}>
+                {singleClass && (
+                  <div className=" scale-125 md:scale-150 my-[4em]">
+                    <ClassesDate
                       selectedDate={selectedDate?.toISOString()}
-                      times={singleClass.times}
+                      classId={params.class}
+                      classDates={singleClass?.days}
+                      singleClass={singleClass}
                     />
                   </div>
+                )}
+                {selectedDate && singleClass && (
+                  <div className={styles.chooseClassTime}>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "1em",
+                      }}
+                    >
+                      <AccessTimeIcon />
+                      {classTime ? (
+                        classTime
+                      ) : (
+                        <span>زمانی انتخاب نشده است</span>
+                      )}
+                    </div>
+                    <div>
+                      <CustomSelect
+                        classId={params.class}
+                        selectedDate={selectedDate?.toISOString()}
+                        times={singleClass.times}
+                      />
+                    </div>
+                  </div>
+                )}
+                {loading ? (
+                  <Button disabled className="w-fit">
+                    <CircularProgress
+                      sx={{ color: "white", transform: "scale(.7)" }}
+                    />
+                  </Button>
+                ) : (
+                  <Button
+                    style={{ marginBottom: "1em" }}
+                    className="brownLink"
+                    type="submit"
+                  >
+                    رزرو کلاس
+                  </Button>
+                )}
+              </div>
+            </div>
+          </section>
+        )}
+        {singleClass?.type !== "placement" && (
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 mb-10">
+            <div className="grid md:grid-cols-2 gap-8">
+              <div className="space-y-6">
+                <div className="space-y-4">
+                  <div>
+                    <h2 className="text-xl font-semibold">Schedule</h2>
+                    <div className="text-muted-foreground">
+                      <p>
+                        {`${singleClass?.days}`}, {`${singleClass?.times}`}
+                      </p>
+                      {singleClass?.type !== "group" && (
+                        <p>
+                          Start from{" "}
+                          {`${singleClass?.date.getFullYear()} / ${singleClass?.date.getMonth()}`}
+                        </p>
+                      )}
+                      {singleClass?.type === "group" && (
+                        <p>
+                          Duration: from {singleClass.duration[0]} to{" "}
+                          {singleClass.duration[1]}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                  <div>
+                    <h2 className="text-xl font-semibold">Prerequisites</h2>
+                    <div className="text-muted-foreground">
+                      {singleClass?.prerequisites &&
+                      singleClass?.prerequisites.length > 0 ? (
+                        <ul>
+                          {singleClass.prerequisites.map((item) => (
+                            <li>{item}</li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <p>No prior experience required. Beginner-friendly.</p>
+                      )}
+                    </div>
+                  </div>
+                  <div>
+                    <h2 className="text-xl font-semibold">Course Outline</h2>
+                    <ul className="list-disc pl-6 text-muted-foreground">
+                      {singleClass?.outline.map((item) => (
+                        <li>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
-              )}
-              {loading ? (
-                <Button disabled className="w-fit">
-                  <CircularProgress
-                    sx={{ color: "white", transform: "scale(.7)" }}
-                  />
-                </Button>
-              ) : (
-                <Button
-                  style={{ marginBottom: "1em" }}
-                  className="brownLink"
-                  type="submit"
-                >
-                  رزرو کلاس
-                </Button>
-              )}
+                <Button className="mt-6 w-full">Join</Button>
+              </div>
+              <img
+                src={singleClass?.imageLink}
+                alt="class pic"
+                className="w-full"
+              />
             </div>
           </div>
-        </section>
+        )}
       </form>
     </FormProvider>
   );

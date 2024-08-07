@@ -1,4 +1,5 @@
 import prisma from "@/utils/db";
+import { S3 } from "aws-sdk";
 import { NextRequest, NextResponse } from "next/server";
 type ParamsProps = {
   params: {
@@ -21,6 +22,23 @@ export const DELETE = async (req: NextRequest, { params }: ParamsProps) => {
       }
 
       try {
+        const classToDelete = await prisma.class.findUnique({
+          where: {
+            id: params.id,
+          },
+        });
+        const s3 = new S3({
+          accessKeyId: process.env.NEXT_PUBLIC_LIARA_ACCESS_KEY_ID,
+          secretAccessKey: process.env.NEXT_PUBLIC_LIARA_SECRET_ACCESS_KEY,
+          endpoint: process.env.NEXT_PUBLIC_LIARA_ENDPOINT,
+        });
+
+        await s3
+          .deleteObject({
+            Bucket: process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME!,
+            Key: classToDelete?.imageName!,
+          })
+          .promise();
         await prisma.class.delete({
           where: {
             id: params.id,
@@ -30,12 +48,14 @@ export const DELETE = async (req: NextRequest, { params }: ParamsProps) => {
           message: "Your desired class successfully deleted!",
         });
       } catch (error) {
+        console.log(error);
         return NextResponse.json(
           { message: "There is an error in server" },
           { status: 500 }
         );
       }
     } catch (error) {
+      console.log(error);
       return NextResponse.json(
         { message: "There is an error in server" },
         { status: 500 }

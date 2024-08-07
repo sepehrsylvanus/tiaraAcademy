@@ -2,20 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 @import url("https://fonts.googleapis.com/css2?family=Edu+AU+VIC+WA+NT+Hand:wght@400..700&display=swap");
-@font-face {
-  font-family: "mjHilli";
-  src: url("../fonts/mjHilli.ttf");
-}
+
 :root {
   --bg: #81403e;
   --mainBg: white;
   --color: black;
   --softBg: #f0f0f0;
   --animation: 0.3s all;
-}
-
-* {
-  font-family: "Edu AU VIC WA NT Hand", "mjHilli", cursive;
 }
 
 * {
@@ -105,6 +98,20 @@ a {
 }
 .css-6exafu.Mui-disabled {
   color: red !important;
+}
+.rti--input::placeholder {
+  color: #9ca3bb;
+}
+.rti--input {
+  color: #072d44;
+  background-color: #c6d9e6;
+}
+.rti--tag {
+  color: #072d44;
+}
+.rti--container {
+  background-color: #c6d9e6 !important;
+  color: #072d44 !important;
 }
 @layer base {
   h1 {
