@@ -12,7 +12,7 @@ import {} from "@mui/icons-material";
 import MessageForm from "./MessageForm";
 import { getClasses, getSingleUserDetails } from "@/actions/actions";
 import Colleagues from "@/components/Colleagues";
-import { User } from "@/utils/types";
+import { Class, User } from "@/utils/types";
 
 type ParamsProps = {
   params: {
@@ -22,7 +22,7 @@ type ParamsProps = {
 const SingleTeacher = async ({ params }: ParamsProps) => {
   const user = await getSingleUserDetails(params.teacher);
 
-  const allClasses = await getClasses();
+  const allClasses = (await getClasses()) as Class[];
 
   const classesQuantity = allClasses.filter(
     (eachClass) => eachClass.teacherId === user?.id

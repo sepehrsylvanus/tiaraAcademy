@@ -98,7 +98,7 @@ const MyCourses = () => {
 
               <CardContent className="flex flex-col gap-2 mt-3">
                 <h4 className="font-bold text-lg">{myCourse.title}</h4>
-                <p>{`${myCourse.creator?.fName} ${myCourse.creator?.lName}`}</p>
+                <p>{`${myCourse.teacher?.fName} ${myCourse.teacher?.lName}`}</p>
                 {/* <CustomLinearProgress
                 variant="determinate"
                 value={myCourse.progress}

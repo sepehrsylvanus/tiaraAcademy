@@ -141,6 +141,11 @@ const CreateClass = () => {
       setSending(false);
       return;
     }
+    if (!classPic && values.type !== "placement") {
+      toast.error("Please choose image for non placement classes");
+      setSending(false);
+      return;
+    }
 
     console.log(values);
     try {

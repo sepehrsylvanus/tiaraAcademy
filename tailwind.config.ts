@@ -63,7 +63,7 @@ const config = {
         "caret-blink": "caret-blink 1.25s ease-out infinite",
       },
       colors: {
-        lightPrime: "#ecf0f1",
+        lightPrime: "#ffffff",
         lightText: "#072d44",
         extraItem: "#9ccddb",
         extraText: "#5790AB",

@@ -25,25 +25,6 @@ export default function StudentHub() {
   const handleJoin = () => {
     toast.success("You successfully registered in this class");
   };
-  // useEffect(() => {
-  //   try {
-  //     Axios.get("/classes").then((res) => {
-  //       const classes: Class[] = res.data.classes;
-  //       const result = classes.filter((cls) => {
-  //         const cutoffDate = new Date();
-  //         cutoffDate.setDate(cutoffDate.getDate() - 7);
-  //         const classCreatedDate = new Date(cls.createdAt);
-  //         return classCreatedDate >= cutoffDate;
-  //       });
-
-  //       setFeaturedClasses(result);
-  //     });
-  //   } catch (error) {
-  //     console.log(error);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // }, []);
 
   return (
     <div className="px-2 pb-[3em]   md:mb-10 pt-[3em]  md:pl-[2em]">
@@ -86,8 +67,8 @@ export default function StudentHub() {
                   <div className="teacherPaper flex px-4 py-2 justify-between items-center bg-white w-[90%] shadow-lg rounded-md relative bottom-6 left-2">
                     <Avatar sx={{ width: 54, height: 54 }} />
                     <span className="text-sm text-lightText">
-                      {`${featuredClass.creator!.fName} ${
-                        featuredClass.creator?.lName
+                      {`${featuredClass.teacher!.fName} ${
+                        featuredClass.teacher?.lName
                       }`}
                     </span>
                   </div>

@@ -38,7 +38,7 @@ export default async function RootLayout({
         <body
           className={`${
             locale === "fa" ? tajawal.className : inter.className
-          } bg-lightPrime text-lightText `}
+          } text-lightText `}
         >
           <ReactQueryProvider>
             <ClientCookieProvider>
