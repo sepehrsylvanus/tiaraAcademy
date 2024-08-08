@@ -15,10 +15,12 @@ import { deleteArticle, deleteVideo } from "@/actions/actions";
 import { ChangeEvent, useState } from "react";
 import { toast } from "react-toastify";
 import { CircularProgress } from "@mui/material";
+import { useTranslations } from "next-intl";
 
 const DeleteVideo = ({ title }: { title: string }) => {
   const [loading, setLoading] = useState(false);
   const [videoId, setvideoId] = useState("");
+  const t = useTranslations("videoBox");
   const handleSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
@@ -28,15 +30,15 @@ const DeleteVideo = ({ title }: { title: string }) => {
     try {
       if (title === "video") {
         await deleteVideo(formData);
-        toast.success(`-${id}- deleted successfully`);
+        toast.success(`-${id}- ${t("dSuccessfully")}`);
         setvideoId("");
       } else if (title === "article") {
         await deleteArticle(id);
-        toast.success(`-${id}- deleted successfully`);
+        toast.success(`-${id}- ${t("dSuccessfully")}`);
         setvideoId("");
       }
     } catch (error) {
-      toast.error(`There was an error in deleting ${title}:` + error);
+      toast.error(`${t("sError")} ${title}:` + error);
     } finally {
       setLoading(false);
     }
@@ -46,7 +48,9 @@ const DeleteVideo = ({ title }: { title: string }) => {
     <form onSubmit={handleSubmit} className="flex items-center justify-between">
       <input
         className="formInput"
-        placeholder={`Enter your ${title} id`}
+        placeholder={`${t("enter")} ${
+          title === "video" ? t("video") : t("article")
+        } ${t("id")}`}
         name="id"
         onChange={(e) => setvideoId(e.target.value)}
         value={videoId}
@@ -57,7 +61,7 @@ const DeleteVideo = ({ title }: { title: string }) => {
           <CircularProgress sx={{ color: "white", transform: "scale(.7)" }} />
         </Button>
       ) : (
-        <Button type="submit">Delete</Button>
+        <Button type="submit">{t("delete")}</Button>
       )}
     </form>
   );

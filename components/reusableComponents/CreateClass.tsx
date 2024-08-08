@@ -37,6 +37,7 @@ import { CalendarDaysIcon } from "lucide-react";
 import { Calendar } from "../ui/calendar";
 import { TagsInput } from "react-tag-input-component";
 import { postClassImg } from "@/actions/actions";
+import { useTranslations } from "next-intl";
 
 const transition = require("react-element-popper/animations/transition");
 
@@ -80,6 +81,7 @@ const CreateClass = () => {
     price: "",
     index: 0,
   });
+  const t = useTranslations("CreateClass");
   const [capacity, setCapacity] = useState<{
     capacity: number;
     index: number;
@@ -239,7 +241,7 @@ const CreateClass = () => {
               className="border p-4 rounded-md formInput w-full mb-6"
               type="text"
               name="title"
-              placeholder="Title"
+              placeholder={t("title")}
             />
           )}
         />
@@ -248,14 +250,14 @@ const CreateClass = () => {
             value={prerequisites}
             onChange={setPrerequisites}
             name="prerequisites"
-            placeHolder="enter prerequisites"
+            placeHolder={t("enterPreReq")}
           />
         </div>
         <TagsInput
           value={outline}
           onChange={setOutline}
           name="outline"
-          placeHolder="enter course outlines"
+          placeHolder={t("enterOutline")}
         />
         <input
           className="formInput w-full my-4"

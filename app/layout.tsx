@@ -13,7 +13,7 @@ import { getLocale, getMessages } from "next-intl/server";
 const inter = Inter({ subsets: ["latin"] });
 const tajawal = Almarai({ subsets: ["arabic"], weight: ["400", "700"] });
 export const metadata: Metadata = {
-  title: "Tiara academy",
+  title: "Tiara academy - 69628075",
   description: "Learn english in smart way",
 };
 

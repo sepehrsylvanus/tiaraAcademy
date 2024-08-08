@@ -18,12 +18,14 @@ import "react-toastify/dist/ReactToastify.css";
 import { useState } from "react";
 import { CircularProgress } from "@mui/material";
 import { Axios } from "@/utils/axiosIn";
+import { useTranslations } from "next-intl";
 
 const deleeteArticleForm = z.object({
   id: z.string(),
 });
 
 const DeleteClass = () => {
+  const t = useTranslations("CreateClass");
   const [sending, setSending] = useState(false);
   const form = useForm<z.infer<typeof deleeteArticleForm>>({
     resolver: zodResolver(deleeteArticleForm),
@@ -73,7 +75,7 @@ const DeleteClass = () => {
               <FormControl>
                 <input
                   className="w-full formInput"
-                  placeholder="Enter Your class id"
+                  placeholder={t("enterClassId")}
                   {...field}
                 />
               </FormControl>
@@ -88,7 +90,7 @@ const DeleteClass = () => {
               <CircularProgress sx={{ color: "white" }} />
             </div>
           ) : (
-            "Delete"
+            t("delete")
           )}
         </Button>
       </form>

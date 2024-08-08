@@ -17,9 +17,12 @@ import StudentTable from "@/components/studentTable/StudentTable";
 
 import Link from "next/link";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import { getMessages } from "next-intl/server";
 const Hub = async () => {
   const token = await getToken();
   const currentUser: User | null = await getSingleUser(token?.value!);
+  const messages = (await getMessages()) as any;
+  const hubT = messages.Hub;
 
   const renderRole = () => {
     switch (currentUser?.role) {
@@ -43,7 +46,7 @@ const Hub = async () => {
         <div className="container   px-4 pt-4 pb-4 flex flex-col items-start  text-lightText">
           <Link href={"/"} className=" text-lightText font-bold mb-4">
             <ArrowBackIosNewIcon />
-            Landing page
+            {hubT.landingPage}
           </Link>
           {/* ========= */}
           <div className="avatrContainer  flex gap-4 items-center justify-center">
@@ -56,39 +59,39 @@ const Hub = async () => {
           {/* =========== */}
 
           <div className="mt-6">
-            <p className=" font-bold text-lg">Content Management</p>
+            <p className=" font-bold text-lg">{hubT.contentM}</p>
             <div className="grid  grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
               <div className="space-y-4 text-center border shadow-md rounded-md p-4 bg-extraText text-lightPrime">
-                <p className="text-2xl">Videos Section</p>
-                <p className="my-2">Post or delete videos</p>
+                <p className="text-2xl">{hubT.videoSec}</p>
+                <p className="my-2">{hubT.pdVideos}</p>
 
                 <div>
-                  <p className="mb-2 text-start font-bold">Delete video</p>
+                  <p className="mb-2 text-start font-bold">{hubT.dVideo}</p>
                   <DeleteVideo title="video" />
                 </div>
                 <div>
-                  <p className="mb-2 text-start font-bold">Create Video</p>
+                  <p className="mb-2 text-start font-bold">{hubT.cVideos}</p>
                   <CreateVideo title="video" />
                 </div>
               </div>
 
               <div className="rounded-md h-fit shadow-md p-2 space-y-2 flex flex-col  bg-extraText text-lightPrime">
-                <p className="text-2xl">Classes Section</p>
+                <p className="text-2xl">{hubT.classesSec}</p>
                 <DeleteClass />
                 <Divider />
                 <CreateClass />
               </div>
 
               <div className="space-y-4 text-center border shadow-md rounded-md p-4 bg-extraText text-lightPrime">
-                <p className="text-2xl">Article Section</p>
-                <p className="my-2">Post or delete articles</p>
+                <p className="text-2xl">{hubT.articleSec}</p>
+                <p className="my-2">{hubT.pdArticles}</p>
 
                 <div>
-                  <p className="mb-2 text-start font-bold">Delete article</p>
+                  <p className="mb-2 text-start font-bold">{hubT.dAticle}</p>
                   <DeleteVideo title="article" />
                 </div>
                 <div>
-                  <p className="mb-2 text-start font-bold">Create article</p>
+                  <p className="mb-2 text-start font-bold">{hubT.cArticle}</p>
                   <CreateVideo title="article" />
                 </div>
               </div>
@@ -96,15 +99,15 @@ const Hub = async () => {
           </div>
 
           <div className="w-full">
-            <p className=" font-bold text-lg mb-2">Uploaded Writings</p>
+            <p className=" font-bold text-lg mb-2">{hubT.uWritings}</p>
             <PdfSection />
           </div>
 
           <div className=" w-full mt-4">
-            <p className=" font-bold text-xl">User Management</p>
+            <p className=" font-bold text-xl">{hubT.userM}</p>
 
             <div className="space-y-2 flex-grow">
-              <p className="font-semibold">Students</p>
+              <p className="font-semibold">{hubT.students}</p>
               <StudentTable />
             </div>
 
@@ -112,7 +115,7 @@ const Hub = async () => {
               currentUser?.role.includes("adminTeacher")) && (
               <div className="col-span-3 row-span-1 overflow-auto mt-4">
                 <div className="space-y-2">
-                  <p className="font-semibold">Teachers</p>
+                  <p className="font-semibold">{hubT.teachers}</p>
 
                   <TeachersTable />
                 </div>

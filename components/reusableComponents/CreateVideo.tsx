@@ -6,7 +6,6 @@ import React, { ChangeEvent, useEffect, useState } from "react";
 import {
   deleteCategory,
   deletePlaylist,
-  getPlaylists,
   makeArticle,
   makeCategories,
   makePlaylist,
@@ -30,11 +29,11 @@ import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { Add, Delete } from "@mui/icons-material";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Playlist } from "@/utils/types";
+
 import { useGetPlaylists } from "@/hooks/usePlayList";
 import { Type } from "@prisma/client";
 import { useGetCategory } from "@/hooks/useCategory";
-import { Input } from "../ui/input";
+import { useTranslations } from "next-intl";
 
 const CreateVideo = ({ title }: { title: string }) => {
   const [loading, setLoading] = useState(false);
@@ -44,6 +43,7 @@ const CreateVideo = ({ title }: { title: string }) => {
   const [playlistType, setPlaylistType] = useState<Type>("public");
   const [playlistPrice, setPlaylistPrice] = useState("");
   const [playlistDescription, setPlaylistDescription] = useState("");
+  const t = useTranslations("videoBox");
   const handlePlaylistChange = (e: SelectChangeEvent<string[]>) => {
     const selectedPlaylists = Array.isArray(e.target.value)
       ? e.target.value
@@ -73,14 +73,14 @@ const CreateVideo = ({ title }: { title: string }) => {
     }) => makePlaylist(title, type, price, description),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["getPlaylist"] });
-      toast.success("New playlist added");
+      toast.success(t("newPlaylist"));
     },
   });
   const deleteMutation = useMutation({
     mutationFn: (title: string) => deletePlaylist(title),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["getPlaylist"] });
-      toast.success("Your desired playist deleted");
+      toast.success(t("playlistDelete"));
     },
     onError: (error) => {
       console.log(error.message);
@@ -92,14 +92,14 @@ const CreateVideo = ({ title }: { title: string }) => {
     mutationFn: async (title: string) => await deleteCategory(title),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["getCategory"] });
-      toast.success("Your desired category deleted");
+      toast.success(t("categoryDeleted"));
     },
   });
   const createCatMutation = useMutation({
     mutationFn: ({ title }: { title: string }) => makeCategories(title),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["getCategory"] });
-      toast.success("New category added");
+      toast.success(t("categoryAdded"));
     },
   });
 
@@ -119,14 +119,14 @@ const CreateVideo = ({ title }: { title: string }) => {
         console.log("here");
 
         await postVideo(formData);
-        toast.success(`-${title}- uploaded successfully`);
+        toast.success(`-${title}- ${t("uploadedSuccess")}`);
       } else if (title === "article") {
         await makeArticle(formData);
         console.log(formData);
-        toast.success(`-${title}- uploaded successfully`);
+        toast.success(`-${title}- ${t("uploadedSuccess")}`);
       }
     } catch (error) {
-      toast.error("There was an error in uploading video:" + error);
+      toast.error(t("videoUpError") + error);
     } finally {
       setLoading(false);
     }
@@ -160,11 +160,15 @@ const CreateVideo = ({ title }: { title: string }) => {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col space-y-3">
-      <input className="formInput w-full" placeholder="Title..." name="title" />
+      <input
+        className="formInput w-full"
+        placeholder={t("title")}
+        name="title"
+      />
       <input
         className="formInput w-full "
         type="file"
-        placeholder="Enter Your article title"
+        placeholder={t("articleTitle")}
         name={title === "video" ? "video" : "image"}
         accept={title === "video" ? ".mp4, .mkv" : ".jpg, .jpeg, .png"}
       />
@@ -172,9 +176,9 @@ const CreateVideo = ({ title }: { title: string }) => {
         <div className="flex flex-col w-full">
           <input
             type="text"
-            placeholder={`Add a new ${
-              title === "video" ? "playlist" : "category"
-            } then choose`}
+            placeholder={`${t("addANew")} ${
+              title === "video" ? t("playlist") : t("category")
+            } ${t("thenChoose")}`}
             className="w-full bg-transparent border-none outline-none"
             onChange={(e) => setPlaylistTitle(e.target.value)}
           />
@@ -195,18 +199,18 @@ const CreateVideo = ({ title }: { title: string }) => {
                 <FormControlLabel
                   value="public"
                   control={<Radio />}
-                  label="Public"
+                  label={t("public")}
                 />
                 <FormControlLabel
                   value="private"
                   control={<Radio />}
-                  label="Private"
+                  label={t("private")}
                 />
               </RadioGroup>
               {playlistType === "private" && (
                 <input
                   type="text"
-                  placeholder="Price"
+                  placeholder={t("price")}
                   name=""
                   id=""
                   className="w-full bg-transparent border-none outline-none"
@@ -222,7 +226,7 @@ const CreateVideo = ({ title }: { title: string }) => {
               name="description"
               value={playlistDescription}
               onChange={(e) => setPlaylistDescription(e.target.value)}
-              placeholder="Enter your description"
+              placeholder={t("description")}
               className="w-full bg-transparent border-none outline-none border-trans"
             />
           )}
@@ -248,13 +252,13 @@ const CreateVideo = ({ title }: { title: string }) => {
           }}
           id="playlist"
         >
-          {title === "video" ? "Playlist" : "Category"}
+          {title === "video" ? t("Playlist") : t("Category")}
         </InputLabel>
 
         <Select
           defaultValue={playlist}
           onChange={handlePlaylistChange}
-          label="Select your playlist"
+          label={t("selectPlaylist")}
           name="playlists"
           sx={{ backgroundColor: "#c6d9e6", textAlign: "start" }}
         >
@@ -278,8 +282,8 @@ const CreateVideo = ({ title }: { title: string }) => {
         editor={ClassicEditor}
         data={
           title === "video"
-            ? "<p>Erase this and write your caption ❤️</p>"
-            : "<p>Write your article here ❤️</p> "
+            ? `<p>${t("eraseWrite")} ❤️</p>`
+            : `<p>${t("eraseWriteArticle")} ❤️</p> `
         }
         onChange={(event, editor) => {
           console.log(editor.getData());
@@ -291,7 +295,7 @@ const CreateVideo = ({ title }: { title: string }) => {
           <CircularProgress sx={{ color: "white", transform: "scale(.7)" }} />
         </Button>
       ) : (
-        <Button type="submit">Create</Button>
+        <Button type="submit">{t("create")}</Button>
       )}
     </form>
   );
