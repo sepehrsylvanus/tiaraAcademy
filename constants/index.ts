@@ -3,16 +3,27 @@ export const writingIcons = [
     title: "How to study",
     link: "/hub/writing",
   },
-  {
-    type: "popover",
-    title: "Reserve Class",
-  },
+
   {
     title: "Write here",
     link: "/hub/writing/writeHere",
   },
   {
     title: "Upload one",
+  },
+];
+export const faWritingIcons = [
+  {
+    title: "چگونه نوشتار خود را تقویت کنیم",
+    link: "/hub/writing",
+  },
+
+  {
+    title: "همینجا تمرین کنید",
+    link: "/hub/writing/writeHere",
+  },
+  {
+    title: "تمرین خود را ارسال کنید",
   },
 ];
 

@@ -119,7 +119,11 @@
     "uWritings": "Uploaded Writings",
     "userM": "User Management",
     "students": "Students",
-    "teachers": "Teachers"
+    "teachers": "Teachers",
+    "noWriting": "You don't have any writing",
+    "next": "Next",
+    "previous": "Previous",
+    "noResult": "No result"
   },
   "videoBox": {
     "dSuccessfully": "deleted successfully",
@@ -157,6 +161,23 @@
     "enterClassId": "Enter Your class id",
     "title": "Title",
     "enterPreReq": "Enter prerequisites",
-    "enterOutline": "Enter course outlines"
+    "enterOutline": "Enter course outlines",
+    "enterPrice": "Enter price",
+    "capacity": "Capacity",
+    "days": "Days",
+    "deactive": "Deactive",
+    "chooseDuration": "Choose your class duration",
+    "pickDate": "Pick a date",
+    "times": "Times",
+    "create": "Create"
+  },
+  "Class": {
+    "tiaraAcc": "Tiara Academy",
+    "allClass": "All Classes",
+    "description": "Here you can see all of available classes",
+    "className": "Class name",
+    "teacherName": "Choose your teacher",
+    "withoutFilter": "Without filter",
+    "join": "Join"
   }
 }

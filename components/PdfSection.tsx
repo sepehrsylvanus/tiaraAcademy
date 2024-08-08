@@ -4,8 +4,12 @@ import { Writings } from "@/utils/types";
 import { getToken, getWritings } from "@/actions/actions";
 import { getSingleUser } from "@/actions/userActions";
 import EachWritingCard from "./reusableComponents/EachWritingCard";
+import { getMessages } from "next-intl/server";
 
 const PdfSection = async () => {
+  const messages = (await getMessages()) as any;
+  const hubT = messages.Hub;
+  console.log(hubT);
   let loading = true;
   let writings: Writings[] = await getWritings();
   if (writings) {
@@ -36,7 +40,7 @@ const PdfSection = async () => {
               </div>
             ))
           ) : (
-            <p className="text-center">You don't have any writing</p>
+            <p className="text-center">{hubT.noWriting}</p>
           )}
         </div>
       )}

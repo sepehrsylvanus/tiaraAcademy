@@ -105,6 +105,7 @@ a {
 .rti--input {
   color: #072d44;
   background-color: #c6d9e6;
+  width: 100% !important;
 }
 .rti--tag {
   color: #072d44;

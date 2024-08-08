@@ -116,7 +116,11 @@
     "uWritings": "متون بارگذاری شده",
     "userM": "مدیریت کاربران",
     "students": "دانش‌آموزان",
-    "teachers": "معلمان"
+    "teachers": "معلمان",
+    "noWriting": "شما هیچ تمرین نوشتاری ندارید",
+    "next": "بعدی",
+    "previous": "قبلی",
+    "noResult": "رکوردی موجود نیست"
   },
   "videoBox": {
     "dSuccessfully": "با موفقیت حذف شد",
@@ -151,6 +155,26 @@
   },
   "CreateClass": {
     "delete": "حذف",
-    "enterClassId": "کد کلاس خود را وارد کنید"
+    "enterClassId": "کد کلاس را وارد کنید",
+    "title": "عنوان",
+    "enterPreReq": "پیش‌نیازها را وارد کنید",
+    "enterOutline": "سرفصل‌های دوره را وارد کنید",
+    "enterPrice": "قیمت را وارد کنید",
+    "capacity": "ظرفیت",
+    "days": "روزها",
+    "deactive": "غیرفعال",
+    "chooseDuration": "مدت زمان کلاس خود را انتخاب کنید",
+    "pickDate": "تاریخ را انتخاب کنید",
+    "times": "زمان‌ها",
+    "create": "ایجاد کردن"
+  },
+  "Class": {
+    "tiaraAcc": "آکادمی تیارا",
+    "allClass": "همه‌ی کلاس‌ها",
+    "description": "در اینجا می‌توانید تمام کلاس‌های موجود را ببینید",
+    "className": "نام کلاس",
+    "teacherName": "معلم مورد نظر را انتخاب کنید",
+    "withoutFilter": "بدون فیلتر",
+    "join": "پیوستن به کلاس"
   }
 }

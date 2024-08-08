@@ -37,7 +37,7 @@ import { CalendarDaysIcon } from "lucide-react";
 import { Calendar } from "../ui/calendar";
 import { TagsInput } from "react-tag-input-component";
 import { postClassImg } from "@/actions/actions";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 const transition = require("react-element-popper/animations/transition");
 
@@ -71,6 +71,36 @@ const days = [
     value: "friday",
   },
 ];
+const faDays = [
+  {
+    title: "شنبه",
+    value: "saturday",
+  },
+  {
+    title: "یکشنبه",
+    value: "sunday",
+  },
+  {
+    title: "دوشنبه",
+    value: "monday",
+  },
+  {
+    title: "سه‌شنبه",
+    value: "tuesday",
+  },
+  {
+    title: "چهارشنبه",
+    value: "wednesday",
+  },
+  {
+    title: "پنج‌شنبه",
+    value: "thursday",
+  },
+  {
+    title: "جمعه",
+    value: "friday",
+  },
+];
 
 const CreateClass = () => {
   const [sending, setSending] = useState(false);
@@ -82,6 +112,7 @@ const CreateClass = () => {
     index: 0,
   });
   const t = useTranslations("CreateClass");
+  const locale = useLocale();
   const [capacity, setCapacity] = useState<{
     capacity: number;
     index: number;
@@ -262,7 +293,6 @@ const CreateClass = () => {
         <input
           className="formInput w-full my-4"
           type="file"
-          placeholder="Enter Your article title"
           name={"classPic"}
           accept={".jpg, .jpeg, .png"}
           onChange={(e) => setClassPic(e.target.files?.[0])}
@@ -285,13 +315,13 @@ const CreateClass = () => {
               <div className="w-full mt-4">
                 <input
                   className="formInput mb-2 w-full"
-                  placeholder="Enter price"
+                  placeholder={t("enterPrice")}
                   style={{ boxSizing: "border-box" }}
                   onChange={(e) => setPrice({ price: e.target.value, index })}
                   value={index === price.index ? price.price : ""}
                 />
                 <div className="flex gap-4 items-center">
-                  <p className="flex-1">Capacity</p>
+                  <p className="flex-1">{t("capacity")}</p>
                   <input
                     type="text"
                     min={0}
@@ -321,7 +351,7 @@ const CreateClass = () => {
                     }}
                     id="days"
                   >
-                    Days
+                    {t("days")}
                   </InputLabel>
                   <Select
                     value={field.value}
@@ -331,11 +361,18 @@ const CreateClass = () => {
                     name="days"
                     sx={{ backgroundColor: "#c6d9e6", width: "100%" }}
                   >
-                    {days.map((day) => (
-                      <MenuItem key={day.value} value={day.value}>
-                        {day.title}
-                      </MenuItem>
-                    ))}
+                    {locale === "en" &&
+                      days.map((day) => (
+                        <MenuItem key={day.value} value={day.value}>
+                          {day.title}
+                        </MenuItem>
+                      ))}
+                    {locale === "fa" &&
+                      faDays.map((day) => (
+                        <MenuItem key={day.value} value={day.value}>
+                          {day.title}
+                        </MenuItem>
+                      ))}
                   </Select>
                 </FormControl>
               )}
@@ -357,8 +394,8 @@ const CreateClass = () => {
                     minDate={new Date()}
                     placeholder={
                       chosenType !== "group"
-                        ? "Deactive"
-                        : "Choose your class duration"
+                        ? t("deactive")
+                        : t("chooseDuration")
                     }
                     animations={[transition()]}
                     onChange={(e) => {
@@ -378,7 +415,6 @@ const CreateClass = () => {
                   : ""
               }
             >
-              <Label htmlFor="date">Date</Label>
               <Popover>
                 <PopoverTrigger
                   asChild
@@ -394,9 +430,9 @@ const CreateClass = () => {
                       <div className="flex gap-4">
                         <CalendarDaysIcon className="mr-2 h-4 w-4" />
                         {chosenType !== "workshop" ? (
-                          <p> Pick a date</p>
+                          <p>{t("deactive")}</p>
                         ) : (
-                          <p>Disabled</p>
+                          <p> {t("pickDate")}</p>
                         )}
                       </div>
                     )}
@@ -416,7 +452,7 @@ const CreateClass = () => {
                 }}
                 id="times"
               >
-                Times
+                {t("times")}
               </InputLabel>
               <Controller
                 name="times"
@@ -424,7 +460,6 @@ const CreateClass = () => {
                 render={({ field }) => (
                   <Select
                     onChange={field.onChange}
-                    label="Select your time"
                     name="time"
                     value={field.value}
                     multiple
@@ -460,7 +495,7 @@ const CreateClass = () => {
                 <CircularProgress sx={{ color: "white" }} />
               </div>
             ) : (
-              "Create"
+              t("create")
             )}
           </Button>
         </div>

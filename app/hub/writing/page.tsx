@@ -5,16 +5,16 @@ import Image from "next/image";
 import React from "react";
 const WritingPage = async () => {
   return (
-    <TracingBeam className="h-[1240px]">
-      <div className="px-[1em] ">
-        <div className="w-[18rem] h-[11rem] sm:w-[28rem] sm:h-[17rem] lg:w-[35rem] lg:h-[20rem]   relative my-4 mx-auto">
-          <Image
-            src={"/article.jpg"}
-            alt="writing image"
-            fill
-            className=" absolute object-cover rounded-md"
-          />
-        </div>
+    <div className="px-[1em] ">
+      <div className="w-[18rem] h-[11rem] sm:w-[28rem] sm:h-[17rem] lg:w-[35rem] lg:h-[20rem]   relative my-4 mx-auto">
+        <Image
+          src={"/article.jpg"}
+          alt="writing image"
+          fill
+          className=" absolute object-cover rounded-md"
+        />
+      </div>
+      <div className="px-10 space-y-6">
         <h1 className="h1 mb-4">
           Mastering English Writing: A Comprehensive Guide
         </h1>
@@ -29,13 +29,6 @@ const WritingPage = async () => {
           comprehensive guide on how to study English writing effectively:
         </p>
 
-        {howTooStudy.map((section, index) => (
-          <section className="flex flex-col gap-4 my-6" key={index}>
-            {/* <h4 className="font-bold text-2xl">{section.title}</h4>
-            <p className=" text-extraBg">{section.desc}</p> */}
-          </section>
-        ))}
-
         <p className="font-bold">
           By following these strategies and staying dedicated to your learning,
           you can develop strong English writing skills that will serve you well
@@ -44,7 +37,7 @@ const WritingPage = async () => {
           fluently and confidently in the English language.
         </p>
       </div>
-    </TracingBeam>
+    </div>
   );
 };
 

@@ -36,11 +36,12 @@ import { useGetPlaylists } from "@/hooks/usePlayList";
 import { useGetClasses } from "@/hooks/useClasses";
 import { date } from "zod";
 import { useGetTeacherNames } from "@/hooks/useUsers";
+import { useTranslations } from "next-intl";
 
 const Classes = () => {
   const [loading, setLoading] = useState(true);
   const [currentUser, setCurrentUser] = useState<User>();
-
+  const t = useTranslations("Class");
   const { data: classes, isLoading: classesLoading } = useGetClasses();
   const { data: playlists, isLoading } = useGetPlaylists();
   const { data: teachersName } = useGetTeacherNames();
@@ -139,9 +140,9 @@ const Classes = () => {
     <div className={styles.container}>
       <div className={styles.classesHeader}>
         <div className={styles.titleContainer}>
-          <h4 className="h3">Tiara Academy</h4>
-          <h1 className="h1">All Classes</h1>
-          <p>Here you can see all of available classes</p>
+          <h4 className="h3">{t("tiaraAcc")}</h4>
+          <h1 className="h1">{t("allClass")}</h1>
+          <p>{t("description")}</p>
         </div>
         <div className={styles.searchBarContainer}>
           <div className={styles.eachSearchbar}>
@@ -152,7 +153,7 @@ const Classes = () => {
               name="className"
               control={control}
               render={({ field }) => (
-                <CustomClassTextField {...field} label="Class name" />
+                <CustomClassTextField {...field} label={t("className")} />
               )}
             />
           </div>
@@ -169,9 +170,9 @@ const Classes = () => {
                     {...field}
                     select
                     variant="outlined"
-                    label="Choose your teacher"
+                    label={t("teacherName")}
                   >
-                    <MenuItem value="">Without filter</MenuItem>
+                    <MenuItem value="">{t("withoutFilter")}</MenuItem>
                     {teachersName?.map((eachName, index) => (
                       <MenuItem key={index} value={eachName}>
                         {eachName}
@@ -285,7 +286,7 @@ const Classes = () => {
                           }
                         }}
                       >
-                        Join
+                        {t("join")}
                       </Button>
                     </Link>
                   </CardFooter>
