@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import styles from "./teacher.module.css";
-import { Avatar } from "@mui/material";
 
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import Link from "next/link";
@@ -21,12 +20,17 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { User } from "@/utils/types";
 import { toast } from "react-toastify";
 import { Axios } from "@/utils/axiosIn";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useLocale, useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
 
 const page = () => {
   const [teachers, setTeachers] = useState<User[]>([]);
   const [filteredTeachers, setFilteredTeachers] = useState<User[]>(teachers);
   const [loading, setLoading] = useState(true);
-
+  const locale = useLocale();
+  const t = useTranslations("Teachers");
+  const router = useRouter();
   useEffect(() => {
     Axios.get("/users")
       .then((res) => {
@@ -40,15 +44,6 @@ const page = () => {
       })
       .catch((e) => console.log(e));
   }, []);
-
-  // useEffect(() => {
-  //   const fetchTeachers = async () => {
-  //     setTeachers(teachers);
-  //     setFilteredTeachers(teachers);
-  //     setLoading(false);
-  //   };
-  //   fetchTeachers();
-  // }, []);
 
   // START OF FILTER
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -73,10 +68,33 @@ const page = () => {
       console.error("Failed to copy text: ", err);
     }
   };
+
+  const renderRole = (role: string) => {
+    if (locale === "en") {
+      switch (role) {
+        case "adminTeacher":
+          return "Admin | Teacher";
+          break;
+        case "teacher":
+          return "Teacher";
+          break;
+      }
+    } else {
+      switch (role) {
+        case "adminTeacher":
+          return "ادمین | معلم";
+          break;
+        case "teacher":
+          return "معلم";
+          break;
+      }
+    }
+  };
+
   return (
     <div className={styles.container}>
       <div className="flex flex-col  items-center gap-4 sm:flex-row sm:justify-between sm:px-4 md:pl-[3em]">
-        <h1 className=" font-bold text-3xl">Find a teacher</h1>
+        <h1 className=" font-bold text-3xl">{t("findATeacher")}</h1>
         <CustomClassTextField onChange={handleChange} label="Teacher's name" />
       </div>
 
@@ -104,36 +122,52 @@ const page = () => {
           <>
             <Carousel className="md:hidden">
               <CarouselContent>
-                {filteredTeachers.map((teacher) => (
-                  <CarouselItem>
-                    <Card className="flex flex-col gap-6 text-center justify-center rounded-md p-4 w-full bg-extraBg text-lightPrime">
-                      <CardContent className="flex flex-col items-center gap-4">
-                        <Avatar sx={{ width: 54, height: 54 }} />
-                        <p className=" font-bold ">{`${teacher.fName} ${teacher.lName}`}</p>
+                {filteredTeachers.map((teacher) => {
+                  return (
+                    <CarouselItem>
+                      <Card className="flex flex-col gap-6 text-center justify-center rounded-md p-4 w-full bg-extraBg text-lightPrime">
+                        <CardContent className="flex flex-col items-center gap-4">
+                          <Avatar>
+                            <AvatarImage
+                              src={teacher.image!}
+                              alt={teacher.fName}
+                            />
+                            <AvatarFallback>{`${teacher.fName[0]}${teacher.lName?.[0]}`}</AvatarFallback>
+                          </Avatar>
 
-                        <p>{teacher.role}</p>
-                        <Link
-                          href={`/hub/teachers/${teacher.id}`}
-                          className=" text-extraItem underline  hover:text-lightPrime transition"
-                        >
-                          View profile
-                        </Link>
-                      </CardContent>
-                      <CardFooter className="p-0 flex flex-col gap-2 ">
-                        <button className="  bg-extraText w-full py-4 rounded-md text-white hover:bg-lightPrime hover:text-extraBg transition">
-                          See Classes
-                        </button>
+                          <p className=" font-bold ">{`${teacher.fName} ${teacher.lName}`}</p>
 
-                        <p
-                          className=" text-lg  md:text-base md:hover:text-lg mx-2 "
-                          onClick={() => copyToClipboard(teacher.id)}
-                        >
-                          {teacher.id}
-                        </p>
-                      </CardFooter>
-                    </Card>
-                  </CarouselItem>
-                ))}
+                          <p>{renderRole(teacher.role)}</p>
+                          <Link
+                            href={`/hub/teachers/${teacher.id}`}
+                            className=" text-extraItem underline  hover:text-lightPrime transition"
+                          >
+                            {t("viewProfile")}
+                          </Link>
+                        </CardContent>
+                        <CardFooter className="p-0 flex flex-col gap-2 ">
+                          <button
+                            onClick={() =>
+                              router.push(
+                                `/hub/classes?teacher=${teacher.fName} ${teacher.lName}`
+                              )
+                            }
+                            className="  bg-extraText w-full py-4 rounded-md text-white hover:bg-lightPrime hover:text-extraBg transition"
+                          >
+                            {t("seeClasses")}
+                          </button>
+
+                          <p
+                            className=" text-lg  md:text-base md:hover:text-lg mx-2 "
+                            onClick={() => copyToClipboard(teacher.id)}
+                          >
+                            {teacher.id}
+                          </p>
+                        </CardFooter>
+                      </Card>
+                    </CarouselItem>
+                  );
+                })}
               </CarouselContent>
               <CarouselPrevious />
               <CarouselNext />
@@ -145,20 +179,30 @@ const page = () => {
                   className={`${styles.eachTeacerCard} bg-extraBg text-lightPrime`}
                 >
                   <CardContent className="flex flex-col items-center gap-4">
-                    <Avatar sx={{ width: 54, height: 54 }} />
+                    <Avatar>
+                      <AvatarImage src={teacher.image!} alt={teacher.fName} />
+                      <AvatarFallback>{`${teacher.fName[0]}${teacher.lName?.[0]}`}</AvatarFallback>
+                    </Avatar>
                     <p className=" font-bold ">{`${teacher.fName} ${teacher.lName}`}</p>
 
-                    <p>{teacher.role}</p>
+                    <p>{renderRole(teacher.role)}</p>
                     <Link
                       href={`/hub/teachers/${teacher.id}`}
                       className=" text-extraItem underline  hover:text-white transition"
                     >
-                      View profile
+                      {t("viewProfile")}
                     </Link>
                   </CardContent>
                   <CardFooter className="p-0 flex flex-col gap-2">
-                    <button className="  bg-extraText w-full py-4 rounded-md text-white hover:bg-lightPrime hover:text-extraBg transition">
-                      See Classes
+                    <button
+                      onClick={() =>
+                        router.push(
+                          `/hub/classes?teacher=${teacher.fName} ${teacher.lName}`
+                        )
+                      }
+                      className="  bg-extraText w-full py-4 rounded-md text-white hover:bg-lightPrime hover:text-extraBg transition"
+                    >
+                      {t("seeClasses")}
                     </button>
 
                     <p

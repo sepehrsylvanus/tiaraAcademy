@@ -37,8 +37,13 @@ import { useGetClasses } from "@/hooks/useClasses";
 import { date } from "zod";
 import { useGetTeacherNames } from "@/hooks/useUsers";
 import { useTranslations } from "next-intl";
-
-const Classes = () => {
+type Props = {
+  searchParams: {
+    teacher: string;
+  };
+};
+const Classes = ({ searchParams: { teacher } }: Props) => {
+  console.log(teacher);
   const [loading, setLoading] = useState(true);
   const [currentUser, setCurrentUser] = useState<User>();
   const t = useTranslations("Class");
@@ -48,7 +53,6 @@ const Classes = () => {
   console.log(playlists);
   const [filteredClasses, setFilteredClasses] = useState(classes);
   const searchParams = useSearchParams();
-  const teacherParam = searchParams.get("teacher");
 
   if (classes) {
     console.log(classes);

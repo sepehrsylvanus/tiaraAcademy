@@ -15,8 +15,10 @@ import Link from "next/link";
 import { useGetBlogs } from "@/hooks/useArticles";
 import { useGetCategory } from "@/hooks/useCategory";
 import { Category } from "@prisma/client";
+import { useTranslations } from "next-intl";
 
 const Blogs = () => {
+  const t = useTranslations("Articles");
   const { data: articles, isLoading } = useGetBlogs();
   const { data: categories, isLoading: catLoading } = useGetCategory();
   const trendingAtricles = articles?.filter((article) => article.trend);
@@ -34,11 +36,8 @@ const Blogs = () => {
             </Link>
           ))}
         </div>
-        <h3 className="h1 text-4xl ">Trending Articles</h3>
-        <p className=" w-fit md:w-[30rem]">
-          Discover Our Curated Collection of the Most Trending and Insightful
-          Articles: From Educational Insights to Practical Tips
-        </p>
+        <h3 className="h1 text-4xl ">{t("terndingArticles")}</h3>
+        <p className=" w-fit md:w-[30rem]">{t("trendingDescription")}</p>
       </div>
       <Divider sx={{ border: "1px solid #b2bec3" }} />
       {!isLoading ? (
@@ -252,7 +251,7 @@ const Blogs = () => {
             </div>
           ) : (
             <div className="flex justify-center">
-              <h4>There is no trending articles</h4>
+              <h4>{t("noTrending")}</h4>
             </div>
           )}
         </div>
@@ -263,7 +262,7 @@ const Blogs = () => {
       )}
 
       <div>
-        <h3 className="h1 text-4xl mb-3 text-center">Grammar Article</h3>
+        <h3 className="h1 text-4xl mb-3 text-center">{t("allArticles")}</h3>
         <Divider sx={{ border: "1px solid #b2bec3", margin: "1em 0" }} />
       </div>
 

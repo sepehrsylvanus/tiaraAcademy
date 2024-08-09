@@ -13,6 +13,7 @@ import { toast } from "react-toastify";
 import { Whatshot, WhatshotOutlined } from "@mui/icons-material";
 import { useMutation } from "@tanstack/react-query";
 import { useChangeTrend } from "@/hooks/useArticles";
+import { useTranslations } from "next-intl";
 const OtherBlogs = ({
   videos,
   articles,
@@ -20,6 +21,7 @@ const OtherBlogs = ({
   videos?: Video[];
   articles?: Blogs[];
 }) => {
+  const t = useTranslations("Articles");
   const [itemsToShow, setItemsToShow] = useState(3);
   const pathName = usePathname();
   const trendArticles = articles?.filter((article) => article.trend);
@@ -148,7 +150,7 @@ const OtherBlogs = ({
         </div>
       ) : (
         pathName === "/hub/blogs" &&
-        articles?.length === 0 && <h4>There is no article to show</h4>
+        articles?.length === 0 && <h4>{t("noArticle")}</h4>
       )}
       {pathName === "/hub/videos" && videos && videos?.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
