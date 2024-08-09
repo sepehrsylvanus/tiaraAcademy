@@ -179,5 +179,16 @@
     "teacherName": "Choose your teacher",
     "withoutFilter": "Without filter",
     "join": "Join"
+  },
+  "Writing": {
+    "writingTitle": "Writing Section",
+    "layoutDesc": "Welcome to the writing center. Here you can upload your writing file, write your writing here directly or even share with other learners",
+    "description": "Here you can write and send your writing",
+    "name": "Write your name here...",
+    "subject": "Write your subject here...",
+    "notChosen": "Not chosen yet :) - PLEASE SEND .png IMAGES",
+    "writing": "Write your writing...",
+    "submit": "Submit",
+    "notChosenYet": "Not chosen yet :)"
   }
 }

@@ -1,26 +1,16 @@
 "use client";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+
 import { Button } from "@/components/ui/button";
 
 import { Card } from "@/components/ui/card";
-import { Textarea } from "@/components/ui/textarea";
-import { ChangeEvent, useEffect, useState } from "react";
-import { S3 } from "aws-sdk";
+import { ChangeEvent, useState } from "react";
 import { postWriting } from "@/actions/actions";
-import {
-  CircularProgress,
-  FormControl,
-  Input,
-  InputLabel,
-  OutlinedInput,
-  TextField,
-} from "@mui/material";
-import styles from "./writeHere.module.css";
+import { CircularProgress } from "@mui/material";
 import { toast } from "react-toastify";
+import { useTranslations } from "next-intl";
 
 const WriteHere = () => {
+  const t = useTranslations("Writing");
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [writing, setWriting] = useState<string>();
   const [loading, setLoading] = useState(false);
@@ -56,22 +46,20 @@ const WriteHere = () => {
     <div className=" pb-10 md:pb-5">
       <Card className="w-[20rem] sm:w-[25rem] md:w-[40rem] lg:w-[50rem] p-4 bg-extraText text-lightPrime mx-auto">
         <form onSubmit={handleSubmit} className="space-y-6 flex flex-col">
-          <p className="h3 text-center">
-            Here you can write and send your first section writing
-          </p>
+          <p className="h3 text-center">{t("description")}</p>
 
           <input
             required
             className="formInput w-full py-4"
             name="name"
-            placeholder="Write your name here..."
+            placeholder={t("name")}
           />
 
           <input
             required
             className="formInput w-full py-4"
             name="subject"
-            placeholder="Write your subject here..."
+            placeholder={t("subject")}
           />
           <input
             id="writingImg"
@@ -83,17 +71,14 @@ const WriteHere = () => {
           />
           <label htmlFor="writingImg" className="formInput w-full py-4">
             {selectedImage?.name && "Chosen => "}
-            {` ${
-              selectedImage?.name ||
-              "Not chosen yet :) - PLEASE SEND .png IMAGES"
-            }`}
+            {` ${selectedImage?.name || t("notChosen")}`}
           </label>
 
           <textarea
             required
             rows={5}
             className="formInput w-full py-4 resize-none"
-            placeholder="Write your writing..."
+            placeholder={t("writing")}
             value={writing}
             onChange={(e) => setWriting(e.target.value)}
             name="writing"
@@ -107,7 +92,7 @@ const WriteHere = () => {
               />
             </Button>
           ) : (
-            <Button type="submit">Submit</Button>
+            <Button type="submit">{t("submit")}</Button>
           )}
         </form>
       </Card>

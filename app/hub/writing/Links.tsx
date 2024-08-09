@@ -15,14 +15,14 @@ import { Button } from "@/components/ui/button";
 import { postWriting } from "@/actions/actions";
 import { toast } from "react-toastify";
 import { CircularProgress } from "@mui/material";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 const Links = ({ teachers }: { teachers: User[] }) => {
   const locale = useLocale();
   const [pdfFile, setPdfFile] = useState<File>();
   const [loading, setLoading] = useState(false);
   const path = usePathname();
-
+  const t = useTranslations("Writing");
   const handlePdfChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       setPdfFile(e.target.files[0]);
@@ -43,7 +43,11 @@ const Links = ({ teachers }: { teachers: User[] }) => {
     }
   };
   return (
-    <div className=" grid text-sm grid-cols-2 mx-auto justify-center justify-items-center gap-3 mt-4 transition sm:grid-cols-3 md:grid-cols-4  lg:relative left-12">
+    <div
+      className={` grid text-sm grid-cols-2 mx-auto justify-center justify-items-center gap-3 mt-4 transition sm:grid-cols-3 md:grid-cols-4  lg:relative ${
+        locale === "en" ? "left-12" : "right-28"
+      }`}
+    >
       {locale === "en"
         ? writingIcons.map((writingIcon, index) => {
             if (writingIcon.link) {
@@ -63,7 +67,7 @@ const Links = ({ teachers }: { teachers: User[] }) => {
                 <>
                   <Dialog>
                     <DialogTrigger className=" hover:ring-1 hover:ring-blue-800 bg-slate-200 w-fit text-blue-800 font-bold rounded-md px-4 py-6">
-                      Upload one
+                      Upload One
                     </DialogTrigger>
                     <DialogContent className="py-10 bg-extraText">
                       <form
@@ -121,7 +125,7 @@ const Links = ({ teachers }: { teachers: User[] }) => {
                 <>
                   <Dialog>
                     <DialogTrigger className=" hover:ring-1 hover:ring-blue-800 bg-slate-200 w-fit text-blue-800 font-bold rounded-md px-4 py-6">
-                      Upload one
+                      تمرین خود را ارسال کنید
                     </DialogTrigger>
                     <DialogContent className="py-10 bg-extraText">
                       <form
@@ -141,7 +145,7 @@ const Links = ({ teachers }: { teachers: User[] }) => {
                           className="formInput w-full py-4"
                         >
                           {pdfFile?.name && "Choosed => "}
-                          {` ${pdfFile?.name || "Not chosen yet :)"}`}
+                          {` ${pdfFile?.name || t("notChosenYet")}`}
                         </label>
                         {loading ? (
                           <Button disabled className="w-fit">
@@ -151,7 +155,7 @@ const Links = ({ teachers }: { teachers: User[] }) => {
                           </Button>
                         ) : (
                           <Button type="submit" className="w-fit">
-                            Submit
+                            {t("submit")}
                           </Button>
                         )}
                       </form>

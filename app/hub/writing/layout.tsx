@@ -1,3 +1,4 @@
+import { getMessages } from "next-intl/server";
 import Links from "./Links";
 import { retieveUsers } from "@/actions/actions";
 
@@ -9,14 +10,12 @@ export default async function RootLayout({
   const teachers = await (
     await retieveUsers()
   ).filter((user) => user.role === "teacher");
-
+  const messages = (await getMessages()) as any;
+  const writingT = messages.Writing;
   return (
     <div className="flex flex-col px-4 md:pl-[5em] pb-6">
-      <h1 className="my-4 h1 text-center text-2xl">Writing Section</h1>
-      <p className="text-center">
-        Welcome to the writing center. Here you can upload your writing file,
-        write your writing here directly or even share with other learners
-      </p>
+      <h1 className="my-4 h1 text-center text-2xl">{writingT.writingTitle}</h1>
+      <p className="text-center">{writingT.layoutDesc}</p>
 
       <Links teachers={teachers} />
 
