@@ -203,7 +203,7 @@ const OtherBlogs = ({
         </div>
       ) : (
         pathName === "/hub/videos" &&
-        videos?.length === 0 && <h4>There is no video to show</h4>
+        videos?.length === 0 && <h4>{t("noVideos")}</h4>
       )}
       {videos && videos?.length > itemsToShow && (
         <Button

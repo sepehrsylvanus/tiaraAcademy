@@ -192,7 +192,8 @@
   "Teachers": {
     "viewProfile": "نمایش پروفایل",
     "seeClasses": "مشاهده‌ی کلاس‌ها",
-    "findATeacher": "یک معلم پیدا کنید"
+    "findATeacher": "یک معلم پیدا کنید",
+    "teachersName": "نام معلم"
   },
   "Articles": {
     "terndingArticles": "مقالات پرطرفدار",
@@ -200,5 +201,12 @@
     "noTrending": "مقاله پرطرفداری وجود ندارد",
     "allArticles": "همه مقالات",
     "noArticle": "مقاله‌ای برای نمایش وجود ندارد"
+    ,    "noVideos": "ویدیویی برای نمایش وجود ندارد"
+  },
+  "Videos": {
+    "Trending Videos": "ویدیوهای پرطرفدار",
+    "description": "جالب ترین ویدیوهارو همین جا ببینین",
+    "noTrend": "ویدیوی پرطرفداری اضافه نشده است",
+    "all": "تمام ویدیوها"
   }
 }

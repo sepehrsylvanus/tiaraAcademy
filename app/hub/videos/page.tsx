@@ -17,10 +17,12 @@ import {
 import { useGetPlaylists } from "@/hooks/usePlayList";
 import { Playlist, Video } from "@/utils/types";
 import { useGetVideos } from "@/hooks/useVideos";
+import { useTranslations } from "next-intl";
 
 const Videos = () => {
   const { data: playlists } = useGetPlaylists();
   const { data: videos, isLoading: videoLoad } = useGetVideos();
+  const t = useTranslations('Videos')
   const trendVideos = videos?.filter((video) => video.trend);
   return (
     <div className={styles.container}>
@@ -39,9 +41,9 @@ const Videos = () => {
             );
           })}
         </div>
-        <h3 className="h1 text-4xl ">Trending Videos</h3>
+        <h3 className="h1 text-4xl ">{t('Trending Videos')}</h3>
         <p className=" w-fit md:w-[30rem]">
-          Your Daily Dose of Viral Sensations
+          {t('description')}
         </p>
       </div>
 
@@ -202,12 +204,12 @@ const Videos = () => {
         </div>
       ) : (
         <div className="flex justify-center">
-          <h4>There is no trending videos</h4>
+          <h4>{t('noTrend')}</h4>
         </div>
       )}
 
       <div>
-        <h3 className="h1 text-4xl mb-3 text-center">All videos</h3>
+        <h3 className="h1 text-4xl mb-3 text-center">{t('all')}</h3>
         <Divider sx={{ border: "1px solid #b2bec3", margin: "1em 0" }} />
       </div>
 

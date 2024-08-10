@@ -194,13 +194,21 @@
   "Teachers": {
     "viewProfile": "View profile",
     "seeClasses": "See Classes",
-    "findATeacher": "Find a teacher"
+    "findATeacher": "Find a teacher",
+    "teachersName": "Teacher's name"
   },
   "Articles": {
     "terndingArticles": "Trending Articles",
     "trendingDescription": "Discover Our Curated Collection of the Most Trending and Insightful Articles: From Educational Insights to Practical Tips",
     "noTrending": "There is no trending articles",
     "allArticles": "All articles",
-    "noArticle": "There is no article to show"
+    "noArticle": "There is no article to show",
+    "noVideos": "There is no video to show"
+  },
+  "Videos": {
+    "Trending Videos": "Trending Videos",
+    "description": "Your Daily Dose of Viral Sensations",
+    "noTrend": "There is no trending videos",
+    "all": "All videos"
   }
 }

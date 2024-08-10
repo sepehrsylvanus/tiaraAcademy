@@ -95,7 +95,10 @@ const page = () => {
     <div className={styles.container}>
       <div className="flex flex-col  items-center gap-4 sm:flex-row sm:justify-between sm:px-4 md:pl-[3em]">
         <h1 className=" font-bold text-3xl">{t("findATeacher")}</h1>
-        <CustomClassTextField onChange={handleChange} label="Teacher's name" />
+        <CustomClassTextField
+          onChange={handleChange}
+          label={t("teachersName")}
+        />
       </div>
 
       <div className={styles.teachersCardContainer}>
