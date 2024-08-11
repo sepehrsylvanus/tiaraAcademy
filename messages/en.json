@@ -212,5 +212,17 @@
     "description": "Your Daily Dose of Viral Sensations",
     "noTrend": "There is no trending videos",
     "all": "All videos"
+  },
+  "SingleClass": {
+    "schedule": "Schedule",
+    "startFrom": "    Start from",
+    "durationFrom": " Duration: from",
+    "to": "to",
+    "prerequisites": "Prerequisites",
+    "beginnerFriendly": "No prior experience required. Beginner-friendly.",
+    "outline": "Course Outline",
+    "join": "Join",
+    "price": "Price",
+    "toman": "Toman"
   }
 }

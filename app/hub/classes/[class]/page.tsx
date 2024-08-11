@@ -3,23 +3,14 @@ import React, { useEffect, useState } from "react";
 import styles from "./singleClass.module.css";
 import { CircularProgress, Divider, InputLabel, Select } from "@mui/material";
 import Link from "next/link";
-import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
-import EmojiPeopleIcon from "@mui/icons-material/EmojiPeople";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 
-import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
-import SchoolIcon from "@mui/icons-material/School";
 import ClassesDate from "@/components/classesDate/ClassesDate";
 import CustomSelect from "@/components/customSelect/CustomSelect";
 
-import {
-  getClasses,
-  getRegisterdClasses,
-  getSingleClass,
-  getToken,
-} from "@/actions/actions";
-import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
-import { Class, UserClasses } from "@/utils/types";
+import { getToken } from "@/actions/actions";
+import { FormProvider, useForm } from "react-hook-form";
+import { Class } from "@/utils/types";
 import { Axios } from "@/utils/axiosIn";
 import { toast } from "react-toastify";
 import { z } from "zod";
@@ -32,6 +23,7 @@ import prisma from "@/utils/db";
 import { useGetClasses } from "@/hooks/useClasses";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { useTranslations } from "next-intl";
 
 type DetailsProps = {
   params: {
@@ -45,6 +37,7 @@ const classValidation = z.object({
   time: z.string(),
 });
 const MyClass = (details: DetailsProps) => {
+  const t = useTranslations("SingleClass");
   const { params } = details;
   console.log(params.class);
   const { data: classes } = useGetClasses();
@@ -214,27 +207,29 @@ const MyClass = (details: DetailsProps) => {
               <div className="space-y-6">
                 <div className="space-y-4">
                   <div>
-                    <h2 className="text-xl font-semibold">Schedule</h2>
+                    <h2 className="text-xl font-semibold">{t("schedule")}</h2>
                     <div className="text-muted-foreground">
                       <p>
-                        {`${singleClass?.days}`}, {`${singleClass?.times}`}
+                        {`${singleClass?.days}`} - {`${singleClass?.times}`}
                       </p>
                       {singleClass?.type !== "group" && (
                         <p>
-                          Start from{" "}
+                          {t("startFrom")}{" "}
                           {`${singleClass?.date.getFullYear()} / ${singleClass?.date.getMonth()}`}
                         </p>
                       )}
                       {singleClass?.type === "group" && (
                         <p>
-                          Duration: from {singleClass.duration[0]} to{" "}
-                          {singleClass.duration[1]}
+                          {t("durationFrom")} {singleClass.duration[0]}{" "}
+                          {t("to")} {singleClass.duration[1]}
                         </p>
                       )}
                     </div>
                   </div>
                   <div>
-                    <h2 className="text-xl font-semibold">Prerequisites</h2>
+                    <h2 className="text-xl font-semibold">
+                      {t("prerequisites")}
+                    </h2>
                     <div className="text-muted-foreground">
                       {singleClass?.prerequisites &&
                       singleClass?.prerequisites.length > 0 ? (
@@ -244,20 +239,26 @@ const MyClass = (details: DetailsProps) => {
                           ))}
                         </ul>
                       ) : (
-                        <p>No prior experience required. Beginner-friendly.</p>
+                        <p>{t("beginnerFriendly")}</p>
                       )}
                     </div>
                   </div>
                   <div>
-                    <h2 className="text-xl font-semibold">Course Outline</h2>
+                    <h2 className="text-xl font-semibold">{t("outline")}</h2>
                     <ul className="list-disc pl-6 text-muted-foreground">
                       {singleClass?.outline.map((item) => (
                         <li>{item}</li>
                       ))}
                     </ul>
                   </div>
+                  <div className="flex flex-col">
+                    <p className="h3 mb-0">{t("price")}</p>
+                    <p>
+                      {t("toman")} {Number(singleClass?.price).toLocaleString()}{" "}
+                    </p>
+                  </div>
                 </div>
-                <Button className="mt-6 w-full">Join</Button>
+                <Button className="mt-6 w-full">{t("join")}</Button>
               </div>
               <img
                 src={singleClass?.imageLink}

@@ -387,7 +387,9 @@ const CreateClass = () => {
             />
             <div
               className={`  col-span-2 ${
-                chosenType === "group" ? "" : "opacity-50"
+                chosenType === "group" || chosenType === "workshop"
+                  ? ""
+                  : "opacity-50"
               }`}
             >
               <Controller
@@ -417,7 +419,9 @@ const CreateClass = () => {
             </div>
             <div
               className={
-                chosenType === "group" || chosenType === "placement"
+                chosenType === "group" ||
+                chosenType === "placement" ||
+                chosenType === "workshop"
                   ? "opacity-50 pointer-events-none"
                   : ""
               }
