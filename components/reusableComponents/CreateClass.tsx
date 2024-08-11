@@ -142,7 +142,7 @@ const CreateClass = () => {
     capacity: z.number(),
 
     prerequisites: z.array(z.string()).optional(),
-    outline: z.array(z.string()),
+    outline: z.array(z.string()).optional(),
   });
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -168,7 +168,7 @@ const CreateClass = () => {
     setSending(true);
     const formData = new FormData();
     formData.set("classPic", classPic!);
-
+    console.log(values);
     if (!values.duration && !values.date && values.type !== "placement") {
       toast.error("please choose your date or dates");
       setSending(false);
@@ -179,13 +179,21 @@ const CreateClass = () => {
       setSending(false);
       return;
     }
+    if (values.outline?.length === 0 && values.type !== "placement") {
+      toast.error("Please enter outline for non placement classes");
+      setSending(false);
+      return;
+    }
 
     console.log(values);
     try {
       const res = await Axios.post("/classes", values);
 
       console.log(res);
-      await postClassImg(formData, res.data.classId);
+      if (classPic) {
+        console.log("here");
+        await postClassImg(formData, res.data.classId);
+      }
       toast.success(res.data.message, {
         position: "bottom-right",
         autoClose: 5000,
@@ -205,7 +213,9 @@ const CreateClass = () => {
       form.setValue("duration", undefined);
       setDate(undefined);
       setOutline([]);
-      setPrerequisites([]);
+      if (prerequisites) {
+        setPrerequisites([]);
+      }
       setClassPic(undefined);
       setSending(false);
     } catch (error: any) {

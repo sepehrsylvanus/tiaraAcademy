@@ -7,6 +7,7 @@ type ParamsProps = {
   };
 };
 export const DELETE = async (req: NextRequest, { params }: ParamsProps) => {
+  console.log(params);
   if (req.headers.get("apiKey")) {
     try {
       const cls = await prisma.class.findUnique({
@@ -14,6 +15,7 @@ export const DELETE = async (req: NextRequest, { params }: ParamsProps) => {
           id: params.id,
         },
       });
+      console.log(cls);
       if (!cls) {
         return NextResponse.json(
           { message: "Class with this id doesn't exist" },
@@ -22,28 +24,25 @@ export const DELETE = async (req: NextRequest, { params }: ParamsProps) => {
       }
 
       try {
-        const classToDelete = await prisma.class.findUnique({
+        const classToDelete = await prisma.class.delete({
           where: {
             id: params.id,
           },
         });
-        const s3 = new S3({
-          accessKeyId: process.env.NEXT_PUBLIC_LIARA_ACCESS_KEY_ID,
-          secretAccessKey: process.env.NEXT_PUBLIC_LIARA_SECRET_ACCESS_KEY,
-          endpoint: process.env.NEXT_PUBLIC_LIARA_ENDPOINT,
-        });
+        if (classToDelete?.imageName) {
+          const s3 = new S3({
+            accessKeyId: process.env.NEXT_PUBLIC_LIARA_ACCESS_KEY_ID,
+            secretAccessKey: process.env.NEXT_PUBLIC_LIARA_SECRET_ACCESS_KEY,
+            endpoint: process.env.NEXT_PUBLIC_LIARA_ENDPOINT,
+          });
 
-        await s3
-          .deleteObject({
-            Bucket: process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME!,
-            Key: classToDelete?.imageName!,
-          })
-          .promise();
-        await prisma.class.delete({
-          where: {
-            id: params.id,
-          },
-        });
+          await s3
+            .deleteObject({
+              Bucket: process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME!,
+              Key: cls?.imageName!,
+            })
+            .promise();
+        }
         return NextResponse.json({
           message: "Your desired class successfully deleted!",
         });

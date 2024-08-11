@@ -495,7 +495,7 @@ export const getClasses = async () => {
 
 export const postClassImg = async (formData: FormData, classId: string) => {
   const classPic = formData.get("classPic") as File;
-  const buffer = await classPic.arrayBuffer();
+  const buffer = await classPic?.arrayBuffer();
   const picToSend = await Buffer.from(buffer);
 
   console.log(classPic);

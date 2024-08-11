@@ -54,8 +54,8 @@ model Class {
   teacherId     String
   title         String
   type          String
-  price         String
-  capacity      Int
+  price         String?
+  capacity      Int?
   days          String[]
   date          DateTime?
   duration      String[]
