@@ -39,8 +39,6 @@ import { TagsInput } from "react-tag-input-component";
 import { postClassImg } from "@/actions/actions";
 import { useLocale, useTranslations } from "next-intl";
 
-const transition = require("react-element-popper/animations/transition");
-
 const days = [
   {
     title: "Saturday",
@@ -407,7 +405,6 @@ const CreateClass = () => {
                         ? t("deactive")
                         : t("chooseDuration")
                     }
-                    animations={[transition()]}
                     onChange={(e) => {
                       const firstDate = e[0]?.format();
                       const secondDate = e[1]?.format();

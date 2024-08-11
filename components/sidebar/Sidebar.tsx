@@ -36,6 +36,10 @@ const Sidebar = () => {
   }, []);
 
   useEffect(() => {
+    console.log(user);
+  }, [user]);
+
+  useEffect(() => {
     const getUserInformation = async (token: string) => {
       const userInfo = await getSingleUser(token)!;
 

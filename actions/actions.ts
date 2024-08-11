@@ -224,7 +224,7 @@ export const postVideo = async (data: FormData) => {
   const video = data.get("video") as File;
   const caption = data.get("caption") as string;
   const playlistTitle = data.get("playlists") as string;
-  console.log(playlistTitle);
+  console.log(playlist);
   console.log(caption);
   console.log(video);
   const bytes = await video.arrayBuffer();
@@ -233,7 +233,7 @@ export const postVideo = async (data: FormData) => {
   console.log(buffer);
   const videoData = {
     title,
-    playlist,
+
     caption,
     playlistTitle,
     creatorId: currentUser?.id!,
@@ -278,6 +278,7 @@ export const postVideo = async (data: FormData) => {
 
     return "Your video created sucessfully";
   } catch (error: any) {
+    console.log(error);
     throw new Error("There is an error in server: ", error);
   }
 };
@@ -722,4 +723,14 @@ export const makeItTrend = async (id: string) => {
       trend: !article?.trend,
     },
   });
+};
+
+export const getNotifs = async () => {
+  const unreadNotifs = await prisma.notifs.findMany({
+    where: {
+      status: "unread",
+    },
+  });
+
+  return unreadNotifs;
 };

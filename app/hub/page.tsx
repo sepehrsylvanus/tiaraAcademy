@@ -1,4 +1,4 @@
-import { getToken } from "@/actions/actions";
+import { getNotifs, getToken } from "@/actions/actions";
 import StudentHub from "@/components/studentHub/StudentHub";
 
 import { Avatar, Divider } from "@mui/material";
@@ -18,12 +18,22 @@ import StudentTable from "@/components/studentTable/StudentTable";
 import Link from "next/link";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { getMessages } from "next-intl/server";
+import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
+import Badge from "@mui/material/Badge";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { formatTimeFromNow } from "@/utils/helperFunctions";
+import { NotifType } from "@prisma/client";
+
 const Hub = async () => {
   const token = await getToken();
   const currentUser: User | null = await getSingleUser(token?.value!);
   const messages = (await getMessages()) as any;
   const hubT = messages.Hub;
-
+  const notifs = await getNotifs();
   const renderRole = () => {
     switch (currentUser?.role) {
       case "teacher":
@@ -44,10 +54,47 @@ const Hub = async () => {
         currentUser?.role.includes("admin") ||
         currentUser?.role.includes("adminTeacher")) && (
         <div className="container   px-4 pt-4 pb-4 flex flex-col items-start  text-lightText">
-          <Link href={"/"} className=" text-lightText font-bold mb-4">
-            <ArrowBackIosNewIcon />
-            {hubT.landingPage}
-          </Link>
+          <div className="flex justify-between w-full">
+            <Link href={"/"} className=" text-lightText font-bold mb-4">
+              <ArrowBackIosNewIcon />
+              {hubT.landingPage}
+            </Link>
+
+            <Popover>
+              <PopoverTrigger>
+                <Badge badgeContent={notifs.length} color="primary">
+                  <NotificationsNoneOutlinedIcon color="action" />
+                </Badge>
+              </PopoverTrigger>
+              <PopoverContent
+                align="end"
+                className="w-[400px] animate-slide-in-right bg-background shadow-lg border rounded-lg bg-white"
+              >
+                <div className="p-4 space-y-4">
+                  {notifs.map((notif, index) => (
+                    <div key={index} className="flex items-start gap-3">
+                      <div className="bg-muted rounded-md flex items-center justify-center p-2">
+                        {notif.type === NotifType.joinClass ? (
+                          <UserPlusIcon className="w-5 h-5" />
+                        ) : (
+                          <UserCheckIcon className="w-5 h-5" />
+                        )}
+                      </div>
+                      <div>
+                        <p className="font-medium">{notif.title}</p>
+                        <p className="text-sm text-muted-foreground">
+                          {formatTimeFromNow(notif.createdAt)}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                  {notifs.length === 0 && (
+                    <p className="text-center">{hubT.noNotif}</p>
+                  )}
+                </div>
+              </PopoverContent>
+            </Popover>
+          </div>
           {/* ========= */}
           <div className="avatrContainer  flex gap-4 items-center justify-center">
             <Avatar sx={{ width: 80, height: 80 }} />
@@ -131,3 +178,46 @@ const Hub = async () => {
 };
 
 export default Hub;
+
+function UserCheckIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+      <circle cx="9" cy="7" r="4" />
+      <polyline points="16 11 18 13 22 9" />
+    </svg>
+  );
+}
+
+function UserPlusIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+      <circle cx="9" cy="7" r="4" />
+      <line x1="19" x2="19" y1="8" y2="14" />
+      <line x1="22" x2="16" y1="11" y2="11" />
+    </svg>
+  );
+}

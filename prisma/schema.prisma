@@ -22,9 +22,19 @@ enum WritingStatus {
   pending
 }
 
+enum NotifStat {
+  read
+  unread
+}
+
 enum Type {
   private
   public
+}
+
+enum NotifType {
+  register
+  joinClass
 }
 
 model User {
@@ -158,4 +168,12 @@ model Category {
   title String @unique
 
   value String
+}
+
+model Notifs {
+  id        String    @id @default(cuid()) @map("_id")
+  title     String
+  status    NotifStat @default(unread)
+  type      NotifType
+  createdAt DateTime  @default(now())
 }

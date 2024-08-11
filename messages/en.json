@@ -123,7 +123,8 @@
     "noWriting": "You don't have any writing",
     "next": "Next",
     "previous": "Previous",
-    "noResult": "No result"
+    "noResult": "No result",
+    "noNotif": "You have no new notifications"
   },
   "videoBox": {
     "dSuccessfully": "deleted successfully",
