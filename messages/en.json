@@ -124,7 +124,8 @@
     "next": "Next",
     "previous": "Previous",
     "noResult": "No result",
-    "noNotif": "You have no new notifications"
+    "noNotif": "You have no new notifications",
+    "viewNotifs": "View all notifications"
   },
   "videoBox": {
     "dSuccessfully": "deleted successfully",

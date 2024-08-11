@@ -726,11 +726,32 @@ export const makeItTrend = async (id: string) => {
 };
 
 export const getNotifs = async () => {
-  const unreadNotifs = await prisma.notifs.findMany({
-    where: {
-      status: "unread",
-    },
-  });
+  try {
+    const unreadNotifs = await prisma.notifs.findMany({
+      where: {
+        status: "unread",
+      },
+    });
 
-  return unreadNotifs;
+    return unreadNotifs;
+  } catch (error: any) {
+    console.log(error);
+    throw new Error(error);
+  }
+};
+
+export const readNotif = async (id: string) => {
+  try {
+    await prisma.notifs.update({
+      where: {
+        id,
+      },
+      data: {
+        status: "read",
+      },
+    });
+  } catch (error: any) {
+    console.log(error);
+    throw new Error(error);
+  }
 };
