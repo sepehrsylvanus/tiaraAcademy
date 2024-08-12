@@ -7,7 +7,7 @@ import { User } from "@/utils/types";
 import { requestToBodyStream } from "next/dist/server/body-streams";
 import { ArrowUpward } from "@mui/icons-material";
 import { Type } from "@prisma/client";
-
+import request from "request";
 type WritingAnswerToSend = {
   band: string;
   writingSelf: string;
@@ -750,6 +750,53 @@ export const readNotif = async (id: string) => {
         status: "read",
       },
     });
+  } catch (error: any) {
+    console.log(error);
+    throw new Error(error);
+  }
+};
+
+export const sendOtp = async (pNumber: string, code: number) => {
+  console.log(pNumber);
+  if (pNumber[0] === "0") {
+    pNumber = pNumber.replace(/^0/, "+98");
+  }
+  console.log(pNumber, code);
+  try {
+    const sendCode = await request.post(
+      {
+        url: "http://ippanel.com/api/select",
+        body: {
+          op: "pattern",
+          user: process.env.NEXT_PUBLIC_SMS_USERNAME,
+          pass: process.env.NEXT_PUBLIC_SMS_PASS,
+          fromNum: "+983000505",
+          toNum: pNumber,
+          patternCode: "x8grjno23nhyml6",
+          inputData: [{ "verification-code": code }],
+        },
+        json: true,
+      },
+      async function (error, response, body) {
+        if (!error && response.statusCode === 200) {
+          //YOU‌ CAN‌ CHECK‌ THE‌ RESPONSE‌ AND SEE‌ ERROR‌ OR‌ SUCCESS‌ MESSAGE
+          console.log(response.body);
+          console.log(body);
+          await prisma.otp.create({
+            data: {
+              pNumber,
+              otp: code,
+            },
+          });
+          return response.body;
+        } else {
+          console.log("whatever you want");
+        }
+      }
+    );
+
+    console.log(sendCode);
+    return sendCode.body;
   } catch (error: any) {
     console.log(error);
     throw new Error(error);

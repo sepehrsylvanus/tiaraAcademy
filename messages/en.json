@@ -238,5 +238,17 @@
     "view": "View",
     "noWriting": "You don't have any submitted writing. You can create one in",
     "writeHere": "Write Here"
+  },
+  "ForgetPass": {
+    "description": "Here you can change your password and get a new one"
+    , "changePassword": "Change password"
+    , "formDescription": "Get code - Enter that and your new password - and after confirm it click on CHANGE PASSWORD"
+    , "enterPnumber": "Enter your phone number"
+    , "generateCode": "Generate code"
+    , "codeExpire1": "Code expires in"
+    ,"codeExpire2": "seconds",
+    "verificationCode": "Verification code"
+    , "password": "New password"
+    ,"confirmPass": "Confirm new password"
   }
 }

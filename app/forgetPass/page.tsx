@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 
 import { Input } from "@/components/ui/accInput";
 import { Label } from "@/components/ui/accLabel";
-import Link from "next/link";
+
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, Controller } from "react-hook-form";
@@ -22,6 +22,7 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 import { useTranslations } from "next-intl";
+import { sendOtp } from "@/actions/actions";
 
 const ForgetPass = () => {
   const router = useRouter();
@@ -31,8 +32,9 @@ const ForgetPass = () => {
   const [otp, setOtp] = useState("");
   const [countdown, setCountdown] = useState<number>(0);
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [disableForm, setDisableForm] = useState(true);
-  const banner = useTranslations('SignIn')
+  const [disableForm, setDisableForm] = useState(false);
+  const banner = useTranslations("SignIn");
+  const t = useTranslations("ForgetPass");
   const formSchema = z
     .object({
       verification: z
@@ -87,6 +89,16 @@ const ForgetPass = () => {
             console.log(err);
             setSending(false);
           });
+
+        Axios.delete(`/otp/${otp}`)
+          .then((res) => {
+            console.log(res.data);
+            toast(res.data.message);
+          })
+          .catch((err) => {
+            console.log(err);
+            toast.error(err.response.data.err);
+          });
       }
     } catch (error) {
       console.log(error);
@@ -104,27 +116,20 @@ const ForgetPass = () => {
     setOtpSending(true);
     if (phoneNumber.length > 0) {
       setDisableForm(false);
-      setTimeout(() => {
+      setTimeout(async () => {
         let otp = "";
         for (let i = 0; i < 6; i++) {
           otp += Math.floor(Math.random() * 10);
         }
         setOtp(otp);
+        const sendOTP = await sendOtp(phoneNumber, Number(otp));
+        if (sendOTP) {
+          console.log(sendOTP);
+
+          setCountdown(120);
+          setOtpSending(false);
+        }
         console.log(otp);
-        Axios.post("/otp", { otp, phoneNumber })
-          .then((res) => {
-            console.log(res);
-            setCountdown(120);
-            toast.success(`Your otp is ${otp}`, {
-              autoClose: false,
-            });
-            setOtpSending(false);
-          })
-          .catch((err) => {
-            console.log(err.response.data.message);
-            toast.error(err.response.data.error);
-            setOtpSending(false);
-          });
       }, 0);
     }
   };
@@ -137,6 +142,7 @@ const ForgetPass = () => {
       // clear the OTP when the countdown finishes
 
       if (otp) {
+        console.log("here");
         Axios.delete(`/otp/${otp}`)
           .then((res) => {
             console.log(res.data);
@@ -162,25 +168,22 @@ const ForgetPass = () => {
           className={styles.loginImg}
         />
 
-        <h1 className="text-center">{banner('title')}</h1>
+        <h1 className="text-center">{banner("title")}</h1>
 
-        <p className="w-[80%] text-center mt-4">
-          Here you can change your password and get a new one
-        </p>
+        <p className="w-[80%] text-center mt-4">{t("description")}</p>
       </div>
       <div className={styles.loginForm}>
         <div className="max-w-md w-full mx-auto  rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black">
           <h2 className="font-bold text-xl text-neutral-800 dark:text-neutral-200">
-            Change password
+            {t("changePassword")}
           </h2>
           <p className="text-neutral-600 text-sm max-w-sm mt-2 dark:text-neutral-300">
-            Get code - Enter that and your new password - and after confirm it
-            click on CHANGE PASSWORD
+            {t("formDescription")}
           </p>
 
           <LabelInputContainer className="mt-4">
             <Label htmlFor="pNumber" className="font-bold text-lg">
-              Enter your phone number
+              {t("enterPnumber")}
             </Label>
             <form>
               <Input
@@ -199,7 +202,7 @@ const ForgetPass = () => {
                     }  `}
                     onClick={generateCode}
                   >
-                    Generate code
+                    {t("generateCode")}
                   </p>
                 ) : (
                   <div className=" w-full">
@@ -210,7 +213,7 @@ const ForgetPass = () => {
                 )
               ) : (
                 <p className="underline text-extraBg mb-4 cursor-default">
-                  Code expires in {countdown} seconds
+                  {t("codeExpire1")} {countdown} {t("codeExpire2")}
                 </p>
               )}
             </form>
@@ -218,7 +221,7 @@ const ForgetPass = () => {
 
           <form className="my-8" onSubmit={signinForm.handleSubmit(changePass)}>
             <LabelInputContainer>
-              <Label htmlFor="verification">Verification code</Label>
+              <Label htmlFor="verification">{t("verificationCode")}</Label>
               <Controller
                 name="verification"
                 control={signinForm.control}
@@ -253,7 +256,7 @@ const ForgetPass = () => {
             )}
 
             <LabelInputContainer className="mb-4">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password">{t("password")}</Label>
               <Controller
                 name="password"
                 control={signinForm.control}
@@ -274,7 +277,7 @@ const ForgetPass = () => {
               </p>
             )}
             <LabelInputContainer className="mb-4">
-              <Label htmlFor="confirmPassword">Confirm Password</Label>
+              <Label htmlFor="confirmPassword">{t("confirmPass")}</Label>
               <Controller
                 name="confirmPassword"
                 control={signinForm.control}

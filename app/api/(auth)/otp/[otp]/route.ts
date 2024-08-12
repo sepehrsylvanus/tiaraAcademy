@@ -12,7 +12,7 @@ export const DELETE = async (
   try {
     await prisma.otp.delete({
       where: {
-        otp: params.otp,
+        otp: Number(params.otp),
       },
     });
     return NextResponse.json({

@@ -150,7 +150,7 @@ model Blog {
 model Otp {
   id      String @id @default(cuid()) @map("_id")
   pNumber String @unique
-  otp     String @unique
+  otp     Int    @unique
 }
 
 model Playlist {
