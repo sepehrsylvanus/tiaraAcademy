@@ -74,6 +74,7 @@ model Class {
   outline       String[]
   imageLink     String?
   imageName     String?
+  createdAt     DateTime     @default(now())
 }
 
 model ClassUsers {

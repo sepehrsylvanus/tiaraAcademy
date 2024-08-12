@@ -224,5 +224,19 @@
     "join": "Join",
     "price": "Price",
     "toman": "Toman"
+  },
+  "StudentHub": {
+    "landingPage": "Landing page",
+    "featuredClasses": "Featured Classes",
+    "noFound1": "There is not featured classes. Please go to the",
+    "classesPage": "classes page",
+    "noFound2": "in order to see classes...",
+    "showMore": "Show More",
+    "noRegistered": "You have't register in any clasases yet",
+    "myClasses": "My Classes",
+    "myWritings": "My Writings",
+    "view": "View",
+    "noWriting": "You don't have any submitted writing. You can create one in",
+    "writeHere": "Write Here"
   }
 }

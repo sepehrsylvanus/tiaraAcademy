@@ -14,6 +14,7 @@ import { Axios } from "@/utils/axiosIn";
 import { Class, User, UserClasses } from "@/utils/types";
 import { getToken } from "@/actions/actions";
 import { getSingleUser } from "@/actions/userActions";
+import { useTranslations } from "next-intl";
 export const CustomLinearProgress = styled(LinearProgress)(() => ({
   height: 10,
   borderRadius: 50,
@@ -28,7 +29,7 @@ const MyCourses = () => {
   const [displayCount, setDisplayCount] = useState(3);
   const [myClasses, setMyClasses] = useState<Class[]>([]);
   const [loading, setLoading] = useState(true);
-
+  const t = useTranslations("StudentHub");
   const handleShowMore = () => {
     setDisplayCount((prev: number) => prev + 2);
   };
@@ -60,7 +61,7 @@ const MyCourses = () => {
   return (
     <div>
       <h2 className="font-bold text-2xl mb-2 border-b border-dashed">
-        My Classes
+        {t("myClasses")}
       </h2>
       <div
         className={`featuredContainer ${
@@ -75,7 +76,7 @@ const MyCourses = () => {
           </div>
         ) : myClasses.length === 0 ? (
           <div className="flex justify-center w-full">
-            <p className="text-xl">You have't register in any clasases yet</p>
+            <p className="text-xl">{t("noRegistered")}</p>
           </div>
         ) : (
           myClasses?.slice(0, displayCount).map((myCourse, index) => (
@@ -112,7 +113,7 @@ const MyCourses = () => {
       {myCourses && myCourses.length > displayCount && (
         <div className="w-full flex justify-center">
           <Button className="w-full my-4 sm:w-[30%] " onClick={handleShowMore}>
-            Show More
+            {t("showMore")}
           </Button>
         </div>
       )}

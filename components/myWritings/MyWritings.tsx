@@ -14,14 +14,16 @@ import { useEffect, useState } from "react";
 import { Writings } from "@/utils/types";
 import Image from "next/image";
 import { CircularProgress } from "@mui/material";
+import { useTranslations } from "next-intl";
 
 const MyWritings = () => {
   const [studentWriting, setStudentWriting] = useState<Writings[]>([]);
   const [loading, setLoading] = useState(true);
+  const t = useTranslations("StudentHub");
   useEffect(() => {
     const getWritings = async () => {
       const myWritings = (await getStudentWritings()) as Writings[];
-    
+
       setStudentWriting(myWritings);
       setLoading(false);
     };
@@ -31,7 +33,7 @@ const MyWritings = () => {
   return (
     <>
       <div className=" w-full mb-2 border-b border-dashed flex justify-end flex-row-reverse items-center md:justify-end">
-        <h2 className="font-bold text-2xl">My Writings</h2>
+        <h2 className="font-bold text-2xl">{t("myWritings")}</h2>
       </div>
       <div
         className={`${
@@ -85,7 +87,7 @@ const MyWritings = () => {
                     className="w-full "
                     disabled={eachWriting.status === "pending"}
                   >
-                    View
+                    {t("view")}
                   </Button>
                 </Link>
               </CardFooter>
@@ -95,12 +97,12 @@ const MyWritings = () => {
       </div>
       {!loading && studentWriting.length === 0 && (
         <p className="w-full ">
-          You don't have any submitted writing. You can create one in{" "}
+          {t("noWriting")}{" "}
           <Link
             href="/hub/writing/writeHere"
             className="text-extraText underline  hover:text-lightText transition"
           >
-            WRITE HERE
+            {t("writeHere")}
           </Link>
         </p>
       )}

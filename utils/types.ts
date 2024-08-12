@@ -34,6 +34,7 @@ export interface Class {
   outline: string[];
   imageLink?: string;
   imageName?: string;
+  createdAt: Date;
 }
 
 export interface UserProps {
