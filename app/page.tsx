@@ -30,7 +30,13 @@ export default async function Home() {
       <section
         className={`${styles.navbar} bg-lightPrime text-extraText flex items-center`}
       >
-        <Image src={"/logo.png"} alt={message.logoAlt} width={85} height={85} />
+        <Image
+          src={"/logo.jpg"}
+          alt={message.logoAlt}
+          width={85}
+          height={85}
+          className="scale-125"
+        />
         <div
           className={`${styles.navbarLeft} bg-lightPrime text-lightText items-center`}
         >

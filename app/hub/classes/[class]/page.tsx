@@ -49,7 +49,7 @@ const MyClass = (details: DetailsProps) => {
   }, [classes]);
 
   useEffect(() => {
-    console.log(singleClass);
+    console.log(singleClass?.date);
   }, [singleClass]);
 
   // const [registeredClasses, setRegisteredClasses] = useState<
@@ -215,7 +215,9 @@ const MyClass = (details: DetailsProps) => {
                       {singleClass?.type !== "group" && (
                         <p>
                           {t("startFrom")}{" "}
-                          {`${singleClass?.date.getFullYear()} / ${singleClass?.date.getMonth()}`}
+                          {`${singleClass?.date.getFullYear()} / ${
+                            singleClass?.date.getMonth()! + 1
+                          } / ${singleClass?.date.getDay()}`}
                         </p>
                       )}
                       {singleClass?.type === "group" && (
