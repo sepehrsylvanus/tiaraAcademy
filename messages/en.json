@@ -8,7 +8,7 @@
     "levels": "Levels",
     "testimonials": "Testimonials",
     "enterHub": "Enter Hub",
-    "signInUp": "Sign in / Sign up",
+    "signInUp": "Sign In / Up",
     "language": "Change to persian"
   },
   "Hero": {
@@ -16,7 +16,7 @@
     "academy": "Tiara Academy",
     "smart": "Smart",
     "learning": "Learning",
-    "description": "New smart way to learn and study English",
+    "description": "Expert Guidance, Fresh Approach",
     "seeHowItWorks": "See how it works",
     "introImageAlt": "Introduction"
   },
@@ -25,15 +25,13 @@
     "description": "For a better use of the website, watch the video below"
   },
   "About": {
-    "title": "About us",
-    "description": "About our amazing team",
-    "readMore": "Get to know our institute and professional team",
-    "explain": "Read More"
+    "title": "WHO WE ARE:",
+    "description": "Get to know us.",
+    "readMore": "Get to know our institute and professional team"
   },
   "Contact": {
     "title": "Contact us",
-    "subtitle": "Be connect with us and ask your questions",
-    "description": "We'd love to hear from you! Whether you have a question, need support, or just want to share your language learning journey, our team is here to help.",
+    "subtitle": "We'd love to hear from you. Reach out to us.",
     "knowMore": "Know More"
   },
   "Levels": {
@@ -240,15 +238,15 @@
     "writeHere": "Write Here"
   },
   "ForgetPass": {
-    "description": "Here you can change your password and get a new one"
-    , "changePassword": "Change password"
-    , "formDescription": "Get code - Enter that and your new password - and after confirm it click on CHANGE PASSWORD"
-    , "enterPnumber": "Enter your phone number"
-    , "generateCode": "Generate code"
-    , "codeExpire1": "Code expires in"
-    ,"codeExpire2": "seconds",
-    "verificationCode": "Verification code"
-    , "password": "New password"
-    ,"confirmPass": "Confirm new password"
+    "description": "Here you can change your password and get a new one",
+    "changePassword": "Change password",
+    "formDescription": "Get code - Enter that and your new password - and after confirm it click on CHANGE PASSWORD",
+    "enterPnumber": "Enter your phone number",
+    "generateCode": "Generate code",
+    "codeExpire1": "Code expires in",
+    "codeExpire2": "seconds",
+    "verificationCode": "Verification code",
+    "password": "New password",
+    "confirmPass": "Confirm new password"
   }
 }

@@ -91,7 +91,7 @@ export default async function Home() {
           >
             {message.Hero.introduction}
           </p>
-          <p className=" text-4xl font-bold md:text-5xl lg:text-6xl">
+          <p className=" text-4xl font-bold md:text-5xl lg:text-6xl text-lightText">
             <span>{message.Hero.academy}</span>
             <br className="hidden md:block" />
             <span> {message.Hero.smart}</span>
@@ -126,7 +126,7 @@ export default async function Home() {
         <div className={styles.joinComLeft}>
           <h4
             style={{ fontWeight: 700, fontSize: 40 }}
-            className=" text-extraText text-center w-screen"
+            className="  text-center w-screen"
           >
             {message.Guidance.guidance}
           </h4>
@@ -157,13 +157,10 @@ export default async function Home() {
           <p style={{ marginBottom: "2em", fontWeight: 700 }}>
             {message.About.title}
           </p>
-          <h4
-            style={{ fontWeight: 700, fontSize: 30 }}
-            className=" text-extraText"
-          >
+          <h4 style={{ fontWeight: 700, fontSize: 30 }}>
             {message.About.description}
           </h4>
-          <p>{message.About.explain}</p>
+
           <Link href={"/about"} className="font-bold underline text-extraText">
             {message.About.readMore}
           </Link>
@@ -175,13 +172,10 @@ export default async function Home() {
           <p style={{ marginBottom: "2em", fontWeight: 700 }}>
             {message.Contact.title}
           </p>
-          <h4
-            style={{ fontWeight: 700, fontSize: 30 }}
-            className="text-extraText"
-          >
+          <h4 style={{ fontWeight: 700, fontSize: 30 }}>
             {message.Contact.subtitle}
           </h4>
-          <p>{message.Contact.description}</p>
+
           <Link
             href={"/contact"}
             className="font-bold underline text-extraText"
@@ -209,25 +203,21 @@ export default async function Home() {
             height={350}
             className={styles.levelsImg}
           />
-          <h3
-            style={{ fontWeight: 700, fontSize: 30 }}
-            className="text-extraText"
-          >
+          <h3 style={{ fontWeight: 700, fontSize: 30 }}>
             {message.Levels.title}
           </h3>
           <p>{message.Levels.description}</p>
-          <Link href={"/sign-up"} className="brownLink w-fit">
-            {message.Levels.signUpNow}
-          </Link>
         </div>
         <div className={styles.rightLevels}>
           <div className={`${styles.eachLevel}`}>
             <h4>{message.Levels.step1}</h4>
             <p className="flex gap-2 items-center">
               {message.Levels.step1Desc}
-              <span className="bg-lightText text-lightPrime px-4 py-2 rounded-md">
-                {message.Levels.signUpNow}
-              </span>{" "}
+              <Link href="/sign-up">
+                <span className="bg-lightText text-lightPrime px-4 py-2 rounded-md">
+                  {message.Levels.signUpNow}
+                </span>{" "}
+              </Link>
               {message.Levels.button}
             </p>
           </div>
@@ -246,10 +236,7 @@ export default async function Home() {
       <Divider sx={{ margin: "1em 0" }} />
 
       <section id="testimonials" className={styles.testimonials}>
-        <h3
-          style={{ fontSize: 40, marginBottom: ".5em" }}
-          className="text-extraText"
-        >
+        <h3 style={{ fontSize: 40, marginBottom: ".5em" }}>
           {message.Testimonials.title}
         </h3>
         <p>{message.Testimonials.description}</p>
@@ -312,9 +299,7 @@ export default async function Home() {
       <section className={`${styles.footer} !bg-lightPrime  `}>
         <div className={`${styles.footerSectionsContainer} bg-lightPrime`}>
           <div className={styles.eachCol}>
-            <h4 style={{ fontSize: 30 }} className="text-extraText">
-              {message.Footer.tiaraAc}
-            </h4>
+            <h4 style={{ fontSize: 30 }}>{message.Footer.tiaraAc}</h4>
             <p>{message.Footer.newsLetter}</p>
             <form className={styles.newsletterForm} action="">
               <TextField
