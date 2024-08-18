@@ -246,5 +246,21 @@
     "verificationCode": "کد یکبار مصرف",
     "password": "رمز عبور جدید",
     "confirmPass": "تکرار رمز عبور جدید"
+  },
+  "ContactUs": {
+    "contactInfo": "اطلاعات تماس",
+    "phone": "تلفن:",
+    "available": "شنبه تا پنج شنبه از 9 صبح تا 6 عصر",
+    "address": "آدرس",
+    "comingSoon": "به زودی حضوری هم در خدمت شما خواهیم بود",
+    "email": "پست الکترونیکی",
+    "socialMedia": "شبکه‌های اجتماعی",
+    "sendMessage": "پیام خود را برای ما بفرستید",
+    "firstName": "نام",
+    "lastName": "نام خانوادگی",
+    "question": "سوال یا پیام شما",
+    "send": "ارسال",
+    "return": "بازگشت",
+    "joinedAlready": "شما در این کلاس ثبت نام کرده اید"
   }
 }

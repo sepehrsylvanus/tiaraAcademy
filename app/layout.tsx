@@ -10,6 +10,7 @@ import ReactQueryProvider from "@/providers/ReactQueryProvider";
 import DateProvider from "@/providers/DateProvider";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
+import Navbar from "@/components/navbar/Navbar";
 const inter = Inter({ subsets: ["latin"] });
 const tajawal = Almarai({ subsets: ["arabic"], weight: ["400", "700"] });
 export const metadata: Metadata = {
@@ -43,7 +44,10 @@ export default async function RootLayout({
           <ReactQueryProvider>
             <ClientCookieProvider>
               <DateProvider>
-                <div className="pb-6 ">{children}</div>
+                <div className="pb-6 ">
+                  <Navbar />
+                  {children}
+                </div>
               </DateProvider>
             </ClientCookieProvider>
           </ReactQueryProvider>

@@ -1,6 +1,5 @@
 import Link from "next/link";
 import styles from "./page.module.css";
-import BrownLink from "@/components/reusableComponents/brownLink/BrownLink";
 import { Divider, TextField } from "@mui/material";
 import Image from "next/image";
 import StarIcon from "@mui/icons-material/Star";
@@ -9,80 +8,16 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import XIcon from "@mui/icons-material/X";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import YouTubeIcon from "@mui/icons-material/YouTube";
-import CustomHamburger from "@/components/hamburger/CustomHamburger";
 
 import { Button } from "@/components/ui/button";
-import { cookies } from "next/headers";
-import ClerkAvatar from "@/components/reusableComponents/ClerkAvatar";
 import { getLocale, getMessages } from "next-intl/server";
-import { setUserLocale } from "@/services/locale";
-import ChangeLocale from "@/components/changeLocale/ChangeLocale";
 
 export default async function Home() {
-  const cookieStore = cookies();
-  const token = cookieStore.get("token");
   const message = (await getMessages()) as any;
   const language = await getLocale();
-  console.log(message);
-  console.log(message.Navbar.language);
+
   return (
     <div className={`${styles.container} bg-lightPrime `}>
-      <section
-        className={`${styles.navbar} bg-lightPrime text-extraText flex items-center`}
-      >
-        <Image
-          src={"/logo.jpg"}
-          alt={message.logoAlt}
-          width={85}
-          height={85}
-          className="scale-125"
-        />
-        <div
-          className={`${styles.navbarLeft} bg-lightPrime text-lightText items-center`}
-        >
-          {" "}
-          <Link className="text-lightText" href={"#services"}>
-            {message.Navbar.services}
-          </Link>
-          <Divider orientation="vertical" style={{ height: "20px" }} />
-          <Link className="text-lightText" href={"#levels"}>
-            {message.Navbar.levels}
-          </Link>
-          <Divider orientation="vertical" style={{ height: "20px" }} />
-          <Link className="text-lightText" href={"#testimonials"}>
-            {message.Navbar.testimonials}
-          </Link>
-          <Divider orientation="vertical" style={{ height: "20px" }} />
-          <Link className="text-lightText" href={"/hub"}>
-            {message.Navbar.enterHub}
-          </Link>
-          <Divider orientation="vertical" style={{ height: "20px" }} />
-          <ChangeLocale />
-        </div>
-        <div className={`${styles.navbarRight} bg-lightPrime`}>
-          <div className=" scale-75 lg:scale-100">
-            {token ? (
-              <div className=" pt-4 mb-3 gap-8 flex items-center justify-between">
-                <Link href={"/hub"} className="brownLink">
-                  {message.Navbar.enterHub}
-                </Link>
-
-                <div className=" scale-150">
-                  <ClerkAvatar />
-                </div>
-              </div>
-            ) : (
-              <div className=" mb-3 pt-6 md:pt-0 md:mb-0 ">
-                <Link href={"/sign-in"} className="brownLink">
-                  {message.Navbar.signInUp}
-                </Link>
-              </div>
-            )}
-          </div>
-        </div>
-        <CustomHamburger navbar={true} sidebar={false} />
-      </section>
-
       <section id="services" className={`${styles.header} bg-lightPrime`}>
         <div className={`${styles.leftHeader} bg-lightPrime text-extraText`}>
           <p

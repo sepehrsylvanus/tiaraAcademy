@@ -24,6 +24,9 @@ import { useGetClasses } from "@/hooks/useClasses";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { useTranslations } from "next-intl";
+import { createNewPayment } from "@/actions/payment";
+import { useGetUser } from "@/hooks/useUsers";
+import { useRouter } from "next/navigation";
 
 type DetailsProps = {
   params: {
@@ -38,10 +41,12 @@ const classValidation = z.object({
 });
 const MyClass = (details: DetailsProps) => {
   const t = useTranslations("SingleClass");
-  const { params } = details;
+  const { params, searchParams } = details;
+  console.log(details);
   console.log(params.class);
   const { data: classes } = useGetClasses();
   const [singleClass, setSingleClass] = useState<Class>();
+  const router = useRouter();
   useEffect(() => {
     if (classes) {
       setSingleClass(classes.filter((cls) => cls.id === params.class)[0]);
@@ -52,19 +57,13 @@ const MyClass = (details: DetailsProps) => {
     console.log(singleClass?.date);
   }, [singleClass]);
 
-  // const [registeredClasses, setRegisteredClasses] = useState<
-  //   UserClasses[] | undefined
-  // >();
   const [loading, setLoading] = useState(false);
 
   const { data: token } = useQuery({
     queryKey: ["getToken"],
     queryFn: async () => await getToken(),
   });
-  const { data: currentUser } = useQuery({
-    queryKey: ["getCurrentUser"],
-    queryFn: async () => await getSingleUser(token?.value!),
-  });
+  const { data: currentUser } = useGetUser();
   const { data: registeredClasses, isLoading } = useGetRegisteredClasses(
     params.class,
     currentUser?.id!
@@ -104,6 +103,22 @@ const MyClass = (details: DetailsProps) => {
           toast.error(err);
           setLoading(false);
         });
+    }
+  };
+
+  const handleRegister = async () => {
+    console.log("here");
+    const makePayment = await createNewPayment(
+      Number(singleClass?.price),
+      params.class,
+      currentUser!,
+      params.class,
+      undefined,
+      singleClass?.title
+    );
+    console.log(makePayment);
+    if (makePayment) {
+      router.push(makePayment);
     }
   };
 
@@ -260,7 +275,9 @@ const MyClass = (details: DetailsProps) => {
                     </p>
                   </div>
                 </div>
-                <Button className="mt-6 w-full">{t("join")}</Button>
+                <Button onClick={handleRegister} className="mt-6 w-full">
+                  {t("join")}
+                </Button>
               </div>
               <img
                 src={singleClass?.imageLink}

@@ -2,12 +2,10 @@
 
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FormControl, FormLabel, TextField } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 import SendIcon from "@mui/icons-material/Send";
-
-import styles from "./contactForm.module.css";
+import { useTranslations } from "next-intl";
 
 const contactFormValidation = z.object({
   fName: z
@@ -22,6 +20,7 @@ const contactFormValidation = z.object({
     .nonempty({ message: "You can write either your question or idea" }),
 });
 const ContactForm = () => {
+  const t = useTranslations("ContactUs");
   const form = useForm<z.infer<typeof contactFormValidation>>({
     resolver: zodResolver(contactFormValidation),
     defaultValues: {
@@ -32,7 +31,6 @@ const ContactForm = () => {
     },
   });
   const { errors } = form.formState;
-
 
   const contactFormSubmit = async (
     values: z.infer<typeof contactFormValidation>
@@ -54,7 +52,7 @@ const ContactForm = () => {
                 className="formInput w-full"
                 type="text"
                 {...field}
-                placeholder="First Name"
+                placeholder={t("firstName")}
               />
               {errors && (
                 <p className=" text-red-500">{errors?.fName?.message}</p>
@@ -70,7 +68,7 @@ const ContactForm = () => {
               className="formInput w-full"
               type="text"
               {...field}
-              placeholder="Last Name"
+              placeholder={t("lastName")}
             />
           )}
         />
@@ -84,7 +82,7 @@ const ContactForm = () => {
               className="formInput"
               type="text"
               {...field}
-              placeholder="Email"
+              placeholder={t("email")}
             />
             {errors && (
               <p className=" text-red-500">{errors?.email?.message}</p>
@@ -98,7 +96,7 @@ const ContactForm = () => {
         render={({ field }) => (
           <div className="flex flex-col gap-2">
             <textarea
-              placeholder="Your question"
+              placeholder={t("question")}
               className="formInput w-full resize-none"
               {...field}
             />
@@ -111,7 +109,7 @@ const ContactForm = () => {
 
       <div className="w-full">
         <Button type="submit" className="w-full">
-          Send <SendIcon />
+          {t("send")} <SendIcon />
         </Button>
       </div>
     </form>

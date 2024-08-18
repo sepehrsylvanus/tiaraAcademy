@@ -5,12 +5,16 @@ import { getToken, verifyToken } from "../actions";
 
 import { S3 } from "aws-sdk";
 
-export const getSingleUser = async (token: string) => {
-  const tokenPayload = verifyToken(token);
+export const getSingleUser = async () => {
+  const token = await getToken()!;
+  const tokenPayload = verifyToken(token?.value);
 
   const user = await prisma.user.findUnique({
     where: {
       email: tokenPayload.data,
+    },
+    include: {
+      ClassUsers: true,
     },
   });
 
@@ -20,7 +24,7 @@ export const editProf = async (data: FormData) => {
   console.log(data);
   const token = await getToken()!;
   const email = await verifyToken(token.value).data;
-  const currentUser = await getSingleUser(token.value);
+  const currentUser = await getSingleUser();
   const profPic = data.get("profPic") as File;
   const firstName = data.get("firstName") as string;
   const lastName = data.get("lastName") as string;

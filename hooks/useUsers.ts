@@ -1,4 +1,5 @@
 import { retieveUsers } from "@/actions/actions";
+import { getSingleUser } from "@/actions/userActions";
 import { useQuery } from "@tanstack/react-query";
 import { Cagliostro } from "next/font/google";
 
@@ -15,6 +16,16 @@ export function useGetTeacherNames() {
       ) as string[];
       console.log(names);
       return names;
+    },
+  });
+}
+
+export function useGetUser() {
+  return useQuery({
+    queryKey: ["getUser"],
+    queryFn: async () => {
+      const currentUser = await getSingleUser();
+      return currentUser;
     },
   });
 }

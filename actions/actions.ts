@@ -51,7 +51,7 @@ export const postWriting = async (formData: FormData) => {
   const writing = formData.get("writing") as string;
   const writingFile = formData.get("writingFile") as File;
   const token = await getToken()!;
-  const user = (await getSingleUser(token?.value)!) as User;
+  const user = (await getSingleUser()!) as User;
   const creatorId = user?.id as string;
 
   if (subject) {
@@ -158,7 +158,7 @@ export const postWriting = async (formData: FormData) => {
 
 export const getStudentWritings = async () => {
   const token = await getToken()!;
-  const user = await getSingleUser(token?.value);
+  const user = await getSingleUser();
   const myWritings = await prisma.writing.findMany({
     where: {
       creatorId: user?.id,
@@ -218,7 +218,7 @@ export const getTeacherAnswer = async (writingId: string) => {
 };
 export const postVideo = async (data: FormData) => {
   const token = await getToken()!;
-  const currentUser = await getSingleUser(token?.value);
+  const currentUser = await getSingleUser();
   const title = data.get("title") as string;
   const playlist = data.get("playlists") as string;
   const video = data.get("video") as File;
@@ -349,7 +349,7 @@ export const getPlaylists = async () => {
 
 export const registerPlayList = async (playlistTitle: string) => {
   const token = await getToken()!;
-  const currentUser = await getSingleUser(token?.value);
+  const currentUser = await getSingleUser();
   const alreadyRegistered = await prisma.playlistUsers.findMany({
     where: {
       AND: [{ playlistTitle }, { userId: currentUser?.id }],
@@ -378,7 +378,7 @@ export const registerPlayList = async (playlistTitle: string) => {
 
 export const getRegisteredPlaylist = async (playlistTitle: string) => {
   const token = await getToken()!;
-  const currentUser = await getSingleUser(token?.value);
+  const currentUser = await getSingleUser();
   console.log(playlistTitle);
   console.log(currentUser?.id);
   const myPlaylist = await prisma.playlistUsers.findMany({
@@ -618,7 +618,7 @@ export const deleteCategory = async (title: string) => {
 
 export const makeArticle = async (formData: FormData) => {
   const token = await getToken()!;
-  const currentUser = await getSingleUser(token?.value);
+  const currentUser = await getSingleUser();
   const title = formData.get("title") as string;
   const categories = formData.get("playlists") as string;
   const image = formData.get("image") as File;

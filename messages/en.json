@@ -221,7 +221,8 @@
     "outline": "Course Outline",
     "join": "Join",
     "price": "Price",
-    "toman": "Toman"
+    "toman": "Toman",
+    "joinedAlready": "You already joined in this class"
   },
   "StudentHub": {
     "landingPage": "Landing page",
@@ -248,5 +249,20 @@
     "verificationCode": "Verification code",
     "password": "New password",
     "confirmPass": "Confirm new password"
+  },
+  "ContactUs": {
+    "contactInfo": "Contact Information",
+    "phone": "Phone:",
+    "available": "Saturday to Thursday, 9 AM to 6 PM.",
+    "address": "Address",
+    "comingSoon": "We will be there for you soon",
+    "email": "Email",
+    "socialMedia": "Social Media",
+    "sendMessage": "Send Us a Message",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "question": "Your message",
+    "send": "Send",
+    "return": "Return"
   }
 }
