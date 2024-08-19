@@ -15,14 +15,18 @@ import Link from "next/link";
 import { useGetBlogs } from "@/hooks/useArticles";
 import { useGetCategory } from "@/hooks/useCategory";
 import { Category } from "@prisma/client";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
+import moment from "jalali-moment";
 
 const Blogs = () => {
   const t = useTranslations("Articles");
+  const locale = useLocale();
   const { data: articles, isLoading } = useGetBlogs();
   const { data: categories, isLoading: catLoading } = useGetCategory();
   const trendingAtricles = articles?.filter((article) => article.trend);
-
+  const makeItJalali = (date: Date) => {
+    return moment(date).locale("fa").format("YYYY/MM/DD");
+  };
   return (
     <div className={styles.container}>
       <div className="header flex flex-col items-center md:items-center md:justify-between text-center gap-4">
@@ -96,13 +100,22 @@ const Blogs = () => {
                             .lName
                         }`}</span>
                         •{" "}
-                        <span>{`${trendingAtricles[
-                          trendingAtricles.length - 1
-                        ]?.createdAt.getFullYear()} / ${trendingAtricles[
-                          trendingAtricles.length - 1
-                        ]?.createdAt.getMonth()} / ${trendingAtricles[
-                          trendingAtricles.length - 1
-                        ]?.createdAt.getDay()}`}</span>
+                        <span>
+                          {locale === "en"
+                            ? `${trendingAtricles[
+                                trendingAtricles.length - 1
+                              ]?.createdAt.getFullYear()} / ${trendingAtricles[
+                                trendingAtricles.length - 1
+                              ]?.createdAt.getMonth()} / ${trendingAtricles[
+                                trendingAtricles.length - 1
+                              ]?.createdAt.getDay()}`
+                            : moment(
+                                trendingAtricles[trendingAtricles.length - 1]
+                                  .createdAt
+                              )
+                                .locale("fa")
+                                .format("YYYY/MM/DD")}
+                        </span>
                       </p>
                     </CardContent>
                   </Card>
@@ -143,13 +156,20 @@ const Blogs = () => {
                               ?.author.lName
                           }`}</span>
                           •{" "}
-                          <span>{`${trendingAtricles[
-                            trendingAtricles.length - 2
-                          ]?.createdAt.getFullYear()} / ${trendingAtricles[
-                            trendingAtricles.length - 2
-                          ]?.createdAt.getMonth()} / ${trendingAtricles[
-                            trendingAtricles.length - 2
-                          ]?.createdAt.getDay()}`}</span>
+                          <span>
+                            {locale === "en"
+                              ? `${trendingAtricles[
+                                  trendingAtricles.length - 2
+                                ]?.createdAt.getFullYear()} / ${trendingAtricles[
+                                  trendingAtricles.length - 2
+                                ]?.createdAt.getMonth()} / ${trendingAtricles[
+                                  trendingAtricles.length - 2
+                                ]?.createdAt.getDay()}`
+                              : makeItJalali(
+                                  trendingAtricles[trendingAtricles.length - 2]
+                                    .createdAt
+                                )}
+                          </span>
                         </p>
                       </div>
                     </div>
@@ -189,13 +209,20 @@ const Blogs = () => {
                               ?.author.lName
                           }`}</span>
                           •{" "}
-                          <span>{`${trendingAtricles[
-                            trendingAtricles.length - 3
-                          ]?.createdAt.getFullYear()} / ${trendingAtricles[
-                            trendingAtricles.length - 3
-                          ]?.createdAt.getMonth()} / ${trendingAtricles[
-                            trendingAtricles.length - 3
-                          ]?.createdAt.getDay()}`}</span>
+                          <span>
+                            {locale === "en"
+                              ? `${trendingAtricles[
+                                  trendingAtricles.length - 3
+                                ]?.createdAt.getFullYear()} / ${trendingAtricles[
+                                  trendingAtricles.length - 3
+                                ]?.createdAt.getMonth()} / ${trendingAtricles[
+                                  trendingAtricles.length - 3
+                                ]?.createdAt.getDay()}`
+                              : makeItJalali(
+                                  trendingAtricles[trendingAtricles.length - 3]
+                                    .createdAt
+                                )}
+                          </span>
                         </p>
                       </div>
                     </div>
@@ -235,13 +262,20 @@ const Blogs = () => {
                               ?.author.lName
                           }`}</span>
                           •{" "}
-                          <span>{`${trendingAtricles[
-                            trendingAtricles.length - 4
-                          ]?.createdAt.getFullYear()} / ${trendingAtricles[
-                            trendingAtricles.length - 4
-                          ]?.createdAt.getMonth()} / ${trendingAtricles[
-                            trendingAtricles.length - 4
-                          ]?.createdAt.getDay()}`}</span>
+                          <span>
+                            {locale === "en"
+                              ? `${trendingAtricles[
+                                  trendingAtricles.length - 4
+                                ]?.createdAt.getFullYear()} / ${trendingAtricles[
+                                  trendingAtricles.length - 4
+                                ]?.createdAt.getMonth()} / ${trendingAtricles[
+                                  trendingAtricles.length - 4
+                                ]?.createdAt.getDay()}`
+                              : makeItJalali(
+                                  trendingAtricles[trendingAtricles.length - 4]
+                                    .createdAt
+                                )}
+                          </span>
                         </p>
                       </div>
                     </div>

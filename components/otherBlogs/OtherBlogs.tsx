@@ -13,7 +13,8 @@ import { toast } from "react-toastify";
 import { Whatshot, WhatshotOutlined } from "@mui/icons-material";
 import { useMutation } from "@tanstack/react-query";
 import { useChangeTrend } from "@/hooks/useArticles";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
+import moment from "jalali-moment";
 const OtherBlogs = ({
   videos,
   articles,
@@ -22,6 +23,7 @@ const OtherBlogs = ({
   articles?: Blogs[];
 }) => {
   const t = useTranslations("Articles");
+  const locale = useLocale();
   const [itemsToShow, setItemsToShow] = useState(3);
   const pathName = usePathname();
   const trendArticles = articles?.filter((article) => article.trend);
@@ -129,7 +131,15 @@ const OtherBlogs = ({
                       <span>{`${article.author.fName} ${article.author.lName}`}</span>
                     )}
                     &bull;
-                    <span>{`${article.createdAt.getFullYear()} / ${article.createdAt.getMonth()} / ${article.createdAt.getDay()}`}</span>
+                    <span>
+                      {locale === "en"
+                        ? `${article.createdAt.getFullYear()} / ${
+                            article.createdAt.getMonth() + 1
+                          } / ${article.createdAt.getDate()}`
+                        : moment(article.createdAt)
+                            .locale("fa")
+                            .format("YYYY/MM/DD")}
+                    </span>
                   </p>
                 </CardContent>
               </Link>
