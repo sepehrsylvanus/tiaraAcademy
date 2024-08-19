@@ -267,5 +267,13 @@
     "question": "Your message",
     "send": "Send",
     "return": "Return"
+  },
+  "SideBar": {
+    "hub": "Hub",
+    "classes": "Classes",
+    "writing": "Writing",
+    "teachers": "Teachers",
+    "blog": "Blog",
+    "videos": "Videos"
   }
 }

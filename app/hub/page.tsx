@@ -45,7 +45,7 @@ const Hub = async () => {
       {(currentUser?.role.includes("teacher") ||
         currentUser?.role.includes("admin") ||
         currentUser?.role.includes("adminTeacher")) && (
-        <div className="container   px-4 pt-36 pb-4 flex flex-col items-start  text-lightText">
+        <div className="container   px-4  pb-4 flex flex-col items-start  text-lightText">
           <div className="flex justify-between w-full">
             <Link href={"/"} className=" text-lightText font-bold mb-4">
               <ArrowBackIosNewIcon />

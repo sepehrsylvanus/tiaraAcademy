@@ -17,7 +17,9 @@ import ClerkAvatar from "../reusableComponents/ClerkAvatar";
 import { CircularProgress } from "@mui/material";
 import { useGetPlaylists } from "@/hooks/usePlayList";
 import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium";
+import { useTranslations } from "next-intl";
 const Sidebar = () => {
+  const t = useTranslations("SideBar");
   const [token, setToken] = useState<string>();
   const [user, setUser] = useState<UserProps>();
 
@@ -40,15 +42,15 @@ const Sidebar = () => {
   }, [user]);
 
   useEffect(() => {
-    const getUserInformation = async (token: string) => {
-      const userInfo = await getSingleUser(token)!;
+    const getUserInformation = async () => {
+      const userInfo = await getSingleUser()!;
 
       if (userInfo) {
         setUser(userInfo);
       }
     };
     if (token) {
-      getUserInformation(token);
+      getUserInformation();
     }
   }, [token]);
 
@@ -76,27 +78,27 @@ const Sidebar = () => {
       <div className={styles.iconsContainer}>
         <Link href={"/hub"} className={styles.iconContainer}>
           <GridViewIcon />
-          <p className={styles.menuText}>Hub</p>
+          <p className={styles.menuText}>{t("hub")}</p>
         </Link>
         <Link href={"/hub/classes"} className={styles.iconContainer}>
           <AccessTimeIcon />
-          <p className={styles.menuText}>Classes</p>
+          <p className={styles.menuText}>{t("classes")}</p>
         </Link>
         <Link href={"/hub/writing"} className={styles.iconContainer}>
           <EditNoteIcon />
-          <p className={styles.menuText}>Writing</p>
+          <p className={styles.menuText}>{t("writing")}</p>
         </Link>
         <Link href={"/hub/teachers"} className={styles.iconContainer}>
           <PeopleIcon />
-          <p className={styles.menuText}>Teachers</p>
+          <p className={styles.menuText}>{t("teachers")}</p>
         </Link>
         <Link href={"/hub/blogs"} className={styles.iconContainer}>
           <NoteAltIcon />
-          <p className={styles.menuText}>Blog</p>
+          <p className={styles.menuText}>{t("blog")}</p>
         </Link>
         <Link href={"/hub/videos"} className={styles.iconContainer}>
           <OndemandVideoIcon />
-          <p className={styles.menuText}>Videos</p>
+          <p className={styles.menuText}>{t("videos")}</p>
         </Link>
       </div>
     </div>

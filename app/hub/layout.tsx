@@ -19,7 +19,9 @@ const layout = async ({ children }: { children: React.ReactNode }) => {
       </div>
 
       <div
-        className={` ${locale === "fa" ? "lg:pr-[2.5em]" : "lg:pl-[2.5em]"}`}
+        className={` ${
+          locale === "fa" ? "lg:pr-[3em]" : "lg:pl-[2.5em]"
+        } pt-32`}
       >
         {children}
       </div>

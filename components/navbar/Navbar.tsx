@@ -18,13 +18,15 @@ const Navbar = async () => {
     <nav
       className={`${styles.navbar} bg-lightPrime text-extraText flex items-center`}
     >
-      <Image
-        src={"/logo.jpg"}
-        alt={message.logoAlt}
-        width={85}
-        height={85}
-        className="scale-125"
-      />
+      <Link href={"/"}>
+        <Image
+          src={"/logo.jpg"}
+          alt={message.logoAlt}
+          width={85}
+          height={85}
+          className="scale-125 mr-8"
+        />
+      </Link>
       <div
         className={`${styles.navbarLeft} bg-lightPrime text-lightText items-center`}
       >

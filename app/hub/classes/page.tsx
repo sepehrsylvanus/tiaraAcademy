@@ -76,7 +76,7 @@ const Classes = ({ searchParams: { teacher } }: Props) => {
   useEffect(() => {
     const fetchUser = async () => {
       const token = await getToken()!;
-      const currentUser = await getSingleUser(token?.value);
+      const currentUser = await getSingleUser();
       if (currentUser) {
         setCurrentUser(currentUser);
       }

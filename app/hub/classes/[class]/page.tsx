@@ -66,14 +66,16 @@ const MyClass = (details: DetailsProps) => {
     queryKey: ["getToken"],
     queryFn: async () => await getToken(),
   });
-  const { data: currentUser } = useGetUser();
+  const { data: currentUser, isLoading: currentUserLoading } = useGetUser();
   useEffect(() => {
     const fetchRegisteredClasses = async () => {
       const classes = await getRegisterdClasses(params.class, currentUser?.id!);
-      setRegisteredClasses(classes);
+      if (currentUser) {
+        setRegisteredClasses(classes);
+      }
     };
     fetchRegisteredClasses();
-  }, []);
+  }, [currentUser]);
   console.log(registeredClasses);
   // FORM OPERATIONS
   console.log(token);
@@ -339,6 +341,11 @@ const MyClass = (details: DetailsProps) => {
               </div>
             </div>
           )}
+        {currentUserLoading && (
+          <div className="w-full h-full grid place-content-center">
+            <CircularProgress sx={{ color: "#072d44" }} />
+          </div>
+        )}
       </form>
     </FormProvider>
   );
