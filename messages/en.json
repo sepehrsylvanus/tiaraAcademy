@@ -275,5 +275,12 @@
     "teachers": "Teachers",
     "blog": "Blog",
     "videos": "Videos"
+  },
+  "PaymentRedirect": {
+    "paymentSuccessful": "Payment Successful",
+    "paymentUnsuccessful": "Payment Unsuccessul",
+    "description1": "Your payment of",
+    "description2": "has been processed successfully. Thank you for your purchase!",
+    "return": "Click and to course Page"
   }
 }
