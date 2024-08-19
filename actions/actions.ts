@@ -549,9 +549,10 @@ export const getRegisterdClasses = async (classId: string, userId: string) => {
       class: true,
     },
   });
+
   const result = registeredClass.filter((item) => item.userId === userId);
   console.log(result);
-  return result;
+  return { result, registeredClass };
 };
 
 export const getCategories = async () => {

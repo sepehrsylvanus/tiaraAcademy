@@ -46,6 +46,7 @@ const classValidation = z.object({
 const MyClass = (details: DetailsProps) => {
   const [chosenTime, setChosenTime] = useState("");
   const [registeredClasses, setRegisteredClasses] = useState<ClassUsers[]>();
+  const [allRegistered, setAllRegistered] = useState<ClassUsers[]>();
   const t = useTranslations("SingleClass");
   const locale = useLocale();
   const { params } = details;
@@ -71,7 +72,8 @@ const MyClass = (details: DetailsProps) => {
     const fetchRegisteredClasses = async () => {
       const classes = await getRegisterdClasses(params.class, currentUser?.id!);
       if (currentUser) {
-        setRegisteredClasses(classes);
+        setRegisteredClasses(classes.result);
+        setAllRegistered(classes.registeredClass);
       }
     };
     fetchRegisteredClasses();
@@ -130,7 +132,7 @@ const MyClass = (details: DetailsProps) => {
       router.push(makePayment);
     }
   };
-
+  console.log(registeredClasses);
   return (
     <FormProvider {...registerForm}>
       <form
@@ -306,7 +308,7 @@ const MyClass = (details: DetailsProps) => {
                           <SelectContent className="bg-lightPrime">
                             {singleClass?.times.map((time, index) => (
                               <SelectItem
-                                disabled={registeredClasses?.some(
+                                disabled={allRegistered?.some(
                                   (item) =>
                                     item.capacity === 0 && item.time === time
                                 )}
