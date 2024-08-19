@@ -171,6 +171,7 @@ const CreateVideo = ({ title }: { title: string }) => {
         placeholder={t("articleTitle")}
         name={title === "video" ? "video" : "image"}
         accept={title === "video" ? ".mp4, .mkv" : ".jpg, .jpeg, .png"}
+        required
       />
       <div className="formInput flex items-center">
         <div className="flex flex-col w-full">
