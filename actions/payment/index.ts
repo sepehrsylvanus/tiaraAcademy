@@ -10,12 +10,15 @@ export const createNewPayment = async (
   price: number,
   classBackUrl: string,
   user: User,
+  chosenTime: string,
   classId?: string,
   playlistId?: string,
   className?: string,
   playlistName?: string
 ) => {
+  console.log(chosenTime);
   console.log(price, classBackUrl, user, classId, className);
+  let authority: string;
   try {
     const data = {
       merchant_id: process.env.NEXT_PUBLIC_MERCHANT_CODE,
@@ -40,6 +43,7 @@ export const createNewPayment = async (
     );
     console.log(res.data);
     if (res.data.data.code === 100) {
+      authority = res.data.data.authority;
       const newPayment = await prisma.payment.create({
         data: {
           userId: user.id,
@@ -51,16 +55,56 @@ export const createNewPayment = async (
       });
       if (newPayment) {
         if (classId) {
-          if (targetedClass?.type !== "placement") {
-            await prisma.classUsers.create({
+          const verifyData = {
+            merchant_id: process.env.NEXT_PUBLIC_MERCHANT_CODE,
+            amount: price * 10,
+            authority,
+          };
+          const res = await axios.post(
+            "https://api.zarinpal.com/pg/v4/payment/verify.json",
+            verifyData
+          );
+          if (res.data.code === 101 || res.data.code === 100) {
+            await prisma.payment.update({
+              where: {
+                resnumber: authority,
+              },
               data: {
-                classId,
-                userId: user.id,
-                capacity: targetedClass!.capacity! - 1,
-                time: "fixed",
-                date: "fixed",
+                payed: true,
               },
             });
+          }
+          if (targetedClass?.type !== "placement") {
+            const alreadyRegistered = await prisma.classUsers.findMany({
+              where: {
+                AND: [{ classId }, { time: chosenTime }],
+              },
+              orderBy: {
+                capacity: "asc",
+              },
+            });
+            console.log(alreadyRegistered);
+            if (alreadyRegistered.length > 0) {
+              await prisma.classUsers.create({
+                data: {
+                  classId,
+                  userId: user.id,
+                  capacity: alreadyRegistered[0].capacity - 1,
+                  time: chosenTime,
+                  date: targetedClass?.date?.toString()!,
+                },
+              });
+            } else {
+              await prisma.classUsers.create({
+                data: {
+                  classId,
+                  userId: user.id,
+                  capacity: targetedClass!.capacity! - 1,
+                  time: chosenTime,
+                  date: targetedClass?.date?.toString()!,
+                },
+              });
+            }
           }
         }
         await prisma.notifs.create({

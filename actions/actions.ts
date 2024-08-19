@@ -543,19 +543,15 @@ export const getRegisterdClasses = async (classId: string, userId: string) => {
   console.log(userId);
   const registeredClass = await prisma.classUsers.findMany({
     where: {
-      AND: [
-        {
-          classId,
-        },
-        { userId },
-      ],
+      classId,
     },
     include: {
       class: true,
     },
   });
-  console.log(registeredClass);
-  return registeredClass;
+  const result = registeredClass.filter((item) => item.userId === userId);
+  console.log(result);
+  return result;
 };
 
 export const getCategories = async () => {

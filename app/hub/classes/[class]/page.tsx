@@ -1,33 +1,37 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import styles from "./singleClass.module.css";
-import { CircularProgress, Divider, InputLabel, Select } from "@mui/material";
+import { CircularProgress, Divider } from "@mui/material";
 import Link from "next/link";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 
 import ClassesDate from "@/components/classesDate/ClassesDate";
 import CustomSelect from "@/components/customSelect/CustomSelect";
 
-import { getToken } from "@/actions/actions";
+import { getRegisterdClasses, getToken } from "@/actions/actions";
 import { FormProvider, useForm } from "react-hook-form";
 import { Class } from "@/utils/types";
 import { Axios } from "@/utils/axiosIn";
 import { toast } from "react-toastify";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { privateTimes, publicTimes } from "@/constants";
 import { useGetRegisteredClasses } from "@/hooks/useGetRegisteredClasses";
 import { useQuery } from "@tanstack/react-query";
-import { getSingleUser } from "@/actions/userActions";
-import prisma from "@/utils/db";
 import { useGetClasses } from "@/hooks/useClasses";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { createNewPayment } from "@/actions/payment";
 import { useGetUser } from "@/hooks/useUsers";
 import { useRouter } from "next/navigation";
-
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { ClassUsers } from "@prisma/client";
+import moment from "jalali-moment";
 type DetailsProps = {
   params: {
     class: string;
@@ -40,22 +44,21 @@ const classValidation = z.object({
   time: z.string(),
 });
 const MyClass = (details: DetailsProps) => {
+  const [chosenTime, setChosenTime] = useState("");
+  const [registeredClasses, setRegisteredClasses] = useState<ClassUsers[]>();
   const t = useTranslations("SingleClass");
-  const { params, searchParams } = details;
-  console.log(details);
-  console.log(params.class);
+  const locale = useLocale();
+  const { params } = details;
+
   const { data: classes } = useGetClasses();
   const [singleClass, setSingleClass] = useState<Class>();
   const router = useRouter();
+
   useEffect(() => {
     if (classes) {
       setSingleClass(classes.filter((cls) => cls.id === params.class)[0]);
     }
   }, [classes]);
-
-  useEffect(() => {
-    console.log(singleClass?.date);
-  }, [singleClass]);
 
   const [loading, setLoading] = useState(false);
 
@@ -64,15 +67,18 @@ const MyClass = (details: DetailsProps) => {
     queryFn: async () => await getToken(),
   });
   const { data: currentUser } = useGetUser();
-  const { data: registeredClasses, isLoading } = useGetRegisteredClasses(
-    params.class,
-    currentUser?.id!
-  );
+  useEffect(() => {
+    const fetchRegisteredClasses = async () => {
+      const classes = await getRegisterdClasses(params.class, currentUser?.id!);
+      setRegisteredClasses(classes);
+    };
+    fetchRegisteredClasses();
+  }, []);
   console.log(registeredClasses);
   // FORM OPERATIONS
   console.log(token);
   console.log(currentUser);
-
+  console.log(singleClass);
   const registerForm = useForm<z.infer<typeof classValidation>>({
     resolver: zodResolver(classValidation),
   });
@@ -112,6 +118,7 @@ const MyClass = (details: DetailsProps) => {
       Number(singleClass?.price),
       params.class,
       currentUser!,
+      chosenTime,
       params.class,
       undefined,
       singleClass?.title
@@ -216,77 +223,122 @@ const MyClass = (details: DetailsProps) => {
             </div>
           </section>
         )}
-        {singleClass?.type !== "placement" && (
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 mb-10">
-            <div className="grid md:grid-cols-2 gap-8">
-              <div className="space-y-6">
-                <div className="space-y-4">
-                  <div>
-                    <h2 className="text-xl font-semibold">{t("schedule")}</h2>
-                    <div className="text-muted-foreground">
+        {currentUser &&
+          registeredClasses &&
+          singleClass?.type !== "placement" && (
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 mb-10">
+              <div className="grid md:grid-cols-2 gap-8">
+                <div className="space-y-6">
+                  <div className="space-y-4">
+                    <div>
+                      <h2 className="text-xl font-semibold">{t("schedule")}</h2>
+                      <div className="text-muted-foreground">
+                        <p>
+                          {`${singleClass?.days}`} - {`${singleClass?.times}`}
+                        </p>
+                        {singleClass?.type !== "group" && (
+                          <p>
+                            {t("startFrom")}{" "}
+                            {locale === "en" &&
+                              `${singleClass?.date.getFullYear()} / ${
+                                singleClass?.date.getMonth()! + 1
+                              } / ${singleClass?.date.getDate()}`}
+                            {locale === "fa" &&
+                              moment(singleClass?.date)
+                                .locale("fa")
+                                .format("YYYY/MM/DD")}
+                          </p>
+                        )}
+                        {singleClass?.type === "group" && (
+                          <p>
+                            {t("durationFrom")} {singleClass.duration[0]}{" "}
+                            {t("to")} {singleClass.duration[1]}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                    <div>
+                      <h2 className="text-xl font-semibold">
+                        {t("prerequisites")}
+                      </h2>
+                      <div className="text-muted-foreground">
+                        {singleClass?.prerequisites &&
+                        singleClass?.prerequisites.length > 0 ? (
+                          <ul>
+                            {singleClass.prerequisites.map((item) => (
+                              <li>{item}</li>
+                            ))}
+                          </ul>
+                        ) : (
+                          <p>{t("beginnerFriendly")}</p>
+                        )}
+                      </div>
+                    </div>
+                    <div>
+                      <h2 className="text-xl font-semibold">{t("outline")}</h2>
+                      <ul className="list-disc pl-6 text-muted-foreground">
+                        {singleClass?.outline.map((item) => (
+                          <li>{item}</li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div className="flex flex-col">
+                      <p className="h3 mb-0">{t("price")}</p>
                       <p>
-                        {`${singleClass?.days}`} - {`${singleClass?.times}`}
+                        {t("toman")}{" "}
+                        {Number(singleClass?.price).toLocaleString()}{" "}
                       </p>
-                      {singleClass?.type !== "group" && (
-                        <p>
-                          {t("startFrom")}{" "}
-                          {`${singleClass?.date.getFullYear()} / ${
-                            singleClass?.date.getMonth()! + 1
-                          } / ${singleClass?.date.getDay()}`}
-                        </p>
+                      {registeredClasses.length > 0 && (
+                        <>
+                          <h2 className="text-xl font-semibold mt-4">
+                            {t("yourTime")}
+                          </h2>
+                          <p> {registeredClasses[0].time}</p>
+                        </>
                       )}
-                      {singleClass?.type === "group" && (
-                        <p>
-                          {t("durationFrom")} {singleClass.duration[0]}{" "}
-                          {t("to")} {singleClass.duration[1]}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                  <div>
-                    <h2 className="text-xl font-semibold">
-                      {t("prerequisites")}
-                    </h2>
-                    <div className="text-muted-foreground">
-                      {singleClass?.prerequisites &&
-                      singleClass?.prerequisites.length > 0 ? (
-                        <ul>
-                          {singleClass.prerequisites.map((item) => (
-                            <li>{item}</li>
-                          ))}
-                        </ul>
-                      ) : (
-                        <p>{t("beginnerFriendly")}</p>
+                      {registeredClasses.length === 0 && (
+                        <Select onValueChange={setChosenTime}>
+                          <SelectTrigger className="w-fit mt-6">
+                            <SelectValue placeholder={t("chooseTime")} />
+                          </SelectTrigger>
+                          <SelectContent className="bg-lightPrime">
+                            {singleClass?.times.map((time, index) => (
+                              <SelectItem
+                                disabled={registeredClasses?.some(
+                                  (item) =>
+                                    item.capacity === 0 && item.time === time
+                                )}
+                                value={time}
+                                key={index}
+                              >
+                                {time}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
                       )}
                     </div>
                   </div>
-                  <div>
-                    <h2 className="text-xl font-semibold">{t("outline")}</h2>
-                    <ul className="list-disc pl-6 text-muted-foreground">
-                      {singleClass?.outline.map((item) => (
-                        <li>{item}</li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div className="flex flex-col">
-                    <p className="h3 mb-0">{t("price")}</p>
-                    <p>
-                      {t("toman")} {Number(singleClass?.price).toLocaleString()}{" "}
-                    </p>
-                  </div>
+                  <Button
+                    onClick={handleRegister}
+                    className={`mt-6 w-full ${
+                      registeredClasses.length > 0 &&
+                      "bg-green-500 pointer-events-none"
+                    }`}
+                  >
+                    {registeredClasses.length > 0
+                      ? t("alreadyRegister")
+                      : t("join")}
+                  </Button>
                 </div>
-                <Button onClick={handleRegister} className="mt-6 w-full">
-                  {t("join")}
-                </Button>
+                <img
+                  src={singleClass?.imageLink}
+                  alt="class pic"
+                  className="w-full"
+                />
               </div>
-              <img
-                src={singleClass?.imageLink}
-                alt="class pic"
-                className="w-full"
-              />
             </div>
-          </div>
-        )}
+          )}
       </form>
     </FormProvider>
   );

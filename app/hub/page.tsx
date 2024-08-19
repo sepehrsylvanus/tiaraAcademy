@@ -22,7 +22,7 @@ import Notifs from "@/components/Notifs";
 
 const Hub = async () => {
   const token = await getToken();
-  const currentUser: User | null = await getSingleUser(token?.value!);
+  const currentUser: User | null = await getSingleUser();
   const messages = (await getMessages()) as any;
   const hubT = messages.Hub;
 

@@ -186,7 +186,7 @@ model Payment {
   id         String    @id @default(cuid()) @map("_id")
   user       User      @relation(fields: [userId], references: [id])
   userId     String
-  resnumber  String
+  resnumber  String    @unique
   price      Int
   payed      Boolean   @default(false)
   class      Class?    @relation(fields: [classId], references: [id])

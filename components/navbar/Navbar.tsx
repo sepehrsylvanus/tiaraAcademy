@@ -8,11 +8,12 @@ import CustomHamburger from "../hamburger/CustomHamburger";
 import { getMessages } from "next-intl/server";
 import styles from "@/app/page.module.css";
 import { cookies } from "next/headers";
+import NavRight from "../navRight/NavRight";
+import { getToken } from "@/actions/actions";
 const Navbar = async () => {
   const message = (await getMessages()) as any;
-  const cookieStore = cookies();
-
-  const token = cookieStore.get("token");
+  const token = await getToken();
+  console.log(token);
   return (
     <nav
       className={`${styles.navbar} bg-lightPrime text-extraText flex items-center`}
@@ -46,27 +47,7 @@ const Navbar = async () => {
         <Divider orientation="vertical" style={{ height: "20px" }} />
         <ChangeLocale />
       </div>
-      <div className={`${styles.navbarRight} bg-lightPrime`}>
-        <div className=" scale-75 lg:scale-100">
-          {token ? (
-            <div className=" pt-4 mb-3 gap-8 flex items-center justify-between">
-              <Link href={"/hub"} className="brownLink">
-                {message.Navbar.enterHub}
-              </Link>
-
-              <div className=" scale-150">
-                <ClerkAvatar />
-              </div>
-            </div>
-          ) : (
-            <div className=" mb-3 pt-6 md:pt-0 md:mb-0 ">
-              <Link href={"/sign-in"} className="brownLink">
-                {message.Navbar.signInUp}
-              </Link>
-            </div>
-          )}
-        </div>
-      </div>
+      <NavRight token={token?.value!} />
       <CustomHamburger navbar={true} sidebar={false} />
     </nav>
   );

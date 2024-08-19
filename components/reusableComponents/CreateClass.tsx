@@ -30,14 +30,15 @@ import ClassIcon from "@mui/icons-material/Class";
 import GroupIcon from "@mui/icons-material/Group";
 import VpnKeyIcon from "@mui/icons-material/VpnKey";
 import { Separator } from "../ui/separator";
-import { Label } from "../ui/label";
 
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { CalendarDaysIcon } from "lucide-react";
-import { Calendar } from "../ui/calendar";
 import { TagsInput } from "react-tag-input-component";
 import { postClassImg } from "@/actions/actions";
 import { useLocale, useTranslations } from "next-intl";
+import { Calendar } from "react-multi-date-picker";
+import persian from "react-date-object/calendars/persian";
+import persian_fa from "react-date-object/locales/persian_fa";
 
 const days = [
   {
@@ -396,24 +397,58 @@ const CreateClass = () => {
                 name="duration"
                 control={form.control}
                 render={({ field }) => (
-                  <DatePicker
-                    range
-                    disabled={chosenType !== "group"}
-                    weekStartDayIndex={6}
-                    dateSeparator="|"
-                    minDate={new Date()}
-                    placeholder={
-                      chosenType !== "group"
-                        ? t("deactive")
-                        : t("chooseDuration")
-                    }
-                    onChange={(e) => {
-                      const firstDate = e[0]?.format();
-                      const secondDate = e[1]?.format();
+                  <Popover>
+                    <PopoverTrigger
+                      asChild
+                      className="bg-[#c6d9e6] text-lightText px-2 py-2 rounded-md outline-none hover:bg-[#c6d9e6] flex items-center"
+                    >
+                      <Button
+                        variant="outline"
+                        className="w-full text-left font-normal formInput"
+                      >
+                        {date ? (
+                          <p>{`${date.getFullYear()} / ${date.getMonth()} / ${date.getDay()}`}</p>
+                        ) : (
+                          <div className="flex gap-4">
+                            <CalendarDaysIcon className="mr-2 h-4 w-4" />
+                            {chosenType !== "workshop" ? (
+                              <p>{t("deactive")}</p>
+                            ) : (
+                              <p> {t("pickDate")}</p>
+                            )}
+                          </div>
+                        )}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      {locale === "en" ? (
+                        <Calendar
+                          range
+                          disabled={chosenType !== "group"}
+                          weekStartDayIndex={6}
+                          minDate={new Date()}
+                          onChange={(e) => {
+                            const firstDate = e[0]?.toDate();
+                            const secondDate = e[1]?.toDate();
 
-                      field.onChange([firstDate, secondDate]);
-                    }}
-                  />
+                            field.onChange([firstDate, secondDate]);
+                          }}
+                        />
+                      ) : (
+                        <Calendar
+                          range
+                          onChange={(e) => {
+                            const firstDate = e[0]?.toDate();
+                            const secondDate = e[1]?.toDate();
+
+                            field.onChange([firstDate, secondDate]);
+                          }}
+                          locale={persian_fa}
+                          calendar={persian}
+                        />
+                      )}
+                    </PopoverContent>
+                  </Popover>
                 )}
               />
             </div>
@@ -429,7 +464,7 @@ const CreateClass = () => {
               <Popover>
                 <PopoverTrigger
                   asChild
-                  className="bg-[#c6d9e6] text-lightText px-2 py-2 rounded-md outline-none hover:bg-[#c6d9e6]"
+                  className="bg-[#c6d9e6] text-lightText px-2 py-2 rounded-md outline-none hover:bg-[#c6d9e6] flex items-center"
                 >
                   <Button
                     variant="outline"
@@ -450,7 +485,19 @@ const CreateClass = () => {
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar mode="single" selected={date} onSelect={setDate} />
+                  {locale === "en" ? (
+                    <Calendar
+                      value={date}
+                      onChange={(e) => setDate(e?.toDate())}
+                    />
+                  ) : (
+                    <Calendar
+                      locale={persian_fa}
+                      calendar={persian}
+                      value={date}
+                      onChange={(e) => setDate(e?.toDate())}
+                    />
+                  )}
                 </PopoverContent>
               </Popover>
             </div>

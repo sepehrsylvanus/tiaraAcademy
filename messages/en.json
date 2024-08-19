@@ -222,7 +222,10 @@
     "join": "Join",
     "price": "Price",
     "toman": "Toman",
-    "joinedAlready": "You already joined in this class"
+    "joinedAlready": "You already joined in this class",
+    "chooseTime": "Choose your time",
+    "alreadyRegister": "You already registered in this class",
+    "yourTime": "Your class time"
   },
   "StudentHub": {
     "landingPage": "Landing page",

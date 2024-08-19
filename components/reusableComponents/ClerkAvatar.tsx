@@ -60,7 +60,7 @@ const ClerkAvatar = () => {
 
   useEffect(() => {
     const getUserInformation = async (token: string) => {
-      const userInfo = await getSingleUser(token)!;
+      const userInfo = await getSingleUser()!;
 
       if (userInfo) {
         setUser(userInfo);
