@@ -193,7 +193,11 @@
     "notChosenYet": "Not chosen yet :)",
     "notCharge": "Your writing section doesn't have enough token",
     "writingToken": "Your writing tokens:",
-    "chargeHere": "You can charge here"
+    "chargeHere": "You can charge here",
+    "totalPrice": "Total price for charge:",
+    "toman": "Toman",
+    "chargeTitle": "Write number of writings you are going to submit and click charge",
+    "charge": "Charge"
   },
   "Teachers": {
     "viewProfile": "View profile",
