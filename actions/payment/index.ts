@@ -7,23 +7,29 @@ import axios from "axios";
 
 export const createNewPayment = async (
   price: number,
-  classBackUrl: string,
+
   user: User,
-  chosenTime: string,
+  type: "class" | "playlist" | "writingCharge",
+  chosenTime?: string,
   classId?: string,
   playlistId?: string,
   className?: string,
   playlistName?: string
 ) => {
   console.log(chosenTime);
-  console.log(price, classBackUrl, user, classId, className);
-  let authority: string;
+  console.log(price, user, classId, className);
+
   try {
     const data = {
       merchant_id: process.env.NEXT_PUBLIC_MERCHANT_CODE,
       amount: price * 10,
       description: `ثبت نام ${playlistName ?? ""} ${className ?? ""}`,
-      callback_url: `http://localhost:4000/hub/classes/${classId}/paymentRedirect`,
+      callback_url:
+        type === "class"
+          ? `http://localhost:4000/hub/classes/${classId}/paymentRedirect?type=class`
+          : type === "writingCharge"
+          ? `http://localhost:4000/hub/paymentRedirect?type=writingCharge`
+          : `http://localhost:4000/hub/${playlistName}/paymentRedirect?type=playlist`,
       metadata: {
         email: user.email,
         phone: user.pNumber,
@@ -36,7 +42,6 @@ export const createNewPayment = async (
     );
     console.log(res.data);
     if (res.data.data.code === 100) {
-      authority = res.data.data.authority;
       const newPayment = await prisma.payment.create({
         data: {
           userId: user.id,
@@ -45,6 +50,7 @@ export const createNewPayment = async (
           playlistId,
           classId,
           time: chosenTime,
+          type,
         },
       });
       if (newPayment) {
@@ -61,42 +67,55 @@ export const createNewPayment = async (
   }
 };
 export const verifyPayment = async ({
-  classId,
   user,
   authority,
+  type,
+  classId,
 }: {
-  classId: string;
+  classId?: string;
   user: User;
   authority: string;
+  type: "class" | "playlist" | "writingCharge";
 }) => {
   try {
-    const targetedClass = await prisma.class.findUnique({
+    const targetedPayment = await prisma.payment.findUnique({
       where: {
-        id: classId,
+        resnumber: authority,
       },
     });
+    console.log(targetedPayment);
+    let targetedClass;
     if (classId) {
-      const verifyData = {
-        merchant_id: process.env.NEXT_PUBLIC_MERCHANT_CODE,
-        amount: Number(targetedClass?.price)! * 10,
-        authority,
-      };
-      const res = await axios.post(
-        "https://api.zarinpal.com/pg/v4/payment/verify.json",
-        verifyData
-      );
+      targetedClass = await prisma.class.findUnique({
+        where: {
+          id: classId,
+        },
+      });
+    }
+    const verifyData = {
+      merchant_id: process.env.NEXT_PUBLIC_MERCHANT_CODE,
+      amount: Number(targetedPayment?.price) * 10,
+      authority,
+    };
+    console.log(verifyData);
+    const res = await axios.post(
+      "https://api.zarinpal.com/pg/v4/payment/verify.json",
+      verifyData
+    );
+    console.log(res.data);
+    if (res.data.data.code === 100) {
+      const updatedPayment = await prisma.payment.update({
+        where: {
+          resnumber: authority,
+        },
+        data: {
+          payed: true,
+        },
+      });
 
-      if (res.data.data.code === 101 || res.data.data.code === 100) {
-        const updatedPayment = await prisma.payment.update({
-          where: {
-            resnumber: authority,
-          },
-          data: {
-            payed: true,
-          },
-        });
-        if (updatedPayment) {
-          if (targetedClass?.type !== "placement") {
+      if (updatedPayment) {
+        if (targetedClass?.type !== "placement" && updatedPayment.time) {
+          if (classId) {
             const alreadyRegistered = await prisma.classUsers.findMany({
               where: {
                 AND: [{ classId }, { time: updatedPayment.time }],
@@ -105,7 +124,6 @@ export const verifyPayment = async ({
                 capacity: "asc",
               },
             });
-            console.log(alreadyRegistered);
             if (alreadyRegistered.length > 0) {
               await prisma.classUsers.create({
                 data: {
@@ -127,17 +145,44 @@ export const verifyPayment = async ({
                 },
               });
             }
+            await prisma.notifs.create({
+              data: {
+                title: `${user.fName} ${user.lName} registered in ${targetedClass?.title} class`,
+                type: "joinClass",
+              },
+            });
           }
-          return "payment verified";
         }
+        if (type === "writingCharge") {
+          const chargeNumber = updatedPayment.price / 6000;
+          const alreadyCharged = await prisma.writingCharge.findUnique({
+            where: {
+              userId: user.id,
+            },
+          });
+          if (alreadyCharged) {
+            await prisma.writingCharge.update({
+              where: {
+                userId: user.id,
+              },
+              data: {
+                writingCharge: {
+                  increment: updatedPayment.price / 6000,
+                },
+              },
+            });
+          } else {
+            await prisma.writingCharge.create({
+              data: {
+                userId: user.id,
+                writingCharge: chargeNumber,
+              },
+            });
+          }
+        }
+        return "payment verified";
       }
     }
-    await prisma.notifs.create({
-      data: {
-        title: `${user.fName} ${user.lName} registered in ${targetedClass?.title} class`,
-        type: "joinClass",
-      },
-    });
   } catch (error: any) {
     console.log(error);
     throw new Error(error);

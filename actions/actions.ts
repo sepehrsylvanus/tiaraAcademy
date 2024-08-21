@@ -53,7 +53,7 @@ export const postWriting = async (formData: FormData) => {
   const token = await getToken()!;
   const user = (await getSingleUser()!) as User;
   const creatorId = user?.id as string;
-
+  console.log(writingFile);
   if (subject) {
     const newWriting = await prisma.writing.create({
       data: {
@@ -95,7 +95,17 @@ export const postWriting = async (formData: FormData) => {
             subjectImgURL: permanentSignedUrl,
           },
         });
-
+        const decreaseCharge = await prisma.writingCharge.update({
+          where: {
+            userId: creatorId,
+          },
+          data: {
+            writingCharge: {
+              decrement: 1,
+            },
+          },
+        });
+        console.log(decreaseCharge);
         return `Writing with name ${newWriting.subject} created`;
       } else {
         await prisma.writing.delete({
@@ -142,7 +152,17 @@ export const postWriting = async (formData: FormData) => {
             writingLink: permanentSignedUrl,
           },
         });
-
+        const decreaseCharge = await prisma.writingCharge.update({
+          where: {
+            userId: creatorId,
+          },
+          data: {
+            writingCharge: {
+              decrement: 1,
+            },
+          },
+        });
+        console.log(decreaseCharge);
         return `Writing with name ${writingFile.name} created`;
       } else {
         await prisma.writing.delete({

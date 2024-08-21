@@ -37,6 +37,12 @@ enum NotifType {
   joinClass
 }
 
+enum PaymentType {
+  class
+  playlist
+  writingCharge
+}
+
 model User {
   id                  String          @id @default(cuid()) @map("_id")
   fName               String
@@ -55,6 +61,7 @@ model User {
   Blog                Blog[]
   Video               Video[]
   Payment             Payment[]
+  WritingCharge       WritingCharge[]
 }
 
 model Class {
@@ -122,6 +129,13 @@ model writingAnswer {
   band        String
 }
 
+model WritingCharge {
+  id            String @id @default(cuid()) @map("_id")
+  user          User   @relation(fields: [userId], references: [id])
+  userId        String @unique
+  writingCharge Int
+}
+
 model Video {
   id            String   @id @default(cuid()) @map("_id")
   title         String
@@ -183,17 +197,18 @@ model Notifs {
 }
 
 model Payment {
-  id         String    @id @default(cuid()) @map("_id")
-  user       User      @relation(fields: [userId], references: [id])
+  id         String      @id @default(cuid()) @map("_id")
+  user       User        @relation(fields: [userId], references: [id])
   userId     String
-  resnumber  String    @unique
+  resnumber  String      @unique
   price      Int
-  payed      Boolean   @default(false)
-  class      Class?    @relation(fields: [classId], references: [id])
+  payed      Boolean     @default(false)
+  class      Class?      @relation(fields: [classId], references: [id])
   classId    String?
-  playlist   Playlist? @relation(fields: [playlistId], references: [id])
+  playlist   Playlist?   @relation(fields: [playlistId], references: [id])
   playlistId String?
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @default(now())
-  time       String
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @default(now())
+  time       String?
+  type       PaymentType
 }

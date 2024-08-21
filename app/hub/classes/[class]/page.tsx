@@ -120,10 +120,11 @@ const MyClass = (details: DetailsProps) => {
     console.log("here");
     const makePayment = await createNewPayment(
       Number(singleClass?.price),
-      params.class,
       currentUser!,
+      "class",
       chosenTime,
       params.class,
+
       undefined,
       singleClass?.title
     );

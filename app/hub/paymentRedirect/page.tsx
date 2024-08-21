@@ -1,6 +1,7 @@
 import { getSingleClass } from "@/actions/actions";
 import { verifyPayment } from "@/actions/payment";
 import { getSingleUser } from "@/actions/userActions";
+import { getMyWritingCharge } from "@/actions/writing";
 import { User } from "@/utils/types";
 import { getMessages } from "next-intl/server";
 import Link from "next/link";
@@ -18,19 +19,16 @@ type Params = {
 
 export default async function PaymentRedirect(params: Params) {
   console.log(params);
-  const { class: classId } = params.params;
   const { Authority, Status, type } = params.searchParams;
   const messages = (await getMessages()) as any;
   const t = messages.PaymentRedirect;
   const user = (await getSingleUser()) as User;
-  const verified = await verifyPayment({
-    user,
-    authority: Authority,
-    type,
-    classId,
-  });
+  let verified = await verifyPayment({ user, authority: Authority, type });
+
+  const myCharge = await getMyWritingCharge(user.id);
+  console.log(myCharge);
   console.log(verified);
-  const cls = await getSingleClass(classId);
+
   return (
     <div className="flex  flex-col items-center justify-center bg-background px-4 py-12 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-md text-center">
@@ -43,11 +41,11 @@ export default async function PaymentRedirect(params: Params) {
           {verified ? t.paymentSuccessful : t.paymentUnsuccessful}
         </h1>
         <p className="mt-4 text-muted-foreground">
-          {t.description1} ${cls?.price} {t.description2}
+          Your writing token charged to
         </p>
         <div className="mt-8">
           <Link
-            href={`/hub/classes/${classId}`}
+            href={"/hub/writing"}
             className="inline-flex items-center rounded-md bg-lightText text-white px-4 py-2 text-sm font-medium text-primary-foreground shadow-sm transition-colors hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
             prefetch={false}
           >

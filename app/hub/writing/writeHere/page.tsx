@@ -8,13 +8,14 @@ import { postWriting } from "@/actions/actions";
 import { CircularProgress } from "@mui/material";
 import { toast } from "react-toastify";
 import { useTranslations } from "next-intl";
+import { usePostWriting } from "@/hooks/useWriting";
 
 const WriteHere = () => {
   const t = useTranslations("Writing");
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [writing, setWriting] = useState<string>();
   const [loading, setLoading] = useState(false);
-
+  const { mutate: postWriting } = usePostWriting();
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const imageFile = e.target.files ? e.target.files[0] : null;
     setSelectedImage(imageFile);
@@ -30,9 +31,7 @@ const WriteHere = () => {
       setLoading(true);
       const formData = new FormData(e.currentTarget);
 
-      const sendingWritng = await postWriting(formData);
-
-      toast.success(sendingWritng);
+      postWriting(formData);
     } catch (error: any) {
       toast.error(error.message);
     } finally {

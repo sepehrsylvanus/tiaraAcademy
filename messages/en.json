@@ -189,7 +189,10 @@
     "notChosen": "Not chosen yet :) - PLEASE SEND .png IMAGES",
     "writing": "Write your writing...",
     "submit": "Submit",
-    "notChosenYet": "Not chosen yet :)"
+    "notChosenYet": "Not chosen yet :)",
+    "notCharge": "Your writing section doesn't have enough token",
+    "writingToken": "Your writing tokens:",
+    "chargeHere": "You can charge here"
   },
   "Teachers": {
     "viewProfile": "View profile",
