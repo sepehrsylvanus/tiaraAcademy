@@ -22,6 +22,7 @@ export interface Class {
   teacher: User;
   teacherId: string;
   title: string;
+  persianTitle: string;
   type: string;
   price: string;
   capacity: number;

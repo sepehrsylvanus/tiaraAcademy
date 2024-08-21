@@ -132,6 +132,7 @@ const CreateClass = () => {
 
   const formSchema = z.object({
     title: z.string().min(2),
+    persianTitle: z.string().min(2),
     type: z.string(),
     days: z.array(z.string()),
     date: z.date().optional(),
@@ -147,6 +148,7 @@ const CreateClass = () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: "",
+      persianTitle: "",
       days: [],
       type: "",
       times: [],
@@ -282,6 +284,19 @@ const CreateClass = () => {
               type="text"
               name="title"
               placeholder={t("title")}
+            />
+          )}
+        />
+        <FormField
+          name="persianTitle"
+          control={form.control}
+          render={({ field }) => (
+            <input
+              {...field}
+              className="border p-4 rounded-md formInput w-full mb-6"
+              type="text"
+              name="title"
+              placeholder={t("persianTitle")}
             />
           )}
         />

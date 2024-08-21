@@ -160,6 +160,7 @@
     "delete": "Delete",
     "enterClassId": "Enter Your class id",
     "title": "Title",
+    "persianTitle": "Persian title",
     "enterPreReq": "Enter prerequisites",
     "enterOutline": "Enter course outlines",
     "enterPrice": "Enter price",

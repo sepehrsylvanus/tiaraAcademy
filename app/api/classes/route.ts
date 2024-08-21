@@ -11,8 +11,8 @@ export const POST = async (req: NextRequest) => {
     try {
       const data = await req.json();
       console.log(data);
-      const token = await getToken();
-      const user = (await getSingleUser(token?.value!)) as User;
+
+      const user = (await getSingleUser()) as User;
       const newClass = await prisma.class.create({
         data: {
           ...data,

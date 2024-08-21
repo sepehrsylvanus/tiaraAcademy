@@ -71,6 +71,7 @@ model Class {
   teacher       User         @relation(fields: [teacherId], references: [id])
   teacherId     String
   title         String
+  persianTitle  String
   type          String
   price         String?
   capacity      Int?

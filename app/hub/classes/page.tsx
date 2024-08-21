@@ -36,7 +36,7 @@ import { useGetPlaylists } from "@/hooks/usePlayList";
 import { useGetClasses } from "@/hooks/useClasses";
 import { date } from "zod";
 import { useGetTeacherNames } from "@/hooks/useUsers";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 type Props = {
   searchParams: {
     teacher: string;
@@ -44,11 +44,12 @@ type Props = {
 };
 const Classes = ({ searchParams: { teacher } }: Props) => {
   console.log(teacher);
-  const [loading, setLoading] = useState(true);
+
   const [currentUser, setCurrentUser] = useState<User>();
   const t = useTranslations("Class");
+  const locale = useLocale();
   const { data: classes, isLoading: classesLoading } = useGetClasses();
-  const { data: playlists, isLoading } = useGetPlaylists();
+  const { data: playlists } = useGetPlaylists();
   const { data: teachersName } = useGetTeacherNames();
   console.log(playlists);
   const [filteredClasses, setFilteredClasses] = useState(classes);
@@ -61,17 +62,10 @@ const Classes = ({ searchParams: { teacher } }: Props) => {
     if (classes) {
       setFilteredClasses(classes);
     }
-    const teachersName = classes?.map(
-      (cls) => `${cls.teacher.fName} ${cls.teacher.lName}`
-    );
   }, [classes]);
   useEffect(() => {
     console.log(filteredClasses);
   }, [filteredClasses]);
-
-  const handleJoin = () => {
-    toast.success("You successfully registered in this class");
-  };
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -94,7 +88,7 @@ const Classes = ({ searchParams: { teacher } }: Props) => {
     teacherName: string;
   };
 
-  const { control, handleSubmit, watch } = useForm<FormInputs>({
+  const { control, watch } = useForm<FormInputs>({
     defaultValues: {
       className: searchParams.get("className") || "",
       teacherName: searchParams.get("teacher") || "",
@@ -213,7 +207,11 @@ const Classes = ({ searchParams: { teacher } }: Props) => {
                   className="text-center flex flex-col justify-between"
                 >
                   <CardHeader>
-                    <CardTitle>{eachClass.title}</CardTitle>
+                    {locale === "en" ? (
+                      <CardTitle>{eachClass.title}</CardTitle>
+                    ) : (
+                      <CardTitle>{eachClass.persianTitle}</CardTitle>
+                    )}
                   </CardHeader>
                   <CardContent className=" relative overflow-hidden">
                     <Meteors />
