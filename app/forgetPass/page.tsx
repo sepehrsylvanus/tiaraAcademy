@@ -83,21 +83,20 @@ const ForgetPass = () => {
           .then((res) => {
             toast.success(res.data.message);
             setSending(false);
+            Axios.delete(`/otp/${otp}`)
+              .then((res) => {
+                console.log(res.data);
+                toast(res.data.message);
+              })
+              .catch((err) => {
+                console.log(err);
+                toast.error(err.response.data.err);
+              });
             router.push("/sign-in");
           })
           .catch((err) => {
             console.log(err);
             setSending(false);
-          });
-
-        Axios.delete(`/otp/${otp}`)
-          .then((res) => {
-            console.log(res.data);
-            toast(res.data.message);
-          })
-          .catch((err) => {
-            console.log(err);
-            toast.error(err.response.data.err);
           });
       }
     } catch (error) {
@@ -117,11 +116,8 @@ const ForgetPass = () => {
     if (phoneNumber.length > 0) {
       setDisableForm(false);
       setTimeout(async () => {
-        let otp = "";
-        for (let i = 0; i < 6; i++) {
-          otp += Math.floor(Math.random() * 10);
-        }
-        setOtp(otp);
+        const otp = Math.floor(100000 + Math.random() * 900000);
+        setOtp(otp.toString());
         const sendOTP = await sendOtp(phoneNumber, Number(otp));
         if (sendOTP) {
           console.log(sendOTP);
@@ -135,6 +131,7 @@ const ForgetPass = () => {
   };
 
   useEffect(() => {
+    console.log(countdown);
     if (countdown > 0) {
       const timerId = setTimeout(() => setCountdown(countdown - 1), 1000);
       return () => clearTimeout(timerId); // clear the timer if the component is unmounted
@@ -198,7 +195,7 @@ const ForgetPass = () => {
                     className={`underline ${
                       phoneNumber.length > 5
                         ? "text-extraBg cursor-pointer"
-                        : "text-blue-200 cursor-default"
+                        : "text-blue-200 cursor-default pointer-events-none"
                     }  `}
                     onClick={generateCode}
                   >
@@ -302,6 +299,7 @@ const ForgetPass = () => {
                   : "  bg-slate-400  transition w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
               }`}
               disabled={disableForm}
+              onClick={signinForm.handleSubmit(changePass)}
               type="submit"
             >
               {sending ? (

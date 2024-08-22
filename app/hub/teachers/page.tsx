@@ -104,12 +104,7 @@ const page = () => {
       <div className={styles.teachersCardContainer}>
         {loading ? (
           <>
-            <div className="flex items-center gap-[1.5em] md:hidden">
-              <Skeleton className="w-[30px] h-[30px] rounded-full" />
-              <Skeleton className="w-full h-[390px]" />
-              <Skeleton className="w-[30px]  h-[30px] rounded-full" />
-            </div>
-            <div className="  grid grid-cols-3   gap-[7em] ">
+            <div className="  grid grid-cols-1 md:grid-cols-3   gap-[7em] ">
               <Skeleton
                 className={`w-[200px] h-[390px] ${styles.eachTeacerCard}`}
               />
@@ -123,59 +118,6 @@ const page = () => {
           </>
         ) : (
           <>
-            <Carousel className="md:hidden">
-              <CarouselContent>
-                {filteredTeachers.map((teacher) => {
-                  return (
-                    <CarouselItem>
-                      <Card className="flex flex-col gap-6 text-center justify-center rounded-md p-4 w-full bg-extraBg text-lightPrime">
-                        <CardContent className="flex flex-col items-center gap-4">
-                          <Avatar>
-                            <AvatarImage
-                              src={teacher.image!}
-                              alt={teacher.fName}
-                            />
-                            <AvatarFallback>{`${teacher.fName[0]}${teacher.lName?.[0]}`}</AvatarFallback>
-                          </Avatar>
-
-                          <p className=" font-bold ">{`${teacher.fName} ${teacher.lName}`}</p>
-
-                          <p>{renderRole(teacher.role)}</p>
-                          <Link
-                            href={`/hub/teachers/${teacher.id}`}
-                            className=" text-extraItem underline  hover:text-lightPrime transition"
-                          >
-                            {t("viewProfile")}
-                          </Link>
-                        </CardContent>
-                        <CardFooter className="p-0 flex flex-col gap-2 ">
-                          <button
-                            onClick={() =>
-                              router.push(
-                                `/hub/classes?teacher=${teacher.fName} ${teacher.lName}`
-                              )
-                            }
-                            className="  bg-extraText w-full py-4 rounded-md text-white hover:bg-lightPrime hover:text-extraBg transition"
-                          >
-                            {t("seeClasses")}
-                          </button>
-
-                          <p
-                            className=" text-lg  md:text-base md:hover:text-lg mx-2 "
-                            onClick={() => copyToClipboard(teacher.id)}
-                          >
-                            {teacher.id}
-                          </p>
-                        </CardFooter>
-                      </Card>
-                    </CarouselItem>
-                  );
-                })}
-              </CarouselContent>
-              <CarouselPrevious />
-              <CarouselNext />
-            </Carousel>
-
             {filteredTeachers.map((teacher) => (
               <div className="flex basis-full flex-col p-4 tracking-tight text-slate-100/50 sm:basis-1/2 w-[20rem] h-[20rem]">
                 <Card
