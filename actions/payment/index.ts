@@ -26,10 +26,10 @@ export const createNewPayment = async (
       description: `ثبت نام ${playlistName ?? ""} ${className ?? ""}`,
       callback_url:
         type === "class"
-          ? `http://localhost:4000/hub/classes/${classId}/paymentRedirect?type=class`
+          ? `https://tiaraacademy.com/hub/classes/${classId}/paymentRedirect?type=class`
           : type === "writingCharge"
-          ? `http://localhost:4000/hub/paymentRedirect?type=writingCharge`
-          : `http://localhost:4000/hub/${playlistName}/paymentRedirect?type=playlist`,
+          ? `https://tiaraacademy.com/hub/paymentRedirect?type=writingCharge`
+          : `https://tiaraacademy.com/hub/${playlistName}/paymentRedirect?type=playlist`,
       metadata: {
         email: user.email,
         phone: user.pNumber,

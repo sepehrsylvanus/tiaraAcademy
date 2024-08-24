@@ -7,13 +7,7 @@ import Link from "next/link";
 
 import { CustomClassTextField } from "../classes/styledComponents";
 
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
+
 
 import { Skeleton } from "@/components/ui/skeleton";
 
