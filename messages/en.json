@@ -233,7 +233,8 @@
     "joinedAlready": "You already joined in this class",
     "chooseTime": "Choose your time",
     "alreadyRegister": "You already registered in this class",
-    "yourTime": "Your class time"
+    "yourTime": "Your class time",
+    "timeRequired": "It is necessary to choose a time"
   },
   "StudentHub": {
     "landingPage": "Landing page",

@@ -32,6 +32,7 @@ import {
 } from "@/components/ui/select";
 import { ClassUsers } from "@prisma/client";
 import moment from "jalali-moment";
+import { classesType } from "@/constants";
 type DetailsProps = {
   params: {
     class: string;
@@ -47,6 +48,7 @@ const MyClass = (details: DetailsProps) => {
   const [chosenTime, setChosenTime] = useState("");
   const [registeredClasses, setRegisteredClasses] = useState<ClassUsers[]>();
   const [allRegistered, setAllRegistered] = useState<ClassUsers[]>();
+  const [timeError, setTimeError] = useState("");
   const t = useTranslations("SingleClass");
   const locale = useLocale();
   const { params } = details;
@@ -117,7 +119,11 @@ const MyClass = (details: DetailsProps) => {
   };
 
   const handleRegister = async () => {
-    console.log("here");
+    if (!chosenTime) {
+      setTimeError(t("timeRequired"));
+      return;
+    }
+
     const makePayment = await createNewPayment(
       Number(singleClass?.price),
       currentUser!,
@@ -208,21 +214,6 @@ const MyClass = (details: DetailsProps) => {
                       />
                     </div>
                   </div>
-                )}
-                {loading ? (
-                  <Button disabled className="w-fit">
-                    <CircularProgress
-                      sx={{ color: "white", transform: "scale(.7)" }}
-                    />
-                  </Button>
-                ) : (
-                  <Button
-                    style={{ marginBottom: "1em" }}
-                    className="brownLink"
-                    type="submit"
-                  >
-                    رزرو کلاس
-                  </Button>
                 )}
               </div>
             </div>
@@ -321,6 +312,12 @@ const MyClass = (details: DetailsProps) => {
                             ))}
                           </SelectContent>
                         </Select>
+                      )}
+                      <p className="mt-3 text-red-500">
+                        {timeError ? timeError : ""}
+                      </p>
+                      {!timeError && (
+                        <p className="invisible">Error placehoder</p>
                       )}
                     </div>
                   </div>

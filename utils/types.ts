@@ -23,7 +23,7 @@ export interface Class {
   teacherId: string;
   title: string;
   persianTitle: string;
-  type: string;
+  type: "placement" | "1v1" | "group" | "workshop";
   price: string;
   capacity: number;
   days: string[];
