@@ -39,6 +39,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { Calendar } from "react-multi-date-picker";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
+import moment from "jalali-moment";
 
 const days = [
   {
@@ -137,7 +138,7 @@ const CreateClass = () => {
     days: z.array(z.string()),
     date: z.date().optional(),
     times: z.array(z.string()),
-    duration: z.array(z.string()).optional(),
+    duration: z.array(z.date()).optional(),
     price: z.string(),
     capacity: z.number(),
 
@@ -153,17 +154,22 @@ const CreateClass = () => {
       type: "",
       times: [],
       price: "",
+      date: undefined,
     },
   });
   const {
     formState: { errors },
   } = form;
   const duration = form.watch("duration");
+  const chosenDate = form.watch("date");
+
   console.log(errors);
   const classType = form.watch("type");
   useEffect(() => {
-    console.log(classPic);
-  }, [classPic]);
+    form.setValue("duration", undefined);
+    setDate(undefined);
+    console.log(chosenDate, duration);
+  }, [classType]);
 
   async function createClass(values: z.infer<typeof formSchema>) {
     setSending(true);
@@ -329,7 +335,9 @@ const CreateClass = () => {
                 chosenType === type.type ? "shadow-inner-custom" : "shadow-xl"
               }`}
               style={{ boxSizing: "border-box" }}
-              onClick={() => setChosenType(type.type)}
+              onClick={() => {
+                setChosenType(type.type);
+              }}
             >
               <div className="bg-extraBg p-3 rounded-xl">
                 {renderIcon(index)}
@@ -421,15 +429,32 @@ const CreateClass = () => {
                         variant="outline"
                         className="w-full text-left font-normal formInput"
                       >
-                        {date ? (
-                          <p>{`${date.getFullYear()} / ${date.getMonth()} / ${date.getDay()}`}</p>
+                        {duration && duration.length === 2 ? (
+                          <p>
+                            {moment(duration[0]?.toLocaleDateString())
+                              .locale("fa")
+                              .format("YYYY/MM/DD")}{" "}
+                            -{" "}
+                            {moment(duration[1]?.toLocaleDateString())
+                              .locale("fa")
+                              .format("YYYY/MM/DD")}
+                          </p>
                         ) : (
                           <div className="flex gap-4">
                             <CalendarDaysIcon className="mr-2 h-4 w-4" />
-                            {chosenType !== "workshop" ? (
-                              <p>{t("deactive")}</p>
-                            ) : (
+                            {duration ? (
+                              <p>{`${moment(duration[0]?.toLocaleDateString())
+                                .locale("fa")
+                                .format("YYYY/MM/DD")} - ${moment(
+                                duration[1]?.toLocaleDateString()
+                              )
+                                .locale("fa")
+                                .format("YYYY/MM/DD")}`}</p>
+                            ) : chosenType == "workshop" ||
+                              chosenType === "group" ? (
                               <p> {t("pickDate")}</p>
+                            ) : (
+                              <p>{t("deactive")}</p>
                             )}
                           </div>
                         )}
@@ -453,6 +478,7 @@ const CreateClass = () => {
                         <Calendar
                           range
                           onChange={(e) => {
+                            console.log(getAllDatesInRange(e));
                             const firstDate = e[0]?.toDate();
                             const secondDate = e[1]?.toDate();
 
@@ -486,11 +512,15 @@ const CreateClass = () => {
                     className="w-full text-left font-normal formInput"
                   >
                     {date ? (
-                      <p>{`${date.getFullYear()} / ${date.getMonth()} / ${date.getDay()}`}</p>
+                      <p>
+                        {moment(date.toLocaleDateString())
+                          .locale("fa")
+                          .format("YYYY/MM/DD")}
+                      </p>
                     ) : (
                       <div className="flex gap-4">
                         <CalendarDaysIcon className="mr-2 h-4 w-4" />
-                        {chosenType !== "workshop" ? (
+                        {chosenType !== "1v1" ? (
                           <p>{t("deactive")}</p>
                         ) : (
                           <p> {t("pickDate")}</p>
