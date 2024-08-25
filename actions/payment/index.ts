@@ -9,15 +9,25 @@ export const createNewPayment = async (
   price: number,
 
   user: User,
-  type: "class" | "playlist" | "writingCharge",
-  chosenTime?: string,
+  type: "class" | "playlist" | "writingCharge" | "placement",
+  chosenTime: string,
+  chosenDate: Date,
   classId?: string,
   playlistId?: string,
   className?: string,
   playlistName?: string
 ) => {
   console.log(chosenTime);
-  console.log(price, user, classId, className);
+  console.log(
+    price,
+    user,
+    type,
+    chosenTime,
+    classId,
+    playlistId,
+    className,
+    playlistName
+  );
 
   try {
     const data = {
@@ -25,7 +35,7 @@ export const createNewPayment = async (
       amount: price * 10,
       description: `ثبت نام ${playlistName ?? ""} ${className ?? ""}`,
       callback_url:
-        type === "class"
+        type === "class" || type === "placement"
           ? `https://tiaraacademy.com/hub/classes/${classId}/paymentRedirect?type=class`
           : type === "writingCharge"
           ? `https://tiaraacademy.com/hub/paymentRedirect?type=writingCharge`
@@ -51,8 +61,10 @@ export const createNewPayment = async (
           classId,
           time: chosenTime,
           type,
+          date: chosenDate,
         },
       });
+      console.log(newPayment);
       if (newPayment) {
         return `https://www.zarinpal.com/pg/StartPay/${res.data.data.authority}`;
       } else {
@@ -92,6 +104,7 @@ export const verifyPayment = async ({
         },
       });
     }
+
     const verifyData = {
       merchant_id: process.env.NEXT_PUBLIC_MERCHANT_CODE,
       amount: Number(targetedPayment?.price) * 10,
@@ -103,7 +116,7 @@ export const verifyPayment = async ({
       verifyData
     );
     console.log(res.data);
-    if (res.data.data.code === 100) {
+    if (res.data.data.code === 100 || res.data.data.code === 101) {
       const updatedPayment = await prisma.payment.update({
         where: {
           resnumber: authority,
@@ -114,7 +127,7 @@ export const verifyPayment = async ({
       });
 
       if (updatedPayment) {
-        if (targetedClass?.type !== "placement" && updatedPayment.time) {
+        if (updatedPayment.time) {
           if (classId) {
             const alreadyRegistered = await prisma.classUsers.findMany({
               where: {
@@ -131,7 +144,9 @@ export const verifyPayment = async ({
                   userId: updatedPayment.userId,
                   capacity: alreadyRegistered[0].capacity - 1,
                   time: updatedPayment.time,
-                  date: targetedClass?.date?.toString()!,
+                  date:
+                    targetedClass?.date?.toString()! ||
+                    targetedPayment?.date.toString()!,
                 },
               });
             } else {
@@ -141,7 +156,9 @@ export const verifyPayment = async ({
                   userId: updatedPayment.userId,
                   capacity: targetedClass!.capacity! - 1,
                   time: updatedPayment.time,
-                  date: targetedClass?.date?.toString()!,
+                  date:
+                    targetedClass?.date?.toString()! ||
+                    targetedPayment?.date.toString()!,
                 },
               });
             }

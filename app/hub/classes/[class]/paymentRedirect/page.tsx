@@ -17,7 +17,7 @@ type Params = {
 };
 
 export default async function PaymentRedirect(params: Params) {
-  console.log(params);
+  console.log({ params });
   const { class: classId } = params.params;
   const { Authority, Status, type } = params.searchParams;
   const messages = (await getMessages()) as any;
@@ -37,7 +37,7 @@ export default async function PaymentRedirect(params: Params) {
         {verified ? (
           <CircleCheckIcon className="mx-auto h-16 w-16 text-green-500" />
         ) : (
-          <CircleXIcon className="mx-auto h-16 w-16 text-green-500" />
+          <CircleXIcon className="mx-auto h-16 w-16 text-red-500" />
         )}
         <h1 className="mt-6 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
           {verified ? t.paymentSuccessful : t.paymentUnsuccessful}

@@ -41,6 +41,7 @@ enum PaymentType {
   class
   playlist
   writingCharge
+  placement
 }
 
 model User {
@@ -210,6 +211,7 @@ model Payment {
   playlistId String?
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @default(now())
-  time       String?
+  time       String
+  date       DateTime
   type       PaymentType
 }

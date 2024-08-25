@@ -819,3 +819,33 @@ export const sendOtp = async (pNumber: string, code: number) => {
     throw new Error(error);
   }
 };
+export const reserveFreePlacement = async (
+  classId: string,
+  userId: string,
+  date: string,
+  time: string
+) => {
+  const registeredClass = await prisma.classUsers.findMany({
+    orderBy: [
+      {
+        capacity: "asc",
+      },
+    ],
+  });
+  const targetedClass = await prisma.class.findUnique({
+    where: {
+      id: classId,
+    },
+  });
+  await prisma.classUsers.create({
+    data: {
+      classId,
+      userId,
+      date,
+      time,
+      capacity:
+        registeredClass[0]?.capacity - 1 || targetedClass?.capacity! - 1,
+    },
+  });
+  return `https://tiaraacademy.com/hub/classes/${classId}`;
+};

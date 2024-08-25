@@ -8,7 +8,11 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import ClassesDate from "@/components/classesDate/ClassesDate";
 import CustomSelect from "@/components/customSelect/CustomSelect";
 
-import { getRegisterdClasses, getToken } from "@/actions/actions";
+import {
+  getRegisterdClasses,
+  getToken,
+  reserveFreePlacement,
+} from "@/actions/actions";
 import { FormProvider, useForm } from "react-hook-form";
 import { Class } from "@/utils/types";
 import { Axios } from "@/utils/axiosIn";
@@ -90,31 +94,49 @@ const MyClass = (details: DetailsProps) => {
   });
   const classTime = registerForm.watch("time");
   const selectedDate = registerForm.watch("date");
-  const onSubmit = (values: z.infer<typeof classValidation>) => {
+  const renderAppointementDate = () => {
+    if (registeredClasses!.length > 0 && singleClass?.type === "placement") {
+      if (locale === "en") {
+        return `${new Date(registeredClasses![0].date).toLocaleDateString()}`;
+      } else {
+        return `${moment(
+          new Date(registeredClasses![0].date).toLocaleDateString()
+        )
+          .locale("fa")
+          .format("YYYY/MM/DD")}`;
+      }
+    }
+  };
+  const onSubmit = async (values: z.infer<typeof classValidation>) => {
+    console.log("here");
+    console.log(singleClass?.price);
     setLoading(true);
     console.log(values.time);
     console.log(values.date);
-
-    if (
-      registeredClasses?.find(
-        (item) =>
-          item.userId === currentUser?.id &&
-          item.date === values.date.toISOString() &&
-          item.time === values.time
-      )
-    ) {
-      toast.error("You already registered in this class");
-      setLoading(false);
+    console.log(singleClass?.price);
+    if (singleClass?.price && singleClass?.price !== "free") {
+      console.log("here");
+      const placementPayment = await createNewPayment(
+        Number(singleClass?.price),
+        currentUser!,
+        "placement",
+        classTime,
+        selectedDate,
+        singleClass?.id,
+        undefined,
+        singleClass?.title
+      );
+      router.push(placementPayment);
     } else {
-      Axios.post("/registerClass", { ...values, classId: params.class })
-        .then((res) => {
-          toast.success(res.data.message);
-          setLoading(false);
-        })
-        .catch((err) => {
-          toast.error(err);
-          setLoading(false);
-        });
+      const registerFree = await reserveFreePlacement(
+        singleClass?.id!,
+        currentUser?.id!,
+        selectedDate.toString(),
+        classTime
+      );
+      if (registerFree) {
+        router.push(registerFree);
+      }
     }
   };
 
@@ -129,6 +151,7 @@ const MyClass = (details: DetailsProps) => {
       currentUser!,
       "class",
       chosenTime,
+      singleClass?.date!,
       params.class,
 
       undefined,
@@ -171,54 +194,78 @@ const MyClass = (details: DetailsProps) => {
           )}
         </section>
         <Divider sx={{ marginTop: "1em" }} />
-        {singleClass?.type === "placement" && (
-          <section className={styles.body}>
-            <p className={styles.desc}>
-              در این صفحه می‌توانید ساعت و روز کلاس‌های خود را مشاهده نموده و
-              جلسه‌ای جدید رزرو کنید
+        {singleClass?.type === "placement" &&
+          registeredClasses &&
+          registeredClasses?.length > 0 && (
+            <p className="text-center text-xl mt-4 border p-4  border-green-500">
+              {t("alreadyPlacement")} {renderAppointementDate()} {t("at")}{" "}
+              {registeredClasses[0].time}
             </p>
-            <div className={styles.classDetailsContainer}>
-              <div className={styles.nextClassContainer}></div>
-              <div className={styles.accessContainer}>
-                {singleClass && (
-                  <div className=" scale-125 md:scale-150 my-[4em]">
-                    <ClassesDate
-                      selectedDate={selectedDate?.toISOString()}
-                      classId={params.class}
-                      classDates={singleClass?.days}
-                      singleClass={singleClass}
-                    />
-                  </div>
-                )}
-                {selectedDate && singleClass && (
-                  <div className={styles.chooseClassTime}>
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "1em",
-                      }}
-                    >
-                      <AccessTimeIcon />
-                      {classTime ? (
-                        classTime
-                      ) : (
-                        <span>زمانی انتخاب نشده است</span>
-                      )}
-                    </div>
-                    <div>
-                      <CustomSelect
-                        classId={params.class}
+          )}
+        {singleClass?.type === "placement" &&
+          registeredClasses &&
+          registeredClasses.length === 0 && (
+            <section className={styles.body}>
+              <p className={styles.desc}>
+                در این صفحه می‌توانید ساعت و روز کلاس‌های خود را مشاهده نموده و
+                جلسه‌ای جدید رزرو کنید
+              </p>
+              <div className={styles.classDetailsContainer}>
+                <div className={styles.nextClassContainer}></div>
+                <div className={styles.accessContainer}>
+                  {singleClass && (
+                    <div className=" scale-125 md:scale-150 my-[4em]">
+                      <ClassesDate
                         selectedDate={selectedDate?.toISOString()}
-                        times={singleClass.times}
+                        classId={params.class}
+                        classDates={singleClass?.days}
+                        singleClass={singleClass}
                       />
                     </div>
-                  </div>
-                )}
+                  )}
+                  {selectedDate && singleClass && (
+                    <div className={styles.chooseClassTime}>
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "1em",
+                        }}
+                      >
+                        <AccessTimeIcon />
+                        {classTime ? (
+                          classTime
+                        ) : (
+                          <span>زمانی انتخاب نشده است</span>
+                        )}
+                      </div>
+                      <div>
+                        <CustomSelect
+                          setChosenTime={setChosenTime}
+                          classId={params.class}
+                          selectedDate={selectedDate?.toISOString()}
+                          times={singleClass.times}
+                        />
+                      </div>
+                    </div>
+                  )}
+                  {classTime &&
+                    selectedDate &&
+                    registeredClasses.length === 0 && (
+                      <Button
+                        onClick={registerForm.handleSubmit(onSubmit)}
+                        className={`mt-6 w-fit ${
+                          registeredClasses.length > 0 &&
+                          "bg-green-500 pointer-events-none"
+                        }`}
+                      >
+                        {t("reserve")}
+                      </Button>
+                    )}
+                </div>
               </div>
-            </div>
-          </section>
-        )}
+            </section>
+          )}
         {currentUser &&
           registeredClasses &&
           singleClass?.type !== "placement" && (

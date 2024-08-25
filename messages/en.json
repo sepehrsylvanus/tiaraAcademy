@@ -234,7 +234,10 @@
     "chooseTime": "Choose your time",
     "alreadyRegister": "You already registered in this class",
     "yourTime": "Your class time",
-    "timeRequired": "It is necessary to choose a time"
+    "timeRequired": "It is necessary to choose a time",
+    "reserve": "Reserve",
+    "alreadyPlacement": "Your placement appointment is",
+    "at": "at"
   },
   "StudentHub": {
     "landingPage": "Landing page",

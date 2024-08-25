@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import styles from "./customSelect.module.css";
 import {
   FormControl,
@@ -16,6 +16,7 @@ const CustomSelect = (props: {
   times: string[];
   classId: string;
   selectedDate: string;
+  setChosenTime: Dispatch<SetStateAction<string>>;
 }) => {
   const [justClasses, setJustClasses] = useState<UserClasses[]>();
   const [occupiedDates, setOccupiedDates] = useState<string[]>();
@@ -47,13 +48,9 @@ const CustomSelect = (props: {
   }, [justClasses]);
 
   const makeDisable = (time: string) => {
-    const isRunOut = justClasses?.filter(
-      (item) =>
-        item.capacity === 0 &&
-        item.time === time &&
-        item.date === props.selectedDate
-    )!;
-    if (isRunOut?.length > 0) {
+    if (
+      justClasses?.some((item) => item.time === time && item.capacity === 0)
+    ) {
       return true;
     } else {
       return false;
