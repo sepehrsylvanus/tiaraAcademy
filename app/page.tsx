@@ -11,6 +11,7 @@ import YouTubeIcon from "@mui/icons-material/YouTube";
 
 import { Button } from "@/components/ui/button";
 import { getLocale, getMessages } from "next-intl/server";
+import Navbar from "@/components/navbar/Navbar";
 
 export default async function Home() {
   const message = (await getMessages()) as any;
@@ -18,6 +19,7 @@ export default async function Home() {
 
   return (
     <div className={`${styles.container} bg-lightPrime `}>
+      <Navbar />
       <section id="services" className={`${styles.header} bg-lightPrime`}>
         <div className={`${styles.leftHeader} bg-lightPrime text-extraText`}>
           <p

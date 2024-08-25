@@ -1,13 +1,10 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import styles from "./teacher.module.css";
 
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import Link from "next/link";
 
 import { CustomClassTextField } from "../classes/styledComponents";
-
-
 
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -86,7 +83,7 @@ const page = () => {
   };
 
   return (
-    <div className={styles.container}>
+    <div className="overflow-hidden">
       <div className="flex flex-col  items-center gap-4 sm:flex-row sm:justify-between sm:px-4 md:pl-[3em]">
         <h1 className=" font-bold text-3xl">{t("findATeacher")}</h1>
         <CustomClassTextField
@@ -95,28 +92,24 @@ const page = () => {
         />
       </div>
 
-      <div className={styles.teachersCardContainer}>
+      <div
+        className={`flex flex-col items-center mt-4 gap-4 ${
+          !loading && "md:grid md:grid-cols-3"
+        } overflow-y-scroll`}
+      >
         {loading ? (
           <>
-            <div className="  grid grid-cols-1 md:grid-cols-3   gap-[7em] ">
-              <Skeleton
-                className={`w-[200px] h-[390px] ${styles.eachTeacerCard}`}
-              />
-              <Skeleton
-                className={`w-[200px] h-[390px] ${styles.eachTeacerCard}`}
-              />
-              <Skeleton
-                className={`w-[200px] h-[390px] ${styles.eachTeacerCard}`}
-              />
+            <div className="flex flex-col items-center w-full mt-4 gap-4 md:grid md:grid-cols-3 overflow-y-scroll ">
+              <Skeleton className={`w-[254px] h-[272px] `} />
+              <Skeleton className={`w-[254px] h-[272px] `} />
+              <Skeleton className={`w-[254px] h-[272px] `} />
             </div>
           </>
         ) : (
           <>
             {filteredTeachers.map((teacher) => (
               <div className="flex basis-full flex-col p-4 tracking-tight text-slate-100/50 sm:basis-1/2 w-[20rem] h-[20rem]">
-                <Card
-                  className={`${styles.eachTeacerCard} bg-extraBg text-lightPrime`}
-                >
+                <Card className={` p-4 bg-extraBg text-lightPrime`}>
                   <CardContent className="flex flex-col items-center gap-4">
                     <Avatar>
                       <AvatarImage src={teacher.image!} alt={teacher.fName} />

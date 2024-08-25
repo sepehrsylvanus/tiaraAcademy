@@ -44,10 +44,7 @@ export default async function RootLayout({
           <ReactQueryProvider>
             <ClientCookieProvider>
               <DateProvider>
-                <div className="pb-6 ">
-                  <Navbar />
-                  {children}
-                </div>
+                <div className="pb-6 ">{children}</div>
               </DateProvider>
             </ClientCookieProvider>
           </ReactQueryProvider>

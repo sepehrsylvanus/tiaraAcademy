@@ -5,7 +5,6 @@ import { getLocale } from "next-intl/server";
 import React from "react";
 
 const layout = async ({ children }: { children: React.ReactNode }) => {
-  const token = await getToken()!;
   const locale = await getLocale();
   console.log(locale);
   return (
@@ -19,9 +18,7 @@ const layout = async ({ children }: { children: React.ReactNode }) => {
       </div>
 
       <div
-        className={` ${
-          locale === "fa" ? "lg:pr-[3em]" : "lg:pl-[2.5em]"
-        } pt-32`}
+        className={` ${locale === "fa" ? "lg:pr-[3em]" : "lg:pl-[2.5em]"} pt-4`}
       >
         {children}
       </div>
