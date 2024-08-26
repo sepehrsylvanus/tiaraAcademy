@@ -294,5 +294,14 @@
     "description1": "Your payment of",
     "description2": "has been processed successfully. Thank you for your purchase!",
     "return": "Click and to course Page"
+  },
+  "Payments": {
+    "payments": "Payments"
+    , "date": "Date"
+    , "price": "Amount"
+    , "status": "Status"
+    , "reasone": "Reason",
+    "payed" : "Payed"
+    , "notPayed": "Not Payed"
   }
 }
