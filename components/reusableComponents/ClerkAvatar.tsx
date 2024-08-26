@@ -20,11 +20,16 @@ import { Avatar, CircularProgress } from "@mui/material";
 import { Axios } from "@/utils/axiosIn";
 import ManageAccount from "../clerckManage/ManageAccount";
 import { useGetCurrentUser } from "@/hooks/useGetUsers";
+import PaymentsIcon from "@mui/icons-material/Payments";
+import Link from "next/link";
+import { useGetMyPayments } from "@/hooks/usePayments";
 const ClerkAvatar = () => {
   const { data: currentUser } = useGetCurrentUser();
+  const { data: myPayments } = useGetMyPayments(currentUser?.id!);
   const [loading, setLoading] = useState(false);
   const [token, setToken] = useState<string>();
   const [user, setUser] = useState<UserProps>();
+
   const router = useRouter();
   const pathName = usePathname();
   console.log(pathName);
@@ -106,6 +111,27 @@ const ClerkAvatar = () => {
             >
               <LogoutIcon sx={{ width: ".8em" }} /> Sign out
             </Button>
+          )}
+          {loading ? (
+            <Button
+              className="bg-white shadow-sm
+         shadow-slate-400 transition hover:ring-4 hover:ring-slate-400 hover:text-black text-black rounded-xl text-[11px] py-[2px] px-4 flex gap-1"
+              onClick={signout}
+            >
+              <CircularProgress sx={{ color: "black" }} />
+            </Button>
+          ) : (
+            <Link href={"/hub/payments"}>
+              <Button
+                type="button"
+                role="link"
+                disabled={myPayments?.length === 0}
+                className="bg-white shadow-sm
+         shadow-slate-400 transition hover:ring-4 hover:ring-slate-400 hover:text-black text-black rounded-xl text-[11px] py-[2px] px-4 flex gap-1"
+              >
+                <PaymentsIcon sx={{ width: ".8em" }} /> My Payments
+              </Button>
+            </Link>
           )}
         </div>
       </PopoverContent>

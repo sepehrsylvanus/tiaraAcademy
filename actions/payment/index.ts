@@ -2,6 +2,7 @@
 
 import prisma from "@/utils/db";
 import { User } from "@/utils/types";
+import { Payment } from "@prisma/client";
 
 import axios from "axios";
 
@@ -200,6 +201,24 @@ export const verifyPayment = async ({
         return "payment verified";
       }
     }
+  } catch (error: any) {
+    console.log(error);
+    throw new Error(error);
+  }
+};
+export const fetchUserPayments = async (userId: string) => {
+  console.log(userId);
+  try {
+    const payments = await prisma.payment.findMany({
+      where: {
+        userId,
+      },
+      include: {
+        class: true,
+      },
+    });
+    console.log(payments);
+    return payments;
   } catch (error: any) {
     console.log(error);
     throw new Error(error);
