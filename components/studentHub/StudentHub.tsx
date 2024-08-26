@@ -80,52 +80,39 @@ export default function StudentHub() {
               return (
                 <Card
                   key={featuredClass.id}
-                  className="eachFeatured bg-extraBg text-lightPrime p-2"
+                  className="w-full max-w-sm rounded-lg overflow-hidden shadow-lg bg-cardBg"
                 >
-                  <img
-                    src="/article.jpg"
-                    alt="featuredCourseImg"
-                    width={"100%"}
-                    height={200}
-                    className="rounded-md"
-                  />
-                  <div
-                    className={`teacherPaper flex px-4 py-2 justify-between items-center bg-white w-[90%] shadow-lg rounded-md relative bottom-6 ${
-                      locale === "fa" ? "right-2" : "left-2"
-                    }`}
-                  >
-                    <Avatar>
-                      <AvatarImage src={featuredClass.teacher.image!} />
-                      <AvatarFallback>{`${featuredClass.teacher.fName[0]}${featuredClass.teacher.lName?.[0]}`}</AvatarFallback>
-                    </Avatar>
-
-                    <span className="text-sm text-lightText">
-                      {`${featuredClass.teacher!.fName} ${
-                        featuredClass.teacher?.lName
-                      }`}
-                    </span>
+                  <div className="relative">
+                    <img
+                      src={featuredClass.imageLink}
+                      alt={featuredClass.imageName}
+                      width="400"
+                      height="200"
+                      className="w-full h-52 object-cover"
+                      style={{ aspectRatio: "400/200", objectFit: "cover" }}
+                    />
+                    <div className="absolute bottom-[-40px] left-1/2 -translate-x-1/2 bg-background rounded-full p-2 shadow-lg">
+                      <Avatar className="w-16 h-16 border-4 border-background">
+                        <AvatarImage
+                          src={featuredClass.teacher.image!}
+                          alt={featuredClass.teacher.fName}
+                        />
+                        <AvatarFallback>JD</AvatarFallback>
+                      </Avatar>
+                    </div>
                   </div>
-                  <CardContent className="">
-                    <h4 className=" font-bold text-xl">
+                  <CardContent className="mt-12 px-6 pb-6 text-center">
+                    <div className="font-bold text-xl">{`${featuredClass.teacher.fName} ${featuredClass.teacher.lName}`}</div>
+
+                    <div className="mt-4 font-semibold text-lg">
                       {featuredClass.title}
-                    </h4>
+                    </div>
+                    <Link href={`/hub/classes/${featuredClass.id}`}>
+                      <Button size="sm" className="mt-4">
+                        Join
+                      </Button>
+                    </Link>
                   </CardContent>
-                  <CardFooter>
-                    {/* {!featuredClass.fix ? (
-                      <Link
-                        href={`/hub/classes/${featuredClass.id}`}
-                        className="w-full"
-                      >
-                        <Button className="w-full">Join</Button>
-                      </Link>
-                    ) : (
-                      <Link href={`#`} className="w-full">
-                        <Button className="w-full" onClick={handleJoin}>
-                          Join
-                        </Button>
-                      </Link>
-                    )} */}
-                  </CardFooter>
                 </Card>
               );
             })

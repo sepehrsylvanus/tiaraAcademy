@@ -15,6 +15,8 @@ import { Class, User, UserClasses } from "@/utils/types";
 import { getToken } from "@/actions/actions";
 import { getSingleUser } from "@/actions/userActions";
 import { useTranslations } from "next-intl";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import Link from "next/link";
 export const CustomLinearProgress = styled(LinearProgress)(() => ({
   height: 10,
   borderRadius: 50,
@@ -37,7 +39,7 @@ const MyCourses = () => {
   useEffect(() => {
     const fetchMyClasses = async () => {
       const token = await getToken()!;
-      const currentUser = (await getSingleUser(token?.value)) as User;
+      const currentUser = (await getSingleUser()) as User;
 
       Axios.get("/registerClass")
         .then((res) => {
@@ -82,29 +84,48 @@ const MyCourses = () => {
           myClasses?.slice(0, displayCount).map((myCourse, index) => (
             <Card
               key={index}
-              className="eachFeatured bg-extraBg text-lightPrime p-2 flex flex-col"
+              className="w-full max-w-sm rounded-lg overflow-hidden shadow-lg bg-cardBg"
             >
               <div className="relative">
-                <img
-                  src="/article.jpg"
-                  alt="featuredCourseImg"
-                  width={"100%"}
-                  height={200}
-                  className="rounded-md"
-                />
-                <div className="border border-black w-fit rounded-md hover:bg-slate-500 transition absolute top-[1em] right-[1em]">
-                  <Bookmark />
+                {myCourse.imageLink && (
+                  <img
+                    src={myCourse.imageLink}
+                    alt={myCourse.imageName}
+                    width="400"
+                    height="200"
+                    className="w-full h-52 object-cover"
+                    style={{ aspectRatio: "400/200", objectFit: "cover" }}
+                  />
+                )}
+                <div
+                  className={`absolute ${
+                    myCourse.imageLink ? "bottom-[-40px] " : " "
+                  } left-1/2 -translate-x-1/2 bg-background rounded-full p-2 shadow-lg`}
+                >
+                  <Avatar className="w-16 h-16 border-4 border-background">
+                    <AvatarImage
+                      src={myCourse.teacher.image!}
+                      alt={myCourse.teacher.fName}
+                    />
+                    <AvatarFallback>JD</AvatarFallback>
+                  </Avatar>
                 </div>
               </div>
+              <CardContent
+                className={`${
+                  myCourse.imageLink ? "mt-12" : "mt-24"
+                } px-6 pb-6 text-center `}
+              >
+                <div className="font-bold text-xl">{`${myCourse.teacher.fName} ${myCourse.teacher.lName}`}</div>
 
-              <CardContent className="flex flex-col gap-2 mt-3">
-                <h4 className="font-bold text-lg">{myCourse.title}</h4>
-                <p>{`${myCourse.teacher?.fName} ${myCourse.teacher?.lName}`}</p>
-                {/* <CustomLinearProgress
-                variant="determinate"
-                value={myCourse.progress}
-              />{" "}
-              <p>{myCourse.progress}% Complete</p> */}
+                <div className="mt-4 font-semibold text-lg">
+                  {myCourse.title}
+                </div>
+                <Link href={`/hub/classes/${myCourse.id}`}>
+                  <Button size="sm" className="mt-4">
+                    Join
+                  </Button>
+                </Link>
               </CardContent>
             </Card>
           ))
