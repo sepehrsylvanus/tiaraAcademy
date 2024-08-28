@@ -15,11 +15,8 @@ import {
 } from "@/actions/actions";
 import { FormProvider, useForm } from "react-hook-form";
 import { Class } from "@/utils/types";
-import { Axios } from "@/utils/axiosIn";
-import { toast } from "react-toastify";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useGetRegisteredClasses } from "@/hooks/useGetRegisteredClasses";
 import { useQuery } from "@tanstack/react-query";
 import { useGetClasses } from "@/hooks/useClasses";
 import { Button } from "@/components/ui/button";
@@ -36,7 +33,7 @@ import {
 } from "@/components/ui/select";
 import { ClassUsers } from "@prisma/client";
 import moment from "jalali-moment";
-import { classesType } from "@/constants";
+
 type DetailsProps = {
   params: {
     class: string;
@@ -177,7 +174,7 @@ const MyClass = (details: DetailsProps) => {
             </Link>
           </div>
           {singleClass?.teacher ? (
-            <h2 className={styles.title}>{`${singleClass?.title
+            <h2 className={`${styles.title} `}>{`${singleClass?.title
               .split("-")
               .map(
                 (word: string) => word.charAt(0).toUpperCase() + word.slice(1)
@@ -206,10 +203,6 @@ const MyClass = (details: DetailsProps) => {
           registeredClasses &&
           registeredClasses.length === 0 && (
             <section className={styles.body}>
-              <p className={styles.desc}>
-                در این صفحه می‌توانید ساعت و روز کلاس‌های خود را مشاهده نموده و
-                جلسه‌ای جدید رزرو کنید
-              </p>
               <div className={styles.classDetailsContainer}>
                 <div className={styles.nextClassContainer}></div>
                 <div className={styles.accessContainer}>
