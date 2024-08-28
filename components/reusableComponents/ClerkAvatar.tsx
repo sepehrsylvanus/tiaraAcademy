@@ -23,6 +23,7 @@ import { useGetCurrentUser } from "@/hooks/useGetUsers";
 import PaymentsIcon from "@mui/icons-material/Payments";
 import Link from "next/link";
 import { useGetMyPayments } from "@/hooks/usePayments";
+import { useTranslations } from "next-intl";
 const ClerkAvatar = () => {
   const { data: currentUser } = useGetCurrentUser();
   const { data: myPayments } = useGetMyPayments(currentUser?.id!);
@@ -32,7 +33,7 @@ const ClerkAvatar = () => {
 
   const router = useRouter();
   const pathName = usePathname();
-  console.log(pathName);
+  const t = useTranslations("ClerkPanel");
   const signout = async () => {
     setLoading(true);
     Axios.get("/signout")
@@ -81,7 +82,7 @@ const ClerkAvatar = () => {
       <PopoverTrigger>
         <Avatar src={currentUser?.image!} />
       </PopoverTrigger>
-      <PopoverContent className=" w-[374px] z-[11] relative left-4 space-y-4 p-5">
+      <PopoverContent className=" w-[400px] z-[11] relative left-4 space-y-4 p-5">
         <div className="flex gap-4">
           <Avatar src={currentUser?.image!} />
           <div>
@@ -109,7 +110,7 @@ const ClerkAvatar = () => {
          shadow-slate-400 transition hover:ring-4 hover:ring-slate-400 hover:text-black text-black rounded-xl text-[11px] py-[2px] px-4 flex gap-1"
               onClick={signout}
             >
-              <LogoutIcon sx={{ width: ".8em" }} /> Sign out
+              <LogoutIcon sx={{ width: ".8em" }} /> {t("signOut")}
             </Button>
           )}
           {loading ? (
@@ -121,7 +122,10 @@ const ClerkAvatar = () => {
               <CircularProgress sx={{ color: "black" }} />
             </Button>
           ) : (
-            <Link href={"/hub/payments"}>
+            <Link
+              href={"/hub/payments"}
+              className={`${myPayments && "pointer-events-none"}`}
+            >
               <Button
                 type="button"
                 role="link"
@@ -129,7 +133,7 @@ const ClerkAvatar = () => {
                 className="bg-white shadow-sm
          shadow-slate-400 transition hover:ring-4 hover:ring-slate-400 hover:text-black text-black rounded-xl text-[11px] py-[2px] px-4 flex gap-1"
               >
-                <PaymentsIcon sx={{ width: ".8em" }} /> My Payments
+                <PaymentsIcon sx={{ width: ".8em" }} /> {t("myPayments")}
               </Button>
             </Link>
           )}

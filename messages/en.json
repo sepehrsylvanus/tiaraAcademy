@@ -296,12 +296,38 @@
     "return": "Click and to course Page"
   },
   "Payments": {
-    "payments": "Payments"
-    , "date": "Date"
-    , "price": "Amount"
-    , "status": "Status"
-    , "reasone": "Reason",
-    "payed" : "Payed"
-    , "notPayed": "Not Payed"
+    "payments": "Payments",
+    "date": "Date",
+    "price": "Amount",
+    "status": "Status",
+    "reasone": "Reason",
+    "payed": "Payed",
+    "notPayed": "Not Payed"
+  },
+  "ClerkPanel": {
+    "signOut": "Sign out",
+    "myPayments": "My Payments",
+    "profileDetails": "Profile details",
+    "profile": "Profile",
+    "updateProfile": "Update profile",
+    "upload": "Upload",
+    "remove": "Remove",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "cancel": "Cancel",
+    "save": "Save",
+    "emailAddresses": "Email addresses",
+    "primary": "Primary",
+    "removeEmail": "Remove email",
+    "addEmail": "Add email",
+    "emailDescription": "An email containing a verification code will be sent to this email address.",
+    "emailAddress": "Email address",
+    "add": "Add",
+    "phoneNumbers": "Phone numbers",
+    "removePhone": "Remove phone",
+    "addPhoneNumber": "Add phone number",
+    "phoneDescription": "A text message containing a verification code will be sent to this phone number. Message and data rates may apply.",
+    "phoneNumber": "Phone number",
+    "manageAccount": "Manage account"
   }
 }

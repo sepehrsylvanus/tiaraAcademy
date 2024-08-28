@@ -6,7 +6,6 @@ import { Separator } from "@/components/ui/separator";
 
 import SettingsIcon from "@mui/icons-material/Settings";
 
-import MenuIcon from "@mui/icons-material/Menu";
 import {
   useAddEmail,
   useAddPhone,
@@ -17,11 +16,7 @@ import {
   useUpdateUser,
 } from "@/hooks/useGetUsers";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+
 import { Avatar, CircularProgress } from "@mui/material";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
@@ -31,17 +26,7 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { toast } from "react-toastify";
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "@/components/ui/drawer";
+import { useTranslations } from "next-intl";
 
 const ManageAccount = () => {
   const { data: currentUser } = useGetCurrentUser();
@@ -58,6 +43,7 @@ const ManageAccount = () => {
   const [profilePicture, setProfilePicture] = useState<File>();
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const t = useTranslations("ClerkPanel");
   useEffect(() => {
     console.log(currentUser);
   }, [currentUser]);
@@ -87,35 +73,15 @@ const ManageAccount = () => {
         className="bg-white shadow-sm
   shadow-slate-400 transition hover:ring-4 hover:ring-slate-400 hover:text-black text-black rounded-xl text-[11px] py-[2px] px-4 flex items-center gap-1"
       >
-        <SettingsIcon sx={{ width: ".8em" }} /> Manage account
+        <SettingsIcon sx={{ width: ".8em" }} /> {t("manageAccount")}
       </DialogTrigger>
       <DialogContent className="p-0 w-[95%] mx-auto bg-[#F7F7F7] rounded-lg flex flex-col gap-0 ">
-        {/* <Drawer>
-          <DrawerTrigger className="flex gap-3 items-center px-6 py-4">
-            <MenuIcon /> <h2>Account</h2>
-          </DrawerTrigger>
-          <DrawerContent>
-            <DrawerHeader>
-              <DrawerTitle>Are you absolutely sure?</DrawerTitle>
-              <DrawerDescription>
-                This action cannot be undone.
-              </DrawerDescription>
-            </DrawerHeader>
-            <DrawerFooter>
-              <Button>Submit</Button>
-              <DrawerClose>
-                <Button variant="outline">Cancel</Button>
-              </DrawerClose>
-            </DrawerFooter>
-          </DrawerContent>
-        </Drawer> */}
-
         <div className="container bg-white rounded-md shadow-2xl  h-[550px] overflow-y-scroll">
-          <h2 className="mt-8 md:text-xl">Profile details</h2>
+          <h2 className="mt-8 md:text-xl">{t("profileDetails")}</h2>
           <Separator className="my-4" />
 
           <div>
-            <p className="text-xl mb-4">Profile</p>
+            <p className="text-xl mb-4">{t("profile")}</p>
             <div
               className={`flex justify-around gap-6 items-center transition-all duration-300 ${
                 openEditProf
@@ -131,7 +97,7 @@ const ManageAccount = () => {
                 className="text-extraText cursor-pointer"
                 onClick={() => setOpenEditProf(true)}
               >
-                Update profile
+                {t("updateProfile")}
               </p>
             </div>
 
@@ -143,7 +109,7 @@ const ManageAccount = () => {
               }`}
               style={{ transition: "opacity 0.3s, visibility 0.3s" }}
             >
-              <p className="font-semibold mb-4">Update profile</p>
+              <p className="font-semibold mb-4">{t("updateProfile")}</p>
               <form onSubmit={updateProfile}>
                 <div className="flex gap-5">
                   <Avatar src={currentUser?.image ?? ""} />
@@ -159,7 +125,7 @@ const ManageAccount = () => {
                           htmlFor="profPic"
                           className="bg-transparent hover:bg-transparent text-gray-400 border border-gray-200 shadow-md hover:shadow-xl hover:text-gray-400 grid place-content-center px-2 rounded-md"
                         >
-                          Upload
+                          {t("upload")}
                         </label>
                       )}
                       <input
@@ -185,23 +151,20 @@ const ManageAccount = () => {
                           onClick={() => removePic()}
                           type="button"
                         >
-                          Remove
+                          {t("remove")}
                         </Button>
                       )}
                     </div>
-                    <p className="text-gray-400 text-sm">
-                      Recomended size 1:1 up to 10MB
-                    </p>
                   </div>
                 </div>
 
                 <div className="flex gap-4 mt-6">
                   <div>
-                    <p>First name</p>
+                    <p>{t("firstName")}</p>
                     <Input name="firstName" />
                   </div>
                   <div>
-                    <p>Last name</p>
+                    <p>{t("lastName")}</p>
                     <Input name="lastName" />
                   </div>
                 </div>
@@ -212,10 +175,10 @@ const ManageAccount = () => {
                     onClick={() => setOpenEditProf(false)}
                     type="button"
                   >
-                    Cancel
+                    {t("cancel")}
                   </Button>
                   <Button className="hover:bg-extraText" type="submit">
-                    Save
+                    {t("save")}
                   </Button>
                 </div>
               </form>
@@ -224,7 +187,7 @@ const ManageAccount = () => {
 
           <Separator className="my-4" />
           <section>
-            <p className="text-xl">Email addresses</p>
+            <p className="text-xl">{t("emailAddresses")}</p>
             <div
               className={`flex flex-col justify-between items-center md:items-start ${
                 openAddEmail
@@ -238,7 +201,7 @@ const ManageAccount = () => {
                   <p className="flex items-center text-[13px] gap-2 ml-3 mt-3">
                     {currentUser?.email}{" "}
                     <span className="bg-[#ededed] rounded-sm shadow-2xl shadow-black p-1">
-                      Primary
+                      {t("primary")}
                     </span>
                   </p>
                 </div>
@@ -264,7 +227,7 @@ const ManageAccount = () => {
                               removeEmail(email);
                             }}
                           >
-                            Remove email
+                            {t("removeEmail")}
                           </p>
                         </DropdownMenuContent>
                       </DropdownMenu>
@@ -283,7 +246,7 @@ const ManageAccount = () => {
               onClick={() => setOpenAddEmail(true)}
               style={{ transition: "opacity 0.3s, visibility 0.3s" }}
             >
-              <AddIcon /> Add email address
+              <AddIcon /> {t("addEmail")}
             </p>
 
             <div
@@ -294,23 +257,20 @@ const ManageAccount = () => {
               } mt-4`}
               style={{ transition: "opacity 0.3s, visibility 0.3s" }}
             >
-              <p className="font-semibold mb-1">Add email address</p>
+              <p className="font-semibold mb-1">{t("addEmail")}</p>
 
-              <p className="text-gray-500 text-sm">
-                An email containing a verification code will be sent to this
-                email address.
-              </p>
+              <p className="text-gray-500 text-sm">{t("emailDescription")}</p>
 
               <div className="  mt-6 w-full">
                 <div>
-                  <p>Email address</p>
+                  <p>{t("Email address")}</p>
                   <Input onChange={(e) => setEmail(e.target.value)} />
                 </div>
               </div>
 
               <div className="flex justify-end gap-4 mt-4">
                 <Button variant="ghost" onClick={() => setOpenAddEmail(false)}>
-                  Cancel
+                  {t("cancel")}
                 </Button>
                 <Button
                   className="hover:bg-extraText"
@@ -319,7 +279,7 @@ const ManageAccount = () => {
                     setOpenAddEmail(false);
                   }}
                 >
-                  Add
+                  {t("add")}
                 </Button>
               </div>
             </div>
@@ -328,7 +288,7 @@ const ManageAccount = () => {
           <Separator className="my-4" />
 
           <section className="mb-4 ">
-            <p className="text-xl">Phone numbers</p>
+            <p className="text-xl">{t("phoneNumbers")}</p>
             <div
               className={`flex justify-between items-center ${
                 openAddEmail
@@ -341,7 +301,7 @@ const ManageAccount = () => {
                 <p className="flex items-center  text-[13px] gap-2 ml-3 mt-3">
                   {currentUser?.pNumber}
                   <span className="bg-[#ededed] rounded-sm shadow-2xl shadow-black p-1">
-                    Primary
+                    {t("primary")}
                   </span>
                 </p>
               </div>
@@ -367,7 +327,7 @@ const ManageAccount = () => {
                           removePhone(phone);
                         }}
                       >
-                        Remove phone
+                        {t("removePhone")}
                       </p>
                     </DropdownMenuContent>
                   </DropdownMenu>
@@ -384,7 +344,7 @@ const ManageAccount = () => {
               onClick={() => setOpenAddPhone(true)}
               style={{ transition: "opacity 0.3s, visibility 0.3s" }}
             >
-              <AddIcon /> Add phone number
+              <AddIcon /> {t("addPhoneNumber")}
             </p>
 
             <div
@@ -395,16 +355,13 @@ const ManageAccount = () => {
               } mt-4`}
               style={{ transition: "opacity 0.3s, visibility 0.3s" }}
             >
-              <p className="font-semibold mb-1 ">Add phone number</p>
+              <p className="font-semibold mb-1 ">{t("addPhoneNumber")}</p>
 
-              <p className="text-gray-500 text-sm">
-                A text message containing a verification code will be sent to
-                this phone number. Message and data rates may apply.
-              </p>
+              <p className="text-gray-500 text-sm">{t("phoneDescription")}</p>
 
               <div className="  mt-6 w-full">
                 <div>
-                  <p>Phone number</p>
+                  <p>{t("phoneNumber")}</p>
                   <Input onChange={(e) => setPhone(e.target.value)} />
                 </div>
               </div>
@@ -420,7 +377,7 @@ const ManageAccount = () => {
                     setOpenAddPhone(false);
                   }}
                 >
-                  Add
+                  {t("add")}
                 </Button>
               </div>
             </div>
