@@ -159,7 +159,7 @@ const MyClass = (details: DetailsProps) => {
       router.push(makePayment);
     }
   };
-  console.log(singleClass);
+
   return (
     <FormProvider {...registerForm}>
       <form

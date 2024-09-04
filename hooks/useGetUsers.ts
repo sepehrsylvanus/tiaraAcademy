@@ -29,7 +29,7 @@ export function useGetCurrentUser() {
     queryFn: async () => {
       const token = await getToken()!;
       console.log(token);
-      const currentUser = await getSingleUser(token?.value);
+      const currentUser = await getSingleUser();
       console.log(currentUser);
       return currentUser;
     },

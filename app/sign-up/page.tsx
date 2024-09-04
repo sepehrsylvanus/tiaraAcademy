@@ -68,7 +68,7 @@ const SignUp = () => {
           });
           setSending(false);
         }
-        router.push("/sign-in");
+        // router.push("/sign-in");
       })
       .catch((e) => {
         toast.error(e.response.data.error);

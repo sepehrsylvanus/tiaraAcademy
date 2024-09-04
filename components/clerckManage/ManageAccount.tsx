@@ -53,11 +53,17 @@ const ManageAccount = () => {
   };
 
   useEffect(() => {
-    const formData = new FormData();
     console.log(profilePicture);
-    console.log(formData);
-    formData.set("profPic", profilePicture!);
-    mutate(formData);
+  }, [profilePicture]);
+
+  useEffect(() => {
+    if (profilePicture) {
+      const formData = new FormData();
+      console.log(profilePicture);
+      console.log(formData);
+      formData.set("profPic", profilePicture!);
+      mutate(formData);
+    }
   }, [profilePicture]);
 
   async function updateProfile(e: React.FormEvent<HTMLFormElement>) {

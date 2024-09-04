@@ -141,7 +141,7 @@ const CreateClass = () => {
     duration: z.array(z.date()).optional(),
     price: z.string(),
     capacity: z.number(),
-
+    link: z.string(),
     prerequisites: z.array(z.string()).optional(),
     outline: z.array(z.string()).optional(),
   });
@@ -155,6 +155,7 @@ const CreateClass = () => {
       times: [],
       price: "",
       date: undefined,
+      link: "",
     },
   });
   const {
@@ -303,6 +304,19 @@ const CreateClass = () => {
               type="text"
               name="title"
               placeholder={t("persianTitle")}
+            />
+          )}
+        />
+        <FormField
+          name="link"
+          control={form.control}
+          render={({ field }) => (
+            <input
+              {...field}
+              className="border p-4 rounded-md formInput w-full mb-6"
+              type="text"
+              name="title"
+              placeholder={t("link")}
             />
           )}
         />

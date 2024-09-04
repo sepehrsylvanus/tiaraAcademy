@@ -21,6 +21,7 @@ export const getSingleUser = async () => {
   return user;
 };
 export const editProf = async (data: FormData) => {
+  console.log("here");
   console.log(data);
   const token = await getToken()!;
   const email = await verifyToken(token.value).data;

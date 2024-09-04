@@ -5,6 +5,7 @@ import { User } from "@/utils/types";
 import { Payment } from "@prisma/client";
 
 import axios from "axios";
+import { sendClassSms } from "../class";
 
 export const createNewPayment = async (
   price: number,
@@ -128,6 +129,7 @@ export const verifyPayment = async ({
       });
 
       if (updatedPayment) {
+        await sendClassSms(targetedClass?.title!, targetedClass?.link!);
         if (updatedPayment.time) {
           if (classId) {
             const alreadyRegistered = await prisma.classUsers.findMany({

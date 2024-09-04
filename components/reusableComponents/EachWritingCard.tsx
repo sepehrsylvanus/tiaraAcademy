@@ -52,7 +52,7 @@ const EachWritingCard: React.FC<{ writing: Writings }> = ({ writing }) => {
         <Dialog onOpenChange={setOpenAnswer}>
           <DialogTrigger
             suppressHydrationWarning
-            className="py-2 rounded-md w-full md:mr-2 bg-slate-900/90 text-lightPrime transition hover:outline hover:outline-1 hover:outline-lightPrime hover:text-[#c6d9e6] dark:bg-slate-900/90 dark:text-[#c6d9e6] dark:hover:bg-slate-50/90"
+            className="py-2 rounded-md w-full  bg-slate-900/90 text-lightPrime transition hover:outline hover:outline-1 hover:outline-lightPrime hover:text-[#c6d9e6] dark:bg-slate-900/90 dark:text-[#c6d9e6] dark:hover:bg-slate-50/90"
             onClick={() => setOpenAnswer(true)}
           >
             Open

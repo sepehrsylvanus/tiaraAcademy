@@ -103,9 +103,6 @@ const ForgetPass = () => {
       console.log(error);
       setSending(false);
     }
-    // finally {
-    //   setSending(false);
-    // }
   }
   useEffect(() => {
     console.log(sending);
