@@ -2,12 +2,16 @@
 
 import request from "request";
 import axios from "axios";
-export const sendClassSms = async (className: string, link: string) => {
+export const sendClassSms = async (
+  className: string,
+  link: string,
+  userPhone: string
+) => {
   try {
     let smsData = JSON.stringify({
       code: "hd02udgv2i77muw",
       sender: "+983000505",
-      recipient: "+989023068055",
+      recipient: userPhone,
       variable: {
         className,
         link,

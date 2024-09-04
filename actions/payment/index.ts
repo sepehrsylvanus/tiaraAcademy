@@ -129,7 +129,11 @@ export const verifyPayment = async ({
       });
 
       if (updatedPayment) {
-        await sendClassSms(targetedClass?.title!, targetedClass?.link!);
+        await sendClassSms(
+          targetedClass?.title!,
+          targetedClass?.link!,
+          user?.pNumber
+        );
         if (updatedPayment.time) {
           if (classId) {
             const alreadyRegistered = await prisma.classUsers.findMany({
