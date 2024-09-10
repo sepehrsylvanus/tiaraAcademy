@@ -1,4 +1,4 @@
-import { getNotifs, readNotif } from "@/actions/actions";
+import { getAllNotifs, getNotifs, readNotif } from "@/actions/actions";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export function useGetNotifs() {
@@ -7,6 +7,16 @@ export function useGetNotifs() {
     queryFn: async () => {
       const notifs = await getNotifs();
       return notifs;
+    },
+  });
+}
+
+export function useGetAllNotifs() {
+  return useQuery({
+    queryKey: ["getAllNotifs"],
+    queryFn: async () => {
+      const allNotifs = await getAllNotifs();
+      return allNotifs;
     },
   });
 }

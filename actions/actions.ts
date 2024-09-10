@@ -757,6 +757,12 @@ export const getNotifs = async () => {
   }
 };
 
+export const getAllNotifs = async () => {
+  const notifs = await prisma.notifs.findMany({
+    where: {},
+  });
+  return notifs;
+};
 export const readNotif = async (id: string) => {
   try {
     await prisma.notifs.update({

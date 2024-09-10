@@ -56,7 +56,10 @@ const Notifs = () => {
           )}
         </div>
         <div className="flex justify-center">
-          <Link href="#" className="  text-extraText underline">
+          <Link
+            href="/hub/notifications"
+            className="  text-extraText underline"
+          >
             {t("viewNotifs")}
           </Link>{" "}
         </div>

@@ -63,6 +63,7 @@ model User {
   Video               Video[]
   Payment             Payment[]
   WritingCharge       WritingCharge[]
+  Notifs              Notifs[]
 }
 
 model Class {
@@ -196,7 +197,9 @@ model Notifs {
   title     String
   status    NotifStat @default(unread)
   type      NotifType
+  user      User      @relation(fields: [userId], references: [id])
   createdAt DateTime  @default(now())
+  userId    String
 }
 
 model Payment {

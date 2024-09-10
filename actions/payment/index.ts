@@ -171,8 +171,9 @@ export const verifyPayment = async ({
             }
             await prisma.notifs.create({
               data: {
-                title: `${user.fName} ${user.lName} registered in ${targetedClass?.title} class`,
+                title: `${user.fName} ${user.lName} with id ${user.id} registered in ${targetedClass?.title} class`,
                 type: "joinClass",
+                userId: user.id,
               },
             });
           }
