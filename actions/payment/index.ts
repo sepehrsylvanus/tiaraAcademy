@@ -32,6 +32,53 @@ export const createNewPayment = async (
   );
 
   try {
+    const targetedClass = await prisma.class.findUnique({
+      where: {
+        id: classId,
+      },
+    });
+    if (price === 0) {
+      if (classId) {
+        const alreadyRegistered = await prisma.classUsers.findMany({
+          where: {
+            AND: [{ classId }, { time: chosenTime }],
+          },
+          orderBy: {
+            capacity: "asc",
+          },
+        });
+        if (alreadyRegistered.length > 0) {
+          await prisma.classUsers.create({
+            data: {
+              classId,
+              userId: user.id,
+              capacity: alreadyRegistered[0].capacity - 1,
+              time: chosenTime,
+              date: chosenDate.toLocaleDateString(),
+            },
+          });
+        } else {
+          await prisma.classUsers.create({
+            data: {
+              classId,
+              userId: user.id,
+              capacity: targetedClass!.capacity! - 1,
+              time: chosenTime,
+              date: chosenDate.toLocaleDateString(),
+            },
+          });
+        }
+        await prisma.notifs.create({
+          data: {
+            title: `${user.fName} ${user.lName} with id ${user.id} registered in ${targetedClass?.title} class`,
+            type: "joinClass",
+            userId: user.id,
+          },
+        });
+      }
+      return classId;
+    }
+
     const data = {
       merchant_id: process.env.NEXT_PUBLIC_MERCHANT_CODE,
       amount: price * 10,

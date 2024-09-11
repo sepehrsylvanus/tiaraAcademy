@@ -111,7 +111,7 @@ const MyClass = (details: DetailsProps) => {
     console.log(values.time);
     console.log(values.date);
     console.log(singleClass?.price);
-    if (singleClass?.price && singleClass?.price !== "free") {
+    if (singleClass?.price && singleClass?.price !== "") {
       console.log("here");
       const placementPayment = await createNewPayment(
         Number(singleClass?.price),
@@ -123,7 +123,7 @@ const MyClass = (details: DetailsProps) => {
         undefined,
         singleClass?.title
       );
-      router.push(placementPayment);
+      router.push(placementPayment!);
     } else {
       const registerFree = await reserveFreePlacement(
         singleClass?.id!,
@@ -154,9 +154,10 @@ const MyClass = (details: DetailsProps) => {
       undefined,
       singleClass?.title
     );
-    console.log(makePayment);
-    if (makePayment) {
+    if (makePayment?.startsWith("https")) {
       router.push(makePayment);
+    } else {
+      window.location.reload();
     }
   };
 

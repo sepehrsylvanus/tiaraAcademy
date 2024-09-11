@@ -3,13 +3,16 @@ import NotifTab from "@/components/notifTab/NotifTab";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useGetAllNotifs, useGetNotifs } from "@/hooks/useNotifs";
 import { formatTimeFromNow } from "@/utils/helperFunctions";
+import { debounce } from "@mui/material";
 import { NotifType } from "@prisma/client";
 import { Search } from "lucide-react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const Notifications = () => {
-  const { data: notifs } = useGetAllNotifs();
-  console.log(notifs);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const { data: notifs } = useGetAllNotifs(searchQuery);
+
   return (
     <div className="container">
       <Tabs defaultValue="all">
@@ -26,8 +29,10 @@ const Notifications = () => {
           >
             <Search />
             <input
-              className="border-none outline-none rtl:text-end"
+              className="border-none outline-none rtl:text-end w-full"
               placeholder="Search your notification "
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
         </div>

@@ -11,7 +11,7 @@ type registerClassProps = {
 export const POST = async (req: NextRequest) => {
   const data = (await req.json()) as registerClassProps;
   const token = await getToken()!;
-  const user = (await getSingleUser(token?.value)) as User;
+  const user = (await getSingleUser()) as User;
 
   const alreadyRegistered = await prisma.classUsers.findMany({
     where: {
@@ -23,7 +23,7 @@ export const POST = async (req: NextRequest) => {
     where: {
       id: data.classId,
     },
-  })) as Class;
+  })) as unknown as Class;
 
   if (alreadyRegistered.length === 0 && myClass) {
     await prisma.classUsers.create({
@@ -60,7 +60,7 @@ export const POST = async (req: NextRequest) => {
 
 export const GET = async (req: NextRequest) => {
   const token = await getToken()!;
-  const user = await getSingleUser(token?.value);
+  const user = await getSingleUser();
   if (!req.headers.get("apiKey")) {
     return NextResponse.json({ error: "Access denied" }, { status: 401 });
   }

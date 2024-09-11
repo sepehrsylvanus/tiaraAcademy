@@ -29,28 +29,32 @@ const Notifs = () => {
         className="w-[400px] animate-slide-in-right bg-background shadow-lg border rounded-lg bg-white"
       >
         <div className="p-4 space-y-4">
-          {notifs?.map((notif, index) => (
-            <div
-              key={index}
-              className="cursor-pointer flex items-center justify-between gap-3  hover:bg-extraItem transition-all  p-2 rounded-md duration-300"
-              onClick={() => readNotif(notif.id)}
-            >
-              <div className="bg-muted rounded-md flex items-center justify-center p-2">
-                {notif.type === NotifType.joinClass ? (
-                  <UserPlusIcon className="w-5 h-5" />
-                ) : (
-                  <UserCheckIcon className="w-5 h-5" />
-                )}
-              </div>
-              <div className="flex flex-col items-center">
-                <p className="font-medium">{notif.title}</p>
-                <p className="text-sm text-muted-foreground">
-                  {formatTimeFromNow(notif.createdAt)}
-                </p>
-              </div>
-              <div className="w-4 h-4 rounded-full bg-blue-500" />
-            </div>
-          ))}
+          {notifs?.map((notif, index) => {
+            if (index < 3) {
+              return (
+                <div
+                  key={index}
+                  className="cursor-pointer flex items-center justify-between gap-3  hover:bg-extraItem transition-all  p-2 rounded-md duration-300"
+                  onClick={() => readNotif(notif.id)}
+                >
+                  <div className="bg-muted rounded-md flex items-center justify-center p-2">
+                    {notif.type === NotifType.joinClass ? (
+                      <UserPlusIcon className="w-5 h-5" />
+                    ) : (
+                      <UserCheckIcon className="w-5 h-5" />
+                    )}
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <p className="font-medium">{notif.title}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {formatTimeFromNow(notif.createdAt)}
+                    </p>
+                  </div>
+                  <div className="w-4 h-4 rounded-full bg-blue-500" />
+                </div>
+              );
+            }
+          })}
           {notifs?.length === 0 && (
             <p className="text-center">{t("noNotif")}</p>
           )}

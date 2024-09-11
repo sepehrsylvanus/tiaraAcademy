@@ -1,7 +1,7 @@
 import { formatTimeFromNow } from "@/utils/helperFunctions";
 import { Notifs, NotifType } from "@prisma/client";
 import { UserCheckIcon, UserPlusIcon } from "lucide-react";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { TabsContent } from "../ui/tabs";
 
 interface NotifTabProps {
@@ -10,10 +10,15 @@ interface NotifTabProps {
 }
 
 const NotifTab: FC<NotifTabProps> = ({ data, value }) => {
+  console.log(data);
+
   return (
     <TabsContent value={value}>
       {data?.map((notif, index) => (
-        <div className="eachNotif flex items-center rtl:flex-row-reverse p-7 shadow-lg">
+        <div
+          key={index}
+          className="eachNotif flex items-center rtl:flex-row-reverse p-7 shadow-lg"
+        >
           <div className="flex rtl:flex-row-reverse mr-4 rtl:ml-4">
             {notif.type === NotifType.joinClass ? (
               <UserPlusIcon className="w-5 h-5" />

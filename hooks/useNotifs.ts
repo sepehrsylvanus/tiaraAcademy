@@ -11,11 +11,11 @@ export function useGetNotifs() {
   });
 }
 
-export function useGetAllNotifs() {
+export function useGetAllNotifs(userId: string) {
   return useQuery({
-    queryKey: ["getAllNotifs"],
+    queryKey: ["getAllNotifs", userId],
     queryFn: async () => {
-      const allNotifs = await getAllNotifs();
+      const allNotifs = await getAllNotifs(userId);
       return allNotifs;
     },
   });
