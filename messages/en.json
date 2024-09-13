@@ -326,5 +326,10 @@
       "phoneNumber": "Phone number",
       "manageAccount": "Manage account"
     }
+  },
+  "PendingTeacher": {
+    "approvalPending": "Approval Pending",
+    "title": "This teacher has not been approved yet",
+    "description": "The administrator is reviewing this teacher's application. Please check back later."
   }
 }

@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { getSingleUser, getTeacherProfile } from "@/actions/userActions";
 import { User } from "@/utils/types";
 import { capitalizeFirstLetter } from "@/utils/helperFunctions";
+import PendingTeacher from "@/components/pendingTeacher/PendingTeacher";
 type Params = {
   teacher: string;
 };
@@ -17,186 +18,190 @@ export default async function Component({ params }: { params: Params }) {
   console.log(teacherUser);
   const teacherProfile = await getTeacherProfile(params.teacher);
 
-  return (
-    <div className="w-full max-w-5xl mx-auto px-4 md:px-6 py-12 md:py-16">
-      <div className="grid md:grid-cols-[200px_1fr] gap-8 md:gap-12">
-        <div className="flex justify-center">
-          <Avatar className="w-32 h-32">
-            <AvatarImage src={teacherUser?.image!} alt="Teacher Profile" />
-            <AvatarFallback>{`${teacherUser?.fName[0]}${teacherUser?.lName?.[0]}`}</AvatarFallback>
-          </Avatar>
-        </div>
-        <div className="grid gap-6">
-          <div className="space-y-2">
-            <h1 className="text-3xl font-bold">{`${teacherUser?.fName} ${teacherUser?.lName}`}</h1>
-            <p className="text-muted-foreground">
-              {teacherProfile?.description}
-            </p>
+  if (teacherProfile) {
+    return (
+      <div className="w-full max-w-5xl mx-auto px-4 md:px-6 py-12 md:py-16">
+        <div className="grid md:grid-cols-[200px_1fr] gap-8 md:gap-12">
+          <div className="flex justify-center">
+            <Avatar className="w-32 h-32">
+              <AvatarImage src={teacherUser?.image!} alt="Teacher Profile" />
+              <AvatarFallback>{`${teacherUser?.fName[0]}${teacherUser?.lName?.[0]}`}</AvatarFallback>
+            </Avatar>
           </div>
-          <div className="grid gap-4">
-            <div>
-              <h2 className="text-xl font-semibold">About Me</h2>
-              <p className="text-muted-foreground">{teacherProfile?.bio}</p>
+          <div className="grid gap-6">
+            <div className="space-y-2">
+              <h1 className="text-3xl font-bold">{`${teacherUser?.fName} ${teacherUser?.lName}`}</h1>
+              <p className="text-muted-foreground">
+                {teacherProfile?.description}
+              </p>
             </div>
-            <div>
-              <h2 className="text-xl font-semibold">Experiences</h2>
-              <ul className="grid gap-2 text-muted-foreground">
-                <li>
-                  <div className="flex items-center gap-2">
-                    <GraduationCapIcon className="w-5 h-5" />
-                    <span>{teacherProfile?.graduation}</span>
-                  </div>
-                </li>
-                <li>
-                  <div className="flex items-center gap-2">
-                    <BriefcaseIcon className="w-5 h-5" />
-                    <span>{teacherProfile?.experience}</span>
-                  </div>
-                </li>
-                <li>
-                  <div className="flex items-center gap-2">
-                    <AwardIcon className="w-5 h-5" />
-                    <span>{teacherProfile?.awards}</span>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h2 className="text-xl font-semibold">Languages</h2>
-              <ul className="grid gap-2 text-muted-foreground">
-                {teacherProfile?.languagesArr.map((language, index) => (
-                  <li key={index}>
+            <div className="grid gap-4">
+              <div>
+                <h2 className="text-xl font-semibold">About Me</h2>
+                <p className="text-muted-foreground">{teacherProfile?.bio}</p>
+              </div>
+              <div>
+                <h2 className="text-xl font-semibold">Experiences</h2>
+                <ul className="grid gap-2 text-muted-foreground">
+                  <li>
                     <div className="flex items-center gap-2">
-                      <FlagIcon className="w-5 h-5" />
-                      <span>{language}</span>
+                      <GraduationCapIcon className="w-5 h-5" />
+                      <span>{teacherProfile?.graduation}</span>
                     </div>
                   </li>
-                ))}
-              </ul>
+                  <li>
+                    <div className="flex items-center gap-2">
+                      <BriefcaseIcon className="w-5 h-5" />
+                      <span>{teacherProfile?.experience}</span>
+                    </div>
+                  </li>
+                  <li>
+                    <div className="flex items-center gap-2">
+                      <AwardIcon className="w-5 h-5" />
+                      <span>{teacherProfile?.awards}</span>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <h2 className="text-xl font-semibold">Languages</h2>
+                <ul className="grid gap-2 text-muted-foreground">
+                  {teacherProfile?.languagesArr.map((language, index) => (
+                    <li key={index}>
+                      <div className="flex items-center gap-2">
+                        <FlagIcon className="w-5 h-5" />
+                        <span>{language}</span>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <Separator className="my-12" />
-      <div className="grid gap-12">
-        <div>
-          <h2 className="text-2xl font-bold">Classes</h2>
-          <div className="grid gap-6 mt-6">
-            {teacherUser?.Class.map((cls, index) => (
-              <div
-                key={index}
-                className="grid md:grid-cols-[1fr_auto] gap-4 items-center"
-              >
-                <div>
-                  <h3 className="text-xl font-semibold">{cls.title}</h3>
-                  <p className="text-muted-foreground">
-                    {cls.days.map((day, index) => (
-                      <span key={index}>{`${capitalizeFirstLetter(
-                        day
-                      )}, `}</span>
-                    ))}{" "}
-                    - 9:00 AM to 10:30 AM
-                  </p>
+        <Separator className="my-12" />
+        <div className="grid gap-12">
+          <div>
+            <h2 className="text-2xl font-bold">Classes</h2>
+            <div className="grid gap-6 mt-6">
+              {teacherUser?.Class.map((cls, index) => (
+                <div
+                  key={index}
+                  className="grid md:grid-cols-[1fr_auto] gap-4 items-center"
+                >
+                  <div>
+                    <h3 className="text-xl font-semibold">{cls.title}</h3>
+                    <p className="text-muted-foreground">
+                      {cls.days.map((day, index) => (
+                        <span key={index}>{`${capitalizeFirstLetter(
+                          day
+                        )}, `}</span>
+                      ))}{" "}
+                      - 9:00 AM to 10:30 AM
+                    </p>
+                  </div>
+                  <Link href={`/hub/classes/${cls.id}`}>
+                    <Button variant="outline" role="link">
+                      Enroll
+                    </Button>
+                  </Link>{" "}
                 </div>
-                <Link href={`/hub/classes/${cls.id}`}>
-                  <Button variant="outline" role="link">
-                    Enroll
-                  </Button>
-                </Link>{" "}
-              </div>
-            ))}
-          </div>
-        </div>
-        <div>
-          <h2 className="text-2xl font-bold">Articles</h2>
-          <div className="grid gap-6 mt-6">
-            <div className="grid md:grid-cols-[200px_1fr] gap-4">
-              <img
-                src="/placeholder.svg"
-                width={200}
-                height={150}
-                alt="Article Thumbnail"
-                className="rounded-lg object-cover"
-                style={{ aspectRatio: "200/150", objectFit: "cover" }}
-              />
-              <div>
-                <h3 className="text-xl font-semibold">
-                  Effective Strategies for Teaching Math
-                </h3>
-                <p className="text-muted-foreground">
-                  Discover proven techniques to make math engaging and
-                  accessible for students of all levels.
-                </p>
-                <Link href="#" className="text-primary" prefetch={false}>
-                  Read More
-                </Link>
-              </div>
+              ))}
             </div>
-            <div className="grid md:grid-cols-[200px_1fr] gap-4">
-              <img
-                src="/placeholder.svg"
-                width={200}
-                height={150}
-                alt="Article Thumbnail"
-                className="rounded-lg object-cover"
-                style={{ aspectRatio: "200/150", objectFit: "cover" }}
-              />
-              <div>
-                <h3 className="text-xl font-semibold">
-                  Integrating Technology in the Classroom
-                </h3>
-                <p className="text-muted-foreground">
-                  Explore how to effectively incorporate digital tools and
-                  resources to enhance student learning.
-                </p>
-                <Link href="#" className="text-primary" prefetch={false}>
-                  Read More
-                </Link>
+          </div>
+          <div>
+            <h2 className="text-2xl font-bold">Articles</h2>
+            <div className="grid gap-6 mt-6">
+              <div className="grid md:grid-cols-[200px_1fr] gap-4">
+                <img
+                  src="/placeholder.svg"
+                  width={200}
+                  height={150}
+                  alt="Article Thumbnail"
+                  className="rounded-lg object-cover"
+                  style={{ aspectRatio: "200/150", objectFit: "cover" }}
+                />
+                <div>
+                  <h3 className="text-xl font-semibold">
+                    Effective Strategies for Teaching Math
+                  </h3>
+                  <p className="text-muted-foreground">
+                    Discover proven techniques to make math engaging and
+                    accessible for students of all levels.
+                  </p>
+                  <Link href="#" className="text-primary" prefetch={false}>
+                    Read More
+                  </Link>
+                </div>
+              </div>
+              <div className="grid md:grid-cols-[200px_1fr] gap-4">
+                <img
+                  src="/placeholder.svg"
+                  width={200}
+                  height={150}
+                  alt="Article Thumbnail"
+                  className="rounded-lg object-cover"
+                  style={{ aspectRatio: "200/150", objectFit: "cover" }}
+                />
+                <div>
+                  <h3 className="text-xl font-semibold">
+                    Integrating Technology in the Classroom
+                  </h3>
+                  <p className="text-muted-foreground">
+                    Explore how to effectively incorporate digital tools and
+                    resources to enhance student learning.
+                  </p>
+                  <Link href="#" className="text-primary" prefetch={false}>
+                    Read More
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <Separator className="my-12" />
-      <div className="grid gap-6">
-        <h2 className="text-2xl font-bold">Contact Me</h2>
-        <div className="grid md:grid-cols-2 gap-6">
-          <div className="space-y-4">
-            <p className="text-muted-foreground">
-              Have a question or want to discuss a topic further? Feel free to
-              reach out using the form below.
-            </p>
-            <div className="grid gap-2">
-              <Label htmlFor="name">Name</Label>
-              <Input id="name" placeholder="Enter your name" />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="email">Email</Label>
-              <Input id="email" type="email" placeholder="Enter your email" />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="message">Message</Label>
-              <Textarea id="message" placeholder="Enter your message" />
-            </div>
-            <Button>Send Message</Button>
-          </div>
-          <div className="bg-muted rounded-lg p-6">
-            <h3 className="text-xl font-semibold">Get in Touch</h3>
-            <div className="grid gap-4 mt-4">
-              <div className="flex items-center gap-2">
-                <MailIcon className="w-5 h-5" />
-                <span>{teacherUser?.email}</span>
+        <Separator className="my-12" />
+        <div className="grid gap-6">
+          <h2 className="text-2xl font-bold">Contact Me</h2>
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="space-y-4">
+              <p className="text-muted-foreground">
+                Have a question or want to discuss a topic further? Feel free to
+                reach out using the form below.
+              </p>
+              <div className="grid gap-2">
+                <Label htmlFor="name">Name</Label>
+                <Input id="name" placeholder="Enter your name" />
               </div>
-              <div className="flex items-center gap-2">
-                <PhoneIcon className="w-5 h-5" />
-                <span>{teacherUser?.pNumber}</span>
+              <div className="grid gap-2">
+                <Label htmlFor="email">Email</Label>
+                <Input id="email" type="email" placeholder="Enter your email" />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="message">Message</Label>
+                <Textarea id="message" placeholder="Enter your message" />
+              </div>
+              <Button>Send Message</Button>
+            </div>
+            <div className="bg-muted rounded-lg p-6">
+              <h3 className="text-xl font-semibold">Get in Touch</h3>
+              <div className="grid gap-4 mt-4">
+                <div className="flex items-center gap-2">
+                  <MailIcon className="w-5 h-5" />
+                  <span>{teacherUser?.email}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <PhoneIcon className="w-5 h-5" />
+                  <span>{teacherUser?.pNumber}</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  } else {
+    return <PendingTeacher />;
+  }
 }
 
 function AwardIcon(props: any) {
