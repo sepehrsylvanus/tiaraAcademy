@@ -104,7 +104,6 @@ const faDays = [
 
 const CreateClass = () => {
   const [sending, setSending] = useState(false);
-  const [dateRange, setDateRange] = useState<DateObject>();
   const [chosenType, setChosenType] = useState("placement");
   const [date, setDate] = useState<Date>();
   const [price, setPrice] = useState<{ price: string; index: number }>({

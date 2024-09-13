@@ -1,8 +1,3 @@
-/**
- * v0 by Vercel.
- * @see https://v0.dev/t/7qettJWkD9G
- * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
- */
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
@@ -10,33 +5,38 @@ import Link from "next/link";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { getSingleUser, getTeacherProfile } from "@/actions/userActions";
+import { User } from "@/utils/types";
+import { capitalizeFirstLetter } from "@/utils/helperFunctions";
+type Params = {
+  teacher: string;
+};
+export default async function Component({ params }: { params: Params }) {
+  console.log(params.teacher);
+  const teacherUser = await getSingleUser();
+  console.log(teacherUser);
+  const teacherProfile = await getTeacherProfile(params.teacher);
 
-export default function Component() {
   return (
     <div className="w-full max-w-5xl mx-auto px-4 md:px-6 py-12 md:py-16">
       <div className="grid md:grid-cols-[200px_1fr] gap-8 md:gap-12">
         <div className="flex justify-center">
           <Avatar className="w-32 h-32">
-            <AvatarImage src="/placeholder-user.jpg" alt="Teacher Profile" />
-            <AvatarFallback>JD</AvatarFallback>
+            <AvatarImage src={teacherUser?.image!} alt="Teacher Profile" />
+            <AvatarFallback>{`${teacherUser?.fName[0]}${teacherUser?.lName?.[0]}`}</AvatarFallback>
           </Avatar>
         </div>
         <div className="grid gap-6">
           <div className="space-y-2">
-            <h1 className="text-3xl font-bold">John Doe</h1>
+            <h1 className="text-3xl font-bold">{`${teacherUser?.fName} ${teacherUser?.lName}`}</h1>
             <p className="text-muted-foreground">
-              Experienced Math and Science Teacher
+              {teacherProfile?.description}
             </p>
           </div>
           <div className="grid gap-4">
             <div>
               <h2 className="text-xl font-semibold">About Me</h2>
-              <p className="text-muted-foreground">
-                I have been teaching Math and Science for over 10 years, helping
-                students of all ages and backgrounds excel in these subjects. I
-                am passionate about creating engaging and interactive lessons
-                that make learning fun and accessible.
-              </p>
+              <p className="text-muted-foreground">{teacherProfile?.bio}</p>
             </div>
             <div>
               <h2 className="text-xl font-semibold">Experiences</h2>
@@ -44,19 +44,19 @@ export default function Component() {
                 <li>
                   <div className="flex items-center gap-2">
                     <GraduationCapIcon className="w-5 h-5" />
-                    <span>Bachelor's Degree in Mathematics</span>
+                    <span>{teacherProfile?.graduation}</span>
                   </div>
                 </li>
                 <li>
                   <div className="flex items-center gap-2">
                     <BriefcaseIcon className="w-5 h-5" />
-                    <span>10+ years of teaching experience</span>
+                    <span>{teacherProfile?.experience}</span>
                   </div>
                 </li>
                 <li>
                   <div className="flex items-center gap-2">
                     <AwardIcon className="w-5 h-5" />
-                    <span>Recipient of the Excellence in Teaching Award</span>
+                    <span>{teacherProfile?.awards}</span>
                   </div>
                 </li>
               </ul>
@@ -64,24 +64,14 @@ export default function Component() {
             <div>
               <h2 className="text-xl font-semibold">Languages</h2>
               <ul className="grid gap-2 text-muted-foreground">
-                <li>
-                  <div className="flex items-center gap-2">
-                    <FlagIcon className="w-5 h-5" />
-                    <span>English</span>
-                  </div>
-                </li>
-                <li>
-                  <div className="flex items-center gap-2">
-                    <FlagIcon className="w-5 h-5" />
-                    <span>Spanish</span>
-                  </div>
-                </li>
-                <li>
-                  <div className="flex items-center gap-2">
-                    <FlagIcon className="w-5 h-5" />
-                    <span>French</span>
-                  </div>
-                </li>
+                {teacherProfile?.languagesArr.map((language, index) => (
+                  <li key={index}>
+                    <div className="flex items-center gap-2">
+                      <FlagIcon className="w-5 h-5" />
+                      <span>{language}</span>
+                    </div>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
@@ -92,34 +82,29 @@ export default function Component() {
         <div>
           <h2 className="text-2xl font-bold">Classes</h2>
           <div className="grid gap-6 mt-6">
-            <div className="grid md:grid-cols-[1fr_auto] gap-4">
-              <div>
-                <h3 className="text-xl font-semibold">Algebra I</h3>
-                <p className="text-muted-foreground">
-                  Monday, Wednesday, Friday - 9:00 AM to 10:30 AM
-                </p>
-                <p className="text-muted-foreground">
-                  An introductory course covering the fundamentals of algebra,
-                  including linear equations, inequalities, and systems of
-                  equations.
-                </p>
+            {teacherUser?.Class.map((cls, index) => (
+              <div
+                key={index}
+                className="grid md:grid-cols-[1fr_auto] gap-4 items-center"
+              >
+                <div>
+                  <h3 className="text-xl font-semibold">{cls.title}</h3>
+                  <p className="text-muted-foreground">
+                    {cls.days.map((day, index) => (
+                      <span key={index}>{`${capitalizeFirstLetter(
+                        day
+                      )}, `}</span>
+                    ))}{" "}
+                    - 9:00 AM to 10:30 AM
+                  </p>
+                </div>
+                <Link href={`/hub/classes/${cls.id}`}>
+                  <Button variant="outline" role="link">
+                    Enroll
+                  </Button>
+                </Link>{" "}
               </div>
-              <Button variant="outline">Enroll</Button>
-            </div>
-            <div className="grid md:grid-cols-[1fr_auto] gap-4">
-              <div>
-                <h3 className="text-xl font-semibold">Biology</h3>
-                <p className="text-muted-foreground">
-                  Tuesday, Thursday - 1:00 PM to 2:30 PM
-                </p>
-                <p className="text-muted-foreground">
-                  An in-depth exploration of the fundamental principles of
-                  biology, covering topics such as cell biology, genetics, and
-                  ecology.
-                </p>
-              </div>
-              <Button variant="outline">Enroll</Button>
-            </div>
+            ))}
           </div>
         </div>
         <div>
@@ -171,55 +156,6 @@ export default function Component() {
             </div>
           </div>
         </div>
-        <div>
-          <h2 className="text-2xl font-bold">Courses</h2>
-          <div className="grid gap-6 mt-6">
-            <div className="grid md:grid-cols-[200px_1fr] gap-4">
-              <img
-                src="/placeholder.svg"
-                width={200}
-                height={150}
-                alt="Course Thumbnail"
-                className="rounded-lg object-cover"
-                style={{ aspectRatio: "200/150", objectFit: "cover" }}
-              />
-              <div>
-                <h3 className="text-xl font-semibold">
-                  Mastering Algebra: A Step-by-Step Guide
-                </h3>
-                <p className="text-muted-foreground">
-                  Dive deep into the world of algebra and unlock your
-                  mathematical potential with this comprehensive online course.
-                </p>
-                <Link href="#" className="text-primary" prefetch={false}>
-                  Enroll Now
-                </Link>
-              </div>
-            </div>
-            <div className="grid md:grid-cols-[200px_1fr] gap-4">
-              <img
-                src="/placeholder.svg"
-                width={200}
-                height={150}
-                alt="Course Thumbnail"
-                className="rounded-lg object-cover"
-                style={{ aspectRatio: "200/150", objectFit: "cover" }}
-              />
-              <div>
-                <h3 className="text-xl font-semibold">
-                  Exploring the Wonders of Biology
-                </h3>
-                <p className="text-muted-foreground">
-                  Embark on a captivating journey through the fascinating world
-                  of biology with this online course.
-                </p>
-                <Link href="#" className="text-primary" prefetch={false}>
-                  Enroll Now
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
       <Separator className="my-12" />
       <div className="grid gap-6">
@@ -249,15 +185,11 @@ export default function Component() {
             <div className="grid gap-4 mt-4">
               <div className="flex items-center gap-2">
                 <MailIcon className="w-5 h-5" />
-                <span>john.doe@example.com</span>
+                <span>{teacherUser?.email}</span>
               </div>
               <div className="flex items-center gap-2">
                 <PhoneIcon className="w-5 h-5" />
-                <span>(123) 456-7890</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <LocateIcon className="w-5 h-5" />
-                <span>123 Main St, Anytown USA</span>
+                <span>{teacherUser?.pNumber}</span>
               </div>
             </div>
           </div>

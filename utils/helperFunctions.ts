@@ -30,3 +30,10 @@ function debounce<T extends (...args: any[]) => void>(
     }, delay);
   };
 }
+
+export function capitalizeFirstLetter(str: string): string {
+  if (!str) return str;
+  const result = str.charAt(0).toUpperCase() + str.slice(1);
+
+  return result;
+}

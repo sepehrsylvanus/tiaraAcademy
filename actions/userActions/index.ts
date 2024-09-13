@@ -15,6 +15,7 @@ export const getSingleUser = async () => {
     },
     include: {
       ClassUsers: true,
+      Class: true,
     },
   });
 
@@ -227,4 +228,13 @@ export const createTeacherProfile = async (formData: FormData) => {
     console.log(error);
     throw new Error(error.message || "An unexpected error occurred");
   }
+};
+
+export const getTeacherProfile = async (teacherId: string) => {
+  const teacherProfile = await prisma.teacherProfile.findUnique({
+    where: {
+      teacherId,
+    },
+  });
+  return teacherProfile;
 };
