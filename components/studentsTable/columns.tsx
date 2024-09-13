@@ -11,6 +11,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -22,6 +30,7 @@ import { getToken } from "@/actions/actions";
 import { User } from "@/utils/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Axios } from "@/utils/axiosIn";
+import CreateTeacherProfile from "../createTeacherProfile/CreateTeacherProfile";
 
 export type StudentsShow = {
   id: string;
@@ -37,10 +46,13 @@ export const columns: ColumnDef<StudentsShow>[] = [
     id: "actions",
     cell: ({ row }) => {
       const user = row.original;
+      console.log(user);
       const role = user.role;
 
       const [sending, setSending] = useState(false);
       const [currentUser, setCurrentUser] = useState<User>();
+      const [openCreateTeacherProfile, setOpenCreateTeacherProfile] =
+        useState(false);
       useEffect(() => {
         const getCurrentUser = async () => {
           const token = await getToken()!;
@@ -92,51 +104,121 @@ export const columns: ColumnDef<StudentsShow>[] = [
           queryClient.invalidateQueries({ queryKey: ["users"] });
         },
       });
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="ghost"
-              className={`h-8 w-8 p-0 ${
-                currentUser?.role === "admin" || "adminTeacher" ? "" : "hidden"
-              }`}
-            >
-              <span className="sr-only">Open menu</span>
-              {sending ? (
-                <div style={{ transform: "scale(.7)" }}>
-                  <CircularProgress sx={{ color: "white" }} />
-                </div>
-              ) : (
-                <MoreHorizontal className={`h-4 w-4 `} />
+      if (user.role === "teacher" || user.role === "adminTeacher") {
+        return (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="ghost"
+                className={`h-8 w-8 p-0 ${
+                  currentUser?.role === "admin" || "adminTeacher"
+                    ? ""
+                    : "hidden"
+                }`}
+              >
+                <span className="sr-only">Open menu</span>
+                {sending ? (
+                  <div style={{ transform: "scale(.7)" }}>
+                    <CircularProgress sx={{ color: "white" }} />
+                  </div>
+                ) : (
+                  <MoreHorizontal className={`h-4 w-4 `} />
+                )}
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Change role</DropdownMenuLabel>
+              {role !== "student" && (
+                <DropdownMenuItem onClick={() => mutation.mutate("student")}>
+                  Student
+                </DropdownMenuItem>
               )}
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Change role</DropdownMenuLabel>
-            {role !== "student" && (
-              <DropdownMenuItem onClick={() => mutation.mutate("student")}>
-                Student
-              </DropdownMenuItem>
-            )}
 
-            {role !== "teacher" && (
-              <DropdownMenuItem onClick={() => mutation.mutate("teacher")}>
-                Teacher
-              </DropdownMenuItem>
-            )}
-            {role !== "admin" && (
-              <DropdownMenuItem onClick={() => mutation.mutate("admin")}>
-                Admin
-              </DropdownMenuItem>
-            )}
-            {role !== "adminTeacher" && (
-              <DropdownMenuItem onClick={() => mutation.mutate("adminTeacher")}>
-                Admin - Teacher
-              </DropdownMenuItem>
-            )}
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
+              {role !== "teacher" && (
+                <DropdownMenuItem onClick={() => mutation.mutate("teacher")}>
+                  Teacher
+                </DropdownMenuItem>
+              )}
+              {role !== "admin" && (
+                <DropdownMenuItem onClick={() => mutation.mutate("admin")}>
+                  Admin
+                </DropdownMenuItem>
+              )}
+              {role !== "adminTeacher" && (
+                <DropdownMenuItem
+                  onClick={() => mutation.mutate("adminTeacher")}
+                >
+                  Admin - Teacher
+                </DropdownMenuItem>
+              )}
+              <Dialog
+                open={openCreateTeacherProfile}
+                onOpenChange={setOpenCreateTeacherProfile}
+              >
+                <DialogTrigger className=" text-sm px-2">
+                  Create teacher profile
+                </DialogTrigger>
+                <DialogContent>
+                  <CreateTeacherProfile
+                    setOpenCreateTeacherProfile={setOpenCreateTeacherProfile}
+                    teacherId={user.id}
+                  />
+                </DialogContent>
+              </Dialog>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        );
+      } else {
+        return (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="ghost"
+                className={`h-8 w-8 p-0 ${
+                  currentUser?.role === "admin" || "adminTeacher"
+                    ? ""
+                    : "hidden"
+                }`}
+              >
+                <span className="sr-only">Open menu</span>
+                {sending ? (
+                  <div style={{ transform: "scale(.7)" }}>
+                    <CircularProgress sx={{ color: "white" }} />
+                  </div>
+                ) : (
+                  <MoreHorizontal className={`h-4 w-4 `} />
+                )}
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Change role</DropdownMenuLabel>
+              {role !== "student" && (
+                <DropdownMenuItem onClick={() => mutation.mutate("student")}>
+                  Student
+                </DropdownMenuItem>
+              )}
+
+              {role !== "teacher" && (
+                <DropdownMenuItem onClick={() => mutation.mutate("teacher")}>
+                  Teacher
+                </DropdownMenuItem>
+              )}
+              {role !== "admin" && (
+                <DropdownMenuItem onClick={() => mutation.mutate("admin")}>
+                  Admin
+                </DropdownMenuItem>
+              )}
+              {role !== "adminTeacher" && (
+                <DropdownMenuItem
+                  onClick={() => mutation.mutate("adminTeacher")}
+                >
+                  Admin - Teacher
+                </DropdownMenuItem>
+              )}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        );
+      }
     },
   },
   {

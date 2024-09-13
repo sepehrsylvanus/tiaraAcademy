@@ -64,6 +64,19 @@ model User {
   Payment             Payment[]
   WritingCharge       WritingCharge[]
   Notifs              Notifs[]
+  TeacherProfile      TeacherProfile?
+}
+
+model TeacherProfile {
+  id           String   @id @default(cuid()) @map("_id")
+  description  String
+  bio          String
+  graduation   String
+  experience   String
+  awards       String
+  languagesArr String[]
+  teacher      User     @relation(fields: [teacherId], references: [id])
+  teacherId    String   @unique
 }
 
 model Class {

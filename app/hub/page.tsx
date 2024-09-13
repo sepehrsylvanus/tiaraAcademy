@@ -67,7 +67,7 @@ const Hub = async () => {
 
           <div className="mt-6">
             <p className=" font-bold text-lg">{hubT.contentM}</p>
-            <div className="grid  grid-cols-1 lg:grid-cols-4 gap-4 mb-4">
+            <div className="grid  grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
               <div className="space-y-4 text-center border shadow-md rounded-md p-4 bg-extraText text-lightPrime">
                 <p className="text-2xl">{hubT.videoSec}</p>
                 <p className="my-2">{hubT.pdVideos}</p>

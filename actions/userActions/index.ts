@@ -181,3 +181,50 @@ export const removePhone = async (phoneToDelete: string) => {
     },
   });
 };
+
+export const createTeacherProfile = async (formData: FormData) => {
+  console.log(formData);
+  const description = formData.get("description") as string;
+  const bio = formData.get("bio") as string;
+  const graduation = formData.get("graduation") as string;
+  const experience = formData.get("experience") as string;
+  const awards = formData.get("awards") as string;
+  const languages = formData.get("languages") as string;
+  const teacherId = formData.get("teacherId") as string;
+  const languagesArr = languages.split(",");
+  console.log(
+    description,
+    bio,
+    graduation,
+    experience,
+    awards,
+    teacherId,
+    languagesArr
+  );
+  try {
+    const alreadyHasProfile = await prisma.teacherProfile.findUnique({
+      where: {
+        teacherId,
+      },
+    });
+    if (alreadyHasProfile) {
+      throw new Error("There is already a profile for this teacher there!");
+    }
+    const newProfile = await prisma.teacherProfile.create({
+      data: {
+        description,
+        bio,
+        graduation,
+        experience,
+        awards,
+        teacherId,
+        languagesArr,
+      },
+    });
+
+    return "Your teacher profile successfully created";
+  } catch (error: any) {
+    console.log(error);
+    throw new Error(error.message || "An unexpected error occurred");
+  }
+};
