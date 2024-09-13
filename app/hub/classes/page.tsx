@@ -49,9 +49,8 @@ const Classes = ({ searchParams: { teacher } }: Props) => {
   const t = useTranslations("Class");
   const locale = useLocale();
   const { data: classes, isLoading: classesLoading } = useGetClasses();
-  const { data: playlists } = useGetPlaylists();
   const { data: teachersName } = useGetTeacherNames();
-  console.log(playlists);
+
   const [filteredClasses, setFilteredClasses] = useState(classes);
   const searchParams = useSearchParams();
 
@@ -196,7 +195,7 @@ const Classes = ({ searchParams: { teacher } }: Props) => {
             <Skeleton className="w-full h-[250px] rounded-md" />
             <Skeleton className="w-full h-[250px] rounded-md" />
           </>
-        ) : filteredClasses && playlists ? (
+        ) : filteredClasses ? (
           <>
             {filteredClasses?.map((eachClass) => {
               let days = eachClass.days.join(" / ");
@@ -259,41 +258,6 @@ const Classes = ({ searchParams: { teacher } }: Props) => {
                 </Card>
               );
             })}
-            {playlists
-              .filter((playlist) => playlist.type === "private")
-              .map((playlist) => (
-                <Card key={playlist.id} className="text-center ">
-                  <CardHeader className="flex flex-col items-center">
-                    <CardTitle>{playlist.title}</CardTitle>
-                    <Chip label="Playlist" className="w-fit" />
-                  </CardHeader>
-                  <CardContent className=" relative overflow-hidden">
-                    <Meteors />
-                    <div className="flex items-center justify-around gap-4">
-                      <p>{playlist.price}</p>
-                    </div>
-                  </CardContent>
-                  <CardFooter className="flex flex-col gap-2">
-                    <Link href={`#`} className="w-full">
-                      <Button
-                        className="w-full"
-                        onClick={async () => {
-                          const register = await registerPlayList(
-                            playlist.title
-                          );
-                          if (register) {
-                            toast.success(register);
-                          } else {
-                            toast.error(register);
-                          }
-                        }}
-                      >
-                        {t("join")}
-                      </Button>
-                    </Link>
-                  </CardFooter>
-                </Card>
-              ))}
           </>
         ) : (
           <p>There is an error in server</p>
