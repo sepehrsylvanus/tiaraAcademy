@@ -6,6 +6,8 @@ import { Payment } from "@prisma/client";
 
 import axios from "axios";
 import { sendClassSms } from "../class";
+import { time } from "console";
+import { date } from "zod";
 
 export const createNewPayment = async (
   price: number,
@@ -15,21 +17,11 @@ export const createNewPayment = async (
   chosenTime: string,
   chosenDate: Date,
   classId?: string,
-  playlistId?: string,
-  className?: string,
-  playlistName?: string
+
+  className?: string
 ) => {
-  console.log(chosenTime);
-  console.log(
-    price,
-    user,
-    type,
-    chosenTime,
-    classId,
-    playlistId,
-    className,
-    playlistName
-  );
+  console.log(user);
+  console.log(price, user, type, chosenTime, classId, chosenDate, className);
 
   try {
     const targetedClass = await prisma.class.findUnique({
@@ -82,13 +74,12 @@ export const createNewPayment = async (
     const data = {
       merchant_id: process.env.NEXT_PUBLIC_MERCHANT_CODE,
       amount: price * 10,
-      description: `ثبت نام ${playlistName ?? ""} ${className ?? ""}`,
+      description: `ثبت نام ${className ?? ""}`,
       callback_url:
         type === "class" || type === "placement"
           ? `https://tiaraacademy.com/hub/classes/${classId}/paymentRedirect?type=class`
-          : type === "writingCharge"
-          ? `https://tiaraacademy.com/hub/paymentRedirect?type=writingCharge`
-          : `https://tiaraacademy.com/hub/${playlistName}/paymentRedirect?type=playlist`,
+          : type === "writingCharge" &&
+            `https://tiaraacademy.com/hub/paymentRedirect?type=writingCharge`,
       metadata: {
         email: user.email,
         phone: user.pNumber,
@@ -101,19 +92,22 @@ export const createNewPayment = async (
     );
     console.log(res.data);
     if (res.data.data.code === 100) {
+      console.log(chosenDate);
       const newPayment = await prisma.payment.create({
         data: {
-          userId: user.id,
+          user: {
+            connect: { id: user.id },
+          },
           resnumber: res.data.data.authority,
-          price: price,
-          playlistId,
-          classId,
+          price,
+          class: {
+            connect: { id: classId },
+          },
           time: chosenTime,
-          type,
           date: chosenDate,
+          type: "class",
         },
       });
-      console.log(newPayment);
       if (newPayment) {
         return `https://www.zarinpal.com/pg/StartPay/${res.data.data.authority}`;
       } else {
@@ -123,8 +117,8 @@ export const createNewPayment = async (
       throw new Error("Error in connecting with payment gateway");
     }
   } catch (error: any) {
-    console.log(error);
-    throw new Error(error);
+    console.log(error.message);
+    throw new Error(error.message);
   }
 };
 export const verifyPayment = async ({

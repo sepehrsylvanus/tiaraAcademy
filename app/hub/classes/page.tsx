@@ -231,7 +231,11 @@ const Classes = ({ searchParams: { teacher } }: Props) => {
 
                     {eachClass.duration.length > 0 && (
                       <p className="mt-2">
-                        {`${eachClass.duration[0]} | ${eachClass.duration[1]}`}
+                        {`${new Date(
+                          eachClass.duration[0]
+                        ).toLocaleDateString()} | ${new Date(
+                          eachClass.duration[1]
+                        ).toLocaleDateString()}`}
                       </p>
                     )}
                     {eachClass.date && <p>{`${eachClass.date.getDay()}`}</p>}

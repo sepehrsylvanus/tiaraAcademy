@@ -71,6 +71,7 @@ const MyClass = (details: DetailsProps) => {
     queryFn: async () => await getToken(),
   });
   const { data: currentUser, isLoading: currentUserLoading } = useGetUser();
+  console.log(currentUser, currentUserLoading);
   useEffect(() => {
     const fetchRegisteredClasses = async () => {
       const classes = await getRegisterdClasses(params.class, currentUser?.id!);
@@ -85,7 +86,7 @@ const MyClass = (details: DetailsProps) => {
   // FORM OPERATIONS
   console.log(token);
   console.log(currentUser);
-  console.log(singleClass);
+  console.log(singleClass?.duration[0]);
   const registerForm = useForm<z.infer<typeof classValidation>>({
     resolver: zodResolver(classValidation),
   });
@@ -120,7 +121,7 @@ const MyClass = (details: DetailsProps) => {
         classTime,
         selectedDate,
         singleClass?.id,
-        undefined,
+
         singleClass?.title
       );
       router.push(placementPayment!);
@@ -142,16 +143,15 @@ const MyClass = (details: DetailsProps) => {
       setTimeError(t("timeRequired"));
       return;
     }
-
+    console.log(singleClass);
     const makePayment = await createNewPayment(
       Number(singleClass?.price),
       currentUser!,
       "class",
       chosenTime,
-      singleClass?.date!,
+      singleClass?.date! ?? singleClass?.duration[0],
       params.class,
 
-      undefined,
       singleClass?.title
     );
     if (makePayment?.startsWith("https")) {
@@ -273,23 +273,31 @@ const MyClass = (details: DetailsProps) => {
                         <p>
                           {`${singleClass?.days}`} - {`${singleClass?.times}`}
                         </p>
-                        {singleClass?.type !== "group" && (
+                        {singleClass?.type !== "group" &&
+                          singleClass?.type !== "workshop" && (
+                            <p>
+                              {t("startFrom")}{" "}
+                              {locale === "en" &&
+                                `${singleClass?.date.getFullYear()} / ${
+                                  singleClass?.date.getMonth()! + 1
+                                } / ${singleClass?.date.getDate()}`}
+                              {locale === "fa" &&
+                                moment(singleClass?.date)
+                                  .locale("fa")
+                                  .format("YYYY/MM/DD")}
+                            </p>
+                          )}
+                        {(singleClass?.type === "group" ||
+                          singleClass?.type === "workshop") && (
                           <p>
-                            {t("startFrom")}{" "}
-                            {locale === "en" &&
-                              `${singleClass?.date.getFullYear()} / ${
-                                singleClass?.date.getMonth()! + 1
-                              } / ${singleClass?.date.getDate()}`}
-                            {locale === "fa" &&
-                              moment(singleClass?.date)
-                                .locale("fa")
-                                .format("YYYY/MM/DD")}
-                          </p>
-                        )}
-                        {singleClass?.type === "group" && (
-                          <p>
-                            {t("durationFrom")} {singleClass.duration[0]}{" "}
-                            {t("to")} {singleClass.duration[1]}
+                            {t("durationFrom")}{" "}
+                            {new Date(
+                              singleClass.duration[0]
+                            ).toLocaleDateString()}{" "}
+                            {t("to")}{" "}
+                            {new Date(
+                              singleClass.duration[1]
+                            ).toLocaleDateString()}
                           </p>
                         )}
                       </div>

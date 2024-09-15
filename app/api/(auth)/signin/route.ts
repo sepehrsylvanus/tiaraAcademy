@@ -38,7 +38,7 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
     },
     process.env.NEXT_PUBLIC_TOKEN_SERCRET,
     {
-      expiresIn: "1d",
+      expiresIn: "30d",
     }
   );
   if (req.headers.get("apiKey")) {
@@ -48,7 +48,8 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
 
     response.cookies.set("token", token, {
       httpOnly: true,
-      expires: Date.now() + 30 * 24 * 60 * 60 * 1000,
+      expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+      maxAge: 30 * 24 * 60 * 60 * 1000,
     });
 
     return response;

@@ -8,6 +8,7 @@ import { S3 } from "aws-sdk";
 export const getSingleUser = async () => {
   const token = await getToken()!;
   const tokenPayload = verifyToken(token?.value);
+  console.log(token, tokenPayload);
 
   const user = await prisma.user.findUnique({
     where: {
