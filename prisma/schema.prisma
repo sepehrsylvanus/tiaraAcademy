@@ -226,7 +226,7 @@ model Payment {
 
   createdAt DateTime    @default(now())
   updatedAt DateTime    @default(now())
-  time      String
-  date      DateTime
+  time      String?
+  date      DateTime?
   type      PaymentType
 }

@@ -13,9 +13,9 @@ export const createNewPayment = async (
   price: number,
 
   user: User,
-  type: "class" | "playlist" | "writingCharge" | "placement",
-  chosenTime: string,
-  chosenDate: Date,
+  type: "class" | "writingCharge" | "placement",
+  chosenTime?: string,
+  chosenDate?: Date,
   classId?: string,
 
   className?: string
@@ -24,11 +24,53 @@ export const createNewPayment = async (
   console.log(price, user, type, chosenTime, classId, chosenDate, className);
 
   try {
+    if (type === "writingCharge") {
+      const data = {
+        merchant_id: process.env.NEXT_PUBLIC_MERCHANT_CODE,
+        amount: price * 10,
+        description: `ثبت نام ${className ?? ""}`,
+        callback_url:
+          "https://tiaraacademy.com/hub/paymentRedirect?type=writingCharge",
+        metadata: {
+          email: user.email,
+          phone: user.pNumber,
+        },
+      };
+      const res = await axios.post(
+        "https://api.zarinpal.com/pg/v4/payment/request.json",
+        data
+      );
+      if (res.data.data.code === 100) {
+        console.log(chosenDate);
+        const newPayment = await prisma.payment.create({
+          data: {
+            user: {
+              connect: { id: user.id },
+            },
+            resnumber: res.data.data.authority,
+            price,
+
+            time: chosenTime,
+            date: chosenDate,
+            type: "writingCharge",
+          },
+        });
+        if (newPayment) {
+          return `https://www.zarinpal.com/pg/StartPay/${res.data.data.authority}`;
+        } else {
+          throw new Error("Error in creating payment");
+        }
+      } else {
+        throw new Error("Error in connecting with payment gateway");
+      }
+    }
+
     const targetedClass = await prisma.class.findUnique({
       where: {
         id: classId,
       },
     });
+    // HANDLE FREE CLASSES
     if (price === 0) {
       if (classId) {
         const alreadyRegistered = await prisma.classUsers.findMany({
@@ -39,7 +81,7 @@ export const createNewPayment = async (
             capacity: "asc",
           },
         });
-        if (alreadyRegistered.length > 0) {
+        if (alreadyRegistered.length > 0 && chosenTime && chosenDate) {
           await prisma.classUsers.create({
             data: {
               classId,
@@ -50,15 +92,17 @@ export const createNewPayment = async (
             },
           });
         } else {
-          await prisma.classUsers.create({
-            data: {
-              classId,
-              userId: user.id,
-              capacity: targetedClass!.capacity! - 1,
-              time: chosenTime,
-              date: chosenDate.toLocaleDateString(),
-            },
-          });
+          if (chosenTime && chosenDate) {
+            await prisma.classUsers.create({
+              data: {
+                classId,
+                userId: user.id,
+                capacity: targetedClass!.capacity! - 1,
+                time: chosenTime,
+                date: chosenDate.toLocaleDateString(),
+              },
+            });
+          }
         }
         await prisma.notifs.create({
           data: {
@@ -121,6 +165,7 @@ export const createNewPayment = async (
     throw new Error(error.message);
   }
 };
+
 export const verifyPayment = async ({
   user,
   authority,
@@ -194,7 +239,7 @@ export const verifyPayment = async ({
                   time: updatedPayment.time,
                   date:
                     targetedClass?.date?.toString()! ||
-                    targetedPayment?.date.toString()!,
+                    targetedPayment?.date?.toString()!,
                 },
               });
             } else {
@@ -206,7 +251,7 @@ export const verifyPayment = async ({
                   time: updatedPayment.time,
                   date:
                     targetedClass?.date?.toString()! ||
-                    targetedPayment?.date.toString()!,
+                    targetedPayment?.date?.toString()!,
                 },
               });
             }
