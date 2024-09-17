@@ -518,7 +518,7 @@ const CreateClass = () => {
               <Popover>
                 <PopoverTrigger
                   asChild
-                  className="bg-[#c6d9e6] text-lightText px-2 py-2 rounded-md outline-none hover:bg-[#c6d9e6] flex items-center"
+                  className={`bg-[#c6d9e6] text-lightText px-2 py-2 rounded-md outline-none hover:bg-[#c6d9e6] flex items-center `}
                 >
                   <Button
                     variant="outline"

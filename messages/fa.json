@@ -236,7 +236,8 @@
     "timeRequired": "قبل از ثبت نام انتخاب زمان کلاس مورد نظر الزامیست",
     "reserve": "رزرو",
     "alreadyPlacement": "وقت تایین سطح شما تاریخ",
-    "at": "ساعت"
+    "at": "ساعت",
+    "classLink": "لینک کلاس شما"
   },
   "StudentHub": {
     "landingPage": "صفحه نخست",

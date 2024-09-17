@@ -362,6 +362,14 @@ const MyClass = (details: DetailsProps) => {
                           </SelectContent>
                         </Select>
                       )}
+                      {registeredClasses.length > 0 && (
+                        <div>
+                          <p className="h3 mb-0">{t("classLink")}</p>
+                          <Link className="underline" href={singleClass?.link!}>
+                            {singleClass?.link}
+                          </Link>
+                        </div>
+                      )}
                       <p className="mt-3 text-red-500">
                         {timeError ? timeError : ""}
                       </p>

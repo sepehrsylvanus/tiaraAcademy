@@ -36,6 +36,7 @@ export interface Class {
   imageLink?: string;
   imageName?: string;
   createdAt: Date;
+  link: string;
 }
 
 export interface UserProps {
