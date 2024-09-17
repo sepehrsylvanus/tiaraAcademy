@@ -9,39 +9,38 @@ import { getSingleUser, getTeacherProfile } from "@/actions/userActions";
 import { User } from "@/utils/types";
 import { capitalizeFirstLetter } from "@/utils/helperFunctions";
 import PendingTeacher from "@/components/pendingTeacher/PendingTeacher";
+import { getMessages } from "next-intl/server";
 type Params = {
   teacher: string;
 };
 export default async function Component({ params }: { params: Params }) {
-  console.log(params.teacher);
-  const teacherUser = await getSingleUser();
-  console.log(teacherUser);
   const teacherProfile = await getTeacherProfile(params.teacher);
-
+  const translations = (await getMessages()) as any;
+  const t = translations.TeacherProfile;
   if (teacherProfile) {
     return (
       <div className="w-full max-w-5xl mx-auto px-4 md:px-6 py-12 md:py-16">
         <div className="grid md:grid-cols-[200px_1fr] gap-8 md:gap-12">
           <div className="flex justify-center">
             <Avatar className="w-32 h-32">
-              <AvatarImage src={teacherUser?.image!} alt="Teacher Profile" />
-              <AvatarFallback>{`${teacherUser?.fName[0]}${teacherUser?.lName?.[0]}`}</AvatarFallback>
+              <AvatarImage src={teacherProfile?.image!} alt="Teacher Profile" />
+              <AvatarFallback>{`${teacherProfile?.fName?.[0]}${teacherProfile?.lName?.[0]}`}</AvatarFallback>
             </Avatar>
           </div>
           <div className="grid gap-6">
             <div className="space-y-2">
-              <h1 className="text-3xl font-bold">{`${teacherUser?.fName} ${teacherUser?.lName}`}</h1>
+              <h1 className="text-3xl font-bold">{`${teacherProfile?.fName} ${teacherProfile?.lName}`}</h1>
               <p className="text-muted-foreground">
                 {teacherProfile?.description}
               </p>
             </div>
             <div className="grid gap-4">
               <div>
-                <h2 className="text-xl font-semibold">About Me</h2>
+                <h2 className="text-xl font-semibold">{t.aboutMe}</h2>
                 <p className="text-muted-foreground">{teacherProfile?.bio}</p>
               </div>
               <div>
-                <h2 className="text-xl font-semibold">Experiences</h2>
+                <h2 className="text-xl font-semibold">{t.experiences}</h2>
                 <ul className="grid gap-2 text-muted-foreground">
                   <li>
                     <div className="flex items-center gap-2">
@@ -64,9 +63,9 @@ export default async function Component({ params }: { params: Params }) {
                 </ul>
               </div>
               <div>
-                <h2 className="text-xl font-semibold">Languages</h2>
+                <h2 className="text-xl font-semibold">{t.languages}</h2>
                 <ul className="grid gap-2 text-muted-foreground">
-                  {teacherProfile?.languagesArr.map((language, index) => (
+                  {teacherProfile?.languagesArr?.map((language, index) => (
                     <li key={index}>
                       <div className="flex items-center gap-2">
                         <FlagIcon className="w-5 h-5" />
@@ -82,9 +81,9 @@ export default async function Component({ params }: { params: Params }) {
         <Separator className="my-12" />
         <div className="grid gap-12">
           <div>
-            <h2 className="text-2xl font-bold">Classes</h2>
+            <h2 className="text-2xl font-bold">{t.classes}</h2>
             <div className="grid gap-6 mt-6">
-              {teacherUser?.Class.map((cls, index) => (
+              {teacherProfile?.Class?.map((cls, index) => (
                 <div
                   key={index}
                   className="grid md:grid-cols-[1fr_auto] gap-4 items-center"
@@ -110,7 +109,7 @@ export default async function Component({ params }: { params: Params }) {
             </div>
           </div>
           <div>
-            <h2 className="text-2xl font-bold">Articles</h2>
+            <h2 className="text-2xl font-bold">{t.articles}</h2>
             <div className="grid gap-6 mt-6">
               <div className="grid md:grid-cols-[200px_1fr] gap-4">
                 <img
@@ -161,37 +160,34 @@ export default async function Component({ params }: { params: Params }) {
         </div>
         <Separator className="my-12" />
         <div className="grid gap-6">
-          <h2 className="text-2xl font-bold">Contact Me</h2>
+          <h2 className="text-2xl font-bold">{t.contactMe}</h2>
           <div className="grid md:grid-cols-2 gap-6">
             <div className="space-y-4">
-              <p className="text-muted-foreground">
-                Have a question or want to discuss a topic further? Feel free to
-                reach out using the form below.
-              </p>
+              <p className="text-muted-foreground">{t.description}</p>
               <div className="grid gap-2">
-                <Label htmlFor="name">Name</Label>
+                <Label htmlFor="name">{t.name}</Label>
                 <Input id="name" placeholder="Enter your name" />
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email">{t.email}</Label>
                 <Input id="email" type="email" placeholder="Enter your email" />
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="message">Message</Label>
+                <Label htmlFor="message">{t.message}</Label>
                 <Textarea id="message" placeholder="Enter your message" />
               </div>
-              <Button>Send Message</Button>
+              <Button>{t.sendMessage}</Button>
             </div>
             <div className="bg-muted rounded-lg p-6">
-              <h3 className="text-xl font-semibold">Get in Touch</h3>
+              <h3 className="text-xl font-semibold">{t.getInTouch}</h3>
               <div className="grid gap-4 mt-4">
                 <div className="flex items-center gap-2">
                   <MailIcon className="w-5 h-5" />
-                  <span>{teacherUser?.email}</span>
+                  <span>{teacherProfile?.email}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <PhoneIcon className="w-5 h-5" />
-                  <span>{teacherUser?.pNumber}</span>
+                  <span>{teacherProfile?.pNumber}</span>
                 </div>
               </div>
             </div>

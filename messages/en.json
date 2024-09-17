@@ -331,5 +331,19 @@
     "approvalPending": "Approval Pending",
     "title": "This teacher has not been approved yet",
     "description": "The administrator is reviewing this teacher's application. Please check back later."
+  },
+  "TeacherProfile": {
+    "aboutMe": "About Me",
+    "experiences": "Experiences",
+    "languages": "Languages",
+    "classes": "Classes",
+    "articles": "Articles",
+    "contactMe": "Contact Me",
+    "description": "Have a question or want to discuss a topic further? Feel free to reach out using the form below.",
+    "name": "Name",
+    "email": "Email",
+    "message": "Message",
+    "sendMessage": "Send Message",
+    "getInTouch": "Get in Touch"
   }
 }

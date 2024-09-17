@@ -84,7 +84,7 @@ const page = () => {
 
   return (
     <div className="overflow-hidden">
-      <div className="flex flex-col  items-center gap-4 sm:flex-row sm:justify-between sm:px-4 md:pl-[3em]">
+      <div className="flex flex-col  items-center gap-4 sm:flex-row sm:justify-between sm:px-4 md:pl-[5em] md:pr-6">
         <h1 className=" font-bold text-3xl">{t("findATeacher")}</h1>
         <CustomClassTextField
           onChange={handleChange}
