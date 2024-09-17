@@ -19,10 +19,7 @@ import { Axios } from "@/utils/axiosIn";
 import { classesType, privateTimes, publicTimes } from "@/constants";
 import { Switch } from "@/components/ui/switch";
 import { TimePicker } from "@mui/x-date-pickers";
-import DatePicker, {
-  DateObject,
-  getAllDatesInRange,
-} from "react-multi-date-picker";
+import DatePicker, { getAllDatesInRange } from "react-multi-date-picker";
 
 import { Form, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import QuizIcon from "@mui/icons-material/Quiz";
@@ -436,7 +433,10 @@ const CreateClass = () => {
                   <Popover>
                     <PopoverTrigger
                       asChild
-                      className="bg-[#c6d9e6] text-lightText px-2 py-2 rounded-md outline-none hover:bg-[#c6d9e6] flex items-center"
+                      className={`bg-[#c6d9e6] text-lightText px-2 py-2 rounded-md outline-none hover:bg-[#c6d9e6] flex items-center ${
+                        (classType === "placement" || classType === "1v1") &&
+                        "pointer-events-none"
+                      }`}
                     >
                       <Button
                         variant="outline"
