@@ -11,6 +11,7 @@ import DateProvider from "@/providers/DateProvider";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
 import Navbar from "@/components/navbar/Navbar";
+import Link from "next/link";
 const inter = Inter({ subsets: ["latin"] });
 const tajawal = Almarai({ subsets: ["arabic"], weight: ["400", "700"] });
 export const metadata: Metadata = {
@@ -66,6 +67,19 @@ export default async function RootLayout({
           >
             {message.Layout.copyright}
           </p>
+          <Link
+            referrerPolicy="origin"
+            target="_blank"
+            href="https://trustseal.enamad.ir/?id=516151&Code=jCBpwjkJeshetgDotCMZkNrYm2zyiLUy"
+          >
+            <img
+              referrerPolicy="origin"
+              src="https://trustseal.enamad.ir/logo.aspx?id=516151&Code=jCBpwjkJeshetgDotCMZkNrYm2zyiLUy"
+              alt=""
+              style={{ cursor: "pointer" }}
+              data-code="jCBpwjkJeshetgDotCMZkNrYm2zyiLUy"
+            />
+          </Link>
         </body>
       </NextIntlClientProvider>
     </html>

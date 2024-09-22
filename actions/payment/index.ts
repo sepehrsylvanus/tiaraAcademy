@@ -265,7 +265,7 @@ export const verifyPayment = async ({
           }
         }
         if (type === "writingCharge") {
-          const chargeNumber = updatedPayment.price / 6000;
+          const chargeNumber = updatedPayment.price / 199000;
           const alreadyCharged = await prisma.writingCharge.findUnique({
             where: {
               userId: user.id,
@@ -278,7 +278,7 @@ export const verifyPayment = async ({
               },
               data: {
                 writingCharge: {
-                  increment: updatedPayment.price / 6000,
+                  increment: updatedPayment.price / 199000,
                 },
               },
             });
