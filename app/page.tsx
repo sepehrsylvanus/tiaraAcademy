@@ -285,12 +285,20 @@ export default async function Home() {
               Youtube
             </Link>
           </div>
+          <Link
+            referrerPolicy="origin"
+            target="_blank"
+            href="https://trustseal.enamad.ir/?id=516151&Code=jCBpwjkJeshetgDotCMZkNrYm2zyiLUy"
+          >
+            <img
+              referrerPolicy="origin"
+              src="https://trustseal.enamad.ir/logo.aspx?id=516151&Code=jCBpwjkJeshetgDotCMZkNrYm2zyiLUy"
+              alt=""
+              style={{ cursor: "pointer" }}
+              data-code="jCBpwjkJeshetgDotCMZkNrYm2zyiLUy"
+            />
+          </Link>
         </div>
-        <p className="text-center mt-[1.5em] text-sm">
-          {" "}
-          © 2024 Tiara Academy. All rights reserved. Content for educational use
-          only. Website by Sani Development.
-        </p>
       </section>
     </div>
   );

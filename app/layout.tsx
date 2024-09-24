@@ -15,7 +15,7 @@ import Link from "next/link";
 const inter = Inter({ subsets: ["latin"] });
 const tajawal = Almarai({ subsets: ["arabic"], weight: ["400", "700"] });
 export const metadata: Metadata = {
-  title: "Tiara academy - 69628075",
+  title: "Tiara academy",
   description: "Learn english in smart way",
 };
 
@@ -67,19 +67,6 @@ export default async function RootLayout({
           >
             {message.Layout.copyright}
           </p>
-          <Link
-            referrerPolicy="origin"
-            target="_blank"
-            href="https://trustseal.enamad.ir/?id=516151&Code=jCBpwjkJeshetgDotCMZkNrYm2zyiLUy"
-          >
-            <img
-              referrerPolicy="origin"
-              src="https://trustseal.enamad.ir/logo.aspx?id=516151&Code=jCBpwjkJeshetgDotCMZkNrYm2zyiLUy"
-              alt=""
-              style={{ cursor: "pointer" }}
-              data-code="jCBpwjkJeshetgDotCMZkNrYm2zyiLUy"
-            />
-          </Link>
         </body>
       </NextIntlClientProvider>
     </html>
