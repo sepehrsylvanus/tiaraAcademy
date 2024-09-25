@@ -44,6 +44,11 @@ enum PaymentType {
   placement
 }
 
+enum CommentType {
+  comment
+  question
+}
+
 model User {
   id                  String          @id @default(cuid()) @map("_id")
   fName               String
@@ -65,6 +70,7 @@ model User {
   WritingCharge       WritingCharge[]
   Notifs              Notifs[]
   TeacherProfile      TeacherProfile?
+  VideoCourse         VideoCourse[]
 }
 
 model TeacherProfile {
@@ -229,4 +235,37 @@ model Payment {
   time      String?
   date      DateTime?
   type      PaymentType
+}
+
+model VideoCourse {
+  id         String @id @default(cuid()) @map("_id")
+  title      String
+  Creator    User   @relation(fields: [userId], references: [id])
+  userId     String
+  videoCount Int
+
+  VideoCourseSession    VideoCourseSession[]
+  category              VideoCourseCategory  @relation(fields: [videoCourseCategoryId], references: [id])
+  videoCourseCategoryId String
+}
+
+model VideoCourseSession {
+  id            String      @id @default(cuid()) @map("_id")
+  video         String
+  title         String
+  description   String
+  course        VideoCourse @relation(fields: [videoCourseId], references: [id])
+  videoCourseId String
+}
+
+model VideoCourseCategory {
+  id          String        @id @default(cuid()) @map("_id")
+  title       String
+  VideoCourse VideoCourse[]
+}
+
+model Comment {
+  id      String      @id @default(cuid()) @map("_id")
+  comment String
+  type    CommentType
 }
