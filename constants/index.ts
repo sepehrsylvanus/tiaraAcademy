@@ -162,3 +162,40 @@ export const classesType = [
     type: "workshop",
   },
 ];
+export const VideoCourses = [
+  {
+    id: 1,
+    img: "https://picsum.photos/id/237/1080/720",
+    title: "Next.js Fundamentals",
+    teacher_name: "John Doe",
+    video_count: 12,
+  },
+  {
+    id: 2,
+    img: "https://picsum.photos/id/237/1080/720",
+    title: "Mastering React",
+    teacher_name: "Jane Smith",
+    video_count: 18,
+  },
+  {
+    id: 3,
+    img: "https://picsum.photos/id/237/1080/720",
+    title: "Introduction to Node.js",
+    teacher_name: "Michael Johnson",
+    video_count: 10,
+  },
+  {
+    id: 4,
+    img: "https://picsum.photos/id/237/1080/720",
+    title: "Advanced JavaScript",
+    teacher_name: "Emily Davis",
+    video_count: 15,
+  },
+  {
+    id: 5,
+    img: "https://picsum.photos/id/237/1080/720",
+    title: "GraphQL and Apollo",
+    teacher_name: "Robert Wilson",
+    video_count: 8,
+  },
+];
