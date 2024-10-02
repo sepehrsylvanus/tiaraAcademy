@@ -114,6 +114,9 @@ a {
   background-color: #c6d9e6 !important;
   color: #072d44 !important;
 }
+#coursePrevVideo div video {
+  border-radius: 10px;
+}
 @layer base {
   h1 {
     @apply text-3xl font-bold;

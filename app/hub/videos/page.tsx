@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/card";
 import { School, Person, Videocam } from "@mui/icons-material";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const Videos = () => {
   return (
@@ -42,7 +43,7 @@ const Videos = () => {
           </Select>
         </div>
         <div className="w-10/12 border-t border-slate-400 border-dashed mx-auto my-6" />
-        <div className="mx-auto  w-10/12 grid grid-cols-4 gap-6">
+        <div className="mx-auto  w-10/12 grid-cols-1 grid md:grid-cols-4 gap-6">
           {VideoCourses.map((videoCourse) => (
             <Card className="border-extraBg">
               <CardHeader>
@@ -70,9 +71,11 @@ const Videos = () => {
                 </div>
               </CardContent>
               <CardFooter className="mt-2">
-                <Button className="bg-extraBg w-full rounded-3xl hover:text-lightPrime hover:bg-extraText">
-                  View
-                </Button>
+                <Link href={`/hub/videos/${videoCourse.id}`} className="w-full">
+                  <Button className="bg-extraBg w-full rounded-3xl hover:text-lightPrime hover:bg-extraText">
+                    View
+                  </Button>
+                </Link>
               </CardFooter>
             </Card>
           ))}
