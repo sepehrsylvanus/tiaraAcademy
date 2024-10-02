@@ -199,3 +199,15 @@ export const VideoCourses = [
     video_count: 8,
   },
 ];
+export const javascriptLessons = [
+  "Introduction to JavaScript and Setup",
+  "Variables and Data Types",
+  "Operators and Expressions",
+  "Control Flow: Conditional Statements",
+  "Loops: for, while, and do-while",
+  "Functions and Scope",
+  "Objects and Arrays",
+  "DOM Manipulation",
+  "Events and Event Handling",
+  "Asynchronous JavaScript: Promises and Async/Await",
+];
