@@ -9,9 +9,10 @@ import UpdateIcon from "@mui/icons-material/Update";
 import WorkIcon from "@mui/icons-material/Work";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import SchoolIcon from "@mui/icons-material/School";
-import { javascriptLessons } from "@/constants";
+import { javascriptLessons, sampleComments } from "@/constants";
 import Link from "next/link";
-
+import ForumIcon from "@mui/icons-material/Forum";
+import { Separator } from "@/components/ui/separator";
 type SingleVideoProps = {
   params: {
     id: string;
@@ -145,6 +146,53 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
                     <p>{lesson}</p>
                   </div>
                 </Link>
+              ))}
+            </div>
+          </section>
+
+          <section
+            className="bg-cardBg text-lightText p-4  mt-2 rounded-md 
+      "
+          >
+            <div className="flex justify-between">
+              <h2 className="flex gap-2 items-center">
+                <ForumIcon />
+                Comments
+              </h2>
+              <Button>Add a new comment</Button>
+            </div>
+
+            <div className="flex flex-col gap-3 mt-2">
+              {sampleComments.map((comment, index) => (
+                <div className="p-5 rounded-md bg-slate-200">
+                  <div className="flex gap-3 items-center">
+                    <Avatar>
+                      <AvatarImage src="https://github.com/shadcn.png" />
+                      <AvatarFallback>CN</AvatarFallback>
+                    </Avatar>
+                    <div className="flex flex-col">
+                      <p>{comment.name} </p>
+                      <p className="opacity-50">{comment.date}</p>
+                    </div>
+                  </div>
+                  <Separator className="my-2" />
+                  <p>{comment.comment}</p>
+
+                  <div className="rounded-md p-4 bg-white mt-4">
+                    <div className="flex gap-3 items-center">
+                      <Avatar>
+                        <AvatarImage src="https://github.com/shadcn.png" />
+                        <AvatarFallback>CN</AvatarFallback>
+                      </Avatar>
+                      <div className="flex flex-col">
+                        <p>{comment.answer.name} </p>
+                        <p className="opacity-50">{comment.answer.date}</p>
+                      </div>
+                    </div>
+                    <Separator className="my-2" />
+                    {comment.answer.response}
+                  </div>
+                </div>
               ))}
             </div>
           </section>

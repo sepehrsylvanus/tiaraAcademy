@@ -211,3 +211,142 @@ export const javascriptLessons = [
   "Events and Event Handling",
   "Asynchronous JavaScript: Promises and Async/Await",
 ];
+
+export const sampleComments = [
+  {
+    name: "John Doe",
+    date: "2024-09-25",
+    role: "Project Manager",
+    comment:
+      "The project is progressing well, but we need to improve the communication between teams.",
+    answer: {
+      name: "Emily Carter",
+      date: "2024-09-25",
+      role: "Frontend Developer",
+      response:
+        "I agree. Let's schedule a cross-team sync-up to clarify expectations.",
+    },
+  },
+  {
+    name: "Emily Carter",
+    date: "2024-09-26",
+    role: "Frontend Developer",
+    comment:
+      "I’ve completed the UI updates. Let me know if any further changes are required.",
+    answer: {
+      name: "Samantha Lee",
+      date: "2024-09-26",
+      role: "UI/UX Designer",
+      response: "The updates look great! No further changes needed for now.",
+    },
+  },
+  {
+    name: "Michael Brown",
+    date: "2024-09-27",
+    role: "Backend Developer",
+    comment:
+      "The API endpoints are ready. I’m waiting on final approval before deploying.",
+    answer: {
+      name: "David Wilson",
+      date: "2024-09-27",
+      role: "QA Engineer",
+      response:
+        "I’ll start testing the endpoints today and give feedback by the end of the day.",
+    },
+  },
+  {
+    name: "Samantha Lee",
+    date: "2024-09-28",
+    role: "UI/UX Designer",
+    comment:
+      "I’ve shared the updated wireframes. Please review and provide feedback.",
+    answer: {
+      name: "John Doe",
+      date: "2024-09-28",
+      role: "Project Manager",
+      response:
+        "I’ve reviewed them, and they look good! We’ll move forward with these designs.",
+    },
+  },
+  {
+    name: "David Wilson",
+    date: "2024-09-29",
+    role: "QA Engineer",
+    comment:
+      "I’ve found a few bugs in the recent build. Logging them into the bug tracking system.",
+    answer: {
+      name: "Michael Brown",
+      date: "2024-09-29",
+      role: "Backend Developer",
+      response: "Thanks for reporting. I’ll prioritize and fix them today.",
+    },
+  },
+  {
+    name: "Olivia Harris",
+    date: "2024-09-30",
+    role: "Scrum Master",
+    comment:
+      "Let’s ensure the sprint goals are clear before the next stand-up meeting.",
+    answer: {
+      name: "Liam Martinez",
+      date: "2024-09-30",
+      role: "DevOps Engineer",
+      response:
+        "I’ll have my tasks ready for the next sprint and will communicate any blockers.",
+    },
+  },
+  {
+    name: "Liam Martinez",
+    date: "2024-10-01",
+    role: "DevOps Engineer",
+    comment: "The CI/CD pipeline is optimized now. Builds should be faster.",
+    answer: {
+      name: "Michael Brown",
+      date: "2024-10-01",
+      role: "Backend Developer",
+      response: "Thanks! The latest build was noticeably quicker. Great work.",
+    },
+  },
+  {
+    name: "Sophia Clark",
+    date: "2024-10-02",
+    role: "Product Owner",
+    comment:
+      "I’m very happy with the progress so far. Let’s finalize the feature list for the next release.",
+    answer: {
+      name: "John Doe",
+      date: "2024-10-02",
+      role: "Project Manager",
+      response:
+        "I’ll schedule a meeting to discuss the final feature list by tomorrow.",
+    },
+  },
+  {
+    name: "James Lopez",
+    date: "2024-10-02",
+    role: "Marketing Manager",
+    comment:
+      "We need the landing page ready by next week for the campaign launch.",
+    answer: {
+      name: "Emily Carter",
+      date: "2024-10-02",
+      role: "Frontend Developer",
+      response:
+        "I’ll finish the landing page design by Friday for final approval.",
+    },
+  },
+  {
+    name: "Isabella Davis",
+    date: "2024-10-02",
+    role: "Content Writer",
+    comment:
+      "I’ve drafted the content for the blog post. Please check and provide any revisions.",
+    answer: {
+      name: "Sophia Clark",
+      date: "2024-10-02",
+      role: "Product Owner",
+      response:
+        "I’ve reviewed it, and it’s ready to be published with minor adjustments.",
+    },
+  },
+];
