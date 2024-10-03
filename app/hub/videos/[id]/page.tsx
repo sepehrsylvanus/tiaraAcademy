@@ -13,6 +13,7 @@ import { javascriptLessons, sampleComments } from "@/constants";
 import Link from "next/link";
 import ForumIcon from "@mui/icons-material/Forum";
 import { Separator } from "@/components/ui/separator";
+import AddComment from "@/components/addComment/AddComment";
 type SingleVideoProps = {
   params: {
     id: string;
@@ -20,6 +21,7 @@ type SingleVideoProps = {
 };
 const SingleVideo = ({ params }: SingleVideoProps) => {
   const [video, setVideo] = useState<VideoType>();
+  const [openComment, setOpenComment] = useState(false);
   useEffect(() => {
     Axios.get(`/videos/${params.id}`)
       .then((res) => setVideo(res.data))
@@ -159,10 +161,14 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
                 <ForumIcon />
                 Comments
               </h2>
-              <Button>Add a new comment</Button>
+              <Button onClick={() => setOpenComment(true)}>
+                Add a new comment
+              </Button>
             </div>
-
-            <div className="flex flex-col gap-3 mt-2">
+            <div className={`animate-fadeIn ${openComment ? "" : "hidden"}`}>
+              <AddComment setOpenComment={setOpenComment} />
+            </div>
+            <div className="flex flex-col gap-3 mt-4">
               {sampleComments.map((comment, index) => (
                 <div className="p-5 rounded-md bg-slate-200">
                   <div className="flex gap-3 items-center">

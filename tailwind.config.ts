@@ -35,6 +35,10 @@ const config = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        fadeIn: {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
         meteor: {
           "0%": { transform: "rotate(215deg) translateX(0)", opacity: "1" },
           "70%": { opacity: "1" },
@@ -61,6 +65,7 @@ const config = {
         pulse: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
         skeleton: "skeleton 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
         "caret-blink": "caret-blink 1.25s ease-out infinite",
+        fadeIn: "fadeIn 0.3s ease-in-out forwards",
       },
       colors: {
         lightPrime: "#ffffff",
