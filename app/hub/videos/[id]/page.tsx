@@ -146,7 +146,7 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
             </h2>
             <div className="flex flex-col gap-2 mt-2">
               {javascriptLessons.map((lesson, index) => (
-                <Link href={"#"}>
+                <Link href={`/hub/videos/1/23`}>
                   <div
                     key={index}
                     className="bg-white p-4 rounded-md hover:bg-slate-200 transition-all"

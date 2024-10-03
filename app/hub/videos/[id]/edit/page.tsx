@@ -50,9 +50,6 @@ const EditVideoCoursePage: FC<EditVideoProps> = ({ params }) => {
         </div>
         <div id="videoPreview" className="bg-muted rounded-lg overflow-hidden">
           <div className="aspect-video relative">
-            <video className="w-full h-full object-cover">
-              <source src="/placeholder.mp4" type="video/mp4" />
-            </video>
             <div
               className={`absolute inset-0 bg-gradient-to-b from-transparent to-black/50 flex items-end p-4 ${
                 videoUrl ? "hidden" : ""

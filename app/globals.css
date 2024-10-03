@@ -117,6 +117,9 @@ a {
 #coursePrevVideo div video {
   border-radius: 10px;
 }
+#sessionVideoContainer div video {
+  border-radius: 10px;
+}
 @layer base {
   h1 {
     @apply text-3xl font-bold;
