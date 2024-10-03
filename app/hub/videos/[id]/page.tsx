@@ -14,6 +14,7 @@ import Link from "next/link";
 import ForumIcon from "@mui/icons-material/Forum";
 import { Separator } from "@/components/ui/separator";
 import AddComment from "@/components/addComment/AddComment";
+import EditIcon from "@mui/icons-material/Edit";
 type SingleVideoProps = {
   params: {
     id: string;
@@ -46,6 +47,11 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
             className="flex justify-between mt-4 flex-col-reverse md:flex-row items-center"
           >
             <Button className="w-full md:w-auto mt-2 md:mt-0">Buy</Button>
+            <Link href={"/hub/videos/3/edit"} className="w-full md:w-auto">
+              <Button className="w-full md:w-auto mt-2 md:mt-0 flex gap-2">
+                <EditIcon /> Manage this course
+              </Button>
+            </Link>
             <p className="font-bold ">
               <span className="mr-1">425000</span>Toman
             </p>
