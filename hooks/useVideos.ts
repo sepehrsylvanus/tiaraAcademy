@@ -1,12 +1,26 @@
-import { getVideos } from "@/actions/actions";
+import {
+  getSingleVideo,
+  getSingleVideoSession,
+} from "@/actions/videos/videos.action";
 import { useQuery } from "@tanstack/react-query";
 
-export const useGetVideos = () => {
+export const useGetCourseVideosDetails = (id: string) => {
   return useQuery({
-    queryKey: ["getVideos"],
+    queryKey: ["getVideoCourseDetails"],
+
     queryFn: async () => {
-    const videos = await getVideos();
-      return videos;
+      const videoDetails = await getSingleVideo(id);
+      return videoDetails;
+    },
+  });
+};
+
+export const useGetSessionDetails = (id: string) => {
+  return useQuery({
+    queryKey: ["getVideoSessionDetails"],
+    queryFn: async () => {
+      const videoSessionDetails = getSingleVideoSession(id);
+      return videoSessionDetails;
     },
   });
 };

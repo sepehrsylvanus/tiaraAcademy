@@ -20,8 +20,10 @@ import {
 import { School, Person, Videocam } from "@mui/icons-material";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { getAllVideos } from "@/actions/videos/videos.action";
 
-const Videos = () => {
+const Videos = async () => {
+  const videos = await getAllVideos();
   return (
     <div>
       <h1 className="text-center">Video courses</h1>
@@ -43,12 +45,16 @@ const Videos = () => {
           </Select>
         </div>
         <div className="w-10/12 border-t border-slate-400 border-dashed mx-auto my-6" />
-        <div className="mx-auto  w-10/12 grid-cols-1 grid md:grid-cols-4 gap-6">
-          {VideoCourses.map((videoCourse) => (
+        <div
+          className={`mx-auto  w-10/12 ${
+            videos.length > 0 ? "grid-cols-1 grid md:grid-cols-4 gap-6" : ""
+          }`}
+        >
+          {videos.map((videoCourse) => (
             <Card className="border-extraBg">
               <CardHeader>
                 <img
-                  src={videoCourse.img}
+                  src={videoCourse.thumbnailLink}
                   alt={`${videoCourse.title} image`}
                   className="w-full h-full rounded-md"
                 />
@@ -61,11 +67,11 @@ const Videos = () => {
                   </p>
                   <p className="flex rtl:flex-row-reverse gap-2">
                     <Person />
-                    {videoCourse.teacher_name}
+                    {`${videoCourse.teacher.fName} ${videoCourse.teacher.lName}`}
                   </p>
                   <p className="flex rtl:flex-row-reverse gap-2">
                     <Videocam />
-                    {videoCourse.video_count}
+                    {videoCourse.videoCourseSession.length}
                     <span> videos</span>
                   </p>
                 </div>
@@ -79,10 +85,17 @@ const Videos = () => {
               </CardFooter>
             </Card>
           ))}
+          {videos.length === 0 && (
+            <p className="h3 text-center ">There is no videos yet</p>
+          )}
         </div>
-        <div className="flex justify-center">
-          <Button className="rounded-3xl bg-extraBg px-[3em]">Load more</Button>
-        </div>
+        {videos.length > 8 && (
+          <div className="flex justify-center">
+            <Button className="rounded-3xl bg-extraBg px-[3em]">
+              Load more
+            </Button>
+          </div>
+        )}
       </main>
     </div>
   );

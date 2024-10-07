@@ -83,19 +83,6 @@ export interface WritingAnswer {
   createdAt: Date;
   band: string;
 }
-export interface Video {
-  id: string;
-  title: string;
-  videoLink: string | null;
-  bucketKey: string | null;
-  playlistTitle: string;
-  Playlist?: Playlist;
-  caption: string;
-  trend: boolean;
-  creatorId: string;
-  creator?: User;
-  createDate: Date;
-}
 
 export interface Blogs {
   id: string;
@@ -116,11 +103,41 @@ export interface Slide {
   link: string;
 }
 
-export interface Playlist {
+export interface VideoCourseSession {
+  id: string;
   title: string;
-  value: string;
-  type: "private" | "public";
-  price: string | null;
+  video: string;
+  videoCourseId: string;
+  comment: Comment;
+}
+export interface VideoCourse {
+  id: string;
+  title: string;
   description: string;
-  Video?: Video;
+  updatedAt: Date;
+  teacherId: string;
+  teacher: User;
+  explenation: string;
+  videoCourseSession: VideoCourseSession[];
+  comment: Comment[];
+  thumbnailLink: string;
+  price: number;
+}
+export interface Comment {
+  id: string;
+  createdAt: Date;
+  content: string;
+  CommentAnswer: CommentAnswer[];
+  video?: VideoCourse;
+  videoCourseId?: string;
+  videoCourseSession?: VideoCourseSession;
+  videoCourseSessionId?: string;
+}
+
+export interface CommentAnswer {
+  id: string;
+  createdAt: Date;
+  content: string;
+  comment: Comment;
+  commentId: string;
 }

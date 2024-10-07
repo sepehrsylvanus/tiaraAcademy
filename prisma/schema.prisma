@@ -50,27 +50,29 @@ enum CommentType {
 }
 
 model User {
-  id                  String          @id @default(cuid()) @map("_id")
+  id                  String       @id @default(cuid()) @map("_id")
   fName               String
   lName               String?
-  email               String          @unique
+  email               String       @unique
   additionalEmails    String[]
   password            String
-  pNumber             String          @unique
+  pNumber             String       @unique
   addintionalPNumbers String[]
-  role                Role            @default(student)
+  role                Role         @default(student)
   image               String?
   ClassUsers          ClassUsers[]
   Class               Class[]
   Writing             Writing[]
-  PlaylistUsers       PlaylistUsers[]
-  Blog                Blog[]
-  Video               Video[]
-  Payment             Payment[]
-  WritingCharge       WritingCharge[]
-  Notifs              Notifs[]
-  TeacherProfile      TeacherProfile?
-  VideoCourse         VideoCourse[]
+
+  Blog Blog[]
+
+  Payment        Payment[]
+  WritingCharge  WritingCharge[]
+  Notifs         Notifs[]
+  TeacherProfile TeacherProfile?
+  VideoCourse    VideoCourse[]
+  Comment        Comment[]
+  CommentAnswer  CommentAnswer[]
 }
 
 model TeacherProfile {
@@ -120,14 +122,6 @@ model ClassUsers {
   capacity Int
 }
 
-model PlaylistUsers {
-  id            String   @id @default(cuid()) @map("_id")
-  playlistTitle String
-  playlist      Playlist @relation(fields: [playlistTitle], references: [id])
-  userId        String
-  user          User     @relation(fields: [userId], references: [id])
-}
-
 model Writing {
   id            String          @id @default(cuid()) @map("_id")
   creatorId     String
@@ -159,20 +153,6 @@ model WritingCharge {
   writingCharge Int
 }
 
-model Video {
-  id            String   @id @default(cuid()) @map("_id")
-  title         String
-  bucketKey     String?
-  videoLink     String?
-  playlistTitle String
-  Playlist      Playlist @relation(fields: [playlistTitle], references: [title])
-  caption       String
-  creatorId     String
-  creator       User     @relation(fields: [creatorId], references: [id])
-  trend         Boolean  @default(false)
-  createDate    DateTime @default(now())
-}
-
 model Blog {
   id         String   @id @default(cuid()) @map("_id")
   title      String
@@ -190,17 +170,6 @@ model Otp {
   id      String @id @default(cuid()) @map("_id")
   pNumber String @unique
   otp     Int    @unique
-}
-
-model Playlist {
-  id            String          @id @default(cuid()) @map("_id")
-  title         String          @unique
-  type          Type
-  value         String
-  price         String?
-  PlaylistUsers PlaylistUsers[]
-  description   String
-  Video         Video[]
 }
 
 model Category {
@@ -238,34 +207,48 @@ model Payment {
 }
 
 model VideoCourse {
-  id         String @id @default(cuid()) @map("_id")
-  title      String
-  Creator    User   @relation(fields: [userId], references: [id])
-  userId     String
-  videoCount Int
-
-  VideoCourseSession    VideoCourseSession[]
-  category              VideoCourseCategory  @relation(fields: [videoCourseCategoryId], references: [id])
-  videoCourseCategoryId String
+  id                 String               @id @default(cuid()) @map("_id")
+  title              String
+  description        String
+  updatedAt          DateTime             @default(now())
+  teacherId          String
+  teacher            User                 @relation(fields: [teacherId], references: [id])
+  explenation        String
+  videoCourseSession VideoCourseSession[]
+  Comment            Comment[]
+  thumbnailLink      String
+  price              Int
 }
 
 model VideoCourseSession {
   id            String      @id @default(cuid()) @map("_id")
-  video         String
   title         String
-  description   String
+  video         String
   course        VideoCourse @relation(fields: [videoCourseId], references: [id])
   videoCourseId String
-}
-
-model VideoCourseCategory {
-  id          String        @id @default(cuid()) @map("_id")
-  title       String
-  VideoCourse VideoCourse[]
+  Comment       Comment[]
+  createdAt     DateTime    @default(now())
 }
 
 model Comment {
-  id      String      @id @default(cuid()) @map("_id")
-  comment String
-  type    CommentType
+  id                   String              @id @default(cuid()) @map("_id")
+  createdAt            DateTime            @default(now())
+  content              String
+  commentCreator       User                @relation(fields: [commentCreatorId], references: [id])
+  CommentAnswer        CommentAnswer[]
+  video                VideoCourse?        @relation(fields: [videoCourseId], references: [id])
+  videoCourseId        String?
+  videoCourseSession   VideoCourseSession? @relation(fields: [videoCourseSessionId], references: [id])
+  videoCourseSessionId String?
+  commentCreatorId     String
+}
+
+model CommentAnswer {
+  id              String   @id @default(cuid()) @map("_id")
+  createdAt       DateTime @default(now())
+  answerCreator   User     @relation(fields: [answerCreatorId], references: [id])
+  content         String
+  comment         Comment  @relation(fields: [commentId], references: [id])
+  commentId       String
+  answerCreatorId String
 }

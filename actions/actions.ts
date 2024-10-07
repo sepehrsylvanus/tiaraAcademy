@@ -6,7 +6,6 @@ import { getSingleUser } from "./userActions";
 import { User } from "@/utils/types";
 import { requestToBodyStream } from "next/dist/server/body-streams";
 import { ArrowUpward } from "@mui/icons-material";
-import { Type } from "@prisma/client";
 import request from "request";
 type WritingAnswerToSend = {
   band: string;
@@ -236,99 +235,7 @@ export const getTeacherAnswer = async (writingId: string) => {
   });
   return teacherAnswer;
 };
-export const postVideo = async (data: FormData) => {
-  const token = await getToken()!;
-  const currentUser = await getSingleUser();
-  const title = data.get("title") as string;
-  const playlist = data.get("playlists") as string;
-  const video = data.get("video") as File;
-  const caption = data.get("caption") as string;
-  const playlistTitle = data.get("playlists") as string;
-  console.log(playlist);
-  console.log(caption);
-  console.log(video);
-  const bytes = await video.arrayBuffer();
-  console.log(bytes);
-  const buffer = await Buffer.from(bytes);
-  console.log(buffer);
-  const videoData = {
-    title,
 
-    caption,
-    playlistTitle,
-    creatorId: currentUser?.id!,
-  };
-
-  const newvideo = await prisma.video.create({
-    data: videoData,
-  });
-  if (!newvideo) {
-    throw new Error("Video creation interrupted!");
-  }
-  const name = newvideo.id + "." + video.name.split(".").pop();
-
-  try {
-    const s3 = new S3({
-      accessKeyId: process.env.NEXT_PUBLIC_LIARA_ACCESS_KEY_ID,
-      secretAccessKey: process.env.NEXT_PUBLIC_LIARA_SECRET_ACCESS_KEY,
-      endpoint: process.env.NEXT_PUBLIC_LIARA_ENDPOINT,
-    });
-
-    const params = {
-      Bucket: process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME!,
-      Key: name,
-      Body: buffer!,
-    };
-    const response = await s3.upload(params).promise();
-    console.log(response);
-    const permanentSignedUrl = s3.getSignedUrl("getObject", {
-      Bucket: process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME,
-      Key: name,
-      Expires: 31536000, // 1 year
-    });
-    await prisma.video.update({
-      where: {
-        id: newvideo.id,
-      },
-      data: {
-        bucketKey: name,
-        videoLink: permanentSignedUrl,
-      },
-    });
-
-    return "Your video created sucessfully";
-  } catch (error: any) {
-    console.log(error);
-    throw new Error("There is an error in server: ", error);
-  }
-};
-
-export const deleteVideo = async (data: FormData) => {
-  const id = data.get("id") as string;
-
-  const s3 = new S3({
-    accessKeyId: process.env.NEXT_PUBLIC_LIARA_ACCESS_KEY_ID,
-    secretAccessKey: process.env.NEXT_PUBLIC_LIARA_SECRET_ACCESS_KEY,
-    endpoint: process.env.NEXT_PUBLIC_LIARA_ENDPOINT,
-  });
-  const video = await prisma.video.findUnique({
-    where: {
-      id,
-    },
-  });
-
-  const bucketName: string = process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME!;
-
-  await s3
-    .deleteObject({ Bucket: bucketName, Key: video?.bucketKey! })
-    .promise();
-
-  await prisma.video.delete({
-    where: {
-      id: id,
-    },
-  });
-};
 export const deleteArticle = async (id: string) => {
   console.log(id);
   const s3 = new S3({
@@ -353,129 +260,6 @@ export const deleteArticle = async (id: string) => {
       id: id,
     },
   });
-};
-export const getVideos = async () => {
-  const videos = await prisma.video.findMany({
-    include: {
-      creator: true,
-    },
-  });
-  return videos;
-};
-export const getPlaylists = async () => {
-  const playlists = await prisma.playlist.findMany();
-  return playlists;
-};
-
-export const registerPlayList = async (playlistTitle: string) => {
-  const token = await getToken()!;
-  const currentUser = await getSingleUser();
-  const alreadyRegistered = await prisma.playlistUsers.findMany({
-    where: {
-      AND: [{ playlistTitle }, { userId: currentUser?.id }],
-    },
-  });
-  console.log(alreadyRegistered);
-
-  if (alreadyRegistered.length > 0) {
-    return "You already registered for this video class";
-  } else {
-    try {
-      const newRegiter = await prisma.playlistUsers.create({
-        data: {
-          playlistTitle,
-          userId: currentUser?.id!,
-        },
-      });
-      if (newRegiter) {
-        return "You successfully registered for this video class!";
-      }
-    } catch (error: any) {
-      throw new Error(error.message);
-    }
-  }
-};
-
-export const getRegisteredPlaylist = async (playlistTitle: string) => {
-  const token = await getToken()!;
-  const currentUser = await getSingleUser();
-  console.log(playlistTitle);
-  console.log(currentUser?.id);
-  const myPlaylist = await prisma.playlistUsers.findMany({
-    where: {
-      AND: [{ playlistTitle }, { userId: currentUser?.id }],
-    },
-  });
-  console.log(myPlaylist);
-  return myPlaylist;
-};
-
-export const makePlaylist = async (
-  title: string,
-  type: Type,
-  price: string,
-  description: string
-) => {
-  console.log(description);
-  const capitalizedTitle = title.charAt(0).toUpperCase() + title.slice(1);
-  await prisma.playlist.create({
-    data: {
-      title: capitalizedTitle,
-      type,
-      value: title.toLowerCase(),
-      price,
-      description,
-    },
-  });
-};
-export const deletePlaylist = async (title: string) => {
-  console.log(title);
-  try {
-    const oneToDelete = await prisma.playlist.findUnique({
-      where: {
-        title,
-      },
-    });
-    if (!oneToDelete) {
-      throw new Error("Desired playlist hasn't been found");
-    } else {
-      const videosToUpdate = await prisma.video.findMany({
-        where: {
-          playlistTitle: title.toLowerCase(),
-        },
-      });
-      console.log(videosToUpdate);
-
-      if (videosToUpdate) {
-        for (const video of videosToUpdate) {
-          await prisma.video.updateMany({
-            where: {
-              id: video.id,
-            },
-            data: {
-              playlistTitle: title.toLowerCase(),
-            },
-          });
-        }
-      }
-      await prisma.playlist.delete({
-        where: {
-          title,
-        },
-      });
-    }
-  } catch (error: any) {
-    console.log(error.message);
-    throw new Error(error.message);
-  }
-};
-export const getPLaylist = async (title: string) => {
-  const playlist = await prisma.playlist.findFirst({
-    where: {
-      title,
-    },
-  });
-  return playlist;
 };
 
 export const getSingleClass = async (id: string) => {
@@ -717,15 +501,6 @@ export const getSignleArticle = async (id: string) => {
   return article;
 };
 
-export const getSinglePlaylist = async (title: string) => {
-  const myPlaylist = await prisma.playlist.findUnique({
-    where: {
-      title: title.replace("%20", " "),
-    },
-  });
-
-  return myPlaylist;
-};
 export const makeItTrend = async (id: string) => {
   const article = await prisma.blog.findUnique({
     where: {
