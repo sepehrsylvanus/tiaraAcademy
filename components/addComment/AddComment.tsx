@@ -5,7 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "../ui/button";
 import { postComments } from "@/actions/videos/videos.action";
 import { useGetUser } from "@/hooks/useUsers";
-
+import Swal from "sweetalert2";
 interface AddCommentProps {
   setOpenComment: Dispatch<SetStateAction<boolean>>;
   isSession: boolean;
@@ -23,12 +23,35 @@ const AddComment: FC<AddCommentProps> = ({
 }) => {
   const [comment, setComment] = useState("");
   const { data: currentUser, isLoading: currentUserLoading } = useGetUser();
-  const handlePostComment = () => {
+  const handlePostComment = async () => {
     if (currentUser) {
       if (isCourse) {
-        postComments(comment, currentUser.id, courseId);
+        const ifCommentPosted = await postComments(
+          comment,
+          currentUser.id,
+          courseId
+        );
+        if (ifCommentPosted) {
+          Swal.fire({
+            title: "Your comment submitted",
+            text: "And will be published after admins accept it",
+            icon: "success",
+          });
+        }
       } else {
-        postComments(comment, currentUser.id, undefined, sessionId);
+        const ifCommentPosted = await postComments(
+          comment,
+          currentUser.id,
+          undefined,
+          sessionId
+        );
+        if (ifCommentPosted) {
+          Swal.fire({
+            title: "Your comment submitted",
+            text: "And will be published after admins accept it",
+            icon: "success",
+          });
+        }
       }
     }
   };

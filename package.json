@@ -75,6 +75,7 @@
     "react-toastify": "^10.0.5",
     "request": "^2.88.2",
     "svix": "^1.17.0",
+    "sweetalert2": "^11.14.1",
     "swr": "^2.2.4",
     "tailwind-merge": "^2.2.2",
     "tailwindcss-animate": "^1.0.7",
