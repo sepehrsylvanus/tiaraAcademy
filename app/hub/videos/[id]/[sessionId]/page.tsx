@@ -63,7 +63,9 @@ const SingleSession: FC<VideoSessionProps> = ({ params }) => {
                 <AddComment setOpenComment={setOpenComment} />
               </div>
               <div className="flex flex-col gap-3 mt-4">
-                {sessionDetails?.Comment.map((comment, index) => (
+                {sessionDetails?.Comment.sort(
+                  (a, b) => b.createdAt.getTime() - a.createdAt.getTime()
+                ).map((comment, index) => (
                   <div key={index} className="p-5 rounded-md bg-slate-200">
                     <div className="flex gap-3 items-center">
                       <Avatar>
@@ -99,7 +101,9 @@ const SingleSession: FC<VideoSessionProps> = ({ params }) => {
                           <AvatarFallback>CN</AvatarFallback>
                         </Avatar>
                         <div className="flex flex-col">
-                          <p>{comment.CommentAnswer[0].content} </p>
+                          <p>
+                            {`${comment.CommentAnswer[0].answerCreator.fName} ${comment.CommentAnswer[0].answerCreator.lName}`}{" "}
+                          </p>
                           <p className="opacity-50">
                             {comment.CommentAnswer[0].createdAt.toLocaleDateString()}
                           </p>
@@ -110,6 +114,9 @@ const SingleSession: FC<VideoSessionProps> = ({ params }) => {
                     </div>
                   </div>
                 ))}
+                {sessionDetails?.Comment.length === 0 && (
+                  <p>There is no comment yet</p>
+                )}
               </div>
             </section>
           </div>
@@ -121,20 +128,22 @@ const SingleSession: FC<VideoSessionProps> = ({ params }) => {
               <SchoolIcon /> Lessons
             </h2>
             <div className="flex flex-col gap-2 mt-2">
-              {videoDetails?.videoCourseSession.map((lesson, index) => {
-                if (lesson.id !== params.sessionId) {
-                  return (
-                    <Link href={`/hub/videos/${params.id}/${lesson.id}`}>
-                      <div
+              {videoDetails?.videoCourseSession
+                .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())
+                .map((lesson, index) => {
+                  if (lesson.id !== params.sessionId) {
+                    return (
+                      <Link
+                        href={`/hub/videos/${params.id}/${lesson.id}`}
                         key={index}
-                        className="bg-white p-4 rounded-md hover:bg-slate-200 transition-all"
                       >
-                        <p>{lesson.title}</p>
-                      </div>
-                    </Link>
-                  );
-                }
-              })}
+                        <div className="bg-white p-4 rounded-md hover:bg-slate-200 transition-all">
+                          <p>{lesson.title}</p>
+                        </div>
+                      </Link>
+                    );
+                  }
+                })}
             </div>
           </section>
         </div>

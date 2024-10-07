@@ -129,16 +129,18 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
                 <SchoolIcon /> Lessons
               </h2>
               <div className="flex flex-col gap-2 mt-2">
-                {videoDetails?.videoCourseSession.map((lesson, index) => (
-                  <Link href={`/hub/videos/${params.id}/${lesson.id}`}>
-                    <div
-                      key={index}
-                      className="bg-white p-4 rounded-md hover:bg-slate-200 transition-all"
-                    >
-                      <p>{lesson.title}</p>
-                    </div>
-                  </Link>
-                ))}
+                {videoDetails?.videoCourseSession
+                  .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())
+                  .map((lesson, index) => (
+                    <Link href={`/hub/videos/${params.id}/${lesson.id}`}>
+                      <div
+                        key={index}
+                        className="bg-white p-4 rounded-md hover:bg-slate-200 transition-all"
+                      >
+                        <p>{lesson.title}</p>
+                      </div>
+                    </Link>
+                  ))}
                 {videoDetails?.videoCourseSession.length === 0 && (
                   <p>There is no session yet</p>
                 )}
@@ -162,7 +164,9 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
                 <AddComment setOpenComment={setOpenComment} />
               </div>
               <div className="flex flex-col gap-3 mt-4">
-                {videoDetails?.Comment.map((comment, index) => (
+                {videoDetails?.Comment.sort(
+                  (a, b) => b.createdAt.getTime() - a.createdAt.getTime()
+                ).map((comment, index) => (
                   <div className="p-5 rounded-md bg-slate-200" key={index}>
                     <div className="flex gap-3 items-center">
                       <Avatar>
