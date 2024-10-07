@@ -55,3 +55,33 @@ export const getSingleVideoSession = async (id: string) => {
   });
   return sessionDetails;
 };
+export const postComments = async (
+  content: string,
+  commentCreatorId: string,
+  videoCourseId?: string,
+  videoCourseSessionId?: string
+) => {
+  try {
+    if (videoCourseId) {
+      await prisma.comment.create({
+        data: {
+          content,
+          commentCreatorId,
+          videoCourseId,
+        },
+      });
+    } else {
+      await prisma.comment.create({
+        data: {
+          content,
+          commentCreatorId,
+          videoCourseSessionId,
+        },
+      });
+    }
+    return "Your new comment submitted";
+  } catch (error: any) {
+    console.log(error.message);
+    throw new Error(error.message);
+  }
+};

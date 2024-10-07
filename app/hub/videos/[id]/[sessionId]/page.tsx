@@ -60,7 +60,12 @@ const SingleSession: FC<VideoSessionProps> = ({ params }) => {
                 </Button>
               </div>
               <div className={`animate-fadeIn ${openComment ? "" : "hidden"}`}>
-                <AddComment setOpenComment={setOpenComment} />
+                <AddComment
+                  setOpenComment={setOpenComment}
+                  isSession={true}
+                  isCourse={false}
+                  sessionId={params.sessionId}
+                />
               </div>
               <div className="flex flex-col gap-3 mt-4">
                 {sessionDetails?.Comment.sort(

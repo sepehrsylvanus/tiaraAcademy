@@ -14,6 +14,7 @@ import { Separator } from "@/components/ui/separator";
 import AddComment from "@/components/addComment/AddComment";
 import EditIcon from "@mui/icons-material/Edit";
 import { useGetCourseVideosDetails } from "@/hooks/useVideos";
+import { VideoCourses } from "@/constants";
 type SingleVideoProps = {
   params: {
     id: string;
@@ -60,9 +61,7 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
               width={"100%"}
               height={"auto"}
               controls
-              url={
-                "https://infallible-zhukovsky-7f1f128am.storage.iran.liara.space/2024-09-03%2015-50-41.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=342080d4-c2d1-45a3-a670-00ed1438736c%2F20241001%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20241001T134310Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=fc19a6da63646068eb4a1f4aff95a318ccf4a58c0bf5a9a013c86373c074baa1"
-              }
+              url={videoDetails?.videoCourseSession[0].video}
             />
           </div>
         </section>
@@ -161,7 +160,12 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
                 </Button>
               </div>
               <div className={`animate-fadeIn ${openComment ? "" : "hidden"}`}>
-                <AddComment setOpenComment={setOpenComment} />
+                <AddComment
+                  setOpenComment={setOpenComment}
+                  isCourse={true}
+                  isSession={false}
+                  courseId={params.id}
+                />
               </div>
               <div className="flex flex-col gap-3 mt-4">
                 {videoDetails?.Comment.sort(
@@ -190,13 +194,13 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
                     <Separator className="my-2" />
                     <p>{comment.content}</p>
 
-                    {comment.CommentAnswer && (
+                    {comment.CommentAnswer.length > 0 && (
                       <div className="rounded-md p-4 bg-white mt-4">
                         <div className="flex gap-3 items-center">
                           <Avatar>
                             <AvatarImage
                               src={`${
-                                comment.CommentAnswer[0].answerCreator.image ??
+                                comment.CommentAnswer[0]?.answerCreator.image ??
                                 "https://github.com/shadcn.png"
                               }`}
                             />
@@ -204,15 +208,15 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
                           </Avatar>
                           <div className="flex flex-col">
                             <p>
-                              {`${comment.CommentAnswer[0].answerCreator.fName} ${comment.CommentAnswer[0].answerCreator.lName}`}{" "}
+                              {`${comment.CommentAnswer[0]?.answerCreator.fName} ${comment.CommentAnswer[0]?.answerCreator.lName}`}{" "}
                             </p>
                             <p className="opacity-50">
-                              {comment.CommentAnswer[0].createdAt.toLocaleDateString()}
+                              {comment.CommentAnswer[0]?.createdAt.toLocaleDateString()}
                             </p>
                           </div>
                         </div>
                         <Separator className="my-2" />
-                        {comment.CommentAnswer[0].content}
+                        {comment.CommentAnswer[0]?.content}
                       </div>
                     )}
                   </div>

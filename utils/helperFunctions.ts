@@ -18,7 +18,7 @@ export const formatTimeFromNow = (createdAt: Date): string => {
     return `${seconds} second${seconds !== 1 ? "s" : ""} ago`;
   }
 };
-function debounce<T extends (...args: any[]) => void>(
+export function debounce<T extends (...args: any[]) => void>(
   func: T,
   delay: number = 1000
 ): (...args: Parameters<T>) => void {
