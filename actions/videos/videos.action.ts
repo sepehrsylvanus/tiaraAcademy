@@ -40,6 +40,18 @@ export const getSingleVideoSession = async (id: string) => {
     where: {
       id,
     },
+    include: {
+      Comment: {
+        include: {
+          CommentAnswer: {
+            include: {
+              answerCreator: true,
+            },
+          },
+          commentCreator: true,
+        },
+      },
+    },
   });
   return sessionDetails;
 };

@@ -63,34 +63,50 @@ const SingleSession: FC<VideoSessionProps> = ({ params }) => {
                 <AddComment setOpenComment={setOpenComment} />
               </div>
               <div className="flex flex-col gap-3 mt-4">
-                {sampleComments.map((comment, index) => (
-                  <div className="p-5 rounded-md bg-slate-200">
+                {sessionDetails?.Comment.map((comment, index) => (
+                  <div key={index} className="p-5 rounded-md bg-slate-200">
                     <div className="flex gap-3 items-center">
                       <Avatar>
-                        <AvatarImage src="https://github.com/shadcn.png" />
+                        <AvatarImage
+                          src={
+                            comment.commentCreator.image ??
+                            "https://github.com/shadcn.png"
+                          }
+                        />
                         <AvatarFallback>CN</AvatarFallback>
                       </Avatar>
                       <div className="flex flex-col">
-                        <p>{comment.name} </p>
-                        <p className="opacity-50">{comment.date}</p>
+                        <p>
+                          {`${comment.commentCreator.fName} ${comment.commentCreator.lName}`}{" "}
+                        </p>
+                        <p className="opacity-50">
+                          {comment.createdAt.toLocaleDateString()}
+                        </p>
                       </div>
                     </div>
                     <Separator className="my-2" />
-                    <p>{comment.comment}</p>
+                    <p>{comment.content}</p>
 
                     <div className="rounded-md p-4 bg-white mt-4">
                       <div className="flex gap-3 items-center">
                         <Avatar>
-                          <AvatarImage src="https://github.com/shadcn.png" />
+                          <AvatarImage
+                            src={
+                              comment.CommentAnswer[0].answerCreator.image ??
+                              "https://github.com/shadcn.png"
+                            }
+                          />
                           <AvatarFallback>CN</AvatarFallback>
                         </Avatar>
                         <div className="flex flex-col">
-                          <p>{comment.answer.name} </p>
-                          <p className="opacity-50">{comment.answer.date}</p>
+                          <p>{comment.CommentAnswer[0].content} </p>
+                          <p className="opacity-50">
+                            {comment.CommentAnswer[0].createdAt.toLocaleDateString()}
+                          </p>
                         </div>
                       </div>
                       <Separator className="my-2" />
-                      {comment.answer.response}
+                      {comment.CommentAnswer[0].content}
                     </div>
                   </div>
                 ))}
@@ -105,16 +121,20 @@ const SingleSession: FC<VideoSessionProps> = ({ params }) => {
               <SchoolIcon /> Lessons
             </h2>
             <div className="flex flex-col gap-2 mt-2">
-              {javascriptLessons.map((lesson, index) => (
-                <Link href={`/hub/videos/1/23`}>
-                  <div
-                    key={index}
-                    className="bg-white p-4 rounded-md hover:bg-slate-200 transition-all"
-                  >
-                    <p>{lesson}</p>
-                  </div>
-                </Link>
-              ))}
+              {videoDetails?.videoCourseSession.map((lesson, index) => {
+                if (lesson.id !== params.sessionId) {
+                  return (
+                    <Link href={`/hub/videos/${params.id}/${lesson.id}`}>
+                      <div
+                        key={index}
+                        className="bg-white p-4 rounded-md hover:bg-slate-200 transition-all"
+                      >
+                        <p>{lesson.title}</p>
+                      </div>
+                    </Link>
+                  );
+                }
+              })}
             </div>
           </section>
         </div>
