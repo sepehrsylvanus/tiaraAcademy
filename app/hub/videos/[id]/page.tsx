@@ -41,7 +41,10 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
               className="flex justify-between mt-4 flex-col-reverse md:flex-row items-center"
             >
               <Button className="w-full md:w-auto mt-2 md:mt-0">Buy</Button>
-              <Link href={"/hub/videos/3/edit"} className="w-full md:w-auto">
+              <Link
+                href={`/hub/videos/${params.id}/edit`}
+                className="w-full md:w-auto"
+              >
                 <Button className="w-full md:w-auto mt-2 md:mt-0 flex gap-2">
                   <EditIcon /> Manage this course
                 </Button>
@@ -54,15 +57,20 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
 
           <div
             id="coursePrevVideo"
-            className="order-1
-        "
+            className={`order-1 ${
+              !videoDetails?.videoCourseSession[0]?.video &&
+              "grid place-content-center"
+            }`}
           >
             <ReactPlayer
               width={"100%"}
               height={"auto"}
               controls
-              url={videoDetails?.videoCourseSession[0].video}
+              url={videoDetails?.videoCourseSession[0]?.video}
             />
+            {!videoDetails?.videoCourseSession[0]?.video && (
+              <p className="font-bold text-lg">There is no preview yet</p>
+            )}
           </div>
         </section>
 

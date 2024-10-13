@@ -14,6 +14,7 @@ import {
   TableCell,
 } from "@/components/ui/table";
 import ReactPlayer from "react-player";
+import { useGetCourseVideosDetails, usePostSession } from "@/hooks/useVideos";
 
 interface EditVideoProps {
   params: {
@@ -23,13 +24,30 @@ interface EditVideoProps {
 const EditVideoCoursePage: FC<EditVideoProps> = ({ params }) => {
   console.log(params);
   const [videoUrl, setVideoUrl] = useState<string>();
-
+  const [rawvideo, setRawvideo] = useState<File>();
+  const [sessionTitle, setSessionTitle] = useState<string>("");
+  const [duration, setDuration] = useState<number>();
+  const { data: videoDetails, isLoading: videoDetailsLoading } =
+    useGetCourseVideosDetails(params.id);
+  const { mutate: postSession, isPending: sessionLoading } = usePostSession();
+  const courseSessions = videoDetails?.videoCourseSession;
+  console.log(courseSessions);
   const handleVideoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
       const videoURL = URL.createObjectURL(file);
       setVideoUrl(videoURL);
+      setRawvideo(file);
     }
+  };
+
+  const handleAddSession = () => {
+    const newSessionFormData = new FormData();
+    newSessionFormData.set("video", rawvideo!);
+    newSessionFormData.set("title", sessionTitle);
+    newSessionFormData.set("duration", duration!.toString());
+    newSessionFormData.set("videoCourseId", params.id);
+    postSession(newSessionFormData);
   };
 
   return (
@@ -43,10 +61,25 @@ const EditVideoCoursePage: FC<EditVideoProps> = ({ params }) => {
           </div>
           <div className="grid gap-2">
             <Label htmlFor="title">Title</Label>
-            <Input id="title" placeholder="Enter video title" />
+            <Input
+              id="title"
+              placeholder="Enter video title"
+              onChange={(e) => setSessionTitle(e.target.value)}
+            />
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="duration">Duration</Label>
+            <Input
+              id="duration"
+              type="number"
+              placeholder="Enter video duration in minutes"
+              onChange={(e) => setDuration(parseInt(e.target.value, 10))}
+            />
           </div>
 
-          <Button className="w-full">Add Video</Button>
+          <Button className="w-full" onClick={handleAddSession}>
+            {sessionLoading ? "Loading..." : "Add Session"}
+          </Button>
         </div>
         <div id="videoPreview" className="bg-muted rounded-lg overflow-hidden">
           <div className="aspect-video relative">
@@ -70,24 +103,36 @@ const EditVideoCoursePage: FC<EditVideoProps> = ({ params }) => {
       </div>
       <div className="mt-8">
         <h2 className="text-2xl font-bold mb-4">Other Sessions</h2>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="text-start">Session ID</TableHead>
-              <TableHead className="text-start">Name</TableHead>
-              <TableHead className="text-start">Duration</TableHead>
-              <TableHead className="text-start">Date</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            <TableRow>
-              <TableCell>123456789</TableCell>
-              <TableCell>John Doe</TableCell>
-              <TableCell>45 minutes</TableCell>
-              <TableCell>2023-04-15</TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
+        {courseSessions?.length === 0 ||
+          (!courseSessions && (
+            <p className="text-center font-bold text-lg">
+              No sessions available
+            </p>
+          ))}
+        {courseSessions && courseSessions?.length > 0 && (
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="text-start">Session ID</TableHead>
+                <TableHead className="text-start">Name</TableHead>
+                <TableHead className="text-start">Duration</TableHead>
+                <TableHead className="text-start">Date</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {courseSessions?.map((session) => (
+                <TableRow key={session.id}>
+                  <TableCell>{session.id}</TableCell>
+                  <TableCell>{session.title}</TableCell>
+                  <TableCell>{session.duration}</TableCell>
+                  <TableCell>
+                    {session.createdAt.toLocaleDateString()}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        )}
       </div>
     </div>
   );

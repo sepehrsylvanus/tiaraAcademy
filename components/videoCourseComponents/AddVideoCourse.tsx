@@ -75,7 +75,7 @@ const AddVideoCourse = () => {
     resolver: zodResolver(courseDetailsForm),
     defaultValues: {
       title: "",
-      price: 0,
+
       description: "",
       explenation: "",
     },

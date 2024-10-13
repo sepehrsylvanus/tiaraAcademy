@@ -229,6 +229,7 @@ model VideoCourseSession {
   videoCourseId String
   Comment       Comment[]
   createdAt     DateTime    @default(now())
+  duration      Int
 }
 
 model Comment {

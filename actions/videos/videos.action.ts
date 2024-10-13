@@ -104,6 +104,7 @@ export const createVideoCourse = async (formData: FormData) => {
     const imageName = new Date().toString() + image.name;
     const materialsName = new Date().toString() + materials.name;
     const thumbnailBit = await image.arrayBuffer();
+
     const thumbnailBuffer = Buffer.from(thumbnailBit);
     const materialbut = await materials.arrayBuffer();
     const materialsBuffer = Buffer.from(materialbut);
@@ -142,6 +143,52 @@ export const createVideoCourse = async (formData: FormData) => {
       },
     });
     return "Your video course has been created";
+  } catch (error: any) {
+    console.log(error.message);
+    throw new Error(error.message);
+  }
+};
+
+export const createVideoCourseSession = async (formData: FormData) => {
+  console.log(formData);
+  const video = formData.get("video") as File;
+  const title = formData.get("title") as string;
+  const duration = formData.get("duration") as string;
+  const useFullDuration = parseInt(duration);
+  const videoCourseId = formData.get("videoCourseId") as string;
+  console.log(video, title, useFullDuration);
+  const rawDuration = Number(duration);
+  try {
+    const s3 = new S3({
+      accessKeyId: process.env.NEXT_PUBLIC_LIARA_ACCESS_KEY_ID,
+      secretAccessKey: process.env.NEXT_PUBLIC_LIARA_SECRET_ACCESS_KEY,
+      endpoint: process.env.NEXT_PUBLIC_LIARA_ENDPOINT,
+    });
+    const videoName = new Date().toString() + video.name;
+    const videoBit = await video.arrayBuffer();
+    const videoBuffer = Buffer.from(videoBit);
+    const params = {
+      Bucket: process.env.Next_PUBLIC_LIARA_BUCKET_NAME!,
+      Key: videoName,
+      Body: videoBuffer,
+    };
+    const response = await s3.upload(params).promise();
+    const videoLink = s3.getSignedUrl("getObject", {
+      Bucket: process.env.Next_PUBLIC_LIARA_BUCKET_NAME!,
+      Key: videoName,
+      Expires: 31536000, // 1 year
+    });
+    const newSession = await prisma.videoCourseSession.create({
+      data: {
+        title,
+        videoCourseId,
+        duration: rawDuration,
+        video: videoLink,
+      },
+    });
+    if (newSession) {
+      return "Session added successfully";
+    }
   } catch (error: any) {
     console.log(error.message);
     throw new Error(error.message);

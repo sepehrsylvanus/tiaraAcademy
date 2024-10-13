@@ -22,14 +22,6 @@ import CreateVideo from "@/components/reusableComponents/CreateVideo";
 import DeleteArticle from "@/components/reusableComponents/DeleteArticle";
 import DeleteVideoCourse from "@/components/videoCourseComponents/DeleteVideoCourse";
 import AddVideoCourse from "@/components/videoCourseComponents/AddVideoCourse";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 
 const Hub = async () => {
   const token = await getToken();
