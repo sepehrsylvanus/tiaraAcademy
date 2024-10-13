@@ -170,37 +170,15 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
               <div className="flex flex-col gap-3 mt-4">
                 {videoDetails?.Comment.sort(
                   (a, b) => b.createdAt.getTime() - a.createdAt.getTime()
-                ).map((comment, index) => (
-                  <div className="p-5 rounded-md bg-slate-200" key={index}>
-                    <div className="flex gap-3 items-center">
-                      <Avatar>
-                        <AvatarImage
-                          src={`${
-                            comment.commentCreator.image ??
-                            "https://github.com/shadcn.png"
-                          }`}
-                        />
-                        <AvatarFallback>CN</AvatarFallback>
-                      </Avatar>
-                      <div className="flex flex-col">
-                        <p>
-                          {`${comment.commentCreator.fName} ${comment.commentCreator.lName}`}{" "}
-                        </p>
-                        <p className="opacity-50">
-                          {comment.createdAt.toLocaleDateString()}
-                        </p>
-                      </div>
-                    </div>
-                    <Separator className="my-2" />
-                    <p>{comment.content}</p>
-
-                    {comment.CommentAnswer.length > 0 && (
-                      <div className="rounded-md p-4 bg-white mt-4">
+                ).map((comment, index) => {
+                  if (comment.verified) {
+                    return (
+                      <div className="p-5 rounded-md bg-slate-200" key={index}>
                         <div className="flex gap-3 items-center">
                           <Avatar>
                             <AvatarImage
                               src={`${
-                                comment.CommentAnswer[0]?.answerCreator.image ??
+                                comment.commentCreator.image ??
                                 "https://github.com/shadcn.png"
                               }`}
                             />
@@ -208,19 +186,45 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
                           </Avatar>
                           <div className="flex flex-col">
                             <p>
-                              {`${comment.CommentAnswer[0]?.answerCreator.fName} ${comment.CommentAnswer[0]?.answerCreator.lName}`}{" "}
+                              {`${comment.commentCreator.fName} ${comment.commentCreator.lName}`}{" "}
                             </p>
                             <p className="opacity-50">
-                              {comment.CommentAnswer[0]?.createdAt.toLocaleDateString()}
+                              {comment.createdAt.toLocaleDateString()}
                             </p>
                           </div>
                         </div>
                         <Separator className="my-2" />
-                        {comment.CommentAnswer[0]?.content}
+                        <p>{comment.content}</p>
+
+                        {comment.CommentAnswer.length > 0 && (
+                          <div className="rounded-md p-4 bg-white mt-4">
+                            <div className="flex gap-3 items-center">
+                              <Avatar>
+                                <AvatarImage
+                                  src={`${
+                                    comment.CommentAnswer[0]?.answerCreator
+                                      .image ?? "https://github.com/shadcn.png"
+                                  }`}
+                                />
+                                <AvatarFallback>CN</AvatarFallback>
+                              </Avatar>
+                              <div className="flex flex-col">
+                                <p>
+                                  {`${comment.CommentAnswer[0]?.answerCreator.fName} ${comment.CommentAnswer[0]?.answerCreator.lName}`}{" "}
+                                </p>
+                                <p className="opacity-50">
+                                  {comment.CommentAnswer[0]?.createdAt.toLocaleDateString()}
+                                </p>
+                              </div>
+                            </div>
+                            <Separator className="my-2" />
+                            {comment.CommentAnswer[0]?.content}
+                          </div>
+                        )}
                       </div>
-                    )}
-                  </div>
-                ))}
+                    );
+                  }
+                })}
                 {videoDetails?.Comment.length === 0 && (
                   <p>There is no comment yet</p>
                 )}

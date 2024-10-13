@@ -15,7 +15,6 @@ import { UserProps } from "@/utils/types";
 
 import ClerkAvatar from "../reusableComponents/ClerkAvatar";
 import { CircularProgress } from "@mui/material";
-import { useGetPlaylists } from "@/hooks/usePlayList";
 import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium";
 import { useTranslations } from "next-intl";
 const Sidebar = () => {
@@ -23,8 +22,6 @@ const Sidebar = () => {
   const [token, setToken] = useState<string>();
   const [user, setUser] = useState<UserProps>();
 
-  const { data: playlists, isLoading, error } = useGetPlaylists();
-  console.log(playlists);
   useEffect(() => {
     const retrieveToken = async () => {
       const token = await getToken();

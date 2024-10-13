@@ -218,6 +218,7 @@ model VideoCourse {
   Comment            Comment[]
   thumbnailLink      String
   price              Int
+  materialsLink      String
 }
 
 model VideoCourseSession {
@@ -241,6 +242,7 @@ model Comment {
   videoCourseSession   VideoCourseSession? @relation(fields: [videoCourseSessionId], references: [id])
   videoCourseSessionId String?
   commentCreatorId     String
+  verified             Boolean             @default(false)
 }
 
 model CommentAnswer {

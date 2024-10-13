@@ -24,8 +24,6 @@ const DeleteArticle = () => {
   });
 
   function onSubmit(values: z.infer<typeof deleeteArticleForm>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
     console.log(values);
   }
   return (
@@ -38,11 +36,11 @@ const DeleteArticle = () => {
           control={form.control}
           name="id"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="w-full">
               <FormControl>
                 <Input
-                  className="w-full"
-                  placeholder="Enter Your article id"
+                  className="w-10/12 bg-[#c6d9e6] outline-none border-none text-lightText"
+                  placeholder="Enter Your article id..."
                   {...field}
                 />
               </FormControl>

@@ -3,23 +3,13 @@
 import { Button } from "@/components/ui/button";
 
 import React, { ChangeEvent, useEffect, useState } from "react";
-import {
-  deleteCategory,
-  deletePlaylist,
-  makeArticle,
-  makeCategories,
-  makePlaylist,
-  postVideo,
-} from "@/actions/actions";
+import { deleteCategory, makeArticle, makeCategories } from "@/actions/actions";
 import { toast } from "react-toastify";
 import {
   CircularProgress,
   FormControl,
-  FormControlLabel,
   InputLabel,
   MenuItem,
-  Radio,
-  RadioGroup,
   Select,
 } from "@mui/material";
 import { SelectChangeEvent } from "@mui/material/Select";
@@ -30,8 +20,6 @@ import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { Add, Delete } from "@mui/icons-material";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { useGetPlaylists } from "@/hooks/usePlayList";
-import { Type } from "@prisma/client";
 import { useGetCategory } from "@/hooks/useCategory";
 import { useTranslations } from "next-intl";
 
@@ -40,7 +28,7 @@ const CreateVideo = ({ title }: { title: string }) => {
   const [playlist, setPlaylist] = useState<string[]>([]);
   const [caption, setCaption] = useState("");
   const [playlistTitle, setPlaylistTitle] = useState<string>();
-  const [playlistType, setPlaylistType] = useState<Type>("public");
+
   const [playlistPrice, setPlaylistPrice] = useState("");
   const [playlistDescription, setPlaylistDescription] = useState("");
   const t = useTranslations("videoBox");
@@ -51,42 +39,13 @@ const CreateVideo = ({ title }: { title: string }) => {
 
     setPlaylist(selectedPlaylists);
   };
-  const { data: playlists } = useGetPlaylists();
-  console.log(playlist);
+
   const { data: categories } = useGetCategory();
   useEffect(() => {
     console.log(playlistDescription);
   }, [playlistDescription]);
 
   const queryClient = useQueryClient();
-  const mutation = useMutation({
-    mutationFn: ({
-      title,
-      type,
-      price,
-      description,
-    }: {
-      title: string;
-      type: Type;
-      price: string;
-      description: string;
-    }) => makePlaylist(title, type, price, description),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["getPlaylist"] });
-      toast.success(t("newPlaylist"));
-    },
-  });
-  const deleteMutation = useMutation({
-    mutationFn: (title: string) => deletePlaylist(title),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["getPlaylist"] });
-      toast.success(t("playlistDelete"));
-    },
-    onError: (error) => {
-      console.log(error.message);
-      toast.error(error.message);
-    },
-  });
 
   const deleteCatMutation = useMutation({
     mutationFn: async (title: string) => await deleteCategory(title),
@@ -103,63 +62,8 @@ const CreateVideo = ({ title }: { title: string }) => {
     },
   });
 
-  const handleSubmit = async (e: ChangeEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setLoading(true);
-
-    const formData = new FormData(e.currentTarget);
-    console.log(formData);
-    console.log(title);
-    formData.set("caption", caption);
-    const myCaption = formData.get("caption");
-
-    console.log(myCaption);
-    try {
-      if (title === "video") {
-        console.log("here");
-
-        await postVideo(formData);
-        toast.success(`-${title}- ${t("uploadedSuccess")}`);
-      } else if (title === "article") {
-        await makeArticle(formData);
-        console.log(formData);
-        toast.success(`-${title}- ${t("uploadedSuccess")}`);
-      }
-    } catch (error) {
-      toast.error(t("videoUpError") + error);
-    } finally {
-      setLoading(false);
-    }
-  };
-  const handleMakePlayList = () => {
-    if (playlistTitle) {
-      const playlistData = {
-        title: playlistTitle,
-        type: playlistType!,
-        price: playlistPrice,
-        description: playlistDescription,
-      };
-      if (title === "video") {
-        mutation.mutate(playlistData);
-      } else {
-        createCatMutation.mutate(playlistData);
-      }
-    } else {
-      console.error("Playlist title is undefined.");
-    }
-  };
-  const handleDeletePlayList = () => {
-    if (playlistTitle && title === "video") {
-      deleteMutation.mutate(playlistTitle);
-    } else if (title === "article") {
-      deleteCatMutation.mutate(playlistTitle!);
-    } else {
-      console.error("There is error in deletion");
-    }
-  };
-
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col space-y-3">
+    <form className="flex flex-col space-y-3">
       <input
         className="formInput w-full"
         placeholder={t("title")}
@@ -183,43 +87,6 @@ const CreateVideo = ({ title }: { title: string }) => {
             className="w-full bg-transparent border-none outline-none"
             onChange={(e) => setPlaylistTitle(e.target.value)}
           />
-          {title === "video" && (
-            <div>
-              <RadioGroup
-                row
-                defaultValue={playlistType}
-                onChange={(e) => {
-                  if (
-                    e.target.value === "private" ||
-                    e.target.value === "public"
-                  ) {
-                    setPlaylistType(e.target.value);
-                  }
-                }}
-              >
-                <FormControlLabel
-                  value="public"
-                  control={<Radio />}
-                  label={t("public")}
-                />
-                <FormControlLabel
-                  value="private"
-                  control={<Radio />}
-                  label={t("private")}
-                />
-              </RadioGroup>
-              {playlistType === "private" && (
-                <input
-                  type="text"
-                  placeholder={t("price")}
-                  name=""
-                  id=""
-                  className="w-full bg-transparent border-none outline-none"
-                  onChange={(e) => setPlaylistPrice(e.target.value)}
-                />
-              )}
-            </div>
-          )}
 
           {title === "video" && (
             <input
@@ -231,18 +98,6 @@ const CreateVideo = ({ title }: { title: string }) => {
               className="w-full bg-transparent border-none outline-none border-trans"
             />
           )}
-        </div>
-        <div
-          onClick={handleDeletePlayList}
-          className=" hover:scale-125 transition cursor-pointer"
-        >
-          <Delete />
-        </div>
-        <div
-          onClick={handleMakePlayList}
-          className=" hover:scale-125 transition cursor-pointer"
-        >
-          <Add />
         </div>
       </div>
 
@@ -263,13 +118,6 @@ const CreateVideo = ({ title }: { title: string }) => {
           name="playlists"
           sx={{ backgroundColor: "#c6d9e6", textAlign: "start" }}
         >
-          {title === "video" &&
-            playlists?.map((playlist) => (
-              <MenuItem key={playlist.value} value={playlist.value}>
-                {playlist.title}
-              </MenuItem>
-            ))}
-
           {title === "article" &&
             categories?.map((category) => (
               <MenuItem key={category.value} value={category.value}>
@@ -281,11 +129,7 @@ const CreateVideo = ({ title }: { title: string }) => {
 
       <CKEditor
         editor={ClassicEditor}
-        data={
-          title === "video"
-            ? `<p>${t("eraseWrite")} ❤️</p>`
-            : `<p>${t("eraseWriteArticle")} ❤️</p> `
-        }
+        data={`<p>${t("eraseWriteArticle")} ❤️</p> `}
         onChange={(event, editor) => {
           console.log(editor.getData());
           setCaption(editor.getData());

@@ -1,11 +1,9 @@
-import { getNotifs, getToken } from "@/actions/actions";
+import { getToken } from "@/actions/actions";
 import StudentHub from "@/components/studentHub/StudentHub";
 
 import { Avatar, Divider } from "@mui/material";
 import React from "react";
 
-import DeleteVideo from "@/components/reusableComponents/DeleteVideo";
-import CreateVideo from "@/components/reusableComponents/CreateVideo";
 import DeleteClass from "@/components/reusableComponents/DeleteClass";
 import CreateClass from "@/components/reusableComponents/CreateClass";
 import { getSingleUser } from "@/actions/userActions";
@@ -20,6 +18,18 @@ import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { getMessages } from "next-intl/server";
 import Notifs from "@/components/Notifs";
 import CreateTeacherProfile from "@/components/createTeacherProfile/CreateTeacherProfile";
+import CreateVideo from "@/components/reusableComponents/CreateVideo";
+import DeleteArticle from "@/components/reusableComponents/DeleteArticle";
+import DeleteVideoCourse from "@/components/videoCourseComponents/DeleteVideoCourse";
+import AddVideoCourse from "@/components/videoCourseComponents/AddVideoCourse";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const Hub = async () => {
   const token = await getToken();
@@ -68,17 +78,20 @@ const Hub = async () => {
           <div className="mt-6">
             <p className=" font-bold text-lg">{hubT.contentM}</p>
             <div className="grid  grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
-              <div className="space-y-4 text-center border shadow-md rounded-md p-4 bg-extraText text-lightPrime">
+              <div
+                id="videoEdit"
+                className="space-y-4 text-center border shadow-md rounded-md p-4 bg-extraText text-lightPrime"
+              >
                 <p className="text-2xl">{hubT.videoSec}</p>
                 <p className="my-2">{hubT.pdVideos}</p>
 
                 <div>
                   <p className="mb-2 text-start font-bold">{hubT.dVideo}</p>
-                  <DeleteVideo title="video" />
+                  <DeleteVideoCourse />
                 </div>
                 <div>
                   <p className="mb-2 text-start font-bold">{hubT.cVideos}</p>
-                  <CreateVideo title="video" />
+                  <AddVideoCourse />
                 </div>
               </div>
 
@@ -89,13 +102,16 @@ const Hub = async () => {
                 <CreateClass />
               </div>
 
-              <div className="space-y-4 text-center border shadow-md rounded-md p-4 bg-extraText text-lightPrime">
+              <div
+                id="articleEdit"
+                className="space-y-4 text-center border shadow-md rounded-md p-4 bg-extraText text-lightPrime"
+              >
                 <p className="text-2xl">{hubT.articleSec}</p>
                 <p className="my-2">{hubT.pdArticles}</p>
 
                 <div>
                   <p className="mb-2 text-start font-bold">{hubT.dAticle}</p>
-                  <DeleteVideo title="article" />
+                  <DeleteArticle />
                 </div>
                 <div>
                   <p className="mb-2 text-start font-bold">{hubT.cArticle}</p>
