@@ -18,68 +18,28 @@ export default async function Home() {
   const language = await getLocale();
 
   return (
-    <div className={`${styles.container} bg-lightPrime `}>
+    <div
+      className={`${styles.container} bg-lightPrime flex flex-col items-center `}
+    >
       <Navbar />
-      <section id="services" className={`${styles.header} bg-lightPrime`}>
-        <div className={`${styles.leftHeader} bg-lightPrime text-extraText`}>
-          <p
-            style={{ marginBottom: "2em", fontWeight: 700 }}
-            className=" text-lightText"
-          >
-            {message.Hero.introduction}
-          </p>
-          <p className=" text-4xl font-bold md:text-5xl lg:text-6xl text-lightText">
-            <span>{message.Hero.academy}</span>
-            <br className="hidden md:block" />
-            <span> {message.Hero.smart}</span>
-            <br className="hidden md:block" />
-            <span>{message.Hero.learning}</span>
-          </p>
-          <p style={{ marginBottom: "1em" }} className="text-lightText">
-            {message.Hero.description}
-          </p>
-          <div className="flex gap-4 items-center flex-col md:flex-row ">
-            <Button className=" cursor-default hover:scale-110 hover:border-lightText border rounded border-lightText bg-transparent text-lightText mb-4">
-              <Link href={"#howToUse"}>{message.Hero.seeHowItWorks}</Link>
-            </Button>
-          </div>
-        </div>
-
-        <div className=" hidden md:block">
-          <Image
-            src="/Online-communication-skills.png"
-            alt={message.Hero.introImageAlt}
-            width={400}
-            height={500}
+      {/* <section
+        id="services"
+        className={`${styles.header} bg-lightPrime flex justify-center`}
+      >
+        <Link href={"/"}>
+          <img
+            src="/introduction.jpeg"
+            alt="introduction"
+            className="aspect-video mx-auto "
           />
-        </div>
+        </Link>
       </section>
       <Divider sx={{ margin: "1em 0" }} />
 
       <section
         id="howToUse"
         className={`${styles.joinCommunity} bg-lightPrime`}
-      >
-        <div className={styles.joinComLeft}>
-          <h4
-            style={{ fontWeight: 700, fontSize: 40 }}
-            className="  text-center w-screen"
-          >
-            {message.Guidance.guidance}
-          </h4>
-          <p className="text-center mb-4">{message.Guidance.description}</p>
-        </div>
-        <div className="hidden md:block mb-4">
-          <Image
-            src={
-              "https://images.pexels.com/photos/8618062/pexels-photo-8618062.jpeg?auto=compress&cs=tinysrgb&w=600"
-            }
-            alt="Join Community"
-            width={400}
-            height={400}
-          />
-        </div>
-      </section>
+      ></section>
       <Divider sx={{ margin: "1em 0" }} />
       <section className={styles.secondService}>
         <div className="hidden md:block">
@@ -299,7 +259,22 @@ export default async function Home() {
             />
           </Link>
         </div>
-      </section>
+      </section> */}
+      <Link href={"#"}>
+        <img src="/introduction.jpeg" alt="" className="w-screen" />
+      </Link>
+      <Link href={"/hub/classes"}>
+        <img src="/onlineCourses.jpeg" alt="" className="w-screen" />
+      </Link>
+      <Link href={"/hub/videos"}>
+        <img src="/onlinevideos.jpeg" alt="" className="w-screen" />
+      </Link>
+      <Link href={"/hub/writing"}>
+        <img src="/writing.jpeg" alt="" className="w-screen" />
+      </Link>
+      <Link href={"/hub/blogs"}>
+        <img src="/reading.jpeg" alt="" className="w-screen" />
+      </Link>
     </div>
   );
 }
