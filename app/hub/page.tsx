@@ -22,6 +22,7 @@ import CreateVideo from "@/components/reusableComponents/CreateVideo";
 import DeleteArticle from "@/components/reusableComponents/DeleteArticle";
 import DeleteVideoCourse from "@/components/videoCourseComponents/DeleteVideoCourse";
 import AddVideoCourse from "@/components/videoCourseComponents/AddVideoCourse";
+import CommentsTable from "@/components/commentsTable/CommentsTable";
 
 const Hub = async () => {
   const token = await getToken();
@@ -136,6 +137,8 @@ const Hub = async () => {
                 </div>
               </div>
             )}
+            {(currentUser?.role.includes("admin") ||
+              currentUser?.role.includes("adminTeacher")) && <CommentsTable />}
           </div>
         </div>
       )}

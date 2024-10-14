@@ -108,41 +108,44 @@ export const createVideoCourse = async (formData: FormData) => {
     const thumbnailBuffer = Buffer.from(thumbnailBit);
     const materialbut = await materials.arrayBuffer();
     const materialsBuffer = Buffer.from(materialbut);
-    const params = {
-      Bucket: process.env.Next_PUBLIC_LIARA_BUCKET_NAME!,
-      Key: imageName,
-      Body: thumbnailBuffer,
-    };
-    const params2 = {
-      Bucket: process.env.Next_PUBLIC_LIARA_BUCKET_NAME!,
-      Key: materialsName,
-      Body: materialsBuffer,
-    };
+    console.log(process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME);
+    if (process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME) {
+      const params = {
+        Bucket: process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME!,
+        Key: imageName,
+        Body: thumbnailBuffer,
+      };
+      const params2 = {
+        Bucket: process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME!,
+        Key: materialsName,
+        Body: materialsBuffer,
+      };
 
-    const response1 = await s3.upload(params).promise();
-    const response2 = await s3.upload(params2).promise();
-    const thumbnailLink = s3.getSignedUrl("getObject", {
-      Bucket: process.env.Next_PUBLIC_LIARA_BUCKET_NAME!,
-      Key: imageName,
-      Expires: 31536000, // 1 year
-    });
-    const materialsLink = s3.getSignedUrl("getObject", {
-      Bucket: process.env.Next_PUBLIC_LIARA_BUCKET_NAME!,
-      Key: materialsName,
-      Expires: 31536000, // 1 year
-    });
-    const newVideoCourse = await prisma.videoCourse.create({
-      data: {
-        title: normalValues.title,
-        description: normalValues.description,
-        teacherId: currentUser!.id,
-        explenation: normalValues.explenation,
-        thumbnailLink,
-        price: normalValues.price,
-        materialsLink,
-      },
-    });
-    return "Your video course has been created";
+      const response1 = await s3.upload(params).promise();
+      const response2 = await s3.upload(params2).promise();
+      const thumbnailLink = s3.getSignedUrl("getObject", {
+        Bucket: process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME!,
+        Key: imageName,
+        Expires: 31536000, // 1 year
+      });
+      const materialsLink = s3.getSignedUrl("getObject", {
+        Bucket: process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME!,
+        Key: materialsName,
+        Expires: 31536000, // 1 year
+      });
+      const newVideoCourse = await prisma.videoCourse.create({
+        data: {
+          title: normalValues.title,
+          description: normalValues.description,
+          teacherId: currentUser!.id,
+          explenation: normalValues.explenation,
+          thumbnailLink,
+          price: normalValues.price,
+          materialsLink,
+        },
+      });
+      return "Your video course has been created";
+    }
   } catch (error: any) {
     console.log(error.message);
     throw new Error(error.message);
@@ -168,13 +171,13 @@ export const createVideoCourseSession = async (formData: FormData) => {
     const videoBit = await video.arrayBuffer();
     const videoBuffer = Buffer.from(videoBit);
     const params = {
-      Bucket: process.env.Next_PUBLIC_LIARA_BUCKET_NAME!,
+      Bucket: process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME!,
       Key: videoName,
       Body: videoBuffer,
     };
     const response = await s3.upload(params).promise();
     const videoLink = s3.getSignedUrl("getObject", {
-      Bucket: process.env.Next_PUBLIC_LIARA_BUCKET_NAME!,
+      Bucket: process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME!,
       Key: videoName,
       Expires: 31536000, // 1 year
     });
@@ -188,6 +191,36 @@ export const createVideoCourseSession = async (formData: FormData) => {
     });
     if (newSession) {
       return "Session added successfully";
+    }
+  } catch (error: any) {
+    console.log(error.message);
+    throw new Error(error.message);
+  }
+};
+
+export const postVideoCourse = async (
+  id: string,
+  type: string,
+  content: string
+) => {
+  const currentUser = await getSingleUser();
+  try {
+    if (type === "videoCourse") {
+      await prisma.comment.create({
+        data: {
+          content,
+          videoCourseId: id,
+          commentCreatorId: currentUser?.id!,
+        },
+      });
+    } else if (type === "videoCourseSession") {
+      await prisma.comment.create({
+        data: {
+          content,
+          videoCourseSessionId: id,
+          commentCreatorId: currentUser?.id!,
+        },
+      });
     }
   } catch (error: any) {
     console.log(error.message);

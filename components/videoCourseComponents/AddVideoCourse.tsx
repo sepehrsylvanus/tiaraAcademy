@@ -35,6 +35,7 @@ const courseDetailsForm = z.object({
   explenation: z.string(),
 });
 const AddVideoCourse = () => {
+  const [loading, setLoading] = useState(false);
   const [materialsFile, setMaterialsFile] = useState<File>();
   // COURSE IMAGE CHOOSING
   const [selectedImage, setSelectedImage] = useState<string>();
@@ -85,6 +86,7 @@ const AddVideoCourse = () => {
     reValidateMode: "onBlur",
   });
   async function onSubmit(values: z.infer<typeof courseDetailsForm>) {
+    setLoading(true);
     const videoCourseFormData = new FormData();
     videoCourseFormData.set("normalValues", JSON.stringify(values));
     videoCourseFormData.set("image", thumbnailRaw!);
@@ -94,6 +96,7 @@ const AddVideoCourse = () => {
     console.log(ifCourseCreated);
     if (ifCourseCreated) {
       toast.success(ifCourseCreated);
+      setLoading(false);
     }
   }
 
@@ -254,7 +257,7 @@ const AddVideoCourse = () => {
         />
 
         <Button type="submit" className="col-span-2">
-          Submit
+          {loading ? "Loading..." : "Submit"}
         </Button>
       </form>
     </Form>

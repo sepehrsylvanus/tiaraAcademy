@@ -15,6 +15,7 @@ import AddComment from "@/components/addComment/AddComment";
 import EditIcon from "@mui/icons-material/Edit";
 import { useGetCourseVideosDetails } from "@/hooks/useVideos";
 import { VideoCourses } from "@/constants";
+import { useGetUser } from "@/hooks/useUsers";
 type SingleVideoProps = {
   params: {
     id: string;
@@ -24,7 +25,7 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
   const [openComment, setOpenComment] = useState(false);
   const { data: videoDetails, isLoading: videoDetailsLoading } =
     useGetCourseVideosDetails(params.id);
-  console.log(videoDetails?.Comment);
+  const { data: currentUser, isLoading: currentUserLoading } = useGetUser();
 
   if (!videoDetailsLoading) {
     return (
@@ -41,14 +42,16 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
               className="flex justify-between mt-4 flex-col-reverse md:flex-row items-center"
             >
               <Button className="w-full md:w-auto mt-2 md:mt-0">Buy</Button>
-              <Link
-                href={`/hub/videos/${params.id}/edit`}
-                className="w-full md:w-auto"
-              >
-                <Button className="w-full md:w-auto mt-2 md:mt-0 flex gap-2">
-                  <EditIcon /> Manage this course
-                </Button>
-              </Link>
+              {!currentUserLoading && currentUser?.role !== "student" && (
+                <Link
+                  href={`/hub/videos/${params.id}/edit`}
+                  className="w-full md:w-auto"
+                >
+                  <Button className="w-full md:w-auto mt-2 md:mt-0 flex gap-2">
+                    <EditIcon /> Manage this course
+                  </Button>
+                </Link>
+              )}
               <p className="font-bold ">
                 <span className="mr-1">{videoDetails?.price}</span>Toman
               </p>
