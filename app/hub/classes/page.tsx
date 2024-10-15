@@ -29,14 +29,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { getToken, registerPlayList } from "@/actions/actions";
+import { getToken } from "@/actions/actions";
 import { getSingleUser } from "@/actions/userActions";
 import { Axios } from "@/utils/axiosIn";
-import { useGetPlaylists } from "@/hooks/usePlayList";
 import { useGetClasses } from "@/hooks/useClasses";
 import { date } from "zod";
 import { useGetTeacherNames } from "@/hooks/useUsers";
 import { useLocale, useTranslations } from "next-intl";
+import { convertDaysToPersian } from "@/utils/helperFunctions";
 type Props = {
   searchParams: {
     teacher: string;
@@ -57,6 +57,7 @@ const Classes = ({ searchParams: { teacher } }: Props) => {
   if (classes) {
     console.log(classes);
   }
+  console.log(classes?.[0].days);
   useEffect(() => {
     if (classes) {
       setFilteredClasses(classes);
@@ -198,7 +199,7 @@ const Classes = ({ searchParams: { teacher } }: Props) => {
         ) : filteredClasses ? (
           <>
             {filteredClasses?.map((eachClass) => {
-              let days = eachClass.days.join(" / ");
+              let days = eachClass.days;
               console.log(eachClass.duration);
               return (
                 <Card
@@ -226,7 +227,10 @@ const Classes = ({ searchParams: { teacher } }: Props) => {
                     </div>
 
                     <p className=" font-semibold mt-2">
-                      {days || "There is no dedicated day for this class"}
+                      {locale === "en"
+                        ? days
+                        : convertDaysToPersian(days) ||
+                          "There is no dedicated day for this class"}
                     </p>
 
                     {eachClass.duration.length > 0 && (

@@ -9,12 +9,13 @@ import { getMessages } from "next-intl/server";
 const PdfSection = async () => {
   const messages = (await getMessages()) as any;
   const hubT = messages.Hub;
-  console.log(hubT);
   let loading = true;
   let writings: Writings[] = await getWritings();
   if (writings) {
     loading = false;
   }
+  console.log(writings);
+
   return (
     <div className="pdfs max-h-[480px] overflow-y-auto rounded-md shadow-md p-2 flex flex-col bg-extraText text-lightPrime ">
       {loading ? (
@@ -28,17 +29,21 @@ const PdfSection = async () => {
           } px-2 gap-3 items-center py-3 m-2 rounded-md ring-1 ring-lightPrime`}
         >
           {writings?.length > 0 ? (
-            writings?.map((writing, index) => (
-              <div
-                key={writing.id}
-                className={`${
-                  index < writings.length - 1 &&
-                  " border-r border-dashed border-slate-200 pr-6 mr-2"
-                } w-full`}
-              >
-                <EachWritingCard writing={writing} />
-              </div>
-            ))
+            writings?.map((writing, index) => {
+              if (writing.writingAnswer.length > 0) {
+                return (
+                  <div
+                    key={writing.id}
+                    className={`${
+                      index < writings.length - 1 &&
+                      " border-r border-dashed border-slate-200 pr-6 mr-2"
+                    } w-full`}
+                  >
+                    <EachWritingCard writing={writing} />
+                  </div>
+                );
+              }
+            })
           ) : (
             <p className="text-center">{hubT.noWriting}</p>
           )}

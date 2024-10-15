@@ -1,4 +1,7 @@
-import { formatTimeFromNow } from "@/utils/helperFunctions";
+import {
+  formatDateToStandard,
+  formatTimeFromNow,
+} from "@/utils/helperFunctions";
 import { Notifs, NotifType } from "@prisma/client";
 import { UserCheckIcon, UserPlusIcon } from "lucide-react";
 import { FC, useState } from "react";
@@ -31,7 +34,9 @@ const NotifTab: FC<NotifTabProps> = ({ data, value }) => {
               "
           >
             <p className="rtl:text-end">{notif.title}</p>
-            <p className="rtl:text-end">{formatTimeFromNow(notif.createdAt)}</p>
+            <p className="rtl:text-end">
+              {formatDateToStandard(notif.createdAt)}
+            </p>
           </div>
         </div>
       ))}

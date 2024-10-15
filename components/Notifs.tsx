@@ -7,7 +7,10 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { formatTimeFromNow } from "@/utils/helperFunctions";
+import {
+  formatDateToStandard,
+  formatTimeFromNow,
+} from "@/utils/helperFunctions";
 import { NotifType } from "@prisma/client";
 import { useGetNotifs, useReadNotif } from "@/hooks/useNotifs";
 import { useTranslations } from "next-intl";
@@ -16,7 +19,7 @@ const Notifs = () => {
   const t = useTranslations("Hub");
   const { data: notifs } = useGetNotifs();
   const { mutate: readNotif } = useReadNotif();
-
+  console.log(notifs);
   return (
     <Popover>
       <PopoverTrigger>
@@ -47,7 +50,7 @@ const Notifs = () => {
                   <div className="flex flex-col items-center">
                     <p className="font-medium">{notif.title}</p>
                     <p className="text-sm text-muted-foreground">
-                      {formatTimeFromNow(notif.createdAt)}
+                      {formatDateToStandard(notif.createdAt)}
                     </p>
                   </div>
                   <div className="w-4 h-4 rounded-full bg-blue-500" />
