@@ -24,11 +24,18 @@ export const DELETE = async (req: NextRequest, { params }: ParamsProps) => {
       }
 
       try {
+        await prisma.classUsers.deleteMany({
+          where: {
+            classId: params.id,
+          },
+        });
+
         const classToDelete = await prisma.class.delete({
           where: {
             id: params.id,
           },
         });
+
         if (classToDelete?.imageName) {
           const s3 = new S3({
             accessKeyId: process.env.NEXT_PUBLIC_LIARA_ACCESS_KEY_ID,
