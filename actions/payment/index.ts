@@ -109,6 +109,7 @@ export const createNewPayment = async (
             title: `${user.fName} ${user.lName} with id ${user.id} registered in ${targetedClass?.title} class`,
             type: "joinClass",
             userId: user.id,
+            classId: targetedClass?.id,
           },
         });
       }
@@ -260,6 +261,7 @@ export const verifyPayment = async ({
                 title: `${user.fName} ${user.lName} with id ${user.id} registered in ${targetedClass?.title} class`,
                 type: "joinClass",
                 userId: user.id,
+                classId: targetedClass?.id,
               },
             });
           }

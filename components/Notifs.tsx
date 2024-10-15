@@ -52,6 +52,7 @@ const Notifs = () => {
                     <p className="text-sm text-muted-foreground">
                       {formatDateToStandard(notif.createdAt)}
                     </p>
+                    <p>{notif.cls?.title}</p>
                   </div>
                   <div className="w-4 h-4 rounded-full bg-blue-500" />
                 </div>

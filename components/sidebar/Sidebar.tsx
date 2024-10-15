@@ -81,21 +81,22 @@ const Sidebar = () => {
           <AccessTimeIcon />
           <p className={styles.menuText}>{t("classes")}</p>
         </Link>
+        <Link href={"/hub/videos"} className={styles.iconContainer}>
+          <OndemandVideoIcon />
+          <p className={styles.menuText}>{t("videos")}</p>
+        </Link>
         <Link href={"/hub/writing"} className={styles.iconContainer}>
           <EditNoteIcon />
           <p className={styles.menuText}>{t("writing")}</p>
-        </Link>
-        <Link href={"/hub/teachers"} className={styles.iconContainer}>
-          <PeopleIcon />
-          <p className={styles.menuText}>{t("teachers")}</p>
         </Link>
         <Link href={"/hub/blogs"} className={styles.iconContainer}>
           <NoteAltIcon />
           <p className={styles.menuText}>{t("blog")}</p>
         </Link>
-        <Link href={"/hub/videos"} className={styles.iconContainer}>
-          <OndemandVideoIcon />
-          <p className={styles.menuText}>{t("videos")}</p>
+
+        <Link href={"/hub/teachers"} className={styles.iconContainer}>
+          <PeopleIcon />
+          <p className={styles.menuText}>{t("teachers")}</p>
         </Link>
       </div>
     </div>

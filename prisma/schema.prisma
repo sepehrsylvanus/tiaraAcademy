@@ -109,6 +109,7 @@ model Class {
   createdAt     DateTime     @default(now())
   Payment       Payment[]
   link          String
+  Notifs        Notifs[]
 }
 
 model ClassUsers {
@@ -187,6 +188,8 @@ model Notifs {
   user      User      @relation(fields: [userId], references: [id])
   createdAt DateTime  @default(now())
   userId    String
+  classId   String?
+  cls       Class?    @relation(fields: [classId], references: [id])
 }
 
 model Payment {

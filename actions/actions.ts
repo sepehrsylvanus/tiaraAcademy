@@ -523,6 +523,9 @@ export const getNotifs = async () => {
       where: {
         status: "unread",
       },
+      include: {
+        cls: true,
+      },
     });
 
     return unreadNotifs;
@@ -538,6 +541,9 @@ export const getAllNotifs = async (userId: string) => {
       userId: {
         startsWith: userId,
       },
+    },
+    include: {
+      cls: true,
     },
   });
   return notifs;

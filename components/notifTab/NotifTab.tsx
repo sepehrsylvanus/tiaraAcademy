@@ -37,6 +37,7 @@ const NotifTab: FC<NotifTabProps> = ({ data, value }) => {
             <p className="rtl:text-end">
               {formatDateToStandard(notif.createdAt)}
             </p>
+            <p>{notif.cls.title}</p>
           </div>
         </div>
       ))}
