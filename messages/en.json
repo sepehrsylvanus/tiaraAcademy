@@ -268,7 +268,8 @@
     "myWritings": "My Writings",
     "view": "View",
     "noWriting": "You don't have any submitted writing. You can create one in",
-    "writeHere": "Write Here"
+    "writeHere": "Write Here",
+    "enter": "Enter"
   },
   "ForgetPass": {
     "description": "Here you can change your password and get a new one",

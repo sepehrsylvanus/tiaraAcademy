@@ -123,7 +123,7 @@ const MyCourses = () => {
                 </div>
                 <Link href={`/hub/classes/${myCourse.id}`}>
                   <Button size="sm" className="mt-4">
-                    Join
+                    {t('enter')}
                   </Button>
                 </Link>
               </CardContent>

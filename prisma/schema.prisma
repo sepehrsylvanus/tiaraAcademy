@@ -136,6 +136,7 @@ model Writing {
   status        WritingStatus   @default(pending)
   writingAnswer writingAnswer[]
   writingLink   String?
+  createdAt     DateTime        @default(now())
 }
 
 model writingAnswer {

@@ -61,6 +61,7 @@ export interface Writings {
   status: "pending" | "checked";
   writingAnswer: WritingAnswer[];
   writingLink?: string | null;
+  createdAt: Date;
 }
 export interface WritingsToShow {
   writing: Writings;
