@@ -42,7 +42,9 @@ const SingleBlog = (params: ParamsProps) => {
               )}
             </div>
             <div
-              className="main   md:px-[6em] gap-[2.5em]"
+              className={`main   md:px-[6em] gap-[2.5em] ${
+                article.english && "text-end"
+              }`}
               dangerouslySetInnerHTML={{ __html: article?.text }}
             />
           </div>

@@ -167,6 +167,7 @@ model Blog {
   authorId   String
   bucketKey  String?
   trend      Boolean  @default(false)
+  english    Boolean  @default(false)
 }
 
 model Otp {

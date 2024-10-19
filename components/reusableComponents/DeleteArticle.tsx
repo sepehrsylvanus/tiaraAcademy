@@ -14,6 +14,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { deleteArticle } from "@/actions/article";
+import { toast } from "react-toastify";
 const deleeteArticleForm = z.object({
   id: z.string(),
 });
@@ -23,8 +25,13 @@ const DeleteArticle = () => {
     resolver: zodResolver(deleeteArticleForm),
   });
 
-  function onSubmit(values: z.infer<typeof deleeteArticleForm>) {
+  async function onSubmit(values: z.infer<typeof deleeteArticleForm>) {
     console.log(values);
+    const ifDeleted = await deleteArticle(values.id);
+    if (ifDeleted) {
+      toast.warning("Article deleted successfully");
+      form.reset();
+    }
   }
   return (
     <Form {...form}>
