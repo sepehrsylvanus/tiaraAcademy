@@ -73,6 +73,7 @@ model User {
   VideoCourse    VideoCourse[]
   Comment        Comment[]
   CommentAnswer  CommentAnswer[]
+  CoursePayment  CoursePayment[]
 }
 
 model TeacherProfile {
@@ -258,4 +259,13 @@ model CommentAnswer {
   comment         Comment  @relation(fields: [commentId], references: [id])
   commentId       String
   answerCreatorId String
+}
+
+model CoursePayment {
+  id        String  @id @default(cuid()) @map("_id")
+  courseId  String
+  user      User    @relation(fields: [userId], references: [id])
+  userId    String
+  resnumber String  @unique
+  verified  Boolean @default(false)
 }

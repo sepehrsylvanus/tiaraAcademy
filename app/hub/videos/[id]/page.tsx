@@ -13,20 +13,62 @@ import ForumIcon from "@mui/icons-material/Forum";
 import { Separator } from "@/components/ui/separator";
 import AddComment from "@/components/addComment/AddComment";
 import EditIcon from "@mui/icons-material/Edit";
-import { useGetCourseVideosDetails } from "@/hooks/useVideos";
+import {
+  useGetCourseVideosDetails,
+  useGetVerifiedCoursePayment,
+} from "@/hooks/useVideos";
 import { VideoCourses } from "@/constants";
 import { useGetUser } from "@/hooks/useUsers";
+import { useRouter } from "next/navigation";
+import { buyVideoCourse, getVerifiedCoursePayment } from "@/actions/payment";
 type SingleVideoProps = {
   params: {
     id: string;
   };
 };
+
+type verifiedCourse = {
+  id: string;
+  courseId: string;
+  userId: string;
+  resnumber: string;
+  verified: boolean;
+};
 const SingleVideo = ({ params }: SingleVideoProps) => {
   const [openComment, setOpenComment] = useState(false);
+  const [verifiedCourse, setVerifiedCourse] = useState<verifiedCourse[]>();
   const { data: videoDetails, isLoading: videoDetailsLoading } =
     useGetCourseVideosDetails(params.id);
+  const router = useRouter();
   const { data: currentUser, isLoading: currentUserLoading } = useGetUser();
+  console.log(currentUser?.id);
 
+  useEffect(() => {
+    const getVerifiedCourse = async () => {
+      if (currentUser) {
+        const verifiedCourse = await getVerifiedCoursePayment({
+          id: params.id,
+          userId: currentUser.id,
+        });
+        console.log(verifiedCourse);
+        setVerifiedCourse(verifiedCourse);
+      }
+    };
+    getVerifiedCourse();
+  }, [currentUser, params]);
+
+  console.log(videoDetails);
+  const handleBuyCourse = async () => {
+    const buyVideo = await buyVideoCourse(
+      videoDetails!.price,
+      videoDetails!.title,
+      videoDetails!.id
+    );
+    if (buyVideo) {
+      router.push(buyVideo);
+    }
+  };
+  console.log(verifiedCourse);
   if (!videoDetailsLoading) {
     return (
       <div className="md:w-9/12  pb-[6em] mx-auto w-full md:px-0 px-4">
@@ -41,7 +83,12 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
               id="price&register"
               className="flex justify-between mt-4 flex-col-reverse md:flex-row items-center"
             >
-              <Button className="w-full md:w-auto mt-2 md:mt-0">Buy</Button>
+              <Button
+                className="w-full md:w-auto mt-2 md:mt-0"
+                onClick={handleBuyCourse}
+              >
+                Buy
+              </Button>
               {!currentUserLoading && currentUser?.role !== "student" && (
                 <Link
                   href={`/hub/videos/${params.id}/edit`}
@@ -141,16 +188,55 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
               <div className="flex flex-col gap-2 mt-2">
                 {videoDetails?.videoCourseSession
                   .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())
-                  .map((lesson, index) => (
-                    <Link href={`/hub/videos/${params.id}/${lesson.id}`}>
-                      <div
-                        key={index}
-                        className="bg-white p-4 rounded-md hover:bg-slate-200 transition-all"
-                      >
-                        <p>{lesson.title}</p>
-                      </div>
-                    </Link>
-                  ))}
+                  .map((lesson, index) => {
+                    console.log({
+                      title: lesson.title,
+                      index,
+                      date: lesson.createdAt,
+                    });
+                    if (index < 3) {
+                      return (
+                        <Link href={`/hub/videos/${params.id}/${lesson.id}`}>
+                          <div
+                            key={index}
+                            className="bg-white p-4 rounded-md hover:bg-slate-200 transition-all"
+                          >
+                            <p>{lesson.title}</p>
+                          </div>
+                        </Link>
+                      );
+                    } else if (
+                      index > 2 &&
+                      verifiedCourse &&
+                      verifiedCourse.length > 0
+                    ) {
+                      return (
+                        <Link href={`/hub/videos/${params.id}/${lesson.id}`}>
+                          <div
+                            key={index}
+                            className="bg-white p-4 rounded-md hover:bg-slate-200 transition-all"
+                          >
+                            <p>{lesson.title}</p>
+                          </div>
+                        </Link>
+                      );
+                    } else {
+                      return (
+                        <Link
+                          href={`#`}
+                          className="pointer-events-none
+                         opacity-50"
+                        >
+                          <div
+                            key={index}
+                            className="bg-white p-4 rounded-md hover:bg-slate-200 transition-all"
+                          >
+                            <p>{lesson.title}</p>
+                          </div>
+                        </Link>
+                      );
+                    }
+                  })}
                 {videoDetails?.videoCourseSession.length === 0 && (
                   <p>There is no session yet</p>
                 )}

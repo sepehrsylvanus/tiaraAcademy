@@ -8,6 +8,7 @@ import axios from "axios";
 import { sendClassSms } from "../class";
 import { time } from "console";
 import { date } from "zod";
+import { getSingleUser } from "../userActions";
 
 export const createNewPayment = async (
   price: number,
@@ -318,4 +319,91 @@ export const fetchUserPayments = async (userId: string) => {
     console.log(error);
     throw new Error(error);
   }
+};
+export const buyVideoCourse = async (
+  price: number,
+  courseName: string,
+  courseId: string
+) => {
+  try {
+    const user = await getSingleUser();
+    const data = {
+      merchant_id: process.env.NEXT_PUBLIC_MERCHANT_CODE,
+      amount: price * 10,
+      description: `ثبت نام ${courseName ?? ""}`,
+      callback_url:
+        "https://tiaraacademy.com/hub/paymentRedirect?type=videoCourse",
+      metadata: {
+        email: user?.email,
+        phone: user?.pNumber,
+      },
+    };
+    const res = await axios.post(
+      "https://api.zarinpal.com/pg/v4/payment/request.json",
+      data
+    );
+    if (res.data.data.code === 100) {
+      const newPayment = await prisma.coursePayment.create({
+        data: {
+          courseId,
+          userId: user!.id,
+          resnumber: res.data.data.authority,
+        },
+      });
+      if (newPayment) {
+        return `https://www.zarinpal.com/pg/StartPay/${res.data.data.authority}`;
+      } else {
+        throw new Error("Error in creating payment");
+      }
+    } else {
+      throw new Error("Error in connecting with payment gateway");
+    }
+  } catch (error: any) {
+    console.log(error.message);
+    throw new Error(error.message);
+  }
+};
+export const verifyCoursePayment = async (authority: string) => {
+  console.log(authority);
+  try {
+    const targetedPayment = await prisma.coursePayment.findUnique({
+      where: {
+        resnumber: authority,
+      },
+    });
+    console.log(targetedPayment);
+    if (targetedPayment) {
+      const updatedPayment = await prisma.coursePayment.update({
+        where: {
+          resnumber: authority,
+        },
+        data: {
+          verified: true,
+        },
+      });
+      if (updatedPayment) {
+        console.log("here");
+        return updatedPayment;
+      }
+    }
+  } catch (error: any) {
+    console.log(error.message);
+    throw new Error(error.message);
+  }
+};
+
+export const getVerifiedCoursePayment = async ({
+  id,
+  userId,
+}: {
+  id: string;
+  userId: string;
+}) => {
+  const verifiedCourse = await prisma.coursePayment.findMany({
+    where: {
+      AND: [{ courseId: id }, { verified: true }, { userId }],
+    },
+  });
+  console.log(verifiedCourse);
+  return verifiedCourse;
 };

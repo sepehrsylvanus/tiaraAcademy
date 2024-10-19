@@ -1,3 +1,4 @@
+import { getVerifiedCoursePayment } from "@/actions/payment";
 import {
   createVideoCourseSession,
   getSingleVideo,
@@ -38,6 +39,21 @@ export const usePostSession = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["getVideoCourseDetails"] });
       toast.success("Session created successfully");
+    },
+  });
+};
+export const useGetVerifiedCoursePayment = ({
+  id,
+  userId,
+}: {
+  id: string;
+  userId: string;
+}) => {
+  return useQuery({
+    queryKey: ["getVerifiedCoursePayment"],
+    queryFn: async () => {
+      const verifiedPayments = getVerifiedCoursePayment({ id, userId });
+      return verifiedPayments;
     },
   });
 };

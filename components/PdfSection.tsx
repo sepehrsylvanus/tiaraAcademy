@@ -30,8 +30,8 @@ const PdfSection = async () => {
           } px-2 gap-3 items-center py-3 m-2 rounded-md ring-1 ring-lightPrime`}
         >
           {writings?.length > 0 ? (
-            sortedWritings?.map((writing, index) => {
-              if (writing.writingAnswer.length > 0) {
+            writings?.map((writing, index) => {
+              if (sortedWritings.length > 0) {
                 return (
                   <div
                     key={writing.id}
