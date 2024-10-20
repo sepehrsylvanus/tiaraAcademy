@@ -4,7 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { javascriptLessons, sampleComments } from "@/constants";
 import { Separator } from "@radix-ui/react-separator";
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import ReactPlayer from "react-player";
 import ForumIcon from "@mui/icons-material/Forum";
 import SchoolIcon from "@mui/icons-material/School";
@@ -13,18 +13,43 @@ import {
   useGetCourseVideosDetails,
   useGetSessionDetails,
 } from "@/hooks/useVideos";
+import { useGetUser } from "@/hooks/useUsers";
+import { getVerifiedCoursePayment } from "@/actions/payment";
 interface VideoSessionProps {
   params: {
     id: string;
     sessionId: string;
   };
 }
+type verifiedCourse = {
+  id: string;
+  courseId: string;
+  userId: string;
+  resnumber: string;
+  verified: boolean;
+};
 const SingleSession: FC<VideoSessionProps> = ({ params }) => {
   const [openComment, setOpenComment] = useState(false);
+  const [verifiedCourse, setVerifiedCourse] = useState<verifiedCourse[]>();
   const { data: sessionDetails, isLoading: sessionDetailsLoading } =
     useGetSessionDetails(params.sessionId);
   const { data: videoDetails, isLoading: videoDetailsLoading } =
     useGetCourseVideosDetails(params.id);
+  const { data: currentUser, isLoading: currentUserLoading } = useGetUser();
+  useEffect(() => {
+    const fetchVerifiedCourses = async () => {
+      if (currentUser) {
+        const verifiedCourse = await getVerifiedCoursePayment({
+          id: params.id,
+          userId: currentUser.id,
+        });
+        console.log(verifiedCourse);
+        setVerifiedCourse(verifiedCourse);
+      }
+    };
+    fetchVerifiedCourses();
+  }, []);
+
   if (!sessionDetailsLoading && !videoDetailsLoading) {
     return (
       <div className="mt-[4em] md:mt-0 px-4 pb-[3em]">
@@ -137,16 +162,34 @@ const SingleSession: FC<VideoSessionProps> = ({ params }) => {
                 .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())
                 .map((lesson, index) => {
                   if (lesson.id !== params.sessionId) {
-                    return (
-                      <Link
-                        href={`/hub/videos/${params.id}/${lesson.id}`}
-                        key={index}
-                      >
-                        <div className="bg-white p-4 rounded-md hover:bg-slate-200 transition-all">
-                          <p>{lesson.title}</p>
-                        </div>
-                      </Link>
-                    );
+                    if (
+                      verifiedCourse &&
+                      verifiedCourse.length === 0 &&
+                      index > 2
+                    ) {
+                      return (
+                        <Link
+                          href={`#`}
+                          key={index}
+                          className="pointer-events-none opacity-50"
+                        >
+                          <div className="bg-white p-4 rounded-md hover:bg-slate-200 transition-all">
+                            <p>{lesson.title}</p>
+                          </div>
+                        </Link>
+                      );
+                    } else {
+                      return (
+                        <Link
+                          href={`/hub/videos/${params.id}/${lesson.id}`}
+                          key={index}
+                        >
+                          <div className="bg-white p-4 rounded-md hover:bg-slate-200 transition-all">
+                            <p>{lesson.title}</p>
+                          </div>
+                        </Link>
+                      );
+                    }
                   }
                 })}
             </div>

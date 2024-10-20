@@ -203,11 +203,6 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
                 {videoDetails?.videoCourseSession
                   .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())
                   .map((lesson, index) => {
-                    console.log({
-                      title: lesson.title,
-                      index,
-                      date: lesson.createdAt,
-                    });
                     if (index < 3) {
                       return (
                         <Link href={`/hub/videos/${params.id}/${lesson.id}`}>
