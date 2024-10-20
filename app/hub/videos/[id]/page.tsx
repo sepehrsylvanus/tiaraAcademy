@@ -168,7 +168,7 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
           </div>
           <div className=" rounded-md md:w-full text-center bg-cardBg text-white col-span-2 md:col-span-1 w-full">
             <WorkIcon className="text-lightText " />
-            <p className="text-extraText">{t("preRquesities")}</p>
+            <p className="text-extraText">{t("preRequisities")}</p>
             <p className="text-lightText">English 1, English 2</p>
           </div>
         </section>
@@ -213,7 +213,11 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
                 videoDetails?.price !== 0 && <p>{t("locked")}</p>}
               <div className="flex flex-col gap-2 mt-2">
                 {videoDetails?.videoCourseSession
-                  .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())
+                  .sort((a, b) => {
+                    if (a.title < b.title) return -1;
+                    if (a.title > b.title) return 1;
+                    return 0;
+                  })
                   .map((lesson, index) => {
                     if (index < 3) {
                       return (

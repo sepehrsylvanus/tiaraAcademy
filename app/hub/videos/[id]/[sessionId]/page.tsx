@@ -159,7 +159,11 @@ const SingleSession: FC<VideoSessionProps> = ({ params }) => {
             </h2>
             <div className="flex flex-col gap-2 mt-2">
               {videoDetails?.videoCourseSession
-                .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())
+                .sort((a, b) => {
+                  if (a.title < b.title) return -1;
+                  if (a.title > b.title) return 1;
+                  return 0;
+                })
                 .map((lesson, index) => {
                   if (lesson.id !== params.sessionId) {
                     if (
