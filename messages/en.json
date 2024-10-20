@@ -347,5 +347,12 @@
     "phoneDescription": "A text message containing a verification code will be sent to this phone number. Message and data rates may apply.",
     "phoneNumber": "Phone number",
     "manageAccount": "Manage account"
+  },
+  "VideoCourse": {
+    "locked": "You haven't buy this course yet. For access to further than session 3 of this course please buy this course.",
+    "videoTitle": "Video courses",
+    "videos": "Videos",
+    "noVideoYet": "There is no videos yet",
+    "loadMore": "Load more"
   }
 }

@@ -21,12 +21,16 @@ import { School, Person, Videocam } from "@mui/icons-material";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { getAllVideos } from "@/actions/videos/videos.action";
+import { getMessages, getTranslations } from "next-intl/server";
 
 const Videos = async () => {
   const videos = await getAllVideos();
+  const translations = (await getMessages()) as any;
+  const t = translations.VideoCourse;
+
   return (
     <div>
-      <h1 className="text-center">Video courses</h1>
+      <h1 className="text-center">{t.videoTitle}</h1>
       <main className=" mt-10  pb-10">
         <div className="filterInputs flex flex-col rtl:items-end gap-4 rtl:ml-6">
           <Input
@@ -37,10 +41,8 @@ const Videos = async () => {
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Category" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="bg-white">
               <SelectItem value="light">Light</SelectItem>
-              <SelectItem value="dark">Dark</SelectItem>
-              <SelectItem value="system">System</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -72,7 +74,7 @@ const Videos = async () => {
                   <p className="flex rtl:flex-row-reverse gap-2">
                     <Videocam />
                     {videoCourse.videoCourseSession.length}
-                    <span> videos</span>
+                    <span> {t.videos}</span>
                   </p>
                 </div>
               </CardContent>
@@ -86,13 +88,13 @@ const Videos = async () => {
             </Card>
           ))}
           {videos.length === 0 && (
-            <p className="h3 text-center ">There is no videos yet</p>
+            <p className="h3 text-center ">{t.noVideoYet}</p>
           )}
         </div>
         {videos.length > 8 && (
           <div className="flex justify-center">
             <Button className="rounded-3xl bg-extraBg px-[3em]">
-              Load more
+              {t.loadMore}
             </Button>
           </div>
         )}

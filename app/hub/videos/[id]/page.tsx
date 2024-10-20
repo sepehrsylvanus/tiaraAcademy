@@ -21,6 +21,7 @@ import { VideoCourses } from "@/constants";
 import { useGetUser } from "@/hooks/useUsers";
 import { useRouter } from "next/navigation";
 import { buyVideoCourse, getVerifiedCoursePayment } from "@/actions/payment";
+import { useTranslations } from "next-intl";
 type SingleVideoProps = {
   params: {
     id: string;
@@ -35,6 +36,7 @@ type verifiedCourse = {
   verified: boolean;
 };
 const SingleVideo = ({ params }: SingleVideoProps) => {
+  const t = useTranslations("VideoCourse");
   const [openComment, setOpenComment] = useState(false);
   const [verifiedCourse, setVerifiedCourse] = useState<verifiedCourse[]>();
   const { data: videoDetails, isLoading: videoDetailsLoading } =
@@ -185,6 +187,9 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
               <h2>
                 <SchoolIcon /> Lessons
               </h2>
+              {verifiedCourse && verifiedCourse?.length === 0 && (
+                <p>{t("locked")}</p>
+              )}
               <div className="flex flex-col gap-2 mt-2">
                 {videoDetails?.videoCourseSession
                   .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())
