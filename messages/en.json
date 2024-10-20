@@ -369,6 +369,7 @@
     "noSessionYet": "There is no session yet",
     "comments": "Comments",
     "addNewComment": "Add a new comment",
-    "noCommentYet": "There is no comment yet"
+    "noCommentYet": "There is no comment yet",
+    "alreadyBought": "You already bought this course"
   }
 }

@@ -69,7 +69,7 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
       router.push(buyVideo);
     }
   };
-  console.log(verifiedCourse);
+  const ifbuyed = verifiedCourse && verifiedCourse.length > 0;
   if (!videoDetailsLoading) {
     return (
       <div className="md:w-9/12  pb-[6em] mx-auto w-full md:px-0 px-4">
@@ -82,20 +82,30 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
             <p>{videoDetails?.description}</p>
             <div
               id="price&register"
-              className="flex justify-between mt-4 flex-col-reverse md:flex-row items-center"
+              className="flex justify-between mt-4 flex-col-reverse md:flex-row items-center gap-5"
             >
-              <Button
-                className="w-full md:w-auto mt-2 md:mt-0"
-                onClick={handleBuyCourse}
-              >
-                {t("VideoCourse")}
-              </Button>
+              {ifbuyed ? (
+                <Button
+                  className=" md:w-auto mt-2 md:mt-0 bg-green-500 pointer-events-none  break-all flex-1"
+                  onClick={handleBuyCourse}
+                >
+                  {t("alreadyBought")}
+                </Button>
+              ) : (
+                <Button
+                  className="w-full md:w-auto mt-2 md:mt-0 flex-1"
+                  onClick={handleBuyCourse}
+                >
+                  {t("buy")}
+                </Button>
+              )}
+
               {!currentUserLoading && currentUser?.role !== "student" ? (
                 <Link
                   href={`/hub/videos/${params.id}/edit`}
                   className="w-full md:w-auto"
                 >
-                  <Button className="w-full md:w-auto mt-2 md:mt-0 flex gap-2">
+                  <Button className="w-full md:w-auto mt-2 md:mt-0 flex gap-2 flex-1">
                     <EditIcon /> {t("manageThisCourse")}
                   </Button>
                 </Link>
@@ -104,15 +114,17 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
                   href={videoDetails?.materialsLink ?? "#"}
                   className="w-full md:w-auto"
                 >
-                  <Button className="w-full md:w-auto mt-2 md:mt-0 flex gap-2">
+                  <Button className="w-full md:w-auto mt-2 md:mt-0 flex gap-2 flex-1">
                     <EditIcon /> {t("downloadMaterials")}
                   </Button>
                 </Link>
               )}
-              <p className="font-bold ">
-                <span className="mr-1">{videoDetails?.price}</span>
-                {t("toman")}
-              </p>
+              {!ifbuyed && (
+                <p className="font-bold flex-1">
+                  <span className="mr-1">{videoDetails?.price}</span>
+                  {t("toman")}
+                </p>
+              )}
             </div>
           </div>
 
@@ -196,9 +208,9 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
               <h2>
                 <SchoolIcon /> {t("lessons")}
               </h2>
-              {verifiedCourse && verifiedCourse?.length === 0 && (
-                <p>{t("locked")}</p>
-              )}
+              {verifiedCourse &&
+                verifiedCourse?.length === 0 &&
+                videoDetails?.price !== 0 && <p>{t("locked")}</p>}
               <div className="flex flex-col gap-2 mt-2">
                 {videoDetails?.videoCourseSession
                   .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())
@@ -215,9 +227,10 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
                         </Link>
                       );
                     } else if (
-                      index > 2 &&
-                      verifiedCourse &&
-                      verifiedCourse.length > 0
+                      (index > 2 &&
+                        verifiedCourse &&
+                        verifiedCourse.length > 0) ||
+                      videoDetails.price === 0
                     ) {
                       return (
                         <Link href={`/hub/videos/${params.id}/${lesson.id}`}>

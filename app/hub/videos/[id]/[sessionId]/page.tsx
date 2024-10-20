@@ -165,7 +165,8 @@ const SingleSession: FC<VideoSessionProps> = ({ params }) => {
                     if (
                       verifiedCourse &&
                       verifiedCourse.length === 0 &&
-                      index > 2
+                      index > 2 &&
+                      videoDetails.price !== 0
                     ) {
                       return (
                         <Link
