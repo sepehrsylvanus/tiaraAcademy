@@ -110,17 +110,19 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
                   </Button>
                 </Link>
               ) : (
-                <Link
-                  href={videoDetails?.materialsLink ?? "#"}
-                  className="w-full md:w-auto"
-                >
-                  <Button className="w-full md:w-auto mt-2 md:mt-0 flex gap-2 flex-1">
-                    <EditIcon /> {t("downloadMaterials")}
-                  </Button>
-                </Link>
+                ifbuyed && (
+                  <Link
+                    href={videoDetails?.materialsLink ?? "#"}
+                    className="w-full md:w-auto"
+                  >
+                    <Button className="w-full md:w-auto mt-2 md:mt-0 flex gap-2 flex-1">
+                      <EditIcon /> {t("downloadMaterials")}
+                    </Button>
+                  </Link>
+                )
               )}
               {!ifbuyed && (
-                <p className="font-bold flex-1">
+                <p className="font-bold ">
                   <span className="mr-1">{videoDetails?.price}</span>
                   {t("toman")}
                 </p>
@@ -189,7 +191,9 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
 
             <p className="font-bold">{`${videoDetails?.teacher.fName} ${videoDetails?.teacher.lName}`}</p>
             <p>Teacher of English, Persian, Russian</p>
-            <Button variant={"outline"}>{t("showProfile")}</Button>
+            <Link href={`/hub/teachers/${videoDetails?.teacherId}`}>
+              <Button variant={"outline"}>{t("showProfile")}</Button>
+            </Link>
           </section>
 
           <div className="md:w-8/12">
