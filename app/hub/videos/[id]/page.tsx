@@ -1,6 +1,5 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { Axios } from "@/utils/axiosIn";
 import React, { useEffect, useState } from "react";
 import ReactPlayer from "react-player";
 import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered";
@@ -89,20 +88,30 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
                 className="w-full md:w-auto mt-2 md:mt-0"
                 onClick={handleBuyCourse}
               >
-                Buy
+                {t("VideoCourse")}
               </Button>
-              {!currentUserLoading && currentUser?.role !== "student" && (
+              {!currentUserLoading && currentUser?.role !== "student" ? (
                 <Link
                   href={`/hub/videos/${params.id}/edit`}
                   className="w-full md:w-auto"
                 >
                   <Button className="w-full md:w-auto mt-2 md:mt-0 flex gap-2">
-                    <EditIcon /> Manage this course
+                    <EditIcon /> {t("manageThisCourse")}
+                  </Button>
+                </Link>
+              ) : (
+                <Link
+                  href={videoDetails?.materialsLink ?? "#"}
+                  className="w-full md:w-auto"
+                >
+                  <Button className="w-full md:w-auto mt-2 md:mt-0 flex gap-2">
+                    <EditIcon /> {t("downloadMaterials")}
                   </Button>
                 </Link>
               )}
               <p className="font-bold ">
-                <span className="mr-1">{videoDetails?.price}</span>Toman
+                <span className="mr-1">{videoDetails?.price}</span>
+                {t("toman")}
               </p>
             </div>
           </div>
@@ -121,7 +130,7 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
               url={videoDetails?.videoCourseSession[0]?.video}
             />
             {!videoDetails?.videoCourseSession[0]?.video && (
-              <p className="font-bold text-lg">There is no preview yet</p>
+              <p className="font-bold text-lg">{t("noPreview")}</p>
             )}
           </div>
         </section>
@@ -133,21 +142,21 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
         >
           <div className=" rounded-md w-full text-center bg-cardBg text-white">
             <FormatListNumberedIcon className="text-lightText " />
-            <p className="text-extraText">Video count</p>
+            <p className="text-extraText">{t("videoCount")}</p>
             <p className="text-lightText">
               {videoDetails?.videoCourseSession?.length ?? 0}
             </p>
           </div>
           <div className=" rounded-md w-full text-center bg-cardBg text-white">
             <UpdateIcon className="text-lightText " />
-            <p className="text-extraText">The last update</p>
+            <p className="text-extraText">{t("lastUpdate")}</p>
             <p className="text-lightText">
               {videoDetails?.updatedAt.toLocaleDateString()}
             </p>
           </div>
           <div className=" rounded-md md:w-full text-center bg-cardBg text-white col-span-2 md:col-span-1 w-full">
             <WorkIcon className="text-lightText " />
-            <p className="text-extraText">Prerequisities</p>
+            <p className="text-extraText">{t("preRquesities")}</p>
             <p className="text-lightText">English 1, English 2</p>
           </div>
         </section>
@@ -168,7 +177,7 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
 
             <p className="font-bold">{`${videoDetails?.teacher.fName} ${videoDetails?.teacher.lName}`}</p>
             <p>Teacher of English, Persian, Russian</p>
-            <Button variant={"outline"}>Show profile</Button>
+            <Button variant={"outline"}>{t("showProfile")}</Button>
           </section>
 
           <div className="md:w-8/12">
@@ -177,7 +186,7 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
               className="bg-cardBg text-lightText p-4  mt-2 rounded-md 
       "
             >
-              <h2 className=" text-center mt-4">Description</h2>
+              <h2 className=" text-center mt-4">{t("description")}</h2>
               <p className="text-justify mt-2 ">{videoDetails?.explenation}</p>
             </section>
             <section
@@ -185,7 +194,7 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
       "
             >
               <h2>
-                <SchoolIcon /> Lessons
+                <SchoolIcon /> {t("lessons")}
               </h2>
               {verifiedCourse && verifiedCourse?.length === 0 && (
                 <p>{t("locked")}</p>
@@ -243,7 +252,7 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
                     }
                   })}
                 {videoDetails?.videoCourseSession.length === 0 && (
-                  <p>There is no session yet</p>
+                  <p>{t("noSessionYet")}</p>
                 )}
               </div>
             </section>
@@ -255,10 +264,10 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
               <div className="flex justify-between">
                 <h2 className="flex gap-2 items-center">
                   <ForumIcon />
-                  Comments
+                  {t("comments")}
                 </h2>
                 <Button onClick={() => setOpenComment(true)}>
-                  Add a new comment
+                  {t("addNewComment")}
                 </Button>
               </div>
               <div className={`animate-fadeIn ${openComment ? "" : "hidden"}`}>
@@ -328,7 +337,7 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
                   }
                 })}
                 {videoDetails?.Comment.length === 0 && (
-                  <p>There is no comment yet</p>
+                  <p>{t("noCommentYet")}</p>
                 )}
               </div>
             </section>

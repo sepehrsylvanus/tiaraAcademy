@@ -353,6 +353,22 @@
     "videoTitle": "Video courses",
     "videos": "Videos",
     "noVideoYet": "There is no videos yet",
-    "loadMore": "Load more"
+    "loadMore": "Load more",
+    "buy": "Buy",
+    "manageThisCourse": "Manage this course",
+    "downloadMaterials": "Download this course's materials",
+    "toman": "Toman",
+    "noPreview": "There is no preview yet",
+    "videoCount": "There is no preview yet",
+    "lastUpdate": "The last update",
+    "preRequisities": "Prerequisities",
+    "showProfile": "Show profile",
+    "description": " Description",
+
+    "lessons": "Lessons",
+    "noSessionYet": "There is no session yet",
+    "comments": "Comments",
+    "addNewComment": "Add a new comment",
+    "noCommentYet": "There is no comment yet"
   }
 }
