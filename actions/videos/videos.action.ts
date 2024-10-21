@@ -6,7 +6,6 @@ import { getSingleUser } from "../userActions";
 import { VideoCourse } from "@prisma/client";
 
 export const getAllVideos = async (name?: string, category?: string) => {
-  let filteredvideos = [];
   const videos = await prisma.videoCourse.findMany({
     include: {
       teacher: true,
@@ -104,7 +103,7 @@ export const createVideoCourse = async (formData: FormData) => {
       secretAccessKey: process.env.NEXT_PUBLIC_LIARA_SECRET_ACCESS_KEY,
       endpoint: process.env.NEXT_PUBLIC_LIARA_ENDPOINT,
     });
-    const imageName = new Date().toString() + image.name;
+    const imageName = new Date().getTime() + image.name;
     const materialsName = new Date().toString() + materials.name;
     const thumbnailBit = await image.arrayBuffer();
 
@@ -170,7 +169,7 @@ export const createVideoCourseSession = async (formData: FormData) => {
       secretAccessKey: process.env.NEXT_PUBLIC_LIARA_SECRET_ACCESS_KEY,
       endpoint: process.env.NEXT_PUBLIC_LIARA_ENDPOINT,
     });
-    const videoName = new Date().toString() + video.name;
+    const videoName = new Date().getTime() + video.name;
     const videoBit = await video.arrayBuffer();
     const videoBuffer = Buffer.from(videoBit);
     const params = {
