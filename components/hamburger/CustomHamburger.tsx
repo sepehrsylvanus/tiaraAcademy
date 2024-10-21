@@ -14,6 +14,7 @@ import {
 
 import ClerkAvatar from "../reusableComponents/ClerkAvatar";
 import { getToken } from "@/actions/actions";
+import Notifs from "../Notifs";
 
 const CustomHamburger = ({
   sidebar,
@@ -62,6 +63,8 @@ const CustomHamburger = ({
             <Link href={"/hub"} className="brownLink">
               Enter Hub
             </Link>
+
+            <Notifs />
 
             <div className=" scale-150">
               <ClerkAvatar />

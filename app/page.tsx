@@ -1,22 +1,10 @@
 import Link from "next/link";
 import styles from "./page.module.css";
-import { Divider, TextField } from "@mui/material";
-import Image from "next/image";
-import StarIcon from "@mui/icons-material/Star";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import InstagramIcon from "@mui/icons-material/Instagram";
-import XIcon from "@mui/icons-material/X";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import YouTubeIcon from "@mui/icons-material/YouTube";
 
-import { Button } from "@/components/ui/button";
 import { getLocale, getMessages } from "next-intl/server";
 import Navbar from "@/components/navbar/Navbar";
 
 export default async function Home() {
-  const message = (await getMessages()) as any;
-  const language = await getLocale();
-
   return (
     <div
       className={`${styles.container} bg-lightPrime flex flex-col items-center `}

@@ -45,21 +45,26 @@ const Hub = async () => {
   };
 
   return (
-    <div className=" lg:pl-[5em] pb-[3em]">
+    <div className=" lg:pl-[5em] pb-[3em] ">
       {(currentUser?.role.includes("teacher") ||
         currentUser?.role.includes("admin") ||
         currentUser?.role.includes("adminTeacher")) && (
         <div className="container   px-4  pb-4 flex flex-col items-start  text-lightText">
           <div className="flex justify-between w-full">
-            <Link href={"/"} className=" text-lightText font-bold mb-4">
+            <Link
+              href={"/"}
+              className=" text-lightText font-bold mb-4 hidden lg:block"
+            >
               <ArrowBackIosNewIcon />
               {hubT.landingPage}
             </Link>
 
-            <Notifs />
+            <div className="hidden md:block">
+              <Notifs />
+            </div>
           </div>
           {/* ========= */}
-          <div className="avatrContainer  flex gap-4 items-center justify-center">
+          <div className="avatrContainer  flex gap-4 items-center justify-center mt-[5em]">
             <Avatar sx={{ width: 80, height: 80 }} />
             <div className="space-y-2">
               {renderRole()}
