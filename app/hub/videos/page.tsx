@@ -49,7 +49,7 @@ const Videos = () => {
     });
     setFilteredVideos(filteredVideos);
     console.log(filteredVideos);
-  }, [name, category]);
+  }, [name, category, videos]);
 
   if (videos) {
     return (
