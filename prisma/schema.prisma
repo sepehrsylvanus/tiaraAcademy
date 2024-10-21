@@ -49,6 +49,12 @@ enum CommentType {
   question
 }
 
+enum VideoCourseCat {
+  english
+  spanish
+  general
+}
+
 model User {
   id                  String       @id @default(cuid()) @map("_id")
   fName               String
@@ -225,6 +231,7 @@ model VideoCourse {
   thumbnailLink      String
   price              Int
   materialsLink      String
+  category           VideoCourseCat       @default(english)
 }
 
 model VideoCourseSession {

@@ -3,14 +3,17 @@
 import prisma from "@/utils/db";
 import { S3 } from "aws-sdk";
 import { getSingleUser } from "../userActions";
+import { VideoCourse } from "@prisma/client";
 
-export const getAllVideos = async () => {
+export const getAllVideos = async (name?: string, category?: string) => {
+  let filteredvideos = [];
   const videos = await prisma.videoCourse.findMany({
     include: {
       teacher: true,
       videoCourseSession: true,
     },
   });
+
   return videos;
 };
 export const getSingleVideo = async (id: string) => {

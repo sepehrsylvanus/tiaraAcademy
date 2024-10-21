@@ -1,12 +1,22 @@
 import { getVerifiedCoursePayment } from "@/actions/payment";
 import {
   createVideoCourseSession,
+  getAllVideos,
   getSingleVideo,
   getSingleVideoSession,
 } from "@/actions/videos/videos.action";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 
+export const useGetAllVideos = () => {
+  return useQuery({
+    queryKey: ["getAllVideos"],
+    queryFn: async () => {
+      const videos = await getAllVideos();
+      return videos;
+    },
+  });
+};
 export const useGetCourseVideosDetails = (id: string) => {
   return useQuery({
     queryKey: ["getVideoCourseDetails"],
