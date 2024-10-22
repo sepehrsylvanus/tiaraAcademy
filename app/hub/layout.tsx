@@ -21,7 +21,7 @@ const layout = async ({ children }: { children: React.ReactNode }) => {
         href={"/"}
         className="absolute top-2 left-2 md:ltr:left-[5em] ltr:left-2"
       >
-        <Image src={"/logo.svg"} alt="Logo" width={60} height={60} />
+        <Image src={"/logo.png"} alt="Logo" width={60} height={60} />
       </Link>
       <div
         className={` ${locale === "fa" ? "lg:pr-[3em]" : "lg:pl-[2.5em]"} pt-4`}

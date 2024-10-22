@@ -59,3 +59,28 @@ export function formatDateToStandard(date: Date) {
    */
   /******  6c4996d1-ded0-40c6-946e-102004493430  *******/
 }
+export function convertDaysToPersian(days: string[]) {
+  const dayMapping: { [key: string]: string } = {
+    monday: "دوشنبه",
+    tuesday: "سه‌شنبه",
+    wednesday: "چهارشنبه",
+    thursday: "پنج‌شنبه",
+    friday: "جمعه",
+    saturday: "شنبه",
+    sunday: "یک‌شنبه",
+  };
+
+  if (days.length === 1) {
+    console.log("here");
+    // If a single day string is provided, return the corresponding Persian day.
+    console.log(dayMapping[days[0].toLowerCase()] || days);
+    return dayMapping[days[0].toLowerCase()] || days;
+  } else if (days.length > 1) {
+    console.log("here");
+
+    // If an array of days is provided, map each day to its Persian equivalent.
+    return days
+      .map((day: string) => dayMapping[day.toLowerCase()] || day)
+      .join("/");
+  }
+}

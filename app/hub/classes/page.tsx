@@ -225,7 +225,7 @@ const Classes = ({ searchParams: { teacher } }: Props) => {
                         <Chip label={eachClass.type} />
                       </div>
                     </div>
-
+                    {console.log(days)}
                     <p className=" font-semibold mt-2">
                       {locale === "en"
                         ? days

@@ -20,7 +20,7 @@ const Navbar = async () => {
     >
       <Link href={"/"}>
         <Image
-          src={"/logo.jpg"}
+          src={"/logo.png"}
           alt={message.logoAlt}
           width={85}
           height={85}
