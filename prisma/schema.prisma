@@ -232,6 +232,7 @@ model VideoCourse {
   price              Int
   materialsLink      String
   category           VideoCourseCat       @default(english)
+  prerequisities     String[]
 }
 
 model VideoCourseSession {

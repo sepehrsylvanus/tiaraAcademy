@@ -168,10 +168,16 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
               {videoDetails?.updatedAt.toLocaleDateString()}
             </p>
           </div>
-          <div className=" rounded-md md:w-full text-center bg-cardBg text-white col-span-2 md:col-span-1 w-full">
+          <div className=" rounded-md md:w-full text-center bg-cardBg text-white col-span-2 md:col-span-1 w-full pb-2 pt-2">
             <WorkIcon className="text-lightText " />
             <p className="text-extraText">{t("preRequisities")}</p>
-            <p className="text-lightText">English 1, English 2</p>
+            <p className="text-lightText">
+              {videoDetails?.prerequisities.map((item, index) => (
+                <p key={index}>{item}</p>
+              ))}
+              {videoDetails?.prerequisities.length === 0 &&
+                t("noPrerequisities")}
+            </p>
           </div>
         </section>
 

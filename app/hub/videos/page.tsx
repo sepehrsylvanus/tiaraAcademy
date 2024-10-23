@@ -64,7 +64,7 @@ const Videos = () => {
             />
             <Select onValueChange={(e) => setCategory(e)}>
               <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Category" />
+                <SelectValue placeholder="Language" />
               </SelectTrigger>
               <SelectContent className="bg-white">
                 <SelectItem value="spanish">Spanish</SelectItem>

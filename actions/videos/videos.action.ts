@@ -93,8 +93,12 @@ export const postComments = async (
 export const createVideoCourse = async (formData: FormData) => {
   const normalValues = JSON.parse(formData.get("normalValues") as string);
   const image = formData.get("image") as File;
-  const language = formData.get("language") as string;
+  const language = formData.get("language") as
+    | "english"
+    | "spanish"
+    | "general";
   const materials = formData.get("materials") as File;
+  const prerequisities = JSON.parse(formData.get("tags") as string) as string[];
   console.log(normalValues, image, language, materials);
   try {
     const currentUser = await getSingleUser();
@@ -144,6 +148,8 @@ export const createVideoCourse = async (formData: FormData) => {
           thumbnailLink,
           price: normalValues.price,
           materialsLink,
+          category: language,
+          prerequisities,
         },
       });
       return "Your video course has been created";

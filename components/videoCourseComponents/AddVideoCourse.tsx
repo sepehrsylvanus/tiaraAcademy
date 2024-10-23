@@ -1,5 +1,11 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, {
+  useEffect,
+  useRef,
+  useState,
+  ChangeEvent,
+  KeyboardEvent,
+} from "react";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -27,7 +33,6 @@ import CloseIcon from "@mui/icons-material/Close";
 import { Textarea } from "@/components/ui/textarea";
 import { createVideoCourse } from "@/actions/videos/videos.action";
 import { toast } from "react-toastify";
-
 const courseDetailsForm = z.object({
   title: z.string().min(2).max(50),
   price: z.number(),
@@ -40,6 +45,7 @@ const AddVideoCourse = () => {
   // COURSE IMAGE CHOOSING
   const [selectedImage, setSelectedImage] = useState<string>();
   const [thumbnailRaw, setThumbnailRaw] = useState<File>();
+
   useEffect(() => {
     console.log(materialsFile);
   }, [materialsFile]);
@@ -92,6 +98,7 @@ const AddVideoCourse = () => {
     videoCourseFormData.set("image", thumbnailRaw!);
     videoCourseFormData.set("language", selectedLanguage);
     videoCourseFormData.set("materials", materialsFile!);
+    videoCourseFormData.set("tags", JSON.stringify(tags));
     const ifCourseCreated = await createVideoCourse(videoCourseFormData);
     console.log(ifCourseCreated);
     if (ifCourseCreated) {
@@ -99,6 +106,33 @@ const AddVideoCourse = () => {
       setLoading(false);
     }
   }
+
+  // TAG INPUT THINGS
+
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+  };
+
+  const handleInputKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === ",") {
+      e.preventDefault();
+      addTag();
+    }
+  };
+
+  const addTag = () => {
+    const trimmedInput = inputValue.trim();
+    if (trimmedInput && !tags.includes(trimmedInput)) {
+      setTags([...tags, trimmedInput]);
+      setInputValue("");
+    }
+  };
+
+  const removeTag = (tagToRemove: string) => {
+    setTags(tags.filter((tag) => tag !== tagToRemove));
+  };
+
+  // END OF TAG INPUT THINGS
 
   return (
     <Form {...form}>
@@ -191,15 +225,54 @@ const AddVideoCourse = () => {
                 <SelectGroup>
                   <SelectItem value="english">English</SelectItem>
                   <SelectItem value="spanish">Spanish</SelectItem>
-                  <SelectItem value="french">French</SelectItem>
+                  <SelectItem value="general">General</SelectItem>
                 </SelectGroup>
               </SelectContent>
             </Select>
+
+            <div className="w-full max-w-md mx-auto" id="preRequisitiesInput">
+              <div className="flex flex-wrap gap-2 mb-2">
+                {tags.map((tag) => (
+                  <div
+                    key={tag}
+                    className="flex items-center bg-lightText text-white px-2 py-1 rounded-md"
+                  >
+                    <span className="mr-1">{tag}</span>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="w-4 h-4 p-0 hover:bg-primary-foreground/20"
+                      onClick={() => removeTag(tag)}
+                    >
+                      <CloseIcon className="w-3 h-3" />
+                      <span className="sr-only">Remove tag</span>
+                    </Button>
+                  </div>
+                ))}
+              </div>
+              <div className="relative">
+                <Input
+                  type="text"
+                  placeholder="Add tags"
+                  value={inputValue}
+                  onChange={handleInputChange}
+                  onKeyDown={handleInputKeyDown}
+                  className="text-end text-lightText"
+                />
+                <Button
+                  className="absolute right-1 top-1 h-8"
+                  onClick={addTag}
+                  disabled={!inputValue.trim()}
+                >
+                  Add Tag
+                </Button>
+              </div>
+            </div>
+
             <div className="flex flex-wrap gap-2 p-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md flex-1">
               <Input
                 id="materials"
                 type="file"
-                value={inputValue}
                 onChange={(e) => setMaterialsFile(e.target.files?.[0])}
                 className="hidden"
               />
