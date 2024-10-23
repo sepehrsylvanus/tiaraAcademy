@@ -19,6 +19,9 @@ const nextConfig = {
       {
         hostname: "infallible-zhukovsky-7f1f128am.storage.iran.liara.space",
       },
+      {
+        hostname: "trustseal.enamad.ir",
+      },
     ],
   },
 };
