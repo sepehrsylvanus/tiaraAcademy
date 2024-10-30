@@ -101,7 +101,7 @@ export default async function Home() {
         <div id="institue" className="flex flex-col space-y-6">
           <div id="title" className="flex gap-2 items-center flex-row-reverse">
             <Image src={"/logo.png"} alt="logo" width={50} height={50} />
-            <p>Tiara academy</p>
+            <p>Tiara Academy</p>
           </div>
           <div id="socials" className="flex gap-4">
             <Link
