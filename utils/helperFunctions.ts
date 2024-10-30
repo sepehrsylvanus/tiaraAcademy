@@ -48,16 +48,8 @@ export function formatDateToStandard(date: Date) {
   const minutes = String(date.getUTCMinutes()).padStart(2, "0");
   const seconds = String(date.getUTCSeconds()).padStart(2, "0");
 
-  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-  /*************  ✨ Codeium Command ⭐  *************/
-  /**
-   * Converts an array of English day strings to their Persian equivalents.
-   * If a single day string is provided, returns the corresponding Persian day.
-   * If an array of days is provided, maps each day to its Persian equivalent and joins them with a "/" separator.
-   * @param days An array of English day strings to be converted to Persian.
-   * @returns The Persian equivalent of the input day(s).
-   */
-  /******  6c4996d1-ded0-40c6-946e-102004493430  *******/
+  return `${year}-${month}-${day} | ${hours}:${minutes}:${seconds}`;
+  
 }
 export function convertDaysToPersian(days: string[]) {
   const dayMapping: { [key: string]: string } = {
