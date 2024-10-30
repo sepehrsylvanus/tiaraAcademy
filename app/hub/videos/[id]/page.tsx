@@ -196,7 +196,6 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
             </Avatar>
 
             <p className="font-bold">{`${videoDetails?.teacher.fName} ${videoDetails?.teacher.lName}`}</p>
-            <p>Teacher of English, Persian, Russian</p>
             <Link href={`/hub/teachers/${videoDetails?.teacherId}`}>
               <Button variant={"outline"}>{t("showProfile")}</Button>
             </Link>
