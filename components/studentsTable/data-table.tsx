@@ -64,15 +64,15 @@ export function DataTable<TData, TValue>({
       </div>
       <div>
         <Table className="rounded-md border  ">
-          <TableHeader>
+          <TableHeader >
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow
-                className="bg-extraText text-lightPrime hover:bg-extraText rounded-md"
+                className="bg-extraText text-lightPrime hover:bg-extraText rounded-md rtl"
                 key={headerGroup.id}
               >
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id} className="text-lightPrime">
+                    <TableHead key={header.id} className="text-lightPrime rtl:text-start">
                       {header.isPlaceholder
                         ? null
                         : flexRender(

@@ -241,4 +241,8 @@ export const columns: ColumnDef<StudentsShow>[] = [
     accessorKey: "email",
     header: "Email",
   },
+  {
+    accessorKey: "pNumber",
+    header: "Phone number",
+  },
 ];
