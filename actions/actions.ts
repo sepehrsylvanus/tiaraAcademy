@@ -3,7 +3,7 @@ import prisma from "@/utils/db";
 import { S3 } from "aws-sdk";
 import { cookies } from "next/headers";
 import { getSingleUser } from "./userActions";
-import { User } from "@/utils/types";
+import { Notif, User } from "@/utils/types";
 import { requestToBodyStream } from "next/dist/server/body-streams";
 import { ArrowUpward } from "@mui/icons-material";
 import request from "request";
@@ -545,7 +545,7 @@ export const getAllNotifs = async (userId: string) => {
     include: {
       cls: true,
     },
-  });
+  }) as Notif[];
   return notifs;
 };
 

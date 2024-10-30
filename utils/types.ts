@@ -142,3 +142,14 @@ export interface CommentAnswer {
   comment: Comment;
   commentId: string;
 }
+export interface Notif {
+  id        : string   
+  title     :string
+  status    : 'read' | 'unread' 
+  type      : 'register'| "joinClass"
+  user      : User    
+  createdAt :Date  
+  userId    :string
+  classId   ?:string
+  cls       ? : Class 
+}

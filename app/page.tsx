@@ -32,13 +32,13 @@ export default async function Home() {
       </Link>
 
       <Link href={"/hub"} className="mb-24">
-        <div className="h-[580px] w-screen relative">
-          <Image src="/tiaraBanner.png" alt="" className=" absolute " fill />
+        <div className=" w-11/12 mx-auto relative mt-5 rounded-md border border-black">
+          <img src="/tiaraBanner.jpg" alt="" className=" h-full  rounded-md " />
         </div>
       </Link>
       <section
         id="differentParts"
-        className="grid grid-cols-1 md:grid-cols-2  md:grid-rows-2 pb-[2.5em] px-48 gap-6 "
+        className="grid grid-cols-1 md:grid-cols-2  md:grid-rows-2 pb-[2.5em] px-48 gap-16 "
       >
         <div className="relative w-[564px] h-[317px] rounded-md">
           <Image

@@ -15,7 +15,7 @@ export function useGetAllNotifs(userId: string) {
   return useQuery({
     queryKey: ["getAllNotifs", userId],
     queryFn: async () => {
-      const allNotifs = await getAllNotifs(userId);
+      const allNotifs = await getAllNotifs(userId) ;
       return allNotifs;
     },
   });
