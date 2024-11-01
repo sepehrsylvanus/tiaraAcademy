@@ -18,7 +18,7 @@ const NotifTab: FC<NotifTabProps> = ({ data, value }) => {
 
   return (
     <TabsContent value={value}>
-      {data?.map((notif, index) => (
+      {data?.sort((a,b)=> b.createdAt.getTime() - a.createdAt.getTime())?.map((notif, index) => (
         <div
           key={index}
           className="eachNotif flex items-center rtl:flex-row-reverse p-7 shadow-lg"
