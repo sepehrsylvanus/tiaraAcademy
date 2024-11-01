@@ -10,6 +10,9 @@ import XIcon from "@mui/icons-material/X";
 import TelegramIcon from "@mui/icons-material/Telegram";
 import FacebookIcon from "@mui/icons-material/Facebook";
 export default async function Home() {
+  const translations  = await getMessages() as any
+  
+  const t  = translations.LandingPage
   return (
     <div
       className={`${styles.container} bg-lightPrime flex flex-col items-center `}
@@ -49,9 +52,9 @@ export default async function Home() {
           />
           <Link
             href={"/hub/classes"}
-            className="bg-[#5E8780] transition-all hover:bg-[#9ab1ae] absolute right-0 bottom-[1.5em] px-4 py-1"
+            className="bg-[#5E8780] transition-all hover:bg-[#9ab1ae] absolute right-0 bottom-[1.5em] px-4 py-1 "
           >
-            Enroll now!
+            {t.enrollNow}
           </Link>
         </div>
         <div className="relative w-[564px] h-[317px] rounded-md">
@@ -65,7 +68,7 @@ export default async function Home() {
             href={"/hub/videos"}
             className="bg-[#5E8780] transition-all hover:bg-[#9ab1ae] absolute right-0 bottom-[1.5em] px-4 py-1 text-end"
           >
-            Enroll now!
+            {t.watchNow}
           </Link>
         </div>
         <div className="relative w-[564px] h-[317px] rounded-md">
@@ -79,7 +82,7 @@ export default async function Home() {
             href={"/hub/writing"}
             className="bg-[#5E8780] transition-all hover:bg-[#9ab1ae] absolute right-0 bottom-[1.5em] px-4 py-1"
           >
-            Enroll now!
+            {t.submitNow}
           </Link>
         </div>
         <div className="relative w-[564px] h-[317px] rounded-md">
@@ -93,7 +96,7 @@ export default async function Home() {
             href={"/hub/blogs"}
             className="bg-[#5E8780] transition-all hover:bg-[#9ab1ae] absolute right-0 bottom-[1.5em] px-4 py-1"
           >
-            Enroll now!
+            {t.checkoutNow}
           </Link>
         </div>
       </section>
