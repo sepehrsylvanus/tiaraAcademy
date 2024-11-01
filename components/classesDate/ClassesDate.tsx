@@ -7,6 +7,8 @@ import { DateCalendar } from "@mui/x-date-pickers";
 import { Controller, useFormContext } from "react-hook-form";
 import { Axios } from "@/utils/axiosIn";
 import { Class, UserClasses } from "@/utils/types";
+import { Calendar } from "react-multi-date-picker";
+
 type DatePickersProps = {
   classDates: string[] | undefined;
   classId: string;
@@ -88,6 +90,7 @@ const ClassesDate = ({
         control={form.control}
         render={({ field }) => (
           <DateCalendar
+          
             value={field.value}
             onChange={field.onChange}
             shouldDisableDate={disableDates}

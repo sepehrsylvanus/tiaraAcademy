@@ -112,7 +112,8 @@ const MyClass = (details: DetailsProps) => {
     console.log(values.time);
     console.log(values.date);
     console.log(singleClass?.price);
-    if (singleClass?.price && singleClass?.price !== "") {
+    if (singleClass?.price ) {
+      console.log(singleClass?.price  );
       console.log("here");
       const placementPayment = await createNewPayment(
         Number(singleClass?.price),

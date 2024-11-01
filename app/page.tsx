@@ -33,7 +33,7 @@ export default async function Home() {
 
       <Link href={"/hub"} className="mb-24">
         <div className=" w-11/12 mx-auto relative mt-5 rounded-md border border-black">
-          <img src="/tiaraBanner.jpg" alt="" className=" h-full  rounded-md " />
+          <img src="/banner.png" alt="" className=" h-full  rounded-md " />
         </div>
       </Link>
       <section
@@ -42,56 +42,56 @@ export default async function Home() {
       >
         <div className="relative w-[564px] h-[317px] rounded-md">
           <Image
-            src="/onlineSessions.jpg"
+            src="/landingPageSections/class.png"
             alt="online sessions"
             fill
             className="rounded-md border border-lightText"
           />
           <Link
             href={"/hub/classes"}
-            className="bg-[#5E8780] absolute right-0 bottom-[1.5em] px-4 py-1"
+            className="bg-[#5E8780] transition-all hover:bg-[#9ab1ae] absolute right-0 bottom-[1.5em] px-4 py-1"
           >
             Enroll now!
           </Link>
         </div>
         <div className="relative w-[564px] h-[317px] rounded-md">
           <Image
-            src="/videoCourses.jpg"
+            src="/landingPageSections/videos.png"
             alt="video courses"
             fill
             className="rounded-md border border-lightText"
           />
           <Link
             href={"/hub/videos"}
-            className="bg-[#5E8780] absolute right-0 bottom-[1.5em] px-4 py-1 text-end"
+            className="bg-[#5E8780] transition-all hover:bg-[#9ab1ae] absolute right-0 bottom-[1.5em] px-4 py-1 text-end"
           >
             Enroll now!
           </Link>
         </div>
         <div className="relative w-[564px] h-[317px] rounded-md">
           <Image
-            src="/writingSkills.jpg"
-            alt="writing skills"
+            src="/landingPageSections/writing.png"
+             alt="writing skills"
             fill
             className="rounded-md border border-lightText"
           />
           <Link
             href={"/hub/writing"}
-            className="bg-[#5E8780] absolute right-0 bottom-[1.5em] px-4 py-1"
+            className="bg-[#5E8780] transition-all hover:bg-[#9ab1ae] absolute right-0 bottom-[1.5em] px-4 py-1"
           >
             Enroll now!
           </Link>
         </div>
         <div className="relative w-[564px] h-[317px] rounded-md">
           <Image
-            src="/articles.jpg"
+            src="/landingPageSections/reading.png"
             alt=" articles"
             fill
             className="rounded-md border border-lightText"
           />
           <Link
             href={"/hub/blogs"}
-            className="bg-[#5E8780] absolute right-0 bottom-[1.5em] px-4 py-1"
+            className="bg-[#5E8780] transition-all hover:bg-[#9ab1ae] absolute right-0 bottom-[1.5em] px-4 py-1"
           >
             Enroll now!
           </Link>
