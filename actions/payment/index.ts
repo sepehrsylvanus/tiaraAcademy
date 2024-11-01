@@ -105,12 +105,22 @@ export const createNewPayment = async (
             });
           }
         }
+        const registeredClass = await prisma.classUsers.findMany({
+          where: {
+            AND: [
+              {classId: targetedClass?.id},
+              {userId: user.id}
+            ]
+          }
+        })
         await prisma.notifs.create({
           data: {
             title: `${user.fName} ${user.lName} with id ${user.id} registered in ${targetedClass?.title} class`,
             type: "joinClass",
             userId: user.id,
             classId: targetedClass?.id,
+            classTime: registeredClass[0].time
+
           },
         });
       }
@@ -187,6 +197,7 @@ export const verifyPayment = async ({
     });
     console.log(targetedPayment);
     let targetedClass;
+   
     if (classId) {
       targetedClass = await prisma.class.findUnique({
         where: {
@@ -257,12 +268,21 @@ export const verifyPayment = async ({
                 },
               });
             }
+            const registeredClass = await prisma.classUsers.findMany({
+              where: {
+                AND: [
+                  {classId: targetedClass?.id},
+                  {userId: user.id}
+                ]
+              }
+            })
             await prisma.notifs.create({
               data: {
                 title: `${user.fName} ${user.lName} with id ${user.id} registered in ${targetedClass?.title} class`,
                 type: "joinClass",
                 userId: user.id,
                 classId: targetedClass?.id,
+                classTime: registeredClass[0].time
               },
             });
           }

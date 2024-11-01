@@ -152,4 +152,5 @@ export interface Notif {
   userId    :string
   classId   ?:string
   cls       ? : Class 
+  classTime: string
 }

@@ -371,6 +371,7 @@
     "addNewComment": "Add a new comment",
     "noCommentYet": "There is no comment yet",
     "alreadyBought": "You already bought this course",
-    "noPrerequisities" : "This course is beginner friendly"
+    "noPrerequisities" : "This course is beginner friendly",
+    "teacher": "Teacher of this course"
   }
 }
