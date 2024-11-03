@@ -11,8 +11,6 @@
   }
 }
 .container section:not(section.navbar, section.testimonials, section.footer) {
-  box-shadow: 14px 16px 0px -7px rgba(0, 0, 0, 0.05);
-
   margin: 0 auto;
 }
 /* NAVBAR */
@@ -32,7 +30,7 @@
 .navbarLeft {
   display: flex;
   gap: 1em;
-  margin-left: 1.5em;
+
   @media (max-width: 765px) {
     display: none;
   }

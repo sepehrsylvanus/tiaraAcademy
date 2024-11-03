@@ -13,10 +13,10 @@ import { getToken } from "@/actions/actions";
 const Navbar = async () => {
   const message = (await getMessages()) as any;
   const token = await getToken();
-  console.log(token);
+  
   return (
     <nav
-      className={`${styles.navbar} bg-lightPrime text-extraText flex items-center`}
+      className={`${styles.navbar} bg-lightPrime text-extraText flex items-center `}
     >
       <Link href={"/"}>
         <Image
@@ -30,23 +30,8 @@ const Navbar = async () => {
       <div
         className={`${styles.navbarLeft} bg-lightPrime text-lightText items-center`}
       >
-        {" "}
-        <Link className="text-lightText" href={"#services"}>
-          {message.Navbar.services}
-        </Link>
-        <Divider orientation="vertical" style={{ height: "20px" }} />
-        <Link className="text-lightText" href={"#levels"}>
-          {message.Navbar.levels}
-        </Link>
-        <Divider orientation="vertical" style={{ height: "20px" }} />
-        <Link className="text-lightText" href={"#testimonials"}>
-          {message.Navbar.testimonials}
-        </Link>
-        <Divider orientation="vertical" style={{ height: "20px" }} />
-        <Link className="text-lightText" href={"/hub"}>
-          {message.Navbar.enterHub}
-        </Link>
-        <Divider orientation="vertical" style={{ height: "20px" }} />
+    
+     
         <ChangeLocale />
       </div>
       <NavRight token={token?.value!} />

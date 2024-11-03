@@ -200,7 +200,9 @@ const Classes = ({ searchParams: { teacher } }: Props) => {
           <>
             {filteredClasses?.map((eachClass) => {
               let days = eachClass.days;
-              console.log(eachClass.duration);
+              const formattedDays = days
+                .map((day) => day.charAt(0).toUpperCase() + day.slice(1))
+                .join(" / ");
               return (
                 <Card
                   key={eachClass.id}
@@ -225,10 +227,10 @@ const Classes = ({ searchParams: { teacher } }: Props) => {
                         <Chip label={eachClass.type} />
                       </div>
                     </div>
-                    {console.log(days)}
+
                     <p className=" font-semibold mt-2">
                       {locale === "en"
-                        ? days
+                        ? formattedDays
                         : convertDaysToPersian(days) ||
                           "There is no dedicated day for this class"}
                     </p>
