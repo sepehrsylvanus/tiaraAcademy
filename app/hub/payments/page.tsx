@@ -30,7 +30,7 @@ export default function Payments() {
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
   const { data: currentUser, isLoading: currentUserLoading } = useGetUser();
   const { data: payments } = useGetMyPayments(currentUser?.id!);
-  const t = useTranslations('Payments')
+  const t = useTranslations("Payments");
   if (payments) {
     console.log(payments);
   }
@@ -39,7 +39,7 @@ export default function Payments() {
   const filteredPayments = useMemo(() => {
     return payments?.filter(
       (payment) =>
-        payment.date.toString().includes(search) ||
+        payment.date?.toString().includes(search) ||
         payment.price.toString().includes(search) ||
         payment.class?.title.includes(search)
     );
@@ -63,7 +63,7 @@ export default function Payments() {
 
   return (
     <div className="container mx-auto py-8">
-      <h1 className="text-3xl font-bold mb-6">{t('payments')}</h1>
+      <h1 className="text-3xl font-bold mb-6">{t("payments")}</h1>
       <div className="mb-6">
         <Input
           placeholder="Search payments..."
@@ -80,7 +80,7 @@ export default function Payments() {
                 className="cursor-pointer"
                 onClick={() => handleSort("date")}
               >
-                {t('date')}
+                {t("date")}
                 {sortColumn === "date" && (
                   <span className="ml-2">
                     {sortDirection === "asc" ? "\u2191" : "\u2193"}
@@ -91,7 +91,7 @@ export default function Payments() {
                 className="cursor-pointer"
                 onClick={() => handleSort("amount")}
               >
-                {t('price')}
+                {t("price")}
                 {sortColumn === "amount" && (
                   <span className="ml-2">
                     {sortDirection === "asc" ? "\u2191" : "\u2193"}
@@ -102,14 +102,14 @@ export default function Payments() {
                 className="cursor-pointer"
                 onClick={() => handleSort("status")}
               >
-                {t('status')}
+                {t("status")}
                 {sortColumn === "status" && (
                   <span className="ml-2">
                     {sortDirection === "asc" ? "\u2191" : "\u2193"}
                   </span>
                 )}
               </TableHead>
-              <TableHead>{t('reasone')}</TableHead>
+              <TableHead>{t("reasone")}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -118,12 +118,12 @@ export default function Payments() {
                 <TableCell className="rtl:text-end">
                   {locale === "fa" ? (
                     <p>
-                      {moment(payment.date.toLocaleDateString())
+                      {moment(payment.date?.toLocaleDateString())
                         .locale("fa")
                         .format("YYYY/MM/DD")}
                     </p>
                   ) : (
-                    <p>{payment.date.toLocaleDateString()}</p>
+                    <p>{payment.date?.toLocaleDateString()}</p>
                   )}
                 </TableCell>
                 <TableCell className="rtl:text-end">
@@ -131,7 +131,7 @@ export default function Payments() {
                 </TableCell>
                 <TableCell className="rtl:text-end">
                   <Badge variant={payment.payed ? "successful" : "destructive"}>
-                    {payment.payed ? t('payed') : t('notPayed')}
+                    {payment.payed ? t("payed") : t("notPayed")}
                   </Badge>
                 </TableCell>
                 <TableCell className="rtl:text-end">
