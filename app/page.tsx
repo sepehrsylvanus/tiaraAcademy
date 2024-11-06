@@ -18,9 +18,6 @@ export default async function Home() {
       className={`${styles.container} bg-lightPrime flex flex-col items-center `}
     >
       <Navbar />
-      <Link href={"#"}>
-        <img src="/introduction.jpeg" alt="" className="w-screen" />
-      </Link>
 
       <Link href={"/hub"} className="mb-24">
         <div className=" w-11/12 mx-auto relative mt-5 rounded-md border border-black">
