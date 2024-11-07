@@ -26,9 +26,9 @@ export default async function Home() {
       </Link>
       <section
         id="differentParts"
-        className="grid grid-cols-1 2xl:grid-cols-2  md:grid-rows-2 pb-[2.5em]  md:px-48 gap-6 md:gap-16 shadow-none"
+        className="grid grid-cols-1 md:grid-cols-2  md:grid-rows-2 pb-[2.5em]  md:px-12 lg:px-48 gap-6 md:gap-16 shadow-none"
       >
-        <div className="relative w-[300px] h-[150px] md:w-[564px] md:h-[317px] rounded-md">
+        <div className="relative w-[300px] h-[150px] md:w-[400px] md:h-[200px] rounded-md">
           <Image
             src="/landingPageSections/class.png"
             alt="online sessions"
@@ -42,7 +42,7 @@ export default async function Home() {
             {t.enrollNow}
           </Link>
         </div>
-        <div className="relative w-[300px] h-[150px] md:w-[564px] md:h-[317px] rounded-md">
+        <div className="relative w-[300px] h-[150px] md:w-[400px] md:h-[200px] rounded-md">
           <Image
             src="/landingPageSections/videos.png"
             alt="video courses"
@@ -56,7 +56,7 @@ export default async function Home() {
             {t.watchNow}
           </Link>
         </div>
-        <div className="relative w-[300px] h-[150px] md:w-[564px] md:h-[317px] rounded-md">
+        <div className="relative w-[300px] h-[150px] md:md:w-[400px] md:h-[200px] rounded-md">
           <Image
             src="/landingPageSections/writing.png"
             alt="writing skills"
@@ -70,7 +70,7 @@ export default async function Home() {
             {t.submitNow}
           </Link>
         </div>
-        <div className="relative w-[300px] h-[150px] md:w-[564px] md:h-[317px] rounded-md">
+        <div className="relative w-[300px] h-[150px] md:w-[400px] md:h-[200px] rounded-md">
           <Image
             src="/landingPageSections/reading.png"
             alt=" articles"

@@ -12,12 +12,12 @@ const ChangeLocale = () => {
 
   if (language === "fa") {
     return (
-      <div className="relative w-[30px] h-[20px] hover:shadow-2xl cursor-pointer">
+      <div className="relative w-[30px] h-[20px] hover:shadow-flagShadow cursor-pointer">
         <Image
-          src={"/landingPageSections/iranFlag.jpg"}
+          src={"/landingPageSections/iranFlagWithoutSymbol.webp"}
           fill
           alt="iran flag"
-          className="hover:scale-150 transition-all absolute "
+          className="hover:scale-150 transition-all shadow-flagShadow absolute "
           onClick={() => {
             if (language === "fa") {
               setUserLocale("en");
@@ -30,13 +30,13 @@ const ChangeLocale = () => {
     );
   } else {
     return (
-      <div className="relative w-[30px] h-[20px] hover:shadow-2xl cursor-pointer">
+      <div className="relative w-[30px] h-[20px]   cursor-pointer shadow-flagShadow">
         <Image
           src={"/landingPageSections/unitedStateFlag.png"}
           width={40}
           height={40}
           alt="united state flag"
-          className="hover:scale-150 transition-all absolute "
+          className="hover:scale-150 shadow-flagShadow transition-all absolute "
           onClick={() => {
             if (language === "fa") {
               setUserLocale("en");
