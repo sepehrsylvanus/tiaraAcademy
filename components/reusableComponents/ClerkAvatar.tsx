@@ -113,30 +113,20 @@ const ClerkAvatar = () => {
               <LogoutIcon sx={{ width: ".8em" }} /> {t("signOut")}
             </Button>
           )}
-          {loading ? (
+          <Link
+            href={"/hub/payments"}
+            className={`${myPayments?.length === 0 && "pointer-events-none"}`}
+          >
             <Button
+              type="button"
+              role="link"
+              disabled={myPayments?.length === 0}
               className="bg-white shadow-sm
          shadow-slate-400 transition hover:ring-4 hover:ring-slate-400 hover:text-black text-black rounded-xl text-[11px] py-[2px] px-4 flex gap-1"
-              onClick={signout}
             >
-              <CircularProgress sx={{ color: "black" }} />
+              <PaymentsIcon sx={{ width: ".8em" }} /> {t("myPayments")}
             </Button>
-          ) : (
-            <Link
-              href={"/hub/payments"}
-              className={`${myPayments && "pointer-events-none"}`}
-            >
-              <Button
-                type="button"
-                role="link"
-                disabled={myPayments?.length === 0}
-                className="bg-white shadow-sm
-         shadow-slate-400 transition hover:ring-4 hover:ring-slate-400 hover:text-black text-black rounded-xl text-[11px] py-[2px] px-4 flex gap-1"
-              >
-                <PaymentsIcon sx={{ width: ".8em" }} /> {t("myPayments")}
-              </Button>
-            </Link>
-          )}
+          </Link>
         </div>
       </PopoverContent>
     </Popover>

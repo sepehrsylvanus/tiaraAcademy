@@ -8,8 +8,6 @@ import Image from "next/image";
 const ChangeLocale = () => {
   const language = useLocale();
 
-  const t = useTranslations("Navbar");
-
   if (language === "fa") {
     return (
       <div className="relative w-[30px] h-[20px] hover:shadow-flagShadow cursor-pointer">
