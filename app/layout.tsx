@@ -62,11 +62,6 @@ export default async function RootLayout({
             pauseOnHover
             theme="dark"
           />
-          <p
-            className={`fixed bottom-0 z-50 bg-lightPrime text-lightText w-full p-2 font-semibold text-center md:text-start $`}
-          >
-            {message.Layout.copyright}
-          </p>
         </body>
       </NextIntlClientProvider>
     </html>

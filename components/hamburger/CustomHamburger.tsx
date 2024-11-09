@@ -36,28 +36,16 @@ const CustomHamburger = ({
 
   return (
     <div className="md:hidden">
-      <Hamburger onToggle={() => setOpenMenu((prev) => !prev)} />
+      <Hamburger
+        color="#072d44"
+        onToggle={() => setOpenMenu((prev) => !prev)}
+      />
 
       <div
         className={` ${
           openMenu ? "block" : "hidden"
-        } absolute bg-cardBg text-extraText p-6 rounded-md shadow-xl right-0 transition flex flex-col z-[999] `}
+        } absolute bg-cardBg text-extraText p-6 rounded-md shadow-xl w-screen right-0  transition flex flex-col z-[999] `}
       >
-        <div
-          className={`   pb-2 gap-1 text-base md:gap-3  md:text-xl ${
-            navbar ? "flex flex-col " : "hidden"
-          }`}
-        >
-          {" "}
-          <Link href={"#services"}>Services</Link>
-          <Divider className="my-2" />
-          <Link href={"#levels"}>Levels</Link>
-          <Divider className="my-2" />
-          <Link href={"#testimonials"}>Testimonials</Link>
-          <Divider className="my-2" />
-          <Link href={"/hub"}>Enter Hub</Link>
-        </div>
-
         {token ? (
           <div className=" pt-4 mb-3 gap-8 flex items-center justify-between">
             <Link href={"/hub"} className="brownLink">

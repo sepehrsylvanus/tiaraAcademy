@@ -13,6 +13,7 @@ export default async function Home() {
   const translations = (await getMessages()) as any;
 
   const t = translations.LandingPage;
+
   return (
     <div
       className={`${styles.container} bg-lightPrime flex flex-col items-center `}
@@ -26,9 +27,9 @@ export default async function Home() {
       </Link>
       <section
         id="differentParts"
-        className="grid grid-cols-1 md:grid-cols-2  md:grid-rows-2 pb-[2.5em]  md:px-12 lg:px-48 gap-6 md:gap-16 shadow-none"
+        className="grid grid-cols-1 md:grid-cols-2  md:grid-rows-2 pb-[2.5em]  sLaptop:px-12 lg:px-48 gap-6 md:gap-16 shadow-none"
       >
-        <div className="relative w-[300px] h-[150px] md:w-[400px] md:h-[200px] rounded-md">
+        <div className="relative w-[300px] h-[150px] md:w-[400px] md:h-[200px] lg:w-[600px] lg:h-[350px] rounded-md">
           <Image
             src="/landingPageSections/class.png"
             alt="online sessions"
@@ -42,7 +43,7 @@ export default async function Home() {
             {t.enrollNow}
           </Link>
         </div>
-        <div className="relative w-[300px] h-[150px] md:w-[400px] md:h-[200px] rounded-md">
+        <div className="relative w-[300px] h-[150px] md:w-[400px] md:h-[200px] lg:w-[600px] lg:h-[350px] rounded-md ">
           <Image
             src="/landingPageSections/videos.png"
             alt="video courses"
@@ -56,7 +57,7 @@ export default async function Home() {
             {t.watchNow}
           </Link>
         </div>
-        <div className="relative w-[300px] h-[150px] md:md:w-[400px] md:h-[200px] rounded-md">
+        <div className="relative w-[300px] h-[150px] md:md:w-[400px] md:h-[200px] lg:w-[600px] lg:h-[350px] rounded-md">
           <Image
             src="/landingPageSections/writing.png"
             alt="writing skills"
@@ -70,7 +71,7 @@ export default async function Home() {
             {t.submitNow}
           </Link>
         </div>
-        <div className="relative w-[300px] h-[150px] md:w-[400px] md:h-[200px] rounded-md">
+        <div className="relative w-[300px] h-[150px] md:w-[400px] md:h-[200px] lg:w-[600px] lg:h-[350px] rounded-md">
           <Image
             src="/landingPageSections/reading.png"
             alt=" articles"
@@ -85,61 +86,73 @@ export default async function Home() {
           </Link>
         </div>
       </section>
-      <footer className="md:flex justify-between rtl:flex-row-reverse px-8 pb-[5em] pt-4 w-full hidden">
-        <div id="institue" className="flex flex-col space-y-6">
-          <div id="title" className="flex gap-2 items-center flex-row-reverse">
-            <Image src={"/logo.png"} alt="logo" width={50} height={50} />
-            <p>Tiara Academy</p>
+      <footer className="md:flex flex-col px-8 pb-[5em] pt-4 w-full hidden">
+        <div className="md:flex justify-between rtl:flex-row-reverse">
+          <div id="institue" className="flex flex-col space-y-6">
+            <div
+              id="title"
+              className="flex gap-2 items-center flex-row-reverse"
+            >
+              <Image src={"/logo.png"} alt="logo" width={50} height={50} />
+              <p>Tiara Academy</p>
+            </div>
+            <div id="socials" className="flex gap-4">
+              <Link
+                href={"#"}
+                className="rounded-full p-2 border border-lightText bg-cardBg transition-all hover:bg-white"
+              >
+                <InstagramIcon />
+              </Link>
+              <Link
+                href={"#"}
+                className="rounded-full p-2 border border-lightText bg-cardBg transition-all hover:bg-white"
+              >
+                <YouTubeIcon />
+              </Link>
+              <Link
+                href={"#"}
+                className="rounded-full p-2 border border-lightText bg-cardBg transition-all hover:bg-white"
+              >
+                <XIcon />
+              </Link>
+              <Link
+                href={"#"}
+                className="rounded-full p-2 border border-lightText bg-cardBg transition-all hover:bg-white"
+              >
+                <TelegramIcon />
+              </Link>
+              <Link
+                href={"#"}
+                className="rounded-full p-2 border border-lightText bg-cardBg transition-all hover:bg-white"
+              >
+                <FacebookIcon />
+              </Link>
+            </div>
           </div>
-          <div id="socials" className="flex gap-4">
-            <Link
-              href={"#"}
-              className="rounded-full p-2 border border-lightText bg-cardBg transition-all hover:bg-white"
-            >
-              <InstagramIcon />
-            </Link>
-            <Link
-              href={"#"}
-              className="rounded-full p-2 border border-lightText bg-cardBg transition-all hover:bg-white"
-            >
-              <YouTubeIcon />
-            </Link>
-            <Link
-              href={"#"}
-              className="rounded-full p-2 border border-lightText bg-cardBg transition-all hover:bg-white"
-            >
-              <XIcon />
-            </Link>
-            <Link
-              href={"#"}
-              className="rounded-full p-2 border border-lightText bg-cardBg transition-all hover:bg-white"
-            >
-              <TelegramIcon />
-            </Link>
-            <Link
-              href={"#"}
-              className="rounded-full p-2 border border-lightText bg-cardBg transition-all hover:bg-white"
-            >
-              <FacebookIcon />
-            </Link>
-          </div>
-        </div>
-        <div id="eNamad">
-          <a
-            referrerPolicy="origin"
-            target="_blank"
-            href="https://trustseal.enamad.ir/?id=516151&Code=jCBpwjkJeshetgDotCMZkNrYm2zyiLUy"
-          >
-            <Image
+          <div id="eNamad">
+            <a
               referrerPolicy="origin"
-              src="https://trustseal.enamad.ir/logo.aspx?id=516151&Code=jCBpwjkJeshetgDotCMZkNrYm2zyiLUy"
-              alt=""
-              style={{ cursor: "pointer" }}
-              width={100}
-              height={100}
-            />
-          </a>
+              target="_blank"
+              href="https://trustseal.enamad.ir/?id=516151&Code=jCBpwjkJeshetgDotCMZkNrYm2zyiLUy"
+            >
+              <Image
+                referrerPolicy="origin"
+                src="https://trustseal.enamad.ir/logo.aspx?id=516151&Code=jCBpwjkJeshetgDotCMZkNrYm2zyiLUy"
+                alt=""
+                style={{ cursor: "pointer" }}
+                width={100}
+                height={100}
+              />
+            </a>
+          </div>
         </div>
+        <Link href={"https://sani-dev-portfolio.vercel.app/"}>
+          <p
+            className={` z-50 bg-lightPrime text-lightText w-full p-2 font-semibold text-center `}
+          >
+            {translations.Layout.copyright}
+          </p>
+        </Link>
       </footer>
 
       <footer className="flex flex-col items-center  px-8 pb-[5em] pt-4 w-full md:hidden">
@@ -197,6 +210,11 @@ export default async function Home() {
             <FacebookIcon />
           </Link>
         </div>
+        <p
+          className={` z-50 bg-lightPrime text-lightText w-full p-2 font-semibold text-center md:text-start $`}
+        >
+          {translations.Layout.copyright}
+        </p>
       </footer>
     </div>
   );

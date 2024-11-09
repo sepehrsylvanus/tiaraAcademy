@@ -22,6 +22,9 @@ const config = {
     },
 
     extend: {
+      screens: {
+        sLaptop: "1025px",
+      },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
