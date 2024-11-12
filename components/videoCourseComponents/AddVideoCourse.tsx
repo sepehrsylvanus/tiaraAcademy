@@ -33,19 +33,22 @@ import CloseIcon from "@mui/icons-material/Close";
 import { Textarea } from "@/components/ui/textarea";
 import { createVideoCourse } from "@/actions/videos/videos.action";
 import { toast } from "react-toastify";
+
 const courseDetailsForm = z.object({
   title: z.string().min(2).max(50),
   price: z.number(),
   description: z.string(),
   explenation: z.string(),
 });
+
+import TextEditor from "../TextEditor";
 const AddVideoCourse = () => {
   const [loading, setLoading] = useState(false);
   const [materialsFile, setMaterialsFile] = useState<File>();
   // COURSE IMAGE CHOOSING
   const [selectedImage, setSelectedImage] = useState<string>();
   const [thumbnailRaw, setThumbnailRaw] = useState<File>();
-
+  const [textEditorContent, setTextEditorContent] = useState("");
   useEffect(() => {
     console.log(materialsFile);
   }, [materialsFile]);
@@ -70,12 +73,10 @@ const AddVideoCourse = () => {
   const handlePreviewClick = () => {
     fileInputRef.current?.click();
   };
-  //   END OF CHOOSING COURSE IMAGE
-  //   TAG INPUT
+
   const [tags, setTags] = useState<string[]>([]);
   const [inputValue, setInputValue] = useState("");
 
-  //   END OF TAG INPUT
   const [selectedLanguage, setSelectedLanguage] = React.useState("");
 
   const form = useForm<z.infer<typeof courseDetailsForm>>({
@@ -106,8 +107,6 @@ const AddVideoCourse = () => {
       setLoading(false);
     }
   }
-
-  // TAG INPUT THINGS
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -317,10 +316,14 @@ const AddVideoCourse = () => {
           render={({ field }) => (
             <FormItem className="col-span-2">
               <FormControl>
-                <Textarea
+                {/* <Textarea
                   {...field}
                   placeholder="Explenation"
                   className="col-span-2 resize-none text-lightText outline-none"
+                /> */}
+                <TextEditor
+                  textEditorContent={textEditorContent}
+                  setTextEditorContent={setTextEditorContent}
                 />
               </FormControl>
 
