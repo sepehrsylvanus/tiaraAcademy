@@ -150,7 +150,13 @@ export default async function Home() {
           <p
             className={` z-50 bg-lightPrime text-lightText w-full p-2 font-semibold text-center `}
           >
-            {translations.Layout.copyright}
+            {translations.Layout.copyright}{" "}
+            <Link
+              href={"https://sani-dev-portfolio.vercel.app/"}
+              className="underline"
+            >
+              Sani dev.
+            </Link>
           </p>
         </Link>
       </footer>
@@ -213,7 +219,13 @@ export default async function Home() {
         <p
           className={` z-50 bg-lightPrime text-lightText w-full p-2 font-semibold text-center md:text-start $`}
         >
-          {translations.Layout.copyright}
+          {translations.Layout.copyright}{" "}
+          <Link
+            href={"https://sani-dev-portfolio.vercel.app/"}
+            className="underline"
+          >
+            Sani dev.
+          </Link>
         </p>
       </footer>
     </div>
