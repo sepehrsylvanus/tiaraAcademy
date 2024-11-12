@@ -48,7 +48,7 @@ const AddVideoCourse = () => {
   // COURSE IMAGE CHOOSING
   const [selectedImage, setSelectedImage] = useState<string>();
   const [thumbnailRaw, setThumbnailRaw] = useState<File>();
-  const [textEditorContent, setTextEditorContent] = useState("");
+
   useEffect(() => {
     console.log(materialsFile);
   }, [materialsFile]);
@@ -322,8 +322,8 @@ const AddVideoCourse = () => {
                   className="col-span-2 resize-none text-lightText outline-none"
                 /> */}
                 <TextEditor
-                  textEditorContent={textEditorContent}
-                  setTextEditorContent={setTextEditorContent}
+                  textEditorContent={field.value}
+                  setTextEditorContent={field.onChange}
                 />
               </FormControl>
 

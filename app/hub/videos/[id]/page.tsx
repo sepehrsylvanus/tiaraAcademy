@@ -21,6 +21,8 @@ import { useGetUser } from "@/hooks/useUsers";
 import { useRouter } from "next/navigation";
 import { buyVideoCourse, getVerifiedCoursePayment } from "@/actions/payment";
 import { useTranslations } from "next-intl";
+import DOMPurify from "dompurify";
+
 type SingleVideoProps = {
   params: {
     id: string;
@@ -59,6 +61,7 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
   }, [currentUser, params]);
 
   console.log(videoDetails);
+  const pureHTML = DOMPurify.sanitize(videoDetails?.explenation!);
   const handleBuyCourse = async () => {
     const buyVideo = await buyVideoCourse(
       videoDetails!.price,
@@ -197,8 +200,9 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
 
             <p className="font-bold">
               {`${t("teacher")}: `}
-              
-              {`${videoDetails?.teacher.fName} ${videoDetails?.teacher.lName}`}</p>
+
+              {`${videoDetails?.teacher.fName} ${videoDetails?.teacher.lName}`}
+            </p>
             <Link href={`/hub/teachers/${videoDetails?.teacherId}`}>
               <Button variant={"outline"}>{t("showProfile")}</Button>
             </Link>
@@ -211,7 +215,10 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
       "
             >
               <h2 className=" text-center mt-4">{t("description")}</h2>
-              <p className="text-justify mt-2 ">{videoDetails?.explenation}</p>
+              <div
+                className="px-5"
+                dangerouslySetInnerHTML={{ __html: pureHTML }}
+              />
             </section>
             <section
               className="bg-cardBg text-lightText p-4  mt-2 rounded-md 

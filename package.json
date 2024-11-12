@@ -49,6 +49,7 @@
     "date-fns": "^3.6.0",
     "date-fns-jalali": "^2.13.0-0",
     "dayjs": "^1.11.10",
+    "dompurify": "^3.2.0",
     "embla-carousel-react": "^8.0.0",
     "framer-motion": "^11.0.25",
     "froala-editor": "^4.3.0",
