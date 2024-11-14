@@ -14,11 +14,14 @@ import { Axios } from "@/utils/axiosIn";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
+import prisma from "@/utils/db";
+import { getTeacherIds } from "@/actions/userActions";
 
 const page = () => {
   const [teachers, setTeachers] = useState<User[]>([]);
   const [filteredTeachers, setFilteredTeachers] = useState<User[]>(teachers);
   const [loading, setLoading] = useState(true);
+  const [ids, setIds] = useState<string[]>();
   const locale = useLocale();
   const t = useTranslations("Teachers");
   const router = useRouter();
@@ -34,6 +37,14 @@ const page = () => {
         setLoading(false);
       })
       .catch((e) => console.log(e));
+  }, []);
+
+  useEffect(() => {
+    const fetchIds = async () => {
+      const ids = await getTeacherIds();
+      setIds(ids);
+    };
+    fetchIds();
   }, []);
 
   // START OF FILTER
@@ -118,9 +129,12 @@ const page = () => {
                     <p className=" font-bold ">{`${teacher.fName} ${teacher.lName}`}</p>
 
                     <p>{renderRole(teacher.role)}</p>
+
                     <Link
                       href={`/hub/teachers/${teacher.id}`}
-                      className=" text-extraItem underline  hover:text-white transition"
+                      className={` text-extraItem underline  hover:text-white transition ${
+                        !ids?.includes(teacher.id) && "hidden"
+                      }`}
                     >
                       {t("viewProfile")}
                     </Link>

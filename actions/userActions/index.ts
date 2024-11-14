@@ -247,3 +247,9 @@ export const getTeacherProfile = async (teacherId: string) => {
   });
   return { ...teacherProfile, ...teacherUser };
 };
+
+export const getTeacherIds = async () => {
+  const teachers = await prisma.teacherProfile.findMany();
+  const ids = teachers.map((teacher) => teacher.teacherId);
+  return ids;
+};
