@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { getSingleUser, getTeacherProfile } from "@/actions/userActions";
+import { getTeacherProfile } from "@/actions/userActions";
 import { User } from "@/utils/types";
 import { capitalizeFirstLetter } from "@/utils/helperFunctions";
 import PendingTeacher from "@/components/pendingTeacher/PendingTeacher";
@@ -30,51 +30,19 @@ export default async function Component({ params }: { params: Params }) {
           <div className="grid gap-6">
             <div className="space-y-2">
               <h1 className="text-3xl font-bold">{`${teacherProfile?.fName} ${teacherProfile?.lName}`}</h1>
-              <p className="text-muted-foreground">
-                {teacherProfile?.description}
-              </p>
-            </div>
-            <div className="grid gap-4">
-              <div>
-                <h2 className="text-xl font-semibold">{t.aboutMe}</h2>
-                <p className="text-muted-foreground">{teacherProfile?.bio}</p>
+
+              <div className="grid gap-4">
+                <div>
+                  <h2 className="text-xl font-semibold">{t.aboutMe}</h2>
+                  <p className="text-muted-foreground">{teacherProfile?.bio}</p>
+                </div>
               </div>
-              <div>
-                <h2 className="text-xl font-semibold">{t.experiences}</h2>
-                <ul className="grid gap-2 text-muted-foreground">
-                  <li>
-                    <div className="flex items-center gap-2">
-                      <GraduationCapIcon className="w-5 h-5" />
-                      <span>{teacherProfile?.graduation}</span>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="flex items-center gap-2">
-                      <BriefcaseIcon className="w-5 h-5" />
-                      <span>{teacherProfile?.experience}</span>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="flex items-center gap-2">
-                      <AwardIcon className="w-5 h-5" />
-                      <span>{teacherProfile?.awards}</span>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-              <div>
-                <h2 className="text-xl font-semibold">{t.languages}</h2>
-                <ul className="grid gap-2 text-muted-foreground">
-                  {teacherProfile?.languagesArr?.map((language, index) => (
-                    <li key={index}>
-                      <div className="flex items-center gap-2">
-                        <FlagIcon className="w-5 h-5" />
-                        <span>{language}</span>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              <div
+                className="text-muted-foreground"
+                dangerouslySetInnerHTML={{
+                  __html: teacherProfile?.description!,
+                }}
+              />
             </div>
           </div>
         </div>
