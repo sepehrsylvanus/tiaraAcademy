@@ -34,7 +34,7 @@ export default async function RootLayout({
       dir={locale === "fa" ? "rtl" : "ltr"}
     >
       <head>
-        <link rel="shortcut icon" href="/logo.png" type="image/x-icon" />
+        <link rel="shortcut icon" href="/tabLogo.svg" type="image/x-icon" />
       </head>
       <NextIntlClientProvider messages={message}>
         <body
