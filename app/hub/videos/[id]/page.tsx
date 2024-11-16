@@ -253,7 +253,9 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
                       (index > 2 &&
                         verifiedCourse &&
                         verifiedCourse.length > 0) ||
-                      videoDetails.price === 0
+                      videoDetails.price === 0 ||
+                      currentUser?.role === "admin" ||
+                      currentUser?.role === "adminTeacher"
                     ) {
                       return (
                         <Link href={`/hub/videos/${params.id}/${lesson.id}`}>

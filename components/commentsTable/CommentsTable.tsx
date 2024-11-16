@@ -57,6 +57,7 @@ const CommentsTable = () => {
                     Approve
                   </Button>
                 )}
+
                 <Button
                   onClick={() => deleteComment(comment.id)}
                   className="bg-red-500"
