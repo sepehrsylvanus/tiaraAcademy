@@ -242,6 +242,7 @@ model VideoCourseSession {
   Comment       Comment[]
   createdAt     DateTime    @default(now())
   duration      Int
+  index         Int
 }
 
 model Comment {

@@ -167,6 +167,7 @@ export const createVideoCourseSession = async (formData: FormData) => {
   const duration = formData.get("duration") as string;
   const useFullDuration = parseInt(duration);
   const videoCourseId = formData.get("videoCourseId") as string;
+  const index = formData.get("index") as string;
   console.log(video, title, useFullDuration);
   const rawDuration = Number(duration);
   try {
@@ -195,6 +196,7 @@ export const createVideoCourseSession = async (formData: FormData) => {
         videoCourseId,
         duration: rawDuration,
         video: videoLink,
+        index: parseInt(index),
       },
     });
     if (newSession) {

@@ -60,7 +60,13 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
     getVerifiedCourse();
   }, [currentUser, params]);
 
-  console.log(videoDetails);
+  console.log(
+    videoDetails?.videoCourseSession.sort((a, b) => {
+      if (a.title < b.title) return -1;
+      if (a.title > b.title) return 1;
+      return 0;
+    })
+  );
   const pureHTML = DOMPurify.sanitize(videoDetails?.explenation!);
   const handleBuyCourse = async () => {
     const buyVideo = await buyVideoCourse(
@@ -232,11 +238,7 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
                 videoDetails?.price !== 0 && <p>{t("locked")}</p>}
               <div className="flex flex-col gap-2 mt-2">
                 {videoDetails?.videoCourseSession
-                  .sort((a, b) => {
-                    if (a.title < b.title) return -1;
-                    if (a.title > b.title) return 1;
-                    return 0;
-                  })
+                  .sort((a, b) => a.index - b.index)
                   .map((lesson, index) => {
                     if (index < 3) {
                       return (

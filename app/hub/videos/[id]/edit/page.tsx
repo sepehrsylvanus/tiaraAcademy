@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/table";
 import ReactPlayer from "react-player";
 import { useGetCourseVideosDetails, usePostSession } from "@/hooks/useVideos";
+import { toast } from "react-toastify";
 
 interface EditVideoProps {
   params: {
@@ -27,11 +28,12 @@ const EditVideoCoursePage: FC<EditVideoProps> = ({ params }) => {
   const [rawvideo, setRawvideo] = useState<File>();
   const [sessionTitle, setSessionTitle] = useState<string>("");
   const [duration, setDuration] = useState<number>();
+  const [index, setIndex] = useState("");
   const { data: videoDetails, isLoading: videoDetailsLoading } =
     useGetCourseVideosDetails(params.id);
   const { mutate: postSession, isPending: sessionLoading } = usePostSession();
   const courseSessions = videoDetails?.videoCourseSession;
-  console.log(courseSessions);
+
   const handleVideoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
@@ -42,11 +44,21 @@ const EditVideoCoursePage: FC<EditVideoProps> = ({ params }) => {
   };
 
   const handleAddSession = () => {
+    if (
+      videoDetails?.videoCourseSession.some(
+        (item) => item.index === parseInt(index)
+      )
+    ) {
+      return toast.error("There is already a session with this index");
+    }
+
     const newSessionFormData = new FormData();
     newSessionFormData.set("video", rawvideo!);
     newSessionFormData.set("title", sessionTitle);
     newSessionFormData.set("duration", duration!.toString());
     newSessionFormData.set("videoCourseId", params.id);
+    newSessionFormData.set("index", index);
+
     postSession(newSessionFormData);
   };
 
@@ -74,6 +86,15 @@ const EditVideoCoursePage: FC<EditVideoProps> = ({ params }) => {
               type="number"
               placeholder="Enter video duration in minutes"
               onChange={(e) => setDuration(parseInt(e.target.value, 10))}
+            />
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="index">Index</Label>
+            <Input
+              id="index"
+              type="number"
+              placeholder="Write proper index in order to search"
+              onChange={(e) => setIndex(e.target.value)}
             />
           </div>
 
@@ -113,7 +134,7 @@ const EditVideoCoursePage: FC<EditVideoProps> = ({ params }) => {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="text-start">Session ID</TableHead>
+                <TableHead className="text-start">Session Index</TableHead>
                 <TableHead className="text-start">Name</TableHead>
                 <TableHead className="text-start">Duration</TableHead>
                 <TableHead className="text-start">Date</TableHead>
@@ -121,8 +142,8 @@ const EditVideoCoursePage: FC<EditVideoProps> = ({ params }) => {
             </TableHeader>
             <TableBody>
               {courseSessions?.map((session) => (
-                <TableRow key={session.id}>
-                  <TableCell>{session.id}</TableCell>
+                <TableRow key={session.index}>
+                  <TableCell>{session.index}</TableCell>
                   <TableCell>{session.title}</TableCell>
                   <TableCell>{session.duration}</TableCell>
                   <TableCell>
