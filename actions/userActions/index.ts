@@ -198,7 +198,17 @@ export const createTeacherProfile = async (formData: FormData) => {
       },
     });
     if (alreadyHasProfile) {
-      throw new Error("There is already a profile for this teacher there!");
+      const newProfile = await prisma.teacherProfile.update({
+        where: {
+          teacherId,
+        },
+        data: {
+          description,
+          bio,
+
+          teacherId,
+        },
+      });
     }
     const newProfile = await prisma.teacherProfile.create({
       data: {
