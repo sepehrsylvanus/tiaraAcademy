@@ -14,7 +14,11 @@ import {
   TableCell,
 } from "@/components/ui/table";
 import ReactPlayer from "react-player";
-import { useGetCourseVideosDetails, usePostSession } from "@/hooks/useVideos";
+import {
+  useDeleteSession,
+  useGetCourseVideosDetails,
+  usePostSession,
+} from "@/hooks/useVideos";
 import { toast } from "react-toastify";
 
 interface EditVideoProps {
@@ -32,6 +36,8 @@ const EditVideoCoursePage: FC<EditVideoProps> = ({ params }) => {
   const { data: videoDetails, isLoading: videoDetailsLoading } =
     useGetCourseVideosDetails(params.id);
   const { mutate: postSession, isPending: sessionLoading } = usePostSession();
+  const { mutate: deleteSession, isPending: deleteSessionLoading } =
+    useDeleteSession();
   const courseSessions = videoDetails?.videoCourseSession;
 
   const handleVideoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -138,6 +144,7 @@ const EditVideoCoursePage: FC<EditVideoProps> = ({ params }) => {
                 <TableHead className="text-start">Name</TableHead>
                 <TableHead className="text-start">Duration</TableHead>
                 <TableHead className="text-start">Date</TableHead>
+                <TableHead className="text-start">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -148,6 +155,16 @@ const EditVideoCoursePage: FC<EditVideoProps> = ({ params }) => {
                   <TableCell>{session.duration}</TableCell>
                   <TableCell>
                     {session.createdAt.toLocaleDateString()}
+                  </TableCell>
+                  <TableCell>
+                    <Button
+                      variant={"destructive"}
+                      onClick={() => {
+                        deleteSession(session.id);
+                      }}
+                    >
+                      Delete
+                    </Button>
                   </TableCell>
                 </TableRow>
               ))}

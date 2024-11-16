@@ -1,6 +1,7 @@
 import { getVerifiedCoursePayment } from "@/actions/payment";
 import {
   createVideoCourseSession,
+  deleteVideoSession,
   getAllVideos,
   getSingleVideo,
   getSingleVideoSession,
@@ -64,6 +65,19 @@ export const useGetVerifiedCoursePayment = ({
     queryFn: async () => {
       const verifiedPayments = getVerifiedCoursePayment({ id, userId });
       return verifiedPayments;
+    },
+  });
+};
+
+export const useDeleteSession = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (id: string) => {
+      await deleteVideoSession(id);
+    },
+    onSuccess: () => {
+      toast.warning("Session deleted successfully");
+      queryClient.invalidateQueries({ queryKey: ["getVideoCourseDetails"] });
     },
   });
 };

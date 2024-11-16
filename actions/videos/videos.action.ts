@@ -237,3 +237,17 @@ export const postVideoCourse = async (
     throw new Error(error.message);
   }
 };
+
+export const deleteVideoSession = async (id: string) => {
+  try {
+    await prisma.videoCourseSession.delete({
+      where: {
+        id,
+      },
+    });
+    return true;
+  } catch (error: any) {
+    console.log(error.message);
+    throw new Error(error.message);
+  }
+};
