@@ -159,11 +159,7 @@ const SingleSession: FC<VideoSessionProps> = ({ params }) => {
             </h2>
             <div className="flex flex-col gap-2 mt-2">
               {videoDetails?.videoCourseSession
-                .sort((a, b) => {
-                  if (a.title < b.title) return -1;
-                  if (a.title > b.title) return 1;
-                  return 0;
-                })
+                .sort((a, b) => a.index - b.index)
                 .map((lesson, index) => {
                   if (lesson.id !== params.sessionId) {
                     if (
@@ -183,7 +179,10 @@ const SingleSession: FC<VideoSessionProps> = ({ params }) => {
                           </div>
                         </Link>
                       );
-                    } else {
+                    } else if (
+                      currentUser?.role === "admin" ||
+                      currentUser?.role === "adminTeacher"
+                    ) {
                       return (
                         <Link
                           href={`/hub/videos/${params.id}/${lesson.id}`}
@@ -194,6 +193,15 @@ const SingleSession: FC<VideoSessionProps> = ({ params }) => {
                           </div>
                         </Link>
                       );
+                    } else {
+                      <Link
+                        href={`/hub/videos/${params.id}/${lesson.id}`}
+                        key={index}
+                      >
+                        <div className="bg-white p-4 rounded-md hover:bg-slate-200 transition-all">
+                          <p>{lesson.title}</p>
+                        </div>
+                      </Link>;
                     }
                   }
                 })}
