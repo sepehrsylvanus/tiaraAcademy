@@ -49,12 +49,14 @@ const CommentsTable = () => {
                 )}
               </TableCell>
               <TableCell className=" flex gap-4 justify-center">
-                <Button
-                  onClick={() => approveComment(comment.id)}
-                  className="bg-green-500"
-                >
-                  Approve
-                </Button>
+                {!comment.verified && (
+                  <Button
+                    onClick={() => approveComment(comment.id)}
+                    className="bg-green-500"
+                  >
+                    Approve
+                  </Button>
+                )}
                 <Button
                   onClick={() => deleteComment(comment.id)}
                   className="bg-red-500"
