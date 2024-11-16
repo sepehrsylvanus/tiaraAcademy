@@ -36,6 +36,7 @@ const SingleSession: FC<VideoSessionProps> = ({ params }) => {
   const { data: videoDetails, isLoading: videoDetailsLoading } =
     useGetCourseVideosDetails(params.id);
   const { data: currentUser, isLoading: currentUserLoading } = useGetUser();
+
   useEffect(() => {
     const fetchVerifiedCourses = async () => {
       if (currentUser) {

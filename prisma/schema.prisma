@@ -243,6 +243,7 @@ model VideoCourseSession {
   createdAt     DateTime    @default(now())
   duration      Int
   index         Int
+  videoName     String
 }
 
 model Comment {

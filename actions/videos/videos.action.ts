@@ -197,6 +197,7 @@ export const createVideoCourseSession = async (formData: FormData) => {
         duration: rawDuration,
         video: videoLink,
         index: parseInt(index),
+        videoName,
       },
     });
     if (newSession) {
@@ -245,6 +246,59 @@ export const deleteVideoSession = async (id: string) => {
         id,
       },
     });
+    return true;
+  } catch (error: any) {
+    console.log(error.message);
+    throw new Error(error.message);
+  }
+};
+
+export const deleteVideoCourse = async (id: string) => {
+  console.log(id);
+  const course = await prisma.videoCourse.findUnique({
+    where: {
+      id,
+    },
+    include: {
+      videoCourseSession: true,
+    },
+  });
+
+  const sessions = course?.videoCourseSession;
+  const s3 = new S3({
+    accessKeyId: process.env.NEXT_PUBLIC_LIARA_ACCESS_KEY_ID,
+    secretAccessKey: process.env.NEXT_PUBLIC_LIARA_SECRET_ACCESS_KEY,
+    endpoint: process.env.NEXT_PUBLIC_LIARA_ENDPOINT,
+  });
+  try {
+    if (sessions?.length) {
+      await Promise.all(
+        sessions.map((session) =>
+          s3
+            .deleteObject({
+              Bucket: process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME!,
+              Key: session.videoName!,
+            })
+            .promise()
+        )
+      );
+      await Promise.all(
+        sessions.map((session) =>
+          prisma.videoCourseSession.delete({
+            where: {
+              id: session.id,
+            },
+          })
+        )
+      );
+    }
+
+    await prisma.videoCourse.delete({
+      where: {
+        id,
+      },
+    });
+
     return true;
   } catch (error: any) {
     console.log(error.message);

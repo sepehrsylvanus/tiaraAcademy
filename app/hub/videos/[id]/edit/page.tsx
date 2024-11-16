@@ -20,6 +20,8 @@ import {
   usePostSession,
 } from "@/hooks/useVideos";
 import { toast } from "react-toastify";
+import { deleteVideoCourse } from "@/actions/videos/videos.action";
+import { useRouter } from "next/navigation";
 
 interface EditVideoProps {
   params: {
@@ -27,12 +29,13 @@ interface EditVideoProps {
   };
 }
 const EditVideoCoursePage: FC<EditVideoProps> = ({ params }) => {
-  console.log(params);
+  const router = useRouter();
   const [videoUrl, setVideoUrl] = useState<string>();
   const [rawvideo, setRawvideo] = useState<File>();
   const [sessionTitle, setSessionTitle] = useState<string>("");
   const [duration, setDuration] = useState<number>();
   const [index, setIndex] = useState("");
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const { data: videoDetails, isLoading: videoDetailsLoading } =
     useGetCourseVideosDetails(params.id);
   const { mutate: postSession, isPending: sessionLoading } = usePostSession();
@@ -66,6 +69,11 @@ const EditVideoCoursePage: FC<EditVideoProps> = ({ params }) => {
     newSessionFormData.set("index", index);
 
     postSession(newSessionFormData);
+    setVideoUrl("");
+    setRawvideo(undefined);
+    setSessionTitle("");
+    setDuration(undefined);
+    setIndex("");
   };
 
   return (
@@ -106,6 +114,16 @@ const EditVideoCoursePage: FC<EditVideoProps> = ({ params }) => {
 
           <Button className="w-full" onClick={handleAddSession}>
             {sessionLoading ? "Loading..." : "Add Session"}
+          </Button>
+          <Button
+            variant={"destructive"}
+            onClick={async () => {
+              setDeleteLoading(true);
+              await deleteVideoCourse(params.id);
+              router.push("/hub/videos");
+            }}
+          >
+            {deleteLoading ? "Loading..." : "Delete Course"}
           </Button>
         </div>
         <div id="videoPreview" className="bg-muted rounded-lg overflow-hidden">
@@ -148,26 +166,28 @@ const EditVideoCoursePage: FC<EditVideoProps> = ({ params }) => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {courseSessions?.map((session) => (
-                <TableRow key={session.index}>
-                  <TableCell>{session.index}</TableCell>
-                  <TableCell>{session.title}</TableCell>
-                  <TableCell>{session.duration}</TableCell>
-                  <TableCell>
-                    {session.createdAt.toLocaleDateString()}
-                  </TableCell>
-                  <TableCell>
-                    <Button
-                      variant={"destructive"}
-                      onClick={() => {
-                        deleteSession(session.id);
-                      }}
-                    >
-                      Delete
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
+              {courseSessions
+                ?.sort((a, b) => a.index - b.index)
+                .map((session) => (
+                  <TableRow key={session.index}>
+                    <TableCell>{session.index}</TableCell>
+                    <TableCell>{session.title}</TableCell>
+                    <TableCell>{session.duration}</TableCell>
+                    <TableCell>
+                      {session.createdAt.toLocaleDateString()}
+                    </TableCell>
+                    <TableCell>
+                      <Button
+                        variant={"destructive"}
+                        onClick={() => {
+                          deleteSession(session.id);
+                        }}
+                      >
+                        Delete
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
             </TableBody>
           </Table>
         )}
