@@ -93,6 +93,7 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
         data: {
           title: `${newUser.fName} ${newUser.lName} registered`,
           type: "joinClass",
+          userId: newUser.id,
         },
       });
 
