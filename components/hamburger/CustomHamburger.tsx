@@ -15,6 +15,7 @@ import {
 import ClerkAvatar from "../reusableComponents/ClerkAvatar";
 import { getToken } from "@/actions/actions";
 import Notifs from "../Notifs";
+import { useGetUser } from "@/hooks/useUsers";
 
 const CustomHamburger = ({
   sidebar,
@@ -25,7 +26,7 @@ const CustomHamburger = ({
 }) => {
   const [openMenu, setOpenMenu] = useState(false);
   const [token, setToken] = useState<string>();
-
+  const { data: currentUser } = useGetUser();
   useEffect(() => {
     const gettingToken = async () => {
       const token = await getToken();
@@ -52,7 +53,9 @@ const CustomHamburger = ({
               Enter Hub
             </Link>
 
-            <Notifs />
+            {currentUser &&
+              (currentUser.role === "admin" ||
+                currentUser.role === "adminTeacher") && <Notifs />}
 
             <div className=" scale-150">
               <ClerkAvatar />
