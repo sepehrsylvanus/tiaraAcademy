@@ -92,7 +92,7 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
       await prisma.notifs.create({
         data: {
           title: `${newUser.fName} ${newUser.lName} registered`,
-          type: "joinClass",
+          type: "register",
           userId: newUser.id,
         },
       });
