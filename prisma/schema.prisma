@@ -35,6 +35,7 @@ enum Type {
 enum NotifType {
   register
   joinClass
+  videoCourse
 }
 
 enum PaymentType {
@@ -187,16 +188,18 @@ model Category {
 }
 
 model Notifs {
-  id        String    @id @default(cuid()) @map("_id")
-  title     String
-  status    NotifStat @default(unread)
-  type      NotifType
-  user      User      @relation(fields: [userId], references: [id])
-  createdAt DateTime  @default(now())
-  userId    String
-  classId   String?
-  cls       Class?    @relation(fields: [classId], references: [id])
-  classTime String?
+  id            String       @id @default(cuid()) @map("_id")
+  title         String
+  status        NotifStat    @default(unread)
+  type          NotifType
+  user          User         @relation(fields: [userId], references: [id])
+  createdAt     DateTime     @default(now())
+  userId        String
+  classId       String?
+  cls           Class?       @relation(fields: [classId], references: [id])
+  classTime     String?
+  videoCourseId String?
+  videoCourse   VideoCourse? @relation(fields: [videoCourseId], references: [id])
 }
 
 model Payment {
@@ -231,6 +234,7 @@ model VideoCourse {
   materialsLink      String
   category           VideoCourseCat       @default(english)
   prerequisities     String[]
+  Notifs             Notifs[]
 }
 
 model VideoCourseSession {

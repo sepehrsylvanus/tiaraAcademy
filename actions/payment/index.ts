@@ -107,20 +107,16 @@ export const createNewPayment = async (
         }
         const registeredClass = await prisma.classUsers.findMany({
           where: {
-            AND: [
-              {classId: targetedClass?.id},
-              {userId: user.id}
-            ]
-          }
-        })
+            AND: [{ classId: targetedClass?.id }, { userId: user.id }],
+          },
+        });
         await prisma.notifs.create({
           data: {
             title: `${user.fName} ${user.lName} with id ${user.id} registered in ${targetedClass?.title} class`,
             type: "joinClass",
             userId: user.id,
             classId: targetedClass?.id,
-            classTime: registeredClass[0].time
-
+            classTime: registeredClass[0].time,
           },
         });
       }
@@ -197,7 +193,7 @@ export const verifyPayment = async ({
     });
     console.log(targetedPayment);
     let targetedClass;
-   
+
     if (classId) {
       targetedClass = await prisma.class.findUnique({
         where: {
@@ -270,19 +266,16 @@ export const verifyPayment = async ({
             }
             const registeredClass = await prisma.classUsers.findMany({
               where: {
-                AND: [
-                  {classId: targetedClass?.id},
-                  {userId: user.id}
-                ]
-              }
-            })
+                AND: [{ classId: targetedClass?.id }, { userId: user.id }],
+              },
+            });
             await prisma.notifs.create({
               data: {
                 title: `${user.fName} ${user.lName} with id ${user.id} registered in ${targetedClass?.title} class`,
                 type: "joinClass",
                 userId: user.id,
                 classId: targetedClass?.id,
-                classTime: registeredClass[0].time
+                classTime: registeredClass[0].time,
               },
             });
           }
@@ -391,6 +384,12 @@ export const verifyCoursePayment = async (authority: string) => {
         resnumber: authority,
       },
     });
+    const currentVideoCourse = await prisma.videoCourse.findUnique({
+      where: {
+        id: targetedPayment!.courseId,
+      },
+    });
+    const currentUser = await getSingleUser();
     console.log(targetedPayment);
     if (targetedPayment) {
       const updatedPayment = await prisma.coursePayment.update({
@@ -403,6 +402,13 @@ export const verifyCoursePayment = async (authority: string) => {
       });
       if (updatedPayment) {
         console.log("here");
+        await prisma.notifs.create({
+          data: {
+            title: `${currentUser?.fName} ${currentUser?.lName} with id ${currentUser?.id} paid for ${currentVideoCourse?.title} course`,
+            type: "videoCourse",
+            userId: currentUser?.id,
+          },
+        });
         return updatedPayment;
       }
     }
