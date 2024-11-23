@@ -36,6 +36,7 @@ const SingleSession: FC<VideoSessionProps> = ({ params }) => {
   const { data: videoDetails, isLoading: videoDetailsLoading } =
     useGetCourseVideosDetails(params.id);
   const { data: currentUser, isLoading: currentUserLoading } = useGetUser();
+  console.log(currentUser?.role);
 
   useEffect(() => {
     const fetchVerifiedCourses = async () => {
@@ -120,29 +121,31 @@ const SingleSession: FC<VideoSessionProps> = ({ params }) => {
                     <Separator className="my-2" />
                     <p>{comment.content}</p>
 
-                    <div className="rounded-md p-4 bg-white mt-4">
-                      <div className="flex gap-3 items-center">
-                        <Avatar>
-                          <AvatarImage
-                            src={
-                              comment.CommentAnswer[0].answerCreator.image ??
-                              "https://github.com/shadcn.png"
-                            }
-                          />
-                          <AvatarFallback>CN</AvatarFallback>
-                        </Avatar>
-                        <div className="flex flex-col">
-                          <p>
-                            {`${comment.CommentAnswer[0].answerCreator.fName} ${comment.CommentAnswer[0].answerCreator.lName}`}{" "}
-                          </p>
-                          <p className="opacity-50">
-                            {comment.CommentAnswer[0].createdAt.toLocaleDateString()}
-                          </p>
+                    {comment.CommentAnswer[0] && (
+                      <div className="rounded-md p-4 bg-white mt-4">
+                        <div className="flex gap-3 items-center">
+                          <Avatar>
+                            <AvatarImage
+                              src={
+                                comment.CommentAnswer[0].answerCreator.image ??
+                                "https://github.com/shadcn.png"
+                              }
+                            />
+                            <AvatarFallback>CN</AvatarFallback>
+                          </Avatar>
+                          <div className="flex flex-col">
+                            <p>
+                              {`${comment.CommentAnswer[0].answerCreator.fName} ${comment.CommentAnswer[0].answerCreator.lName}`}{" "}
+                            </p>
+                            <p className="opacity-50">
+                              {comment.CommentAnswer[0].createdAt.toLocaleDateString()}
+                            </p>
+                          </div>
                         </div>
+                        <Separator className="my-2" />
+                        {comment.CommentAnswer[0].content}
                       </div>
-                      <Separator className="my-2" />
-                      {comment.CommentAnswer[0].content}
-                    </div>
+                    )}
                   </div>
                 ))}
                 {sessionDetails?.Comment.length === 0 && (

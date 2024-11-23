@@ -22,7 +22,7 @@ const CommentsTable = () => {
   const { data: comments, isLoading: commentsLoading } = useGetAllComments();
   const { mutate: approveComment } = useApproveComment();
   const { mutate: deleteComment } = useDeleteComment();
-
+  console.log(comments);
   if (comments) {
     return (
       <Table className="mt-6 bg-cardBg ">
@@ -30,6 +30,7 @@ const CommentsTable = () => {
           <TableRow>
             <TableHead className="text-center">User ID</TableHead>
             <TableHead className="text-center">Name</TableHead>
+            <TableHead className="text-center">Place</TableHead>
             <TableHead className="text-center">Status</TableHead>
             <TableHead className="text-center">Actions</TableHead>
           </TableRow>
@@ -41,6 +42,12 @@ const CommentsTable = () => {
                 {comment.id}
               </TableCell>
               <TableCell className="text-center">{`${comment.commentCreator.fName} ${comment.commentCreator.lName}`}</TableCell>
+              <TableCell className="text-center">
+                {comment.video
+                  ? comment.video.title
+                  : comment.videoCourseSession &&
+                    comment.videoCourseSession.title}
+              </TableCell>
               <TableCell className="text-center">
                 {comment.verified ? (
                   <Badge className="bg-green-500">Approved</Badge>

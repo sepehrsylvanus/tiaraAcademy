@@ -6,6 +6,8 @@ export const getAllComments = async () => {
   const comments = await prisma.comment.findMany({
     include: {
       commentCreator: true,
+      videoCourseSession: true,
+      video: true,
     },
   });
   return comments;
