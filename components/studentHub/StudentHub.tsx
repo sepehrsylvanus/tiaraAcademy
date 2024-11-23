@@ -54,7 +54,7 @@ export default function StudentHub() {
     >
       <Link
         href={"/"}
-        className=" text-lightText font-bold  md:pl-[6em]  absolute top-4 left-4"
+        className=" text-lightText font-bold  md:pl-[6em]  absolute top-16 md:top-5 left-4 flex rtl:flex-row-reverse items-center"
       >
         <ArrowBackIosNewIcon />
         {t("landingPage")}{" "}
