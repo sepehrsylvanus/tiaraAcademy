@@ -245,7 +245,7 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
                         <Link href={`/hub/videos/${params.id}/${lesson.id}`}>
                           <div
                             key={index}
-                            className="bg-white p-4 rounded-md hover:bg-slate-200 transition-all"
+                            className="bg-white p-4 rounded-md hover:bg-slate-200 transition-all "
                             style={{
                               unicodeBidi: "bidi-override",
                               direction: "ltr",
@@ -267,7 +267,7 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
                         <Link href={`/hub/videos/${params.id}/${lesson.id}`}>
                           <div
                             key={index}
-                            className="bg-white p-4 rounded-md hover:bg-slate-200 transition-all"
+                            className="bg-white p-4 rounded-md hover:bg-slate-200 transition-all "
                             style={{
                               unicodeBidi: "bidi-override",
                               direction: "ltr",
@@ -286,7 +286,7 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
                         >
                           <div
                             key={index}
-                            className="bg-white p-4 rounded-md hover:bg-slate-200 transition-all"
+                            className="bg-white p-4 rounded-md hover:bg-slate-200 transition-all "
                             style={{
                               unicodeBidi: "bidi-override",
                               direction: "ltr",
