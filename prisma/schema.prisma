@@ -196,7 +196,7 @@ model Notifs {
   userId    String
   classId   String?
   cls       Class?    @relation(fields: [classId], references: [id])
-  classTime String
+  classTime String?
 }
 
 model Payment {

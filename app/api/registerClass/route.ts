@@ -10,7 +10,7 @@ type registerClassProps = {
 };
 export const POST = async (req: NextRequest) => {
   const data = (await req.json()) as registerClassProps;
-  const token = await getToken()!;
+
   const user = (await getSingleUser()) as User;
 
   const alreadyRegistered = await prisma.classUsers.findMany({

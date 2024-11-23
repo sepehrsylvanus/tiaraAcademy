@@ -43,9 +43,10 @@ const SignUp = () => {
       pNumber: "",
     },
   });
+  const errors = form.formState.errors;
+  console.log(errors);
   async function signupUser(values: z.infer<typeof signupSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
+    console.log(values);
     if (values.password !== values.passwordRepeat) {
       toast.error("Passwords didn't match!");
       return;
@@ -143,6 +144,8 @@ const SignUp = () => {
                       id="pNumber"
                       placeholder="+98123456789"
                       type="text"
+                      style={{ unicodeBidi: "bidi-override", direction: "ltr" }}
+                      className="text-end"
                     />
                   )}
                 />
