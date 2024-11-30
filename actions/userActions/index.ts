@@ -22,6 +22,14 @@ export const getSingleUser = async () => {
 
   return user;
 };
+export const getTeachers = async () => {
+  const teachers = await prisma.user.findMany({
+    where: {
+      OR: [{ role: "teacher" }, { role: "adminTeacher" }],
+    },
+  });
+  return teachers;
+};
 export const editProf = async (data: FormData) => {
   console.log("here");
   console.log(data);

@@ -406,7 +406,7 @@ export const verifyCoursePayment = async (authority: string) => {
           data: {
             title: `${currentUser?.fName} ${currentUser?.lName} with id ${currentUser?.id} paid for ${currentVideoCourse?.title} course`,
             type: "videoCourse",
-            userId: currentUser?.id,
+            userId: currentUser!.id,
           },
         });
         return updatedPayment;
