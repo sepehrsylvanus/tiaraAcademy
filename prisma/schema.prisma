@@ -73,14 +73,15 @@ model User {
 
   Blog Blog[]
 
-  Payment        Payment[]
-  WritingCharge  WritingCharge[]
-  Notifs         Notifs[]
-  TeacherProfile TeacherProfile?
-  VideoCourse    VideoCourse[]
-  Comment        Comment[]
-  CommentAnswer  CommentAnswer[]
-  CoursePayment  CoursePayment[]
+  Payment             Payment[]
+  WritingCharge       WritingCharge[]
+  Notifs              Notifs[]
+  TeacherProfile      TeacherProfile?
+  VideoCourse         VideoCourse[]
+  Comment             Comment[]
+  CommentAnswer       CommentAnswer[]
+  CoursePayment       CoursePayment[]
+  FreeVideoCourseUser FreeVideoCourseUser[]
 }
 
 model TeacherProfile {
@@ -220,21 +221,22 @@ model Payment {
 }
 
 model VideoCourse {
-  id                 String               @id @default(cuid()) @map("_id")
-  title              String
-  description        String
-  updatedAt          DateTime             @default(now())
-  teacherId          String
-  teacher            User                 @relation(fields: [teacherId], references: [id])
-  explenation        String
-  videoCourseSession VideoCourseSession[]
-  Comment            Comment[]
-  thumbnailLink      String
-  price              Int
-  materialsLink      String
-  category           VideoCourseCat       @default(english)
-  prerequisities     String[]
-  Notifs             Notifs[]
+  id                  String                @id @default(cuid()) @map("_id")
+  title               String
+  description         String
+  updatedAt           DateTime              @default(now())
+  teacherId           String
+  teacher             User                  @relation(fields: [teacherId], references: [id])
+  explenation         String
+  videoCourseSession  VideoCourseSession[]
+  Comment             Comment[]
+  thumbnailLink       String
+  price               Int
+  materialsLink       String
+  category            VideoCourseCat        @default(english)
+  prerequisities      String[]
+  Notifs              Notifs[]
+  FreeVideoCourseUser FreeVideoCourseUser[]
 }
 
 model VideoCourseSession {
@@ -248,6 +250,15 @@ model VideoCourseSession {
   duration      Int
   index         Int
   videoName     String
+}
+
+model FreeVideoCourseUser {
+  id String @id @default(cuid()) @map("_id")
+
+  videoCourseId String
+  videoCourse   VideoCourse @relation(fields: [videoCourseId], references: [id])
+  userId        String
+  user          User        @relation(fields: [userId], references: [id])
 }
 
 model Comment {

@@ -378,6 +378,9 @@
     "noCommentYet": "There is no comment yet",
     "alreadyBought": "You already bought this course",
     "noPrerequisities": "This course is beginner friendly",
-    "teacher": "Teacher of this course"
+    "teacher": "Teacher of this course",
+    "free": "Free",
+    "addToAccount": "Add to account",
+    "alreadyAdd": "You already added this course to your account"
   }
 }

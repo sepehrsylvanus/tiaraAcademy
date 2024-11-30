@@ -1,7 +1,9 @@
 import { getVerifiedCoursePayment } from "@/actions/payment";
 import {
+  adddFreeVideoCourse,
   createVideoCourseSession,
   deleteVideoSession,
+  fetchRegisteredVideoCourse,
   getAllVideos,
   getSingleVideo,
   getSingleVideoSession,
@@ -78,6 +80,37 @@ export const useDeleteSession = () => {
     onSuccess: () => {
       toast.warning("Session deleted successfully");
       queryClient.invalidateQueries({ queryKey: ["getVideoCourseDetails"] });
+    },
+  });
+};
+
+export const useGetRegisteredFreeVideoCourse = (userId: string) => {
+  return useQuery({
+    queryKey: ["getRegisteredFreeVideoCourse"],
+    queryFn: async () => {
+      const registeredFreeVideo = await fetchRegisteredVideoCourse(userId);
+      return registeredFreeVideo;
+    },
+  });
+};
+
+export const useAddFreeVideoCourse = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async ({
+      videoCourseId,
+      userId,
+    }: {
+      videoCourseId: string;
+      userId: string;
+    }) => {
+      await adddFreeVideoCourse({ videoCourseId, userId });
+    },
+    onSuccess: () => {
+      toast.success("Video course added successfully");
+      queryClient.invalidateQueries({
+        queryKey: ["getRegisteredFreeVideoCourse"],
+      });
     },
   });
 };

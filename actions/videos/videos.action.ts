@@ -1,9 +1,10 @@
 "use server";
 
 import prisma from "@/utils/db";
-import { S3 } from "aws-sdk";
+import { NetworkFirewall, S3 } from "aws-sdk";
 import { getSingleUser } from "../userActions";
 import { VideoCourse } from "@prisma/client";
+import { useMutation } from "@tanstack/react-query";
 
 export const getAllVideos = async (name?: string, category?: string) => {
   const videos = await prisma.videoCourse.findMany({
@@ -303,5 +304,37 @@ export const deleteVideoCourse = async (id: string) => {
   } catch (error: any) {
     console.log(error.message);
     throw new Error(error.message);
+  }
+};
+
+export const fetchRegisteredVideoCourse = async (userId: string) => {
+  try {
+    const registeredVideoCourse = await prisma.freeVideoCourseUser.findMany({
+      where: {
+        userId,
+      },
+    });
+    return registeredVideoCourse;
+  } catch (error: any) {
+    console.log(error.message);
+    throw new Error(error.message);
+  }
+};
+
+export const adddFreeVideoCourse = async ({
+  videoCourseId,
+  userId,
+}: {
+  videoCourseId: string;
+  userId: string;
+}) => {
+  const newFreeVideoCoruse = await prisma.freeVideoCourseUser.create({
+    data: {
+      videoCourseId,
+      userId,
+    },
+  });
+  if (newFreeVideoCoruse) {
+    return newFreeVideoCoruse;
   }
 };

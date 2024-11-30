@@ -13,7 +13,9 @@ import { Separator } from "@/components/ui/separator";
 import AddComment from "@/components/addComment/AddComment";
 import EditIcon from "@mui/icons-material/Edit";
 import {
+  useAddFreeVideoCourse,
   useGetCourseVideosDetails,
+  useGetRegisteredFreeVideoCourse,
   useGetVerifiedCoursePayment,
 } from "@/hooks/useVideos";
 import { VideoCourses } from "@/constants";
@@ -22,6 +24,7 @@ import { useRouter } from "next/navigation";
 import { buyVideoCourse, getVerifiedCoursePayment } from "@/actions/payment";
 import { useTranslations } from "next-intl";
 import DOMPurify from "dompurify";
+import prisma from "@/utils/db";
 
 type SingleVideoProps = {
   params: {
@@ -44,7 +47,11 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
     useGetCourseVideosDetails(params.id);
   const router = useRouter();
   const { data: currentUser, isLoading: currentUserLoading } = useGetUser();
-  console.log(currentUser?.id);
+  const { data: registeredVideoCourse } = useGetRegisteredFreeVideoCourse(
+    currentUser?.id!
+  );
+  const { mutate: addFreeVideoCourse } = useAddFreeVideoCourse();
+  console.log(videoDetails);
 
   useEffect(() => {
     const getVerifiedCourse = async () => {
@@ -69,16 +76,24 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
   );
   const pureHTML = DOMPurify.sanitize(videoDetails?.explenation!);
   const handleBuyCourse = async () => {
-    const buyVideo = await buyVideoCourse(
-      videoDetails!.price,
-      videoDetails!.title,
-      videoDetails!.id
-    );
-    if (buyVideo) {
-      router.push(buyVideo);
+    if (videoDetails?.price !== 0) {
+      const buyVideo = await buyVideoCourse(
+        videoDetails!.price,
+        videoDetails!.title,
+        videoDetails!.id
+      );
+      if (buyVideo) {
+        router.push(buyVideo);
+      }
+    } else {
+      addFreeVideoCourse({
+        videoCourseId: videoDetails.id,
+        userId: currentUser!.id!,
+      });
     }
   };
   const ifbuyed = verifiedCourse && verifiedCourse.length > 0;
+  console.log(ifbuyed);
   if (!videoDetailsLoading) {
     return (
       <div className="md:w-9/12  pb-[6em] mx-auto w-full md:px-0 px-4">
@@ -93,19 +108,22 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
               id="price&register"
               className="flex justify-between mt-4 flex-col-reverse md:flex-row items-center gap-5"
             >
-              {ifbuyed ? (
+              {ifbuyed ||
+              (registeredVideoCourse && registeredVideoCourse.length > 0) ? (
                 <Button
                   className=" md:w-auto mt-2 md:mt-0 bg-green-500 pointer-events-none  break-all flex-1"
                   onClick={handleBuyCourse}
                 >
-                  {t("alreadyBought")}
+                  {videoDetails?.price !== 0
+                    ? t("alreadyBought")
+                    : t("alreadyAdd")}
                 </Button>
               ) : (
                 <Button
                   className="w-full md:w-auto mt-2 md:mt-0 flex-1"
                   onClick={handleBuyCourse}
                 >
-                  {t("buy")}
+                  {videoDetails?.price !== 0 ? t("buy") : t("addToAccount")}
                 </Button>
               )}
 
@@ -130,10 +148,15 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
                   </Link>
                 )
               )}
-              {!ifbuyed && (
+              {!ifbuyed && videoDetails?.price !== 0 && (
                 <p className="font-bold ">
                   <span className="mr-1">{videoDetails?.price}</span>
                   {t("toman")}
+                </p>
+              )}
+              {videoDetails?.price === 0 && (
+                <p className="border border-lightText p-2 rounded-md pointer-events-none">
+                  {t("free")}
                 </p>
               )}
             </div>
@@ -259,7 +282,8 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
                       (index > 2 &&
                         verifiedCourse &&
                         verifiedCourse.length > 0) ||
-                      videoDetails.price === 0 ||
+                      (registeredVideoCourse &&
+                        registeredVideoCourse.length > 0) ||
                       currentUser?.role === "admin" ||
                       currentUser?.role === "adminTeacher"
                     ) {
