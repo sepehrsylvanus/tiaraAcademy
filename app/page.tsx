@@ -9,6 +9,7 @@ import YouTubeIcon from "@mui/icons-material/YouTube";
 import XIcon from "@mui/icons-material/X";
 import TelegramIcon from "@mui/icons-material/Telegram";
 import FacebookIcon from "@mui/icons-material/Facebook";
+import FaqPreview from "@/components/faqPreview";
 export default async function Home() {
   const translations = (await getMessages()) as any;
 
@@ -85,6 +86,9 @@ export default async function Home() {
             {t.checkoutNow}
           </Link>
         </div>
+      </section>
+      <section id="FAQ">
+        <FaqPreview />
       </section>
       <footer className="md:flex flex-col px-8 pb-[5em] pt-4 w-full hidden">
         <div className="md:flex justify-between rtl:flex-row-reverse">

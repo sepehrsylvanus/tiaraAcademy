@@ -350,3 +350,127 @@ export const sampleComments = [
     },
   },
 ];
+export const faqs = [
+  {
+    question: "How do I book an online class?",
+    answer:
+      "Visit our Online Classes page, select your desired language and proficiency level, choose a convenient time slot, and complete the booking process.",
+  },
+  {
+    question: "What are the costs associated with online classes?",
+    answer:
+      "Pricing varies based on course type and duration. Please refer to our classes for detailed information.",
+  },
+  {
+    question: "How can I access the video courses?",
+    answer:
+      "After purchasing a course, log in to your account and navigate to the My Courses section to access your content. You can preview the first 3 videos of any course before purchasing it.",
+  },
+  {
+    question: "Can I download video courses for offline use?",
+    answer:
+      "Currently, our courses are accessible online only to ensure content security and regular updates.",
+  },
+  {
+    question: "How does the writing submission process work?",
+    answer:
+      "Submit your writing through our Writing Services portal. Our professionals will review, provide feedback, and return it as soon as possible.",
+  },
+  {
+    question: "What types of writing can I submit?",
+    answer:
+      "We accept essays, reports, creative writing, and other academic or professional documents.",
+  },
+  {
+    question: "How do I reset my password?",
+    answer:
+      'Click on the "Forgot Password" link on the login page and follow the instructions to reset your password.',
+  },
+  {
+    question: "What should I do if I encounter technical issues?",
+    answer:
+      "Contact our Support Team via email or phone for assistance with any technical problems.",
+  },
+  {
+    question: "How can I update my account information?",
+    answer:
+      "Log in to your account, go to the Account Settings section, and make the necessary changes.",
+  },
+  {
+    question: "What payment methods are accepted?",
+    answer: "Currently we only accept payments through the ZarinPal platform.",
+  },
+  {
+    question: "Do you offer proficiency tests?",
+    answer:
+      "Yes, we provide placement tests to assess your current level and recommend suitable courses.",
+  },
+  {
+    question: "Is customer support available in both English and Farsi?",
+    answer: "Yes, our support team can assist you in both languages.",
+  },
+];
+
+export const persianFaqs = [
+  {
+    question: "چگونه می توانم یک کلاس آنلاین رزرو کنم؟",
+    answer:
+      'به صفحه "کلاس های آنلاین" مراجعه کنید، زبان و سطح مهارت خود را انتخاب کنید، زمان مناسب را تعیین کنید و فرآیند رزرو را تکمیل نمایید.',
+  },
+  {
+    question: "هزینه کلاس های آنلاین چقدر است؟",
+    answer:
+      "هزینه ها بر اساس نوع دوره و مدت زمان آن متغیر است. لطفاً برای اطلاعات بیشتر به صفحه کلاس ها مراجعه کنید.",
+  },
+  {
+    question: "چگونه به دوره های ویدیویی دسترسی پیدا کنم؟",
+    answer:
+      'پس از خرید دوره، به حساب کاربری خود وارد شده و به بخش "دوره های من" بروید تا به محتوای دوره دسترسی پیدا کنید. می توانید ۳ ویدیوی اول هر دوره را قبل از خرید مشاهده کنید.',
+  },
+  {
+    question:
+      "آیا می توانم دوره های ویدیویی را برای استفاده آفلاین دانلود کنم؟",
+    answer:
+      "در حال حاضر، دوره های ما فقط به صورت آنلاین قابل دسترسی هستند تا امنیت محتوا و بروزرسانی های منظم را تضمین کنیم.",
+  },
+  {
+    question: "فرآیند ارسال نوشتار چگونه است؟",
+    answer:
+      "نوشتار خود را از طریق پورتال خدمات نوشتاری ما ارسال کنید. متخصصان ما آن را بررسی کرده، بازخورد ارائه می دهند و در اسرع وقت به شما باز می گردانند.",
+  },
+  {
+    question: "چه نوع نوشتارهایی را می توانم ارسال کنم؟",
+    answer:
+      "ما مقالات، گزارش ها، نوشتارهای خلاقانه و سایر اسناد آکادمیک یا حرفه ای را قبول می کنیم.",
+  },
+  {
+    question: "چگونه رمز عبورم را بازیابی کنم؟",
+    answer:
+      'روی لینک "فراموشی رمز عبور" در صفحه ورود کلیک کرده و دستورالعمل ها را دنبال کنید تا رمز عبور خود را بازیابی کنید.',
+  },
+  {
+    question: "در صورت بروز مشکلات فنی چه باید بکنم؟",
+    answer:
+      "برای دریافت کمک در خصوص هرگونه مشکل فنی، با تیم پشتیبانی ما از طریق ایمیل یا تلفن تماس بگیرید.",
+  },
+  {
+    question: "چگونه می توانم اطلاعات حساب خود را به روزرسانی کنم؟",
+    answer:
+      'به حساب کاربری خود وارد شوید، به بخش "تنظیمات حساب" بروید و تغییرات مورد نظر را اعمال کنید.',
+  },
+  {
+    question: "چه روش های پرداختی پذیرفته می شود؟",
+    answer:
+      "در حال حاضر، تنها پرداخت ها از طریق پلتفرم زرین پال پذیرفته می شود.",
+  },
+  {
+    question: "آیا آزمون تعیین سطح ارائه می دهید؟",
+    answer:
+      "بله، ما آزمون های تعیین سطح ارائه می دهیم تا سطح فعلی شما را ارزیابی کرده و دوره های مناسب را پیشنهاد کنیم.",
+  },
+  {
+    question: "آیا پشتیبانی مشتری به دو زبان انگلیسی و فارسی ارائه می شود؟",
+    answer:
+      "بله، تیم پشتیبانی ما می تواند به هر دو زبان انگلیسی و فارسی به شما کمک کند.",
+  },
+];
