@@ -9,7 +9,7 @@ import YouTubeIcon from "@mui/icons-material/YouTube";
 import XIcon from "@mui/icons-material/X";
 import TelegramIcon from "@mui/icons-material/Telegram";
 import FacebookIcon from "@mui/icons-material/Facebook";
-import FaqPreview from "@/components/faqPreview";
+import FaqPreview from "@/components/FaqPreview";
 export default async function Home() {
   const translations = (await getMessages()) as any;
 

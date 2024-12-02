@@ -84,11 +84,17 @@ export const useDeleteSession = () => {
   });
 };
 
-export const useGetRegisteredFreeVideoCourse = (userId: string) => {
+export const useGetRegisteredFreeVideoCourse = (
+  userId: string,
+  courseId: string
+) => {
   return useQuery({
     queryKey: ["getRegisteredFreeVideoCourse"],
     queryFn: async () => {
-      const registeredFreeVideo = await fetchRegisteredVideoCourse(userId);
+      const registeredFreeVideo = await fetchRegisteredVideoCourse(
+        userId,
+        courseId
+      );
       return registeredFreeVideo;
     },
   });

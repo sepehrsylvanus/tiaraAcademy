@@ -307,13 +307,17 @@ export const deleteVideoCourse = async (id: string) => {
   }
 };
 
-export const fetchRegisteredVideoCourse = async (userId: string) => {
+export const fetchRegisteredVideoCourse = async (
+  userId: string,
+  courseId: string
+) => {
   try {
     const registeredVideoCourse = await prisma.freeVideoCourseUser.findMany({
       where: {
-        userId,
+        AND: [{ videoCourseId: courseId }, { userId }],
       },
     });
+    console.log(registeredVideoCourse);
     return registeredVideoCourse;
   } catch (error: any) {
     console.log(error.message);

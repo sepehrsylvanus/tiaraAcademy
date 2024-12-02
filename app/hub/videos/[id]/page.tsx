@@ -24,7 +24,6 @@ import { useRouter } from "next/navigation";
 import { buyVideoCourse, getVerifiedCoursePayment } from "@/actions/payment";
 import { useTranslations } from "next-intl";
 import DOMPurify from "dompurify";
-import prisma from "@/utils/db";
 
 type SingleVideoProps = {
   params: {
@@ -48,10 +47,11 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
   const router = useRouter();
   const { data: currentUser, isLoading: currentUserLoading } = useGetUser();
   const { data: registeredVideoCourse } = useGetRegisteredFreeVideoCourse(
-    currentUser?.id!
+    currentUser?.id!,
+    videoDetails?.id!
   );
   const { mutate: addFreeVideoCourse } = useAddFreeVideoCourse();
-  console.log(videoDetails);
+  console.log(registeredVideoCourse);
 
   useEffect(() => {
     const getVerifiedCourse = async () => {
