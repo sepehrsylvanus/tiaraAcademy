@@ -11,7 +11,6 @@ import { Class } from "@/utils/types";
 
 import Link from "next/link";
 import MyWritings from "../myWritings/MyWritings";
-import { Axios } from "@/utils/axiosIn";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { toast } from "react-toastify";
 import { useLocale, useTranslations } from "next-intl";

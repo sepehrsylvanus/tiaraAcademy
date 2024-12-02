@@ -109,20 +109,32 @@ export interface VideoCourseSession {
   title: string;
   video: string;
   videoCourseId: string;
-  comment: Comment;
+  comment?: Comment;
 }
 export interface VideoCourse {
   id: string;
+
   title: string;
+
   description: string;
+
   updatedAt: Date;
+
   teacherId: string;
-  teacher: User;
+
   explenation: string;
-  videoCourseSession: VideoCourseSession[];
-  comment: Comment[];
+
   thumbnailLink: string;
+
   price: number;
+
+  materialsLink: string;
+
+  category: string;
+
+  prerequisities: string[];
+  teacher: User;
+  videoCourseSession: VideoCourseSession[];
 }
 export interface Comment {
   id: string;
@@ -143,14 +155,14 @@ export interface CommentAnswer {
   commentId: string;
 }
 export interface Notif {
-  id        : string   
-  title     :string
-  status    : 'read' | 'unread' 
-  type      : 'register'| "joinClass"
-  user      : User    
-  createdAt :Date  
-  userId    :string
-  classId   ?:string
-  cls       ? : Class 
-  classTime: string
+  id: string;
+  title: string;
+  status: "read" | "unread";
+  type: "register" | "joinClass";
+  user: User;
+  createdAt: Date;
+  userId: string;
+  classId?: string;
+  cls?: Class;
+  classTime: string;
 }

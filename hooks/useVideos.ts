@@ -3,6 +3,7 @@ import {
   adddFreeVideoCourse,
   createVideoCourseSession,
   deleteVideoSession,
+  fetchAllMyVideos,
   fetchRegisteredVideoCourse,
   getAllVideos,
   getSingleVideo,

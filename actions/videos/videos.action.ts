@@ -342,3 +342,57 @@ export const adddFreeVideoCourse = async ({
     return newFreeVideoCoruse;
   }
 };
+export const fetchAllMyVideos = async (userId: string) => {
+  const videos = [];
+
+  const freeVideos = await prisma.freeVideoCourseUser.findMany({
+    where: {
+      userId,
+    },
+  });
+
+  const verifiedVideosPayment = await prisma.coursePayment.findMany({
+    where: {
+      userId,
+    },
+  });
+
+  console.log(freeVideos, verifiedVideosPayment);
+
+  const freeVideosPromises = freeVideos.map(async (video) => {
+    const eachVideo = await prisma.videoCourse.findUnique({
+      where: {
+        id: video.videoCourseId,
+      },
+      include: {
+        teacher: true,
+        videoCourseSession: true,
+      },
+    });
+    return eachVideo;
+  });
+
+  const verifiedVideosPromises = verifiedVideosPayment.map(async (video) => {
+    const eachVideo = await prisma.videoCourse.findUnique({
+      where: {
+        id: video.courseId,
+      },
+      include: {
+        teacher: true,
+        videoCourseSession: true,
+      },
+    });
+    return eachVideo;
+  });
+
+  const resolvedFreeVideos = await Promise.all(freeVideosPromises);
+  const resolvedVerifiedVideos = await Promise.all(verifiedVideosPromises);
+
+  // Filter out null values
+  const allVideos = [...resolvedFreeVideos, ...resolvedVerifiedVideos].filter(
+    (video): video is NonNullable<typeof video> => video !== null
+  );
+
+  console.log(allVideos);
+  return allVideos;
+};

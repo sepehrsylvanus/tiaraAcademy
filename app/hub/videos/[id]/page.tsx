@@ -24,6 +24,7 @@ import { useRouter } from "next/navigation";
 import { buyVideoCourse, getVerifiedCoursePayment } from "@/actions/payment";
 import { useTranslations } from "next-intl";
 import DOMPurify from "dompurify";
+import { fetchRegisteredVideoCourse } from "@/actions/videos/videos.action";
 
 type SingleVideoProps = {
   params: {
@@ -42,14 +43,25 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
   const t = useTranslations("VideoCourse");
   const [openComment, setOpenComment] = useState(false);
   const [verifiedCourse, setVerifiedCourse] = useState<verifiedCourse[]>();
+  const [registeredVideoCourse, setRegisteredVideoCourse] = useState<any>();
   const { data: videoDetails, isLoading: videoDetailsLoading } =
     useGetCourseVideosDetails(params.id);
   const router = useRouter();
   const { data: currentUser, isLoading: currentUserLoading } = useGetUser();
-  const { data: registeredVideoCourse } = useGetRegisteredFreeVideoCourse(
-    currentUser?.id!,
-    videoDetails?.id!
-  );
+  useEffect(() => {
+    const getRegisteredVideoCourse = async () => {
+      if (currentUser && videoDetails) {
+        const registeredVideos = await fetchRegisteredVideoCourse(
+          currentUser.id,
+          videoDetails.id
+        );
+        console.log(registeredVideoCourse);
+        setRegisteredVideoCourse(registeredVideos);
+      }
+    };
+    getRegisteredVideoCourse();
+  }, [currentUser, videoDetails]);
+
   const { mutate: addFreeVideoCourse } = useAddFreeVideoCourse();
   console.log(registeredVideoCourse);
 
@@ -67,13 +79,6 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
     getVerifiedCourse();
   }, [currentUser, params]);
 
-  console.log(
-    videoDetails?.videoCourseSession.sort((a, b) => {
-      if (a.title < b.title) return -1;
-      if (a.title > b.title) return 1;
-      return 0;
-    })
-  );
   const pureHTML = DOMPurify.sanitize(videoDetails?.explenation!);
   const handleBuyCourse = async () => {
     if (videoDetails?.price !== 0) {
@@ -93,8 +98,9 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
     }
   };
   const ifbuyed = verifiedCourse && verifiedCourse.length > 0;
-  console.log(ifbuyed);
-  if (!videoDetailsLoading) {
+  console.log(registeredVideoCourse);
+  console.log(registeredVideoCourse?.length);
+  if (!videoDetailsLoading && registeredVideoCourse) {
     return (
       <div className="md:w-9/12  pb-[6em] mx-auto w-full md:px-0 px-4">
         <section
@@ -108,8 +114,7 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
               id="price&register"
               className="flex justify-between mt-4 flex-col-reverse md:flex-row items-center gap-5"
             >
-              {ifbuyed ||
-              (registeredVideoCourse && registeredVideoCourse.length > 0) ? (
+              {ifbuyed || registeredVideoCourse?.length > 0 ? (
                 <Button
                   className=" md:w-auto mt-2 md:mt-0 bg-green-500 pointer-events-none  break-all flex-1"
                   onClick={handleBuyCourse}
