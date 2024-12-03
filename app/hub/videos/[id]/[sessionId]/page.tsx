@@ -170,7 +170,8 @@ const SingleSession: FC<VideoSessionProps> = ({ params }) => {
                       verifiedCourse &&
                       verifiedCourse.length === 0 &&
                       index > 2 &&
-                      videoDetails.price !== 0
+                      videoDetails.price !== 0 &&
+                      currentUser?.role === "student"
                     ) {
                       return (
                         <Link
