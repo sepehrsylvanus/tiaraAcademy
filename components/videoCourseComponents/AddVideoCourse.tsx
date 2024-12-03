@@ -13,10 +13,8 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -316,11 +314,6 @@ const AddVideoCourse = () => {
           render={({ field }) => (
             <FormItem className="col-span-2">
               <FormControl>
-                {/* <Textarea
-                  {...field}
-                  placeholder="Explenation"
-                  className="col-span-2 resize-none text-lightText outline-none"
-                /> */}
                 <TextEditor
                   textEditorContent={field.value}
                   setTextEditorContent={field.onChange}

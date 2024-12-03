@@ -28,13 +28,12 @@ import { useForm } from "react-hook-form";
 import { Form, FormField } from "../ui/form";
 import { createArticle } from "@/actions/article";
 import { toast } from "react-toastify";
+import TextEditor from "../TextEditor";
 const CreateVideo = ({ title }: { title: string }) => {
   const [articleImg, setArticleImg] = useState<File>();
   const [loading, setLoading] = useState(false);
   const [text, setText] = useState("");
   const t = useTranslations("videoBox");
-
-  const { data: categories } = useGetCategory();
 
   const formSchema = z.object({
     english: z.boolean(),
@@ -119,47 +118,7 @@ const CreateVideo = ({ title }: { title: string }) => {
           }}
         />
 
-        <FormControl>
-          <InputLabel
-            classes={{
-              focused: styles.selectLabel,
-            }}
-            id="playlist"
-          >
-            {t("Category")}
-          </InputLabel>
-
-          <FormField
-            control={form.control}
-            name="category"
-            render={({ field }) => {
-              return (
-                <Select
-                  defaultValue={field.value}
-                  onChange={field.onChange}
-                  label={t("selectPlaylist")}
-                  name="playlists"
-                  sx={{ backgroundColor: "#c6d9e6", textAlign: "start" }}
-                >
-                  {title === "article" &&
-                    categories?.map((category) => (
-                      <MenuItem key={category.value} value={category.value}>
-                        {category.title}
-                      </MenuItem>
-                    ))}
-                </Select>
-              );
-            }}
-          />
-        </FormControl>
-
-        <CKEditor
-          editor={ClassicEditor}
-          data={`<p>${t("eraseWriteArticle")} ❤️</p> `}
-          onChange={(event, editor) => {
-            setText(editor.getData());
-          }}
-        />
+        <TextEditor textEditorContent={text} setTextEditorContent={setText} />
         {loading ? (
           <Button disabled type="submit">
             <CircularProgress sx={{ color: "white", transform: "scale(.7)" }} />

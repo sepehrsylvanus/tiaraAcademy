@@ -35,7 +35,7 @@ const SingleSession: FC<VideoSessionProps> = ({ params }) => {
     useGetSessionDetails(params.sessionId);
   const { data: videoDetails, isLoading: videoDetailsLoading } =
     useGetCourseVideosDetails(params.id);
-  const { data: currentUser, isLoading: currentUserLoading } = useGetUser();
+  const { data: currentUser } = useGetUser();
   console.log(currentUser?.role);
 
   useEffect(() => {
