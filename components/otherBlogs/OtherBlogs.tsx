@@ -114,14 +114,6 @@ const OtherBlogs = ({
                   />
                 )}
                 <CardContent className="flex flex-col mt-4 items-center md:items-start gap-4">
-                  <div className="flex items-center gap-5">
-                    <Chip
-                      sx={{ color: "#D0D7E1" }}
-                      variant="outlined"
-                      label={article.categories}
-                    />
-                  </div>
-
                   <p className="text-lg font-bold md:text-start text-center text-lightPrime">
                     {article.title}
                   </p>
