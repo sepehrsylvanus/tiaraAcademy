@@ -6,6 +6,8 @@ import { sections } from "@/utils/fakeData";
 
 import { TracingBeam } from "@/components/ui/tracing-beam";
 import { useGetSingleBlog } from "@/hooks/useArticles";
+import moment from "jalali-moment";
+import { useLocale } from "next-intl";
 type ParamsProps = {
   params: {
     blogId: string;
@@ -15,7 +17,7 @@ const SingleBlog = (params: ParamsProps) => {
   console.log(params.params.blogId);
 
   const { data: article } = useGetSingleBlog(params.params.blogId);
-
+  const locale = useLocale();
   if (article) {
     return (
       <div className={styles.container}>
@@ -25,7 +27,15 @@ const SingleBlog = (params: ParamsProps) => {
               <Chip className="w-fit mx-auto" label="Grammar" />
               <h1 className="font-bold  md:h1">{article?.title}</h1>
               <p className="flex gap-2 justify-center items-center">
-                <span>{`${article?.createdAt.getFullYear()} / ${article?.createdAt.getMonth()} / ${article?.createdAt.getDay()}`}</span>
+                <span>
+                  {locale === "en"
+                    ? `${article.createdAt.getFullYear()} / ${
+                        article.createdAt.getMonth() + 1
+                      } / ${article.createdAt.getDate()}`
+                    : moment(article.createdAt)
+                        .locale("fa")
+                        .format("YYYY/MM/DD")}
+                </span>
                 &bull;
                 <span>{`${article?.author.fName} ${article?.author.lName}`}</span>
               </p>
