@@ -284,14 +284,13 @@ const MyClass = (details: DetailsProps) => {
                           singleClass?.type !== "workshop" && (
                             <p>
                               {t("startFrom")}{" "}
-                              {locale === "en" &&
-                                `${singleClass?.date.getFullYear()} / ${
-                                  singleClass?.date.getMonth()! + 1
-                                } / ${singleClass?.date.getDate()}`}
-                              {locale === "fa" &&
-                                moment(singleClass?.date)
-                                  .locale("fa")
-                                  .format("YYYY/MM/DD")}
+                              {locale === "en"
+                                ? `${singleClass?.date.getFullYear()} / ${
+                                    singleClass?.date.getMonth()! + 1
+                                  } / ${singleClass?.date.getDate()}`
+                                : moment(singleClass?.date)
+                                    .locale("fa")
+                                    .format("YYYY/MM/DD")}
                             </p>
                           )}
                         {(singleClass?.type === "group" ||
