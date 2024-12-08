@@ -54,11 +54,13 @@ const ClerkAvatar = () => {
 
   useEffect(() => {
     const retrieveToken = async () => {
+      setLoading(true);
       const token = await getToken();
 
       if (token) {
         setToken(token?.value);
       }
+      setLoading(false);
     };
 
     retrieveToken();
@@ -66,71 +68,78 @@ const ClerkAvatar = () => {
 
   useEffect(() => {
     const getUserInformation = async (token: string) => {
+      setLoading(true);
       const userInfo = await getSingleUser()!;
 
       if (userInfo) {
         setUser(userInfo);
       }
+      setLoading(false);
     };
     if (token) {
       getUserInformation(token);
+      setLoading(false);
     }
   }, [token]);
 
-  return (
-    <Popover>
-      <PopoverTrigger>
-        <Avatar src={currentUser?.image!} />
-      </PopoverTrigger>
-      <PopoverContent className=" w-[400px] z-[11] relative left-4 space-y-4 p-5">
-        <div className="flex gap-4">
+  if (!loading) {
+    return (
+      <Popover>
+        <PopoverTrigger>
           <Avatar src={currentUser?.image!} />
-          <div>
-            {user && (
-              <>
-                <p>{`${user?.fName} ${user?.lName}`}</p>
-                <p>{user?.email}</p>
-              </>
-            )}
+        </PopoverTrigger>
+        <PopoverContent className=" w-[400px] z-[11] relative left-4 space-y-4 p-5">
+          <div className="flex gap-4">
+            <Avatar src={currentUser?.image!} />
+            <div>
+              {user && (
+                <>
+                  <p>{`${user?.fName} ${user?.lName}`}</p>
+                  <p>{user?.email}</p>
+                </>
+              )}
+            </div>
           </div>
-        </div>
-        <div className="flex gap-4 justify-center">
-          <ManageAccount />
-          {loading ? (
-            <Button
-              className="bg-white shadow-sm
+          <div className="flex gap-4 justify-center">
+            <ManageAccount />
+            {loading ? (
+              <Button
+                className="bg-white shadow-sm
          shadow-slate-400 transition hover:ring-4 hover:ring-slate-400 hover:text-black text-black rounded-xl text-[11px] py-[2px] px-4 flex gap-1"
-              onClick={signout}
-            >
-              <CircularProgress sx={{ color: "black" }} />
-            </Button>
-          ) : (
-            <Button
-              className="bg-white shadow-sm
+                onClick={signout}
+              >
+                <CircularProgress sx={{ color: "black" }} />
+              </Button>
+            ) : (
+              <Button
+                className="bg-white shadow-sm
          shadow-slate-400 transition hover:ring-4 hover:ring-slate-400 hover:text-black text-black rounded-xl text-[11px] py-[2px] px-4 flex gap-1"
-              onClick={signout}
+                onClick={signout}
+              >
+                <LogoutIcon sx={{ width: ".8em" }} /> {t("signOut")}
+              </Button>
+            )}
+            <Link
+              href={"/hub/payments"}
+              className={`${myPayments?.length === 0 && "pointer-events-none"}`}
             >
-              <LogoutIcon sx={{ width: ".8em" }} /> {t("signOut")}
-            </Button>
-          )}
-          <Link
-            href={"/hub/payments"}
-            className={`${myPayments?.length === 0 && "pointer-events-none"}`}
-          >
-            <Button
-              type="button"
-              role="link"
-              disabled={myPayments?.length === 0}
-              className="bg-white shadow-sm
+              <Button
+                type="button"
+                role="link"
+                disabled={myPayments?.length === 0}
+                className="bg-white shadow-sm
          shadow-slate-400 transition hover:ring-4 hover:ring-slate-400 hover:text-black text-black rounded-xl text-[11px] py-[2px] px-4 flex gap-1"
-            >
-              <PaymentsIcon sx={{ width: ".8em" }} /> {t("myPayments")}
-            </Button>
-          </Link>
-        </div>
-      </PopoverContent>
-    </Popover>
-  );
+              >
+                <PaymentsIcon sx={{ width: ".8em" }} /> {t("myPayments")}
+              </Button>
+            </Link>
+          </div>
+        </PopoverContent>
+      </Popover>
+    );
+  } else {
+    return <CircularProgress />;
+  }
 };
 
 export default ClerkAvatar;

@@ -243,7 +243,8 @@
     "reserve": "رزرو",
     "alreadyPlacement": "وقت تایین سطح شما تاریخ",
     "at": "ساعت",
-    "classLink": "لینک کلاس شما"
+    "classLink": "لینک کلاس شما",
+    "clickToEnter": "برای ورود کلیک کنید"
   },
   "StudentHub": {
     "landingPage": "صفحه نخست",

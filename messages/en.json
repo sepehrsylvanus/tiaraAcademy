@@ -240,7 +240,8 @@
     "reserve": "Reserve",
     "alreadyPlacement": "Your placement appointment is",
     "at": "at",
-    "classLink": "Your class link"
+    "classLink": "Your class link",
+    "clickToEnter": "Click to enter"
   },
 
   "PendingTeacher": {

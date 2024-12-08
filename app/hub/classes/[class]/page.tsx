@@ -112,8 +112,8 @@ const MyClass = (details: DetailsProps) => {
     console.log(values.time);
     console.log(values.date);
     console.log(singleClass?.price);
-    if (singleClass?.price ) {
-      console.log(singleClass?.price  );
+    if (singleClass?.price) {
+      console.log(singleClass?.price);
       console.log("here");
       const placementPayment = await createNewPayment(
         Number(singleClass?.price),
@@ -199,8 +199,12 @@ const MyClass = (details: DetailsProps) => {
             <p className="text-center text-xl mt-4 border p-4  border-green-500">
               {t("alreadyPlacement")} {renderAppointementDate()} {t("at")}{" "}
               {registeredClasses[0].time}
+              <p className="font-bold">
+                <Link href={singleClass.link}>{t("clickToEnter")}</Link>
+              </p>
             </p>
           )}
+
         {singleClass?.type === "placement" &&
           registeredClasses &&
           registeredClasses.length === 0 && (

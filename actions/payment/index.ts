@@ -6,8 +6,7 @@ import { Payment } from "@prisma/client";
 
 import axios from "axios";
 import { sendClassSms } from "../class";
-import { time } from "console";
-import { date } from "zod";
+
 import { getSingleUser } from "../userActions";
 
 export const createNewPayment = async (
