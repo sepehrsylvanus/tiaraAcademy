@@ -49,7 +49,6 @@ export function formatDateToStandard(date: Date) {
   const seconds = String(date.getUTCSeconds()).padStart(2, "0");
 
   return `${year}-${month}-${day} | ${hours}:${minutes}:${seconds}`;
-  
 }
 export function convertDaysToPersian(days: string[]) {
   const dayMapping: { [key: string]: string } = {
@@ -75,4 +74,11 @@ export function convertDaysToPersian(days: string[]) {
       .map((day: string) => dayMapping[day.toLowerCase()] || day)
       .join("/");
   }
+}
+
+export function makeEnglishDaysUppercase(days: string[]) {
+  const newDays = days
+    .map((day) => day.charAt(0).toUpperCase() + day.slice(1))
+    .join(" / ");
+  return newDays;
 }

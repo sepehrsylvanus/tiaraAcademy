@@ -36,7 +36,10 @@ import { useGetClasses } from "@/hooks/useClasses";
 import { date } from "zod";
 import { useGetTeacherNames } from "@/hooks/useUsers";
 import { useLocale, useTranslations } from "next-intl";
-import { convertDaysToPersian } from "@/utils/helperFunctions";
+import {
+  convertDaysToPersian,
+  makeEnglishDaysUppercase,
+} from "@/utils/helperFunctions";
 type Props = {
   searchParams: {
     teacher: string;
@@ -77,9 +80,6 @@ const Classes = ({ searchParams: { teacher } }: Props) => {
     };
     fetchUser();
   }, []);
-
-  const teacherName = searchParams.get("teacher");
-  const className = searchParams.get("className");
 
   // START FILTER DATA
 
@@ -200,9 +200,7 @@ const Classes = ({ searchParams: { teacher } }: Props) => {
           <>
             {filteredClasses?.map((eachClass) => {
               let days = eachClass.days;
-              const formattedDays = days
-                .map((day) => day.charAt(0).toUpperCase() + day.slice(1))
-                .join(" / ");
+              const formattedDays = makeEnglishDaysUppercase(days);
               return (
                 <Card
                   key={eachClass.id}

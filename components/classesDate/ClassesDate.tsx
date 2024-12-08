@@ -22,7 +22,7 @@ const ClassesDate = ({
 }: DatePickersProps) => {
   const [times, setTimes] = useState<string[]>();
   const [justThisClass, setJustThisClass] = useState<UserClasses[]>();
-  const [cls, setCls] = useState();
+
   useEffect(() => {
     Axios.get("/registerClass")
       .then((res) => {
@@ -39,19 +39,19 @@ const ClassesDate = ({
 
   const dayValues = classDates?.map((date) => {
     switch (date) {
-      case "sunday":
+      case "Sunday":
         return 0;
-      case "monday":
+      case "Monday":
         return 1;
-      case "tuesday":
+      case "Tuesday":
         return 2;
-      case "wednesday":
+      case "Wednesday":
         return 3;
-      case "thursday":
+      case "Thursday":
         return 4;
-      case "friday":
+      case "Friday":
         return 5;
-      case "saturday":
+      case "Saturday":
         return 6;
     }
   });
@@ -90,7 +90,6 @@ const ClassesDate = ({
         control={form.control}
         render={({ field }) => (
           <DateCalendar
-          
             value={field.value}
             onChange={field.onChange}
             shouldDisableDate={disableDates}

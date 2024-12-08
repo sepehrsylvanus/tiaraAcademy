@@ -33,6 +33,7 @@ import {
 } from "@/components/ui/select";
 import { ClassUsers } from "@prisma/client";
 import moment from "jalali-moment";
+import { makeEnglishDaysUppercase } from "@/utils/helperFunctions";
 
 type DetailsProps = {
   params: {
@@ -276,7 +277,11 @@ const MyClass = (details: DetailsProps) => {
                       <h2 className="text-xl font-semibold">{t("schedule")}</h2>
                       <div className="text-muted-foreground">
                         <p>
-                          {`${singleClass?.days}`} - {`${singleClass?.times}`}
+                          {console.log(
+                            makeEnglishDaysUppercase(singleClass?.days!)
+                          )}
+                          {`${makeEnglishDaysUppercase(singleClass?.days!)}`} -{" "}
+                          {`${singleClass?.times}`}
                         </p>
                         {singleClass?.type !== "group" &&
                           singleClass?.type !== "workshop" && (
