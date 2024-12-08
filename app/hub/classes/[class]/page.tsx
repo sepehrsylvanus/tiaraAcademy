@@ -277,9 +277,6 @@ const MyClass = (details: DetailsProps) => {
                       <h2 className="text-xl font-semibold">{t("schedule")}</h2>
                       <div className="text-muted-foreground">
                         <p>
-                          {console.log(
-                            makeEnglishDaysUppercase(singleClass?.days!)
-                          )}
                           {`${makeEnglishDaysUppercase(singleClass?.days!)}`} -{" "}
                           {`${singleClass?.times}`}
                         </p>
