@@ -12,7 +12,7 @@ import ClassIcon from "@mui/icons-material/Class";
 import SchoolIcon from "@mui/icons-material/School";
 import { CustomClassTextField } from "./styledComponents";
 
-import { Class, User } from "@/utils/types";
+import { User } from "@/utils/types";
 import { useForm, Controller } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 
