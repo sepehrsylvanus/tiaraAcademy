@@ -177,14 +177,27 @@ const MyClass = (details: DetailsProps) => {
             </Link>
           </div>
           {singleClass?.teacher ? (
-            <h2 className={`${styles.title} `}>{`${singleClass?.title
-              .split("-")
-              .map(
-                (word: string) => word.charAt(0).toUpperCase() + word.slice(1)
-              )
-              .join(" ")} - ${singleClass?.teacher.fName} ${
-              singleClass?.teacher.lName
-            }`}</h2>
+            <h2 className={`${styles.title} `}>
+              {locale === "en"
+                ? `${singleClass?.title
+                    .split("-")
+                    .map(
+                      (word: string) =>
+                        word.charAt(0).toUpperCase() + word.slice(1)
+                    )
+                    .join(" ")} - ${singleClass?.teacher.fName} ${
+                    singleClass?.teacher.lName
+                  }`
+                : `${singleClass?.persianTitle
+                    .split("-")
+                    .map(
+                      (word: string) =>
+                        word.charAt(0).toUpperCase() + word.slice(1)
+                    )
+                    .join(" ")} - ${singleClass?.teacher.fName} ${
+                    singleClass?.teacher.lName
+                  }`}
+            </h2>
           ) : (
             <div className="flex justify-center">
               <CircularProgress
