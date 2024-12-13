@@ -36,7 +36,7 @@ const SingleSession: FC<VideoSessionProps> = ({ params }) => {
   const { data: videoDetails, isLoading: videoDetailsLoading } =
     useGetCourseVideosDetails(params.id);
   const { data: currentUser } = useGetUser();
-  console.log(currentUser?.role);
+  console.log(verifiedCourse);
 
   useEffect(() => {
     const fetchVerifiedCourses = async () => {
@@ -169,6 +169,7 @@ const SingleSession: FC<VideoSessionProps> = ({ params }) => {
                     if (
                       verifiedCourse &&
                       verifiedCourse.length === 0 &&
+                      verifiedCourse[0].verified &&
                       index > 2 &&
                       videoDetails.price !== 0 &&
                       currentUser?.role === "student"

@@ -303,12 +303,30 @@ const MyClass = (details: DetailsProps) => {
                             <p>
                               {t("startFrom")}{" "}
                               {locale === "en"
-                                ? `${singleClass?.date.getFullYear()} / ${
-                                    singleClass?.date.getMonth()! + 1
-                                  } / ${singleClass?.date.getDate()}`
-                                : moment(singleClass?.date)
+                                ? `${new Date(
+                                    singleClass?.duration[0]!
+                                  ).getFullYear()} / ${
+                                    new Date(
+                                      singleClass?.duration[0]!
+                                    ).getMonth()! + 1
+                                  } / ${new Date(
+                                    singleClass?.duration[0]!
+                                  ).getDate()} - ${new Date(
+                                    singleClass?.duration[1]!
+                                  ).getFullYear()} / ${
+                                    new Date(
+                                      singleClass?.duration[1]!
+                                    ).getMonth()! + 1
+                                  } / ${new Date(
+                                    singleClass?.duration[1]!
+                                  ).getDate()}`
+                                : `${moment(singleClass?.duration[0])
                                     .locale("fa")
-                                    .format("YYYY/MM/DD")}
+                                    .format("YYYY/MM/DD")} - ${moment(
+                                    singleClass?.duration[1]
+                                  )
+                                    .locale("fa")
+                                    .format("YYYY/MM/DD")}`}
                             </p>
                           )}
                         {(singleClass?.type === "group" ||

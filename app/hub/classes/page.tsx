@@ -38,6 +38,7 @@ import {
   convertDaysToPersian,
   makeEnglishDaysUppercase,
 } from "@/utils/helperFunctions";
+import moment from "jalali-moment";
 type Props = {
   searchParams: {
     teacher: string;
@@ -232,11 +233,19 @@ const Classes = ({ searchParams: { teacher } }: Props) => {
 
                     {eachClass.duration.length > 0 && (
                       <p className="mt-2">
-                        {`${new Date(
-                          eachClass.duration[0]
-                        ).toLocaleDateString()} | ${new Date(
-                          eachClass.duration[1]
-                        ).toLocaleDateString()}`}
+                        {locale === "en"
+                          ? `${new Date(
+                              eachClass.duration[0]
+                            ).toLocaleDateString()} | ${new Date(
+                              eachClass.duration[1]
+                            ).toLocaleDateString()}`
+                          : `${moment(eachClass?.duration[0])
+                              .locale("fa")
+                              .format("YYYY/MM/DD")} - ${moment(
+                              eachClass?.duration[1]
+                            )
+                              .locale("fa")
+                              .format("YYYY/MM/DD")}`}
                       </p>
                     )}
                     {eachClass.date && <p>{`${eachClass.date.getDay()}`}</p>}
