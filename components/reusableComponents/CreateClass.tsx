@@ -421,7 +421,9 @@ const CreateClass = () => {
             />
             <div
               className={`  col-span-2 ${
-                chosenType === "group" || chosenType === "workshop"
+                chosenType === "group" ||
+                chosenType === "1v1" ||
+                chosenType === "workshop"
                   ? ""
                   : "opacity-50"
               }`}
@@ -434,8 +436,7 @@ const CreateClass = () => {
                     <PopoverTrigger
                       asChild
                       className={`bg-[#c6d9e6] text-lightText px-2 py-2 rounded-md outline-none hover:bg-[#c6d9e6] flex items-center ${
-                        (classType === "placement" || classType === "1v1") &&
-                        "pointer-events-none"
+                        classType === "placement" && "pointer-events-none"
                       }`}
                     >
                       <Button
@@ -464,7 +465,8 @@ const CreateClass = () => {
                                 .locale("fa")
                                 .format("YYYY/MM/DD")}`}</p>
                             ) : chosenType == "workshop" ||
-                              chosenType === "group" ? (
+                              chosenType === "group" ||
+                              chosenType === "1v1" ? (
                               <p> {t("pickDate")}</p>
                             ) : (
                               <p>{t("deactive")}</p>
@@ -506,7 +508,7 @@ const CreateClass = () => {
                 )}
               />
             </div>
-            <div
+            {/* <div
               className={
                 chosenType === "group" ||
                 chosenType === "placement" ||
@@ -558,7 +560,7 @@ const CreateClass = () => {
                   )}
                 </PopoverContent>
               </Popover>
-            </div>
+            </div> */}
           </div>
           <div>
             <FormControl sx={{ width: "100%" }}>

@@ -31,9 +31,7 @@ import {
 } from "@/components/ui/card";
 import { getToken } from "@/actions/actions";
 import { getSingleUser } from "@/actions/userActions";
-import { Axios } from "@/utils/axiosIn";
 import { useGetClasses } from "@/hooks/useClasses";
-import { date } from "zod";
 import { useGetTeacherNames } from "@/hooks/useUsers";
 import { useLocale, useTranslations } from "next-intl";
 import {
@@ -72,7 +70,6 @@ const Classes = ({ searchParams: { teacher } }: Props) => {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const token = await getToken()!;
       const currentUser = await getSingleUser();
       if (currentUser) {
         setCurrentUser(currentUser);

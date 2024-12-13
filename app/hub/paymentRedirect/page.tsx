@@ -19,7 +19,7 @@ type Params = {
 
 export default async function PaymentRedirect(params: Params) {
   console.log(params);
-  const { Authority, Status, type } = params.searchParams;
+  const { Authority, type } = params.searchParams;
   const messages = (await getMessages()) as any;
   const t = messages.PaymentRedirect;
   const user = (await getSingleUser()) as User;
