@@ -38,6 +38,7 @@ export const getSingleVideo = async (id: string) => {
       },
     },
   });
+  console.log(videoDetails);
   return videoDetails;
 };
 export const getSingleVideoSession = async (id: string) => {

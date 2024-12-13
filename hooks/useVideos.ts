@@ -26,6 +26,7 @@ export const useGetCourseVideosDetails = (id: string) => {
     queryKey: ["getVideoCourseDetails"],
 
     queryFn: async () => {
+      console.log(id);
       const videoDetails = await getSingleVideo(id);
       return videoDetails;
     },

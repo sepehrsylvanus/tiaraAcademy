@@ -40,6 +40,7 @@ type verifiedCourse = {
   verified: boolean;
 };
 const SingleVideo = ({ params }: SingleVideoProps) => {
+  console.log(params);
   const t = useTranslations("VideoCourse");
   const [openComment, setOpenComment] = useState(false);
   const [verifiedCourse, setVerifiedCourse] = useState<verifiedCourse[]>();
@@ -48,6 +49,7 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
     useGetCourseVideosDetails(params.id);
   const router = useRouter();
   const { data: currentUser, isLoading: currentUserLoading } = useGetUser();
+  console.log(videoDetails);
   useEffect(() => {
     const getRegisteredVideoCourse = async () => {
       if (currentUser && videoDetails) {
