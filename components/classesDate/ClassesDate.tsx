@@ -61,10 +61,9 @@ const ClassesDate = ({
     today.setHours(0, 0, 0, 0);
 
     if (date < today) return true;
-
     if (!dayValues?.includes(date.getDay() as 0 | 1 | 2 | 3 | 4 | 5 | 6))
       return true;
-
+    console.log(date.getDay());
     const isRunOut = justThisClass?.filter((item) => {
       console.log(item.date);
       console.log(date.toISOString());

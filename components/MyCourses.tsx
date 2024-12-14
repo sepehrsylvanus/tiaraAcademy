@@ -166,41 +166,43 @@ const MyCourses = () => {
           </div>
         )}
         <hr />
-        {myVideos?.slice(0, displayCount).map((myVideo, index) => (
-          <Card className="border-extraBg">
-            <CardHeader>
-              <img
-                src={myVideo.thumbnailLink}
-                alt={`${myVideo.title} image`}
-                className="w-full h-full rounded-md"
-              />
-            </CardHeader>
-            <CardContent>
-              <div className="flex flex-col rtl:items-end gap-2">
-                <p className="flex rtl:flex-row-reverse gap-2">
-                  <School />
-                  {myVideo.title}
-                </p>
-                <p className="flex rtl:flex-row-reverse gap-2">
-                  <Person />
-                  {`${myVideo.teacher.fName} ${myVideo.teacher.lName}`}
-                </p>
-                <p className="flex rtl:flex-row-reverse gap-2">
-                  <Videocam />
-                  {myVideo.videoCourseSession.length}
-                  <span> {t("videos")}</span>
-                </p>
-              </div>
-            </CardContent>
-            <CardFooter className="mt-2">
-              <Link href={`/hub/videos/${myVideo.id}`} className="w-full">
-                <Button className="bg-extraBg w-full rounded-3xl hover:text-lightPrime hover:bg-extraText">
-                  View
-                </Button>
-              </Link>
-            </CardFooter>
-          </Card>
-        ))}
+        <div className="grid-cols-1 grid md:grid-cols-4 gap-6 py-4">
+          {myVideos?.slice(0, displayCount).map((myVideo, index) => (
+            <Card key={index} className="border-extraBg">
+              <CardHeader>
+                <img
+                  src={myVideo.thumbnailLink}
+                  alt={`${myVideo.title} image`}
+                  className="w-full h-full rounded-md"
+                />
+              </CardHeader>
+              <CardContent>
+                <div className="flex flex-col rtl:items-end gap-2">
+                  <p className="flex rtl:flex-row-reverse gap-2">
+                    <School />
+                    {myVideo.title}
+                  </p>
+                  <p className="flex rtl:flex-row-reverse gap-2">
+                    <Person />
+                    {`${myVideo.teacher.fName} ${myVideo.teacher.lName}`}
+                  </p>
+                  <p className="flex rtl:flex-row-reverse gap-2">
+                    <Videocam />
+                    {myVideo.videoCourseSession.length}
+                    <span> {t("videos")}</span>
+                  </p>
+                </div>
+              </CardContent>
+              <CardFooter className="mt-2">
+                <Link href={`/hub/videos/${myVideo.id}`} className="w-full">
+                  <Button className="bg-extraBg w-full rounded-3xl hover:text-lightPrime hover:bg-extraText">
+                    View
+                  </Button>
+                </Link>
+              </CardFooter>
+            </Card>
+          ))}
+        </div>
       </div>
     );
   }
