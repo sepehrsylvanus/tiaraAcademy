@@ -39,22 +39,23 @@ const ClassesDate = ({
 
   const dayValues = classDates?.map((date) => {
     switch (date) {
-      case "Sunday":
+      case "sunday":
         return 0;
-      case "Monday":
+      case "monday":
         return 1;
-      case "Tuesday":
+      case "tuesday":
         return 2;
-      case "Wednesday":
+      case "wednesday":
         return 3;
-      case "Thursday":
+      case "thursday":
         return 4;
-      case "Friday":
+      case "friday":
         return 5;
-      case "Saturday":
+      case "saturday":
         return 6;
     }
   });
+  console.log(dayValues);
 
   const disableDates = (date: Date) => {
     const today = new Date();
