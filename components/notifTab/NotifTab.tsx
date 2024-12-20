@@ -14,8 +14,6 @@ interface NotifTabProps {
 }
 
 const NotifTab: FC<NotifTabProps> = ({ data, value }) => {
-  console.log(data);
-
   return (
     <TabsContent value={value}>
       {data

@@ -4,7 +4,6 @@ import {
   Card,
   CardContent,
   CardMedia,
-  Chip,
   CircularProgress,
   Divider,
 } from "@mui/material";
@@ -32,12 +31,7 @@ const Blogs = () => {
       <div className="header flex flex-col items-center md:items-center md:justify-between text-center gap-4">
         <div className="flex justify-center gap-4">
           {categories?.map((category: Category) => (
-            <Link href={`/hub/videos/category/${category.value}`}>
-              <Chip
-                label={category.title}
-                className=" hover:bg-extraText hover:text-white transition"
-              />
-            </Link>
+            <Link href={`/hub/videos/category/${category.value}`}></Link>
           ))}
         </div>
         <h3 className="h1 text-4xl ">{t("terndingArticles")}</h3>
@@ -54,7 +48,11 @@ const Blogs = () => {
                     trendingAtricles[trendingAtricles.length - 1].id
                   }`}
                 >
-                  <Card className="h-full  transition hover:shadow-2xl bg-[#1C294B]">
+                  <Card
+                    className={`${
+                      trendingAtricles.length > 3 ? "h-full" : "h-fit"
+                    }  transition hover:shadow-2xl bg-[#1C294B]`}
+                  >
                     <CardMedia
                       sx={{ height: 200 }}
                       image={
@@ -71,15 +69,6 @@ const Blogs = () => {
                       }}
                       className=" flex flex-col gap-7 justify-between bg-"
                     >
-                      <Chip
-                        sx={{ color: "white" }}
-                        label={
-                          trendingAtricles[trendingAtricles.length - 1]
-                            ?.categories
-                        }
-                        variant="outlined"
-                        className=" w-fit"
-                      />
                       <div className="flex flex-col gap-4">
                         <h4 className=" font-bold text-2xl">
                           {trendingAtricles[trendingAtricles.length - 1]?.title}
@@ -135,14 +124,6 @@ const Blogs = () => {
                       className=" rounded-lg"
                     />
                     <div className="flex flex-col justify-between gap-4 md:gap-0 items-center md:items-start">
-                      <Chip
-                        variant="outlined"
-                        label={
-                          trendingAtricles[trendingAtricles.length - 2]
-                            ?.categories
-                        }
-                        className=" w-fit"
-                      />
                       <div>
                         <h4 className=" mb-2 font-extrabold text-center md:text-start">
                           {trendingAtricles[trendingAtricles.length - 2]?.title}
@@ -188,14 +169,6 @@ const Blogs = () => {
                       className=" rounded-lg"
                     />
                     <div className="flex flex-col justify-between gap-4 md:gap-0 items-center md:items-start">
-                      <Chip
-                        variant="outlined"
-                        label={
-                          trendingAtricles[trendingAtricles.length - 3]
-                            ?.categories
-                        }
-                        className=" w-fit"
-                      />
                       <div>
                         <h4 className=" mb-2 font-extrabold text-center md:text-start">
                           {trendingAtricles[trendingAtricles.length - 3]?.title}
@@ -241,14 +214,6 @@ const Blogs = () => {
                       className=" rounded-lg"
                     />
                     <div className="flex flex-col justify-between gap-4 md:gap-0 items-center md:items-start">
-                      <Chip
-                        variant="outlined"
-                        label={
-                          trendingAtricles[trendingAtricles.length - 4]
-                            ?.categories
-                        }
-                        className=" w-fit"
-                      />
                       <div>
                         <h4 className=" mb-2 font-extrabold text-center md:text-start">
                           {trendingAtricles[trendingAtricles.length - 4]?.title}

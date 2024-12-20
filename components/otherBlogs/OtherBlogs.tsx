@@ -6,7 +6,7 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import Link from "next/link";
 import React, { useState } from "react";
 import { Button } from "../ui/button";
-import { Blogs, Video } from "@/utils/types";
+import { Blogs } from "@/utils/types";
 import { usePathname } from "next/navigation";
 import { useGetCurrentUser } from "@/hooks/useGetUsers";
 import { toast } from "react-toastify";
@@ -15,13 +15,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useChangeTrend } from "@/hooks/useArticles";
 import { useLocale, useTranslations } from "next-intl";
 import moment from "jalali-moment";
-const OtherBlogs = ({
-  videos,
-  articles,
-}: {
-  videos?: Video[];
-  articles?: Blogs[];
-}) => {
+const OtherBlogs = ({ articles }: { articles?: Blogs[] }) => {
   const t = useTranslations("Articles");
   const locale = useLocale();
   const [itemsToShow, setItemsToShow] = useState(3);
@@ -29,9 +23,13 @@ const OtherBlogs = ({
   const trendArticles = articles?.filter((article) => article.trend);
   const { data: currentUser } = useGetCurrentUser();
   const { mutate } = useChangeTrend();
-  const filteredVideos = videos?.filter((video) => !video.Playlist?.price);
+
   const handleToggleTrend = async (id: string) => {
-    if (trendArticles && trendArticles.length >= 4) {
+    const isAlreadyTrending = trendArticles?.some(
+      (article) => article.id === id
+    );
+
+    if (trendArticles && !isAlreadyTrending && trendArticles.length >= 4) {
       toast.error("Trend articles more thant 4");
     } else {
       await mutate(id);
@@ -53,18 +51,14 @@ const OtherBlogs = ({
   articles = articles?.sort(
     (a, b) => b.createdAt.getTime() - a.createdAt.getTime()
   );
-  console.log("Videos =>", videos);
-  videos = videos?.sort(
-    (a, b) => b.createDate.getTime() - a.createDate.getTime()
-  );
-  console.log("Sorted videos =>", videos);
+
   return (
     <div className="text-center">
       {pathName === "/hub/blogs" && articles && articles?.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {articles?.slice(0, itemsToShow).map((article, index) => (
             <Card
-              className="transition hover:shadow-xl bg-extraBg text-lightPrime h-[39rem] relative"
+              className="transition hover:shadow-xl bg-extraBg text-lightPrime h-fit  relative"
               key={index}
             >
               {article.trend ? (
@@ -113,7 +107,7 @@ const OtherBlogs = ({
                     className="object-center"
                   />
                 )}
-                <CardContent className="flex flex-col mt-4 items-center md:items-start gap-4">
+                <CardContent className="flex flex-col mt-4 items-center md:items-start gap-4 ">
                   <p className="text-lg font-bold md:text-start text-center text-lightPrime">
                     {article.title}
                   </p>
@@ -154,67 +148,7 @@ const OtherBlogs = ({
         pathName === "/hub/blogs" &&
         articles?.length === 0 && <h4>{t("noArticle")}</h4>
       )}
-      {pathName === "/hub/videos" && videos && videos?.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {filteredVideos?.slice(0, itemsToShow).map((video, index) => (
-            <Card
-              className="transition hover:shadow-xl bg-extraBg text-lightPrime"
-              key={index}
-            >
-              <Link href={`/hub/videos/${video.id}`}>
-                <CardMedia sx={{ height: 140 }} image="/article.jpg" />
-                <CardContent className="flex flex-col mt-4 items-center md:items-start gap-4">
-                  {video.playlistTitle && (
-                    <div className="flex items-center gap-5">
-                      <Chip
-                        sx={{ color: "#D0D7E1" }}
-                        variant="outlined"
-                        label={video.playlistTitle}
-                      />
-                    </div>
-                  )}
 
-                  <p className="h3 md:text-start text-center text-lightPrime">
-                    {video.title}
-                  </p>
-
-                  <p className="text-sm flex gap-2 justify-center text-lightPrime">
-                    {video.creator && (
-                      <span>{`${video.creator.fName} ${video.creator.lName}`}</span>
-                    )}
-                    &bull;
-                    <span>{`${video.createDate.getFullYear()} / ${video.createDate.getMonth()} / ${video.createDate.getDay()}`}</span>
-                  </p>
-                </CardContent>
-              </Link>
-
-              <CardFooter>
-                {(currentUser?.role.includes("admin") ||
-                  currentUser?.role.includes("adminTeacher") ||
-                  currentUser?.role.includes("teacher")) && (
-                  <p
-                    className=" cursor-pointer text-lg  md:text-base md:hover:scale-110 transition"
-                    onClick={() => copyToClipboard(video.id)}
-                  >
-                    {video.id}
-                  </p>
-                )}
-              </CardFooter>
-            </Card>
-          ))}
-        </div>
-      ) : (
-        pathName === "/hub/videos" &&
-        videos?.length === 0 && <h4>{t("noVideos")}</h4>
-      )}
-      {videos && videos?.length > itemsToShow && (
-        <Button
-          className=" my-5 px-4 py-2 rounded-md  bg-slate-900/90 text-[#c6d9e6] hover:bg-[#c6d9e6] hover:ring-1 hover:ring-slate-900/90 hover:text-slate-900/90"
-          onClick={handleLoadMore}
-        >
-          Load More
-        </Button>
-      )}
       {articles && articles?.length > itemsToShow && (
         <Button
           className=" my-5 px-4 py-2 rounded-md  bg-slate-900/90 text-[#c6d9e6] hover:bg-[#c6d9e6] hover:ring-1 hover:ring-slate-900/90 hover:text-slate-900/90"

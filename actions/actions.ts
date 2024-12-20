@@ -528,7 +528,7 @@ export const getNotifs = async () => {
   }
 };
 
-export const getAllNotifs = async (userId: string) => {
+export const getAllNotifs = async (userId: string): Promise<Notif[]> => {
   const notifs = (await prisma.notifs.findMany({
     where: {
       userId: {
@@ -537,8 +537,10 @@ export const getAllNotifs = async (userId: string) => {
     },
     include: {
       cls: true,
+      user: true,
     },
-  })) as Notif[];
+  })) as unknown as Notif[];
+
   return notifs;
 };
 
