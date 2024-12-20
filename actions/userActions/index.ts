@@ -8,7 +8,6 @@ import { S3 } from "aws-sdk";
 export const getSingleUser = async () => {
   const token = await getToken()!;
   const tokenPayload = verifyToken(token?.value);
-  console.log(token, tokenPayload);
 
   const user = await prisma.user.findUnique({
     where: {
@@ -31,8 +30,6 @@ export const getTeachers = async () => {
   return teachers;
 };
 export const editProf = async (data: FormData) => {
-  console.log("here");
-  console.log(data);
   const token = await getToken()!;
   const email = await verifyToken(token.value).data;
   const currentUser = await getSingleUser();
@@ -40,7 +37,7 @@ export const editProf = async (data: FormData) => {
   const firstName = data.get("firstName") as string;
   const lastName = data.get("lastName") as string;
   const imageToSend = profPic && (await profPic?.arrayBuffer()!);
-  console.log(imageToSend);
+
   const buffer = Buffer.from(imageToSend);
 
   try {
@@ -66,7 +63,6 @@ export const editProf = async (data: FormData) => {
             .promise();
         }
         const response = await s3.upload(params).promise();
-        console.log(response);
         const permanentSignedUrl = s3.getSignedUrl("getObject", {
           Bucket: process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME!,
           Key: `${currentUser?.fName}prof.${profPic.type.split("/")[1]}`,
@@ -80,8 +76,8 @@ export const editProf = async (data: FormData) => {
             image: permanentSignedUrl,
           },
         });
-      } catch (error) {
-        console.log(error);
+      } catch (error: any) {
+        console.log(error.message);
       }
     }
     if (firstName) {
@@ -106,8 +102,8 @@ export const editProf = async (data: FormData) => {
       });
     }
     return true;
-  } catch (error) {
-    console.log(error);
+  } catch (error: any) {
+    console.log(error.message);
     return "There is an error in server";
   }
 };
@@ -193,7 +189,6 @@ export const removePhone = async (phoneToDelete: string) => {
 };
 
 export const createTeacherProfile = async (formData: FormData) => {
-  console.log(formData);
   const description = formData.get("description") as string;
   const bio = formData.get("bio") as string;
 
@@ -229,7 +224,7 @@ export const createTeacherProfile = async (formData: FormData) => {
 
     return "Your teacher profile successfully created";
   } catch (error: any) {
-    console.log(error);
+    console.log(error.message);
     throw new Error(error.message || "An unexpected error occurred");
   }
 };

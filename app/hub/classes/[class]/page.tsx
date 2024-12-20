@@ -75,7 +75,6 @@ const MyClass = (details: DetailsProps) => {
     queryFn: async () => await getToken(),
   });
   const { data: currentUser, isLoading: currentUserLoading } = useGetUser();
-  console.log(currentUser, currentUserLoading);
   useEffect(() => {
     const fetchRegisteredClasses = async () => {
       const classes = await getRegisterdClasses(params.class, currentUser?.id!);
@@ -86,11 +85,7 @@ const MyClass = (details: DetailsProps) => {
     };
     fetchRegisteredClasses();
   }, [currentUser]);
-  console.log(registeredClasses);
   // FORM OPERATIONS
-  console.log(token);
-  console.log(currentUser);
-  console.log(singleClass?.duration[0]);
   const registerForm = useForm<z.infer<typeof classValidation>>({
     resolver: zodResolver(classValidation),
   });
@@ -110,15 +105,8 @@ const MyClass = (details: DetailsProps) => {
     }
   };
   const onSubmit = async (values: z.infer<typeof classValidation>) => {
-    console.log("here");
-    console.log(singleClass?.price);
     setLoading(true);
-    console.log(values.time);
-    console.log(values.date);
-    console.log(singleClass?.price);
     if (singleClass?.price) {
-      console.log(singleClass?.price);
-      console.log("here");
       const placementPayment = await createNewPayment(
         Number(singleClass?.price),
         currentUser!,
@@ -148,7 +136,6 @@ const MyClass = (details: DetailsProps) => {
       setTimeError(t("timeRequired"));
       return;
     }
-    console.log(singleClass);
     const makePayment = await createNewPayment(
       Number(singleClass?.price),
       currentUser!,

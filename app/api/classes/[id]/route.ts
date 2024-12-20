@@ -7,7 +7,6 @@ type ParamsProps = {
   };
 };
 export const DELETE = async (req: NextRequest, { params }: ParamsProps) => {
-  console.log(params);
   if (req.headers.get("apiKey")) {
     try {
       const cls = await prisma.class.findUnique({
@@ -15,7 +14,7 @@ export const DELETE = async (req: NextRequest, { params }: ParamsProps) => {
           id: params.id,
         },
       });
-      console.log(cls);
+
       if (!cls) {
         return NextResponse.json(
           { message: "Class with this id doesn't exist" },
@@ -53,15 +52,15 @@ export const DELETE = async (req: NextRequest, { params }: ParamsProps) => {
         return NextResponse.json({
           message: "Your desired class successfully deleted!",
         });
-      } catch (error) {
-        console.log(error);
+      } catch (error: any) {
+        console.log(error.message);
         return NextResponse.json(
           { message: "There is an error in server" },
           { status: 500 }
         );
       }
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      console.log(error.message);
       return NextResponse.json(
         { message: "There is an error in server" },
         { status: 500 }

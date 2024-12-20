@@ -45,8 +45,6 @@ type Props = {
   };
 };
 const Classes = ({ searchParams: { teacher } }: Props) => {
-  console.log(teacher);
-
   const [currentUser, setCurrentUser] = useState<User>();
   const t = useTranslations("Class");
   const locale = useLocale();
@@ -56,10 +54,6 @@ const Classes = ({ searchParams: { teacher } }: Props) => {
   const [filteredClasses, setFilteredClasses] = useState(classes);
   const searchParams = useSearchParams();
 
-  if (classes) {
-    console.log(classes);
-  }
-  console.log(classes?.[0].days);
   useEffect(() => {
     if (classes) {
       setFilteredClasses(classes);
@@ -96,7 +90,6 @@ const Classes = ({ searchParams: { teacher } }: Props) => {
   const teacherNameInput = watch("teacherName", "");
 
   useEffect(() => {
-    console.log("here");
     if (classNameInput && teacherNameInput) {
       setFilteredClasses(
         classes?.filter(

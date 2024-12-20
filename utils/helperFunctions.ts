@@ -62,13 +62,9 @@ export function convertDaysToPersian(days: string[]) {
   };
 
   if (days.length === 1) {
-    console.log("here");
     // If a single day string is provided, return the corresponding Persian day.
-    console.log(dayMapping[days[0].toLowerCase()] || days);
     return dayMapping[days[0].toLowerCase()] || days;
   } else if (days.length > 1) {
-    console.log("here");
-
     // If an array of days is provided, map each day to its Persian equivalent.
     return days
       .map((day: string) => dayMapping[day.toLowerCase()] || day)

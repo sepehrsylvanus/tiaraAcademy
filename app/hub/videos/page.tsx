@@ -32,10 +32,6 @@ const Videos = () => {
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");
   const t = useTranslations("VideoCourse");
-  console.log(videos);
-  useEffect(() => {
-    console.log(filteredVideos);
-  }, [filteredVideos]);
 
   useEffect(() => {
     const filteredVideos = videos?.filter((video) => {
@@ -48,7 +44,6 @@ const Videos = () => {
       return matchedName && matchedCategory;
     });
     setFilteredVideos(filteredVideos);
-    console.log(filteredVideos);
   }, [name, category, videos]);
 
   if (videos) {

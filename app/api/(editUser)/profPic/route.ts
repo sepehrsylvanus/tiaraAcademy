@@ -7,12 +7,10 @@ import { NextRequest, NextResponse } from "next/server";
 export const PUT = async (req: NextRequest) => {
   const body = await req.json();
   const token = await getToken()!;
-  console.log(token);
   const currentUser = await getSingleUser(token?.value);
-  console.log(currentUser);
-  console.log(body);
+
   const image = await body.buffer;
-  console.log(image);
+
   try {
     const s3 = new S3({
       accessKeyId: process.env.NEXT_PUBLIC_LIARA_ACCESS_KEY_ID,

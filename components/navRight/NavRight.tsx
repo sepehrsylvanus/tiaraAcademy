@@ -7,12 +7,10 @@ import Link from "next/link";
 import ClerkAvatar from "../reusableComponents/ClerkAvatar";
 import { useTranslations } from "next-intl";
 const NavRight = ({ token }: { token: string }) => {
-  console.log(token);
   const t = useTranslations("Navbar");
   const router = useRouter();
 
   useEffect(() => {
-    console.log("changed");
     router.refresh();
   }, [token]);
 

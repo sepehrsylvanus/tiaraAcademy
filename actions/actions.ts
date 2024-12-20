@@ -52,7 +52,7 @@ export const postWriting = async (formData: FormData) => {
   const token = await getToken()!;
   const user = (await getSingleUser()!) as User;
   const creatorId = user?.id as string;
-  console.log(writingFile);
+
   if (subject) {
     const newWriting = await prisma.writing.create({
       data: {
@@ -104,7 +104,7 @@ export const postWriting = async (formData: FormData) => {
             },
           },
         });
-        console.log(decreaseCharge);
+
         return `Writing with name ${newWriting.subject} created`;
       } else {
         await prisma.writing.delete({
@@ -161,7 +161,7 @@ export const postWriting = async (formData: FormData) => {
             },
           },
         });
-        console.log(decreaseCharge);
+
         return `Writing with name ${writingFile.name} created`;
       } else {
         await prisma.writing.delete({
@@ -237,7 +237,6 @@ export const getTeacherAnswer = async (writingId: string) => {
 };
 
 export const deleteArticle = async (id: string) => {
-  console.log(id);
   const s3 = new S3({
     accessKeyId: process.env.NEXT_PUBLIC_LIARA_ACCESS_KEY_ID,
     secretAccessKey: process.env.NEXT_PUBLIC_LIARA_SECRET_ACCESS_KEY,
@@ -290,7 +289,7 @@ export const getClasses = async () => {
         teacher: true,
       },
     });
-    console.log(classes);
+
     return classes;
   } catch (error: any) {
     console.log(error.message);
@@ -303,11 +302,9 @@ export const postClassImg = async (formData: FormData, classId: string) => {
   const buffer = await classPic?.arrayBuffer();
   const picToSend = await Buffer.from(buffer);
 
-  console.log(classPic);
   const now = new Date();
   const name = now.toString() + classPic.name;
 
-  console.log(classId);
   try {
     const s3 = new S3({
       accessKeyId: process.env.NEXT_PUBLIC_LIARA_ACCESS_KEY_ID,
@@ -321,7 +318,7 @@ export const postClassImg = async (formData: FormData, classId: string) => {
       Body: picToSend,
     };
     const response = await s3.upload(params).promise();
-    console.log(response);
+
     const permanentSignedUrl = s3.getSignedUrl("getObject", {
       Bucket: process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME,
       Key: name,
@@ -337,14 +334,12 @@ export const postClassImg = async (formData: FormData, classId: string) => {
       },
     });
   } catch (error: any) {
-    console.log(error);
-    throw new Error(error);
+    console.log(error.message);
+    throw new Error(error.message);
   }
 };
 
 export const getRegisterdClasses = async (classId: string, userId: string) => {
-  console.log(classId);
-  console.log(userId);
   const registeredClass = await prisma.classUsers.findMany({
     where: {
       classId,
@@ -355,7 +350,7 @@ export const getRegisterdClasses = async (classId: string, userId: string) => {
   });
 
   const result = registeredClass.filter((item) => item.userId === userId);
-  console.log(result);
+
   return { result, registeredClass };
 };
 
@@ -376,7 +371,6 @@ export const makeCategories = async (title: string) => {
 };
 
 export const deleteCategory = async (title: string) => {
-  console.log(title);
   try {
     const oneToDelete = await prisma.category.findUnique({
       where: {
@@ -391,7 +385,6 @@ export const deleteCategory = async (title: string) => {
           categories: title.toLowerCase(),
         },
       });
-      console.log(articlesToUpdate);
 
       if (articlesToUpdate) {
         for (const article of articlesToUpdate) {
@@ -424,13 +417,13 @@ export const makeArticle = async (formData: FormData) => {
   const categories = formData.get("playlists") as string;
   const image = formData.get("image") as File;
   const authorId = currentUser?.id as string;
-  console.log(authorId);
+
   const text = formData.get("caption") as string;
-  console.log(image);
+
   const bytes = await image.arrayBuffer();
-  console.log(bytes);
+
   const buffer = await Buffer.from(bytes);
-  console.log(buffer);
+
   const articleData = {
     title,
 
@@ -530,13 +523,13 @@ export const getNotifs = async () => {
 
     return unreadNotifs;
   } catch (error: any) {
-    console.log(error);
-    throw new Error(error);
+    console.log(error.message);
+    throw new Error(error.message);
   }
 };
 
 export const getAllNotifs = async (userId: string) => {
-  const notifs = await prisma.notifs.findMany({
+  const notifs = (await prisma.notifs.findMany({
     where: {
       userId: {
         startsWith: userId,
@@ -545,7 +538,7 @@ export const getAllNotifs = async (userId: string) => {
     include: {
       cls: true,
     },
-  }) as Notif[];
+  })) as Notif[];
   return notifs;
 };
 
@@ -560,17 +553,16 @@ export const readNotif = async (id: string) => {
       },
     });
   } catch (error: any) {
-    console.log(error);
-    throw new Error(error);
+    console.log(error.message);
+    throw new Error(error.message);
   }
 };
 
 export const sendOtp = async (pNumber: string, code: number) => {
-  console.log(pNumber);
   if (pNumber[0] === "0") {
     pNumber = pNumber.replace(/^0/, "+98");
   }
-  console.log(pNumber, code);
+
   try {
     const sendCode = await request.post(
       {
@@ -589,8 +581,7 @@ export const sendOtp = async (pNumber: string, code: number) => {
       async function (error, response, body) {
         if (!error && response.statusCode === 200) {
           //YOU‌ CAN‌ CHECK‌ THE‌ RESPONSE‌ AND SEE‌ ERROR‌ OR‌ SUCCESS‌ MESSAGE
-          console.log(response.body);
-          console.log(body);
+
           await prisma.otp.create({
             data: {
               pNumber,
@@ -604,11 +595,10 @@ export const sendOtp = async (pNumber: string, code: number) => {
       }
     );
 
-    console.log(sendCode);
     return sendCode.body;
   } catch (error: any) {
-    console.log(error);
-    throw new Error(error);
+    console.log(error.message);
+    throw new Error(error.message);
   }
 };
 export const reserveFreePlacement = async (
