@@ -46,7 +46,6 @@ export const columns: ColumnDef<StudentsShow>[] = [
     id: "actions",
     cell: ({ row }) => {
       const user = row.original;
-      console.log(user);
       const role = user.role;
 
       const [sending, setSending] = useState(false);

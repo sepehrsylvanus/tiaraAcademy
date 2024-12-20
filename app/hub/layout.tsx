@@ -7,7 +7,6 @@ import React from "react";
 
 const layout = async ({ children }: { children: React.ReactNode }) => {
   const locale = await getLocale();
-  console.log(locale);
   return (
     <div>
       <div className="hidden md:block">

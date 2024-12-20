@@ -8,7 +8,6 @@ export const useGetRegisteredClasses = (classId: string, userId: string) => {
     queryKey: ["getRegisteredClass"],
     queryFn: async () => {
       const myRegisteredClasses = await getRegisterdClasses(classId, userId);
-      console.log(myRegisteredClasses);
       return myRegisteredClasses;
     },
   });

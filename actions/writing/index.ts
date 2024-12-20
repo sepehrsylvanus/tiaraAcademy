@@ -12,8 +12,8 @@ export const getMyWritingCharge = async (userId: string) => {
 
     return myCharges;
   } catch (error: any) {
-    console.log(error);
-    throw new Error(error);
+    console.log(error.message);
+    throw new Error(error.message);
   }
 };
 
@@ -41,8 +41,8 @@ export const chargeWriting = async (
       });
     }
   } catch (error: any) {
-    console.log(error);
-    throw new Error(error);
+    console.log(error.message);
+    throw new Error(error.message);
   }
 };
 
@@ -59,7 +59,7 @@ export const spendWriting = async (id: string) => {
       },
     });
   } catch (error: any) {
-    console.log(error);
-    throw new Error(error);
+    console.log(error.message);
+    throw new Error(error.message);
   }
 };

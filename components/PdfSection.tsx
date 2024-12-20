@@ -13,7 +13,6 @@ const PdfSection = async () => {
   if (writings) {
     loading = false;
   }
-  console.log(writings);
   const sortedWritings = writings.sort(
     (a, b) => b.createdAt.getTime() - a.createdAt.getTime()
   );

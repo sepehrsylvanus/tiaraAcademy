@@ -26,7 +26,6 @@ export const useGetCourseVideosDetails = (id: string) => {
     queryKey: ["getVideoCourseDetails"],
 
     queryFn: async () => {
-      console.log(id);
       const videoDetails = await getSingleVideo(id);
       return videoDetails;
     },
@@ -47,7 +46,6 @@ export const usePostSession = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (formData: FormData) => {
-      console.log(formData);
       await createVideoCourseSession(formData);
       return "session created succesfully";
     },

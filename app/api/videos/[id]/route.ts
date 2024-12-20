@@ -7,7 +7,6 @@ type ParamsProps = {
 };
 
 export const PATCH = async (req: NextRequest, { params }: ParamsProps) => {
-  console.log(params.id);
   try {
     const videoCourseSessions = await prisma.videoCourseSession.findMany({
       where: { videoCourseId: params.id },
@@ -31,5 +30,4 @@ export const PATCH = async (req: NextRequest, { params }: ParamsProps) => {
     console.log(error.message);
     return NextResponse.json({ message: error.message }, { status: 500 });
   }
-  // console.log(course);
 };

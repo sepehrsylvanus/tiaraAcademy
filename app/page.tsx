@@ -183,7 +183,7 @@ export default async function Home() {
                 src="https://trustseal.enamad.ir/logo.aspx?id=516151&Code=jCBpwjkJeshetgDotCMZkNrYm2zyiLUy"
                 alt=""
                 className="cursor-pointer"
-                code="jCBpwjkJeshetgDotCMZkNrYm2zyiLUy"
+                data-code="jCBpwjkJeshetgDotCMZkNrYm2zyiLUy"
               />
             </a>
           </div>

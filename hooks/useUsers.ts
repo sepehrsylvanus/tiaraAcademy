@@ -14,7 +14,6 @@ export function useGetTeacherNames() {
       const names = teachers.map(
         (teacher) => `${teacher.fName} ${teacher.lName}`
       ) as string[];
-      console.log(names);
       return names;
     },
   });

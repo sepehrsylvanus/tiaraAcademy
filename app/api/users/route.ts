@@ -19,7 +19,6 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
   const t = (await getMessages()) as any;
   const signUpT = t.SignUp;
   let rawPass: string;
-  console.log(signUpT);
   if (req.headers.get("apiKey")) {
     try {
       const formData: FormDataProps = await req.json();
@@ -27,10 +26,8 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
       formData.password = bcrypt.hashSync(formData.password, 12);
       if (formData.pNumber.startsWith("+98")) {
         formData.pNumber = "0" + formData.pNumber.split("").slice(3).join("");
-        console.log(formData.pNumber);
       }
 
-      console.log(formData.pNumber);
       const alreadyRegistered = await prisma.user.findFirst({
         where: {
           OR: [
@@ -48,7 +45,6 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
           { status: 409 }
         );
       }
-      console.log(formData.pNumber, rawPass);
       try {
         const sendCode = await request.post(
           {
@@ -69,8 +65,8 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
           },
           async function (error, response, body) {
             if (error) {
-              console.log(error);
-              throw new Error(error);
+              console.log(error.message);
+              throw new Error(error.message);
             } else if (!error && response.statusCode === 200) {
               console.log(response.body);
             } else {
@@ -79,11 +75,10 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
           }
         );
 
-        console.log(sendCode);
-        console.log(sendCode.body);
+  
       } catch (error: any) {
-        console.log(error);
-        throw new Error(error);
+        console.log(error.message);
+        throw new Error(error.message);
       }
       const newUser = await prisma.user.create({
         data: formData,
@@ -100,8 +95,8 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
       return NextResponse.json({
         message: `${signUpT.user} ${newUser.fName} ${newUser.lName} ${signUpT.created}`,
       });
-    } catch (error) {
-      console.log(error);
+    } catch (error:any) {
+      console.log(error.message);
       return NextResponse.json({ error: signUpT.crashed }, { status: 500 });
     }
   } else {

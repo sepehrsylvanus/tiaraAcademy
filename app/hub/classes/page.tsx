@@ -59,10 +59,7 @@ const Classes = ({ searchParams: { teacher } }: Props) => {
       setFilteredClasses(classes);
     }
   }, [classes]);
-  useEffect(() => {
-    console.log(filteredClasses);
-  }, [filteredClasses]);
-
+ 
   useEffect(() => {
     const fetchUser = async () => {
       const currentUser = await getSingleUser();

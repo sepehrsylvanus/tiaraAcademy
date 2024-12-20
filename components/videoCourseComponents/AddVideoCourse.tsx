@@ -47,10 +47,7 @@ const AddVideoCourse = () => {
   const [selectedImage, setSelectedImage] = useState<string>();
   const [thumbnailRaw, setThumbnailRaw] = useState<File>();
 
-  useEffect(() => {
-    console.log(materialsFile);
-  }, [materialsFile]);
-
+ 
   const fileInputRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
     return () => {
@@ -99,7 +96,6 @@ const AddVideoCourse = () => {
     videoCourseFormData.set("materials", materialsFile!);
     videoCourseFormData.set("tags", JSON.stringify(tags));
     const ifCourseCreated = await createVideoCourse(videoCourseFormData);
-    console.log(ifCourseCreated);
     if (ifCourseCreated) {
       toast.success(ifCourseCreated);
       setLoading(false);

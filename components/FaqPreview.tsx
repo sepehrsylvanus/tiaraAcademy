@@ -7,7 +7,6 @@ import React, { FC, useEffect, useState } from "react";
 const FaqPreview = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const locale = useLocale();
-  console.log(locale);
   const faqs = [
     {
       question: "What is Tiara Academy?",

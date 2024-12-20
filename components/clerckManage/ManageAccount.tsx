@@ -44,23 +44,16 @@ const ManageAccount = () => {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const t = useTranslations("ClerkPanel");
-  useEffect(() => {
-    console.log(currentUser);
-  }, [currentUser]);
 
   const handleImage = (e: ChangeEvent<HTMLInputElement>) => {
     setProfilePicture(e.target.files?.[0]);
   };
 
-  useEffect(() => {
-    console.log(profilePicture);
-  }, [profilePicture]);
-
+ 
   useEffect(() => {
     if (profilePicture) {
       const formData = new FormData();
-      console.log(profilePicture);
-      console.log(formData);
+      
       formData.set("profPic", profilePicture!);
       mutate(formData);
     }

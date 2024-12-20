@@ -16,8 +16,6 @@ export default async function RootLayout({
   const writingT = messages.Writing;
   const user = (await getSingleUser()) as User;
   const writingCharge = await getMyWritingCharge(user?.id!);
-  console.log(writingCharge.length === 0);
-  console.log(writingT.notCharge);
 
   return (
     <div className="flex flex-col px-4 md:pl-[5em] pb-6">

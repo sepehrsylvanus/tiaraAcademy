@@ -29,15 +29,13 @@ export const PUT = async (req: NextRequest, { params }: ParamsProps) => {
   } else if (req.headers.get("apiKey") && req.headers.get("forgetPass")) {
     try {
       const body = await req.json();
-      console.log(body.verification, params.id);
       const otps = await prisma.otp.findMany();
-      console.log(otps);
+     
       const ifOtpValid = await prisma.otp.findMany({
         where: {
           AND: [{ otp: Number(body.verification) }, { pNumber: params.id }],
         },
       });
-      console.log(ifOtpValid);
       let phoneToSearch = params.id;
       if (params.id.startsWith("+")) {
         phoneToSearch = "0" + params.id.split("").slice(3).join("");
@@ -47,11 +45,8 @@ export const PUT = async (req: NextRequest, { params }: ParamsProps) => {
           pNumber: phoneToSearch,
         },
       });
-      console.log(ifUserValid);
       if (ifOtpValid && ifUserValid) {
-        console.log("valid");
         const newPssword = bcryptjs.hashSync(body.password, 12);
-        console.log(newPssword);
         const updatedPassUser = await prisma.user.update({
           where: {
             pNumber: phoneToSearch,
@@ -60,13 +55,11 @@ export const PUT = async (req: NextRequest, { params }: ParamsProps) => {
             password: newPssword,
           },
         });
-        console.log(updatedPassUser);
         const deletedOtp = await prisma.otp.delete({
           where: {
             otp: Number(body.verification),
           },
         });
-        console.log(deletedOtp);
         return NextResponse.json({
           message: "Your password changed successfully",
         });

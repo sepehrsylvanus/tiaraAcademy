@@ -7,7 +7,6 @@ import { MetadataRoute } from "next";
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Articles
   const articles = await getArticles();
-  console.log(articles);
   const blogEntries: MetadataRoute.Sitemap = articles.map((article) => ({
     url: `${process.env.NEXT_PUBLIC_BASE_URL}/hub/blogs/${article.id}`,
   }));

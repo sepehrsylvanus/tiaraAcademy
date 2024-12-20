@@ -20,7 +20,6 @@ const WritingCharge = ({
   const router = useRouter();
   const handleCharge = async (data: FormData) => {
     const chargeQuan = data.get("quantity");
-    console.log(chargeQuan);
     const user = (await getSingleUser()) as User;
     const paymentCharge = await createNewPayment(
       Number(chargeQuan) * 199000,

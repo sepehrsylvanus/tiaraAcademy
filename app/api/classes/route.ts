@@ -10,7 +10,7 @@ export const POST = async (req: NextRequest) => {
   if (req.headers.get("apiKey")) {
     try {
       const data = await req.json();
-      console.log(data);
+
 
       const user = (await getSingleUser()) as User;
       const newClass = await prisma.class.create({

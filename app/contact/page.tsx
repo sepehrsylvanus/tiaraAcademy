@@ -18,7 +18,6 @@ import { getMessages } from "next-intl/server";
 const ContactUs = async () => {
   const messages = (await getMessages()) as any;
   const t = messages.ContactUs;
-  console.log(messages);
   return (
     <div
       className="h-fit relative w-fit

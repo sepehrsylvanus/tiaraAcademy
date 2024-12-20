@@ -44,9 +44,8 @@ const SignUp = () => {
     },
   });
   const errors = form.formState.errors;
-  console.log(errors);
+
   async function signupUser(values: z.infer<typeof signupSchema>) {
-    console.log(values);
     if (values.password !== values.passwordRepeat) {
       toast.error("Passwords didn't match!");
       return;

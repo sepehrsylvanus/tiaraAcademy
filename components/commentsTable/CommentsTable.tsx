@@ -22,7 +22,6 @@ const CommentsTable = () => {
   const { data: comments, isLoading: commentsLoading } = useGetAllComments();
   const { mutate: approveComment } = useApproveComment();
   const { mutate: deleteComment } = useDeleteComment();
-  console.log(comments);
   if (comments) {
     return (
       <Table className="mt-6 bg-cardBg ">

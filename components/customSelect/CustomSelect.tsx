@@ -43,9 +43,7 @@ const CustomSelect = (props: {
       .catch((err) => console.log(err));
   }, []);
 
-  useEffect(() => {
-    console.log(justClasses);
-  }, [justClasses]);
+ 
 
   const makeDisable = (time: string) => {
     if (

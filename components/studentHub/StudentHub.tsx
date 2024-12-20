@@ -26,18 +26,11 @@ export default function StudentHub() {
   const handleShowMore = () => {
     setDisplayCount((prev: number) => prev + 2);
   };
-  useEffect(() => {
-    console.log(featuredClasses);
-  }, [featuredClasses]);
-
-  const handleJoin = () => {
-    toast.success("You successfully registered in this class");
-  };
+ 
 
   useEffect(() => {
     const featuredClasses = allClasses?.filter((cls) => {
       const currentDate = new Date();
-      console.log(cls.createdAt.getTime());
       const timeDifference = currentDate.getTime() - cls.createdAt.getTime();
       const oneWeekMiliseconds = 7 * 24 * 60 * 60 * 1000;
       return timeDifference < oneWeekMiliseconds;
@@ -75,7 +68,6 @@ export default function StudentHub() {
             </div>
           ) : featuredClasses && featuredClasses?.length > 0 ? (
             featuredClasses.slice(0, displayCount).map((featuredClass) => {
-              console.log("here");
               return (
                 <Card
                   key={featuredClass.id}

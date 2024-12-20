@@ -7,8 +7,7 @@ export const DELETE = async (
   req: NextRequest,
   { params }: { params: DeleteOTP }
 ) => {
-  console.log(params);
-  console.log("Hi");
+
   try {
     await prisma.otp.delete({
       where: {

@@ -44,7 +44,6 @@ const MyCourses = () => {
   const handleShowMore = () => {
     setDisplayCount((prev: number) => prev + 2);
   };
-  console.log(myClasses, myVideos);
   const { data: currentUser } = useGetCurrentUser();
 
   useEffect(() => {

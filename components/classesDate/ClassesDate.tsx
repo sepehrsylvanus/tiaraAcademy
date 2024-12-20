@@ -55,7 +55,6 @@ const ClassesDate = ({
         return 6;
     }
   });
-  console.log(dayValues);
 
   const disableDates = (date: Date) => {
     const today = new Date();
@@ -64,10 +63,7 @@ const ClassesDate = ({
     if (date < today) return true;
     if (!dayValues?.includes(date.getDay() as 0 | 1 | 2 | 3 | 4 | 5 | 6))
       return true;
-    console.log(date.getDay());
     const isRunOut = justThisClass?.filter((item) => {
-      console.log(item.date);
-      console.log(date.toISOString());
 
       return item.capacity === 0 && item.date === date.toISOString();
     });

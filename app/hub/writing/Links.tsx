@@ -24,7 +24,7 @@ const Links = () => {
   const path = usePathname();
   const { data: myWritingCharge, isLoading: chargeLoading } = useGetMyCharge();
   const { data: currentUser } = useGetUser();
-  console.log(currentUser);
+
   const { mutate: postWriting } = usePostWriting();
   const t = useTranslations("Writing");
   const handlePdfChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -47,20 +47,10 @@ const Links = () => {
     }
   };
 
-  // if (myWritingCharge) {
-  //   console.log(
-  //     myWritingCharge?.length > 0 || myWritingCharge[0].writingCharge === 0
-  //   );
-  //   console.log(myWritingCharge?.length > 0);
-  //   console.log(myWritingCharge);
-  // }
-  if (!chargeLoading) {
-    console.log(myWritingCharge);
-  }
+ 
   const writingChargeEmpty = myWritingCharge?.length === 0;
   const writingChargeRunOut = myWritingCharge?.[0]?.writingCharge === 0;
   const chargeAgain = writingChargeEmpty || writingChargeRunOut;
-  console.log(chargeAgain);
   if (myWritingCharge && currentUser) {
     return (
       <div className="flex flex-col">

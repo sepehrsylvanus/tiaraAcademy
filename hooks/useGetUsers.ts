@@ -28,9 +28,7 @@ export function useGetCurrentUser() {
     queryKey: ["getCurrentUser"],
     queryFn: async () => {
       const token = await getToken()!;
-      console.log(token);
       const currentUser = await getSingleUser();
-      console.log(currentUser);
       return currentUser;
     },
   });
@@ -76,13 +74,11 @@ export function useRemoveEmail() {
 
   return useMutation({
     mutationFn: async (emailToDelete: string) => {
-      console.log(emailToDelete);
       await removeEmail(emailToDelete);
       return `${emailToDelete} deleted`;
     },
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["getCurrentUser"] });
-      console.log(data);
       toast.warning("Email deleted");
     },
   });

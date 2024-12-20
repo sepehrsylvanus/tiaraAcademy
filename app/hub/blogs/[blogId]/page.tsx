@@ -14,7 +14,6 @@ type ParamsProps = {
   };
 };
 const SingleBlog = (params: ParamsProps) => {
-  console.log(params.params.blogId);
 
   const { data: article } = useGetSingleBlog(params.params.blogId);
   const locale = useLocale();

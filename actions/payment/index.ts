@@ -20,9 +20,7 @@ export const createNewPayment = async (
 
   className?: string
 ) => {
-  console.log(user);
-  console.log(price, user, type, chosenTime, classId, chosenDate, className);
-
+  
   try {
     if (type === "writingCharge") {
       const data = {
@@ -41,7 +39,6 @@ export const createNewPayment = async (
         data
       );
       if (res.data.data.code === 100) {
-        console.log(chosenDate);
         const newPayment = await prisma.payment.create({
           data: {
             user: {
@@ -141,9 +138,7 @@ export const createNewPayment = async (
       "https://api.zarinpal.com/pg/v4/payment/request.json",
       data
     );
-    console.log(res.data);
     if (res.data.data.code === 100) {
-      console.log(chosenDate);
       const newPayment = await prisma.payment.create({
         data: {
           user: {
@@ -190,7 +185,6 @@ export const verifyPayment = async ({
         resnumber: authority,
       },
     });
-    console.log(targetedPayment);
     let targetedClass;
 
     if (classId) {
@@ -206,12 +200,10 @@ export const verifyPayment = async ({
       amount: Number(targetedPayment?.price) * 10,
       authority,
     };
-    console.log(verifyData);
     const res = await axios.post(
       "https://api.zarinpal.com/pg/v4/payment/verify.json",
       verifyData
     );
-    console.log(res.data);
     if (res.data.data.code === 100 || res.data.data.code === 101) {
       const updatedPayment = await prisma.payment.update({
         where: {
@@ -310,12 +302,11 @@ export const verifyPayment = async ({
       }
     }
   } catch (error: any) {
-    console.log(error);
-    throw new Error(error);
+    console.log(error.message);
+    throw new Error(error.message);
   }
 };
 export const fetchUserPayments = async (userId: string) => {
-  console.log(userId);
   try {
     const payments = await prisma.payment.findMany({
       where: {
@@ -325,11 +316,10 @@ export const fetchUserPayments = async (userId: string) => {
         class: true,
       },
     });
-    console.log(payments);
     return payments;
   } catch (error: any) {
-    console.log(error);
-    throw new Error(error);
+    console.log(error.message);
+    throw new Error(error.message);
   }
 };
 export const buyVideoCourse = async (
@@ -376,7 +366,6 @@ export const buyVideoCourse = async (
   }
 };
 export const verifyCoursePayment = async (authority: string) => {
-  console.log(authority);
   try {
     const targetedPayment = await prisma.coursePayment.findUnique({
       where: {
@@ -389,7 +378,6 @@ export const verifyCoursePayment = async (authority: string) => {
       },
     });
     const currentUser = await getSingleUser();
-    console.log(targetedPayment);
     if (targetedPayment) {
       const updatedPayment = await prisma.coursePayment.update({
         where: {
@@ -400,7 +388,6 @@ export const verifyCoursePayment = async (authority: string) => {
         },
       });
       if (updatedPayment) {
-        console.log("here");
         await prisma.notifs.create({
           data: {
             title: `${currentUser?.fName} ${currentUser?.lName} with id ${currentUser?.id} paid for ${currentVideoCourse?.title} course`,
@@ -429,6 +416,5 @@ export const getVerifiedCoursePayment = async ({
       AND: [{ courseId: id }, { verified: true }, { userId }],
     },
   });
-  console.log(verifiedCourse);
   return verifiedCourse;
 };

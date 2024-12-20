@@ -17,7 +17,6 @@ export const getAllVideos = async (name?: string, category?: string) => {
   return videos;
 };
 export const getSingleVideo = async (id: string) => {
-  console.log(id);
   const videoDetails = await prisma.videoCourse.findUnique({
     where: {
       id,
@@ -38,7 +37,6 @@ export const getSingleVideo = async (id: string) => {
       },
     },
   });
-  console.log(videoDetails);
   return videoDetails;
 };
 export const getSingleVideoSession = async (id: string) => {
@@ -101,7 +99,6 @@ export const createVideoCourse = async (formData: FormData) => {
     | "general";
   const materials = formData.get("materials") as File;
   const prerequisities = JSON.parse(formData.get("tags") as string) as string[];
-  console.log(normalValues, image, language, materials);
   try {
     const currentUser = await getSingleUser();
     const s3 = new S3({
@@ -116,7 +113,6 @@ export const createVideoCourse = async (formData: FormData) => {
     const thumbnailBuffer = Buffer.from(thumbnailBit);
     const materialbut = await materials.arrayBuffer();
     const materialsBuffer = Buffer.from(materialbut);
-    console.log(process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME);
     if (process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME) {
       const params = {
         Bucket: process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME!,
@@ -163,14 +159,12 @@ export const createVideoCourse = async (formData: FormData) => {
 };
 
 export const createVideoCourseSession = async (formData: FormData) => {
-  console.log(formData);
   const video = formData.get("video") as File;
   const title = formData.get("title") as string;
   const duration = formData.get("duration") as string;
   const useFullDuration = parseInt(duration);
   const videoCourseId = formData.get("videoCourseId") as string;
   const index = formData.get("index") as string;
-  console.log(video, title, useFullDuration);
   const rawDuration = Number(duration);
   try {
     const s3 = new S3({
@@ -256,7 +250,6 @@ export const deleteVideoSession = async (id: string) => {
 };
 
 export const deleteVideoCourse = async (id: string) => {
-  console.log(id);
   const course = await prisma.videoCourse.findUnique({
     where: {
       id,
@@ -318,7 +311,6 @@ export const fetchRegisteredVideoCourse = async (
         AND: [{ videoCourseId: courseId }, { userId }],
       },
     });
-    console.log(registeredVideoCourse);
     return registeredVideoCourse;
   } catch (error: any) {
     console.log(error.message);
@@ -358,7 +350,6 @@ export const fetchAllMyVideos = async (userId: string) => {
     },
   });
 
-  console.log(freeVideos, verifiedVideosPayment);
 
   const freeVideosPromises = freeVideos.map(async (video) => {
     const eachVideo = await prisma.videoCourse.findUnique({
@@ -394,6 +385,5 @@ export const fetchAllMyVideos = async (userId: string) => {
     (video): video is NonNullable<typeof video> => video !== null
   );
 
-  console.log(allVideos);
   return allVideos;
 };

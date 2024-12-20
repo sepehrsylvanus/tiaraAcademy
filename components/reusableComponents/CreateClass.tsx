@@ -160,19 +160,16 @@ const CreateClass = () => {
   const duration = form.watch("duration");
   const chosenDate = form.watch("date");
 
-  console.log(errors);
   const classType = form.watch("type");
   useEffect(() => {
     form.setValue("duration", undefined);
     setDate(undefined);
-    console.log(chosenDate, duration);
   }, [classType]);
 
   async function createClass(values: z.infer<typeof formSchema>) {
     setSending(true);
     const formData = new FormData();
     formData.set("classPic", classPic!);
-    console.log(values);
     if (!values.duration && !values.date && values.type !== "placement") {
       toast.error("please choose your date or dates");
       setSending(false);
@@ -189,13 +186,10 @@ const CreateClass = () => {
       return;
     }
 
-    console.log(values);
     try {
       const res = await Axios.post("/classes", values);
 
-      console.log(res);
       if (classPic) {
-        console.log("here");
         await postClassImg(formData, res.data.classId);
       }
       toast.success(res.data.message, {
@@ -224,7 +218,6 @@ const CreateClass = () => {
       setSending(false);
     } catch (error: any) {
       setSending(false);
-      console.log(error);
       toast.error(error.response.data.error, {
         position: "bottom-right",
         autoClose: 5000,
@@ -239,7 +232,6 @@ const CreateClass = () => {
     }
   }
   useEffect(() => {
-    console.log(chosenType);
     form.setValue("type", chosenType);
     if (price) {
       form.setValue("price", price?.price);
@@ -493,7 +485,6 @@ const CreateClass = () => {
                         <Calendar
                           range
                           onChange={(e) => {
-                            console.log(getAllDatesInRange(e));
                             const firstDate = e[0]?.toDate();
                             const secondDate = e[1]?.toDate();
 
@@ -508,59 +499,7 @@ const CreateClass = () => {
                 )}
               />
             </div>
-            {/* <div
-              className={
-                chosenType === "group" ||
-                chosenType === "placement" ||
-                chosenType === "workshop"
-                  ? "opacity-50 pointer-events-none"
-                  : ""
-              }
-            >
-              <Popover>
-                <PopoverTrigger
-                  asChild
-                  className={`bg-[#c6d9e6] text-lightText px-2 py-2 rounded-md outline-none hover:bg-[#c6d9e6] flex items-center `}
-                >
-                  <Button
-                    variant="outline"
-                    className="w-full text-left font-normal formInput"
-                  >
-                    {date ? (
-                      <p>
-                        {moment(date.toLocaleDateString())
-                          .locale("fa")
-                          .format("YYYY/MM/DD")}
-                      </p>
-                    ) : (
-                      <div className="flex gap-4">
-                        <CalendarDaysIcon className="mr-2 h-4 w-4" />
-                        {chosenType !== "1v1" ? (
-                          <p>{t("deactive")}</p>
-                        ) : (
-                          <p> {t("pickDate")}</p>
-                        )}
-                      </div>
-                    )}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  {locale === "en" ? (
-                    <Calendar
-                      value={date}
-                      onChange={(e) => setDate(e?.toDate())}
-                    />
-                  ) : (
-                    <Calendar
-                      locale={persian_fa}
-                      calendar={persian}
-                      value={date}
-                      onChange={(e) => setDate(e?.toDate())}
-                    />
-                  )}
-                </PopoverContent>
-              </Popover>
-            </div> */}
+         
           </div>
           <div>
             <FormControl sx={{ width: "100%" }}>

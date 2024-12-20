@@ -67,13 +67,8 @@ const ForgetPass = () => {
 
   async function changePass(values: z.infer<typeof formSchema>) {
     setSending(true);
-    console.log(FormError);
     try {
-      console.log(values);
-      console.log(FormError);
-      console.log(Object.keys(FormError).length === 0);
       if (Object.keys(FormError).length === 0) {
-        console.log(Object.keys(FormError).length === 0);
 
         Axios.put(`/users/${phoneNumber}`, values, {
           headers: {
@@ -85,28 +80,24 @@ const ForgetPass = () => {
             setSending(false);
             Axios.delete(`/otp/${otp}`)
               .then((res) => {
-                console.log(res.data);
                 toast(res.data.message);
               })
               .catch((err) => {
-                console.log(err);
                 toast.error(err.response.data.err);
               });
             router.push("/sign-in");
           })
-          .catch((err) => {
-            console.log(err);
+          .catch((err:any) => {
+            console.log(err.message);
             setSending(false);
           });
       }
-    } catch (error) {
-      console.log(error);
+    } catch (error:any) {
+      console.log(error.message);
       setSending(false);
     }
   }
-  useEffect(() => {
-    console.log(sending);
-  }, [sending]);
+
 
   const generateCode = () => {
     setOtpSending(true);
@@ -117,18 +108,16 @@ const ForgetPass = () => {
         setOtp(otp.toString());
         const sendOTP = await sendOtp(phoneNumber, Number(otp));
         if (sendOTP) {
-          console.log(sendOTP);
+       
 
           setCountdown(120);
           setOtpSending(false);
         }
-        console.log(otp);
       }, 0);
     }
   };
 
   useEffect(() => {
-    console.log(countdown);
     if (countdown > 0) {
       const timerId = setTimeout(() => setCountdown(countdown - 1), 1000);
       return () => clearTimeout(timerId); // clear the timer if the component is unmounted
@@ -136,14 +125,12 @@ const ForgetPass = () => {
       // clear the OTP when the countdown finishes
 
       if (otp) {
-        console.log("here");
         Axios.delete(`/otp/${otp}`)
           .then((res) => {
-            console.log(res.data);
             toast(res.data.message);
           })
-          .catch((err) => {
-            console.log(err);
+          .catch((err:any) => {
+            console.log(err.response.data.err);
             toast.error(err.response.data.err);
           });
       }

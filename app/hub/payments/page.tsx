@@ -31,11 +31,8 @@ export default function Payments() {
   const { data: currentUser, isLoading: currentUserLoading } = useGetUser();
   const { data: payments } = useGetMyPayments(currentUser?.id!);
   const t = useTranslations("Payments");
-  if (payments) {
-    console.log(payments);
-  }
+ 
   const locale = useLocale();
-  console.log("type of payment", typeof payments);
   const filteredPayments = useMemo(() => {
     return payments?.filter(
       (payment) =>

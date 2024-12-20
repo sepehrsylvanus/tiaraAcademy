@@ -32,11 +32,11 @@ export const sendClassSms = async (
       .then((response) => {
         console.log(JSON.stringify(response.data));
       })
-      .catch((error) => {
-        console.log(error);
+      .catch((error: any) => {
+        console.log(error.message);
       });
   } catch (error: any) {
-    console.log(error);
-    throw new Error(error);
+    console.log(error.message);
+    throw new Error(error.message);
   }
 };

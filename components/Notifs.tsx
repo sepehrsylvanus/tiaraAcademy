@@ -19,7 +19,6 @@ const Notifs = () => {
   const t = useTranslations("Hub");
   const { data: notifs } = useGetNotifs();
   const { mutate: readNotif } = useReadNotif();
-  console.log(notifs);
   return (
     <Popover>
       <PopoverTrigger>

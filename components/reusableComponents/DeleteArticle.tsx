@@ -26,7 +26,6 @@ const DeleteArticle = () => {
   });
 
   async function onSubmit(values: z.infer<typeof deleeteArticleForm>) {
-    console.log(values);
     const ifDeleted = await deleteArticle(values.id);
     if (ifDeleted) {
       toast.warning("Article deleted successfully");

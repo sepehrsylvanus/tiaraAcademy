@@ -40,7 +40,6 @@ type verifiedCourse = {
   verified: boolean;
 };
 const SingleVideo = ({ params }: SingleVideoProps) => {
-  console.log(params);
   const t = useTranslations("VideoCourse");
   const [openComment, setOpenComment] = useState(false);
   const [verifiedCourse, setVerifiedCourse] = useState<verifiedCourse[]>();
@@ -49,7 +48,6 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
     useGetCourseVideosDetails(params.id);
   const router = useRouter();
   const { data: currentUser, isLoading: currentUserLoading } = useGetUser();
-  console.log(videoDetails);
   useEffect(() => {
     const getRegisteredVideoCourse = async () => {
       if (currentUser && videoDetails) {
@@ -57,7 +55,6 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
           currentUser.id,
           videoDetails.id
         );
-        console.log(registeredVideoCourse);
         setRegisteredVideoCourse(registeredVideos);
       }
     };
@@ -65,7 +62,6 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
   }, [currentUser, videoDetails]);
 
   const { mutate: addFreeVideoCourse } = useAddFreeVideoCourse();
-  console.log(registeredVideoCourse);
 
   useEffect(() => {
     const getVerifiedCourse = async () => {
@@ -74,7 +70,6 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
           id: params.id,
           userId: currentUser.id,
         });
-        console.log(verifiedCourse);
         setVerifiedCourse(verifiedCourse);
       }
     };
@@ -100,8 +95,6 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
     }
   };
   const ifbuyed = verifiedCourse && verifiedCourse.length > 0;
-  console.log(registeredVideoCourse);
-  console.log(registeredVideoCourse?.length);
   if (!videoDetailsLoading && registeredVideoCourse) {
     return (
       <div className="md:w-9/12  pb-[6em] mx-auto w-full md:px-0 px-4">

@@ -17,7 +17,6 @@ type Params = {
 };
 
 export default async function PaymentRedirect(params: Params) {
-  console.log({ params });
   const { class: classId } = params.params;
   const { Authority, Status, type } = params.searchParams;
   const messages = (await getMessages()) as any;
@@ -29,7 +28,6 @@ export default async function PaymentRedirect(params: Params) {
     type,
     classId,
   });
-  console.log(verified);
   const cls = await getSingleClass(classId);
   return (
     <div className="flex  flex-col items-center justify-center bg-background px-4 py-12 sm:px-6 lg:px-8">

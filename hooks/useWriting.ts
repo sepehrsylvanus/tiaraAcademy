@@ -23,7 +23,6 @@ export function usePostWriting() {
       return writing;
     },
     onSuccess: (data) => {
-      console.log(data);
       queryClient.invalidateQueries({ queryKey: ["getMyWritingCharge"] });
       toast.success(data);
     },
