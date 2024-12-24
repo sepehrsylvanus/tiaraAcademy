@@ -25,6 +25,7 @@ export interface Class {
   persianTitle: string;
   type: "placement" | "1v1" | "group" | "workshop";
   price: string;
+  discountedPrice: string;
   capacity: number;
   days: string[];
   date: Date;

@@ -47,14 +47,25 @@ export const editClass = async (
   price: string,
   discount: string
 ) => {
+  const discountNumber = Number(discount);
   try {
-    const editedClass = await prisma.class.update({
+    const teargetedClass = await prisma.class.findUnique({
+      where: {
+        id,
+      },
+    });
+    await prisma.class.update({
       where: {
         id,
       },
       data: {
         title,
+
         price,
+        discountedPrice:
+          discountNumber > 0
+            ? String((Number(teargetedClass?.price) * discountNumber) / 100)!
+            : teargetedClass!.price!,
         discount,
       },
     });

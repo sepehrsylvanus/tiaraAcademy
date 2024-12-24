@@ -234,11 +234,75 @@ const Classes = ({ searchParams: { teacher } }: Props) => {
             {filteredClasses?.map((eachClass) => {
               let days = eachClass.days;
               const formattedDays = makeEnglishDaysUppercase(days);
+              const ifHasDiscount =
+                eachClass.discount && Number(eachClass.discount) > 0;
               return (
                 <Card
                   key={eachClass.id}
-                  className="text-center flex flex-col justify-between"
+                  className="text-center flex flex-col justify-between relative"
                 >
+                  <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                    <DialogTrigger asChild className="absolute top-4 right-4">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className={`absolute top-2 right-2 hover:bg-accent ${
+                          currentUser?.role === "student" ? "hidden" : ""
+                        }`}
+                        onClick={() => handleEdit(eachClass)}
+                      >
+                        <Pencil className="h-4 w-4" />
+                        <span className="sr-only">Edit class</span>
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>Edit Class</DialogTitle>
+                      </DialogHeader>
+                      <form onSubmit={handleSave} className="grid gap-4 py-4">
+                        <div className="grid gap-2">
+                          <Label htmlFor="name">Class Name</Label>
+                          <Input
+                            id="name"
+                            value={editingClass?.title ?? ""}
+                            onChange={(e) => handleInputChange(e, "title")}
+                            required
+                          />
+                        </div>
+                        <div className="grid gap-2">
+                          <Label htmlFor="price">Price</Label>
+                          <Input
+                            id="price"
+                            step="0.01"
+                            min="0"
+                            value={editingClass?.price ?? 0}
+                            onChange={(e) => handleInputChange(e, "price")}
+                            required
+                          />
+                        </div>
+                        <div className="grid gap-2">
+                          <Label htmlFor="discount">Discount (%)</Label>
+                          <Input
+                            id="discount"
+                            min="0"
+                            max="100"
+                            value={editingClass?.discount ?? 0}
+                            onChange={(e) => handleInputChange(e, "discount")}
+                          />
+                        </div>
+                        <div className="flex gap-4 justify-end">
+                          <Button
+                            type="button"
+                            variant="outline"
+                            onClick={() => setIsDialogOpen(false)}
+                          >
+                            Cancel
+                          </Button>
+                          <Button type="submit">Save Changes</Button>
+                        </div>
+                      </form>
+                    </DialogContent>
+                  </Dialog>
                   <CardHeader>
                     {locale === "en" ? (
                       <CardTitle>{eachClass.title}</CardTitle>
@@ -247,73 +311,31 @@ const Classes = ({ searchParams: { teacher } }: Props) => {
                     )}
                   </CardHeader>
                   <CardContent className=" relative overflow-hidden">
-                    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                      <DialogTrigger asChild>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="absolute top-2 right-2 hover:bg-accent"
-                          onClick={() => handleEdit(eachClass)}
-                        >
-                          <Pencil className="h-4 w-4" />
-                          <span className="sr-only">Edit class</span>
-                        </Button>
-                      </DialogTrigger>
-                      <DialogContent>
-                        <DialogHeader>
-                          <DialogTitle>Edit Class</DialogTitle>
-                        </DialogHeader>
-                        <form onSubmit={handleSave} className="grid gap-4 py-4">
-                          <div className="grid gap-2">
-                            <Label htmlFor="name">Class Name</Label>
-                            <Input
-                              id="name"
-                              value={editingClass?.title ?? ""}
-                              onChange={(e) => handleInputChange(e, "title")}
-                              required
-                            />
-                          </div>
-                          <div className="grid gap-2">
-                            <Label htmlFor="price">Price</Label>
-                            <Input
-                              id="price"
-                              step="0.01"
-                              min="0"
-                              value={editingClass?.price ?? 0}
-                              onChange={(e) => handleInputChange(e, "price")}
-                              required
-                            />
-                          </div>
-                          <div className="grid gap-2">
-                            <Label htmlFor="discount">Discount (%)</Label>
-                            <Input
-                              id="discount"
-                              min="0"
-                              max="100"
-                              value={editingClass?.discount ?? 0}
-                              onChange={(e) => handleInputChange(e, "discount")}
-                            />
-                          </div>
-                          <div className="flex gap-4 justify-end">
-                            <Button
-                              type="button"
-                              variant="outline"
-                              onClick={() => setIsDialogOpen(false)}
-                            >
-                              Cancel
-                            </Button>
-                            <Button type="submit">Save Changes</Button>
-                          </div>
-                        </form>
-                      </DialogContent>
-                    </Dialog>
                     <Meteors />
+                    <p className="text-lg font-bold text-green-500">
+                      {ifHasDiscount &&
+                        `-${eachClass.discount}% ${t("discountAdded")}`}
+                    </p>
                     <div className="flex items-center justify-around gap-4">
                       <p>{`${eachClass.teacher!.fName} ${
                         eachClass.teacher?.lName
                       }`}</p>
 
-                      <p>{eachClass.price}</p>
+                      <div className="flex flex-col">
+                        <p
+                          className={
+                            ifHasDiscount ? "line-through text-red-500" : ""
+                          }
+                        >
+                          {eachClass.price}
+                        </p>
+                        {ifHasDiscount && (
+                          <p>
+                            {Number(eachClass.price) *
+                              (Number(eachClass.discount) / 100)}
+                          </p>
+                        )}
+                      </div>
                       <div className="flex flex-col gap-2">
                         <Chip label={eachClass.type} />
                       </div>

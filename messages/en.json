@@ -187,7 +187,8 @@
     "teacherName": "Choose your teacher",
     "withoutFilter": "Without filter",
     "join": "Join",
-    "succsessfulEdit": "Edit successful"
+    "succsessfulEdit": "Edit successful",
+    "discountAdded": "discount added to this class"
   },
   "Writing": {
     "writingTitle": "Writing Section",

@@ -96,27 +96,28 @@ model TeacherProfile {
 model Class {
   id String @id @default(cuid()) @map("_id")
 
-  ClassUsers    ClassUsers[]
-  teacher       User         @relation(fields: [teacherId], references: [id])
-  teacherId     String
-  title         String
-  persianTitle  String
-  type          String
-  price         String?
-  discount      String       @default("0")
-  capacity      Int?
-  days          String[]
-  date          DateTime?
-  duration      String[]
-  times         String[]
-  prerequisites String[]
-  outline       String[]
-  imageLink     String?
-  imageName     String?
-  createdAt     DateTime     @default(now())
-  Payment       Payment[]
-  link          String
-  Notifs        Notifs[]
+  ClassUsers      ClassUsers[]
+  teacher         User         @relation(fields: [teacherId], references: [id])
+  teacherId       String
+  title           String
+  persianTitle    String
+  type            String
+  price           String?
+  discountedPrice String       @default("0")
+  discount        String       @default("0")
+  capacity        Int?
+  days            String[]
+  date            DateTime?
+  duration        String[]
+  times           String[]
+  prerequisites   String[]
+  outline         String[]
+  imageLink       String?
+  imageName       String?
+  createdAt       DateTime     @default(now())
+  Payment         Payment[]
+  link            String
+  Notifs          Notifs[]
 }
 
 model ClassUsers {

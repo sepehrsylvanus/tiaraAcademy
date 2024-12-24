@@ -184,7 +184,8 @@
     "teacherName": "معلم مورد نظر را انتخاب کنید",
     "withoutFilter": "بدون فیلتر",
     "join": "پیوستن به کلاس",
-    "succsessfulEdit": "ویرایش با موفقیت انجام شد"
+    "succsessfulEdit": "ویرایش با موفقیت انجام شد",
+    "discountAdded": "تخفیف به این کلاس اضافه شد"
   },
   "Writing": {
     "writingTitle": "تمرینات نوشتاری",
