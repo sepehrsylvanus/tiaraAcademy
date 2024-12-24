@@ -314,7 +314,7 @@ const Classes = ({ searchParams: { teacher } }: Props) => {
                     <Meteors />
                     <p className="text-lg font-bold text-green-500">
                       {ifHasDiscount &&
-                        `-${eachClass.discount}% ${t("discountAdded")}`}
+                        `${eachClass.discount}% ${t("discountAdded")}`}
                     </p>
                     <div className="flex items-center justify-around gap-4">
                       <p>{`${eachClass.teacher!.fName} ${
