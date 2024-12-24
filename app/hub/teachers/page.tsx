@@ -16,12 +16,14 @@ import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import prisma from "@/utils/db";
 import { getTeacherIds } from "@/actions/userActions";
+import { useGetUser } from "@/hooks/useUsers";
 
 const page = () => {
   const [teachers, setTeachers] = useState<User[]>([]);
   const [filteredTeachers, setFilteredTeachers] = useState<User[]>(teachers);
   const [loading, setLoading] = useState(true);
   const [ids, setIds] = useState<string[]>();
+  const { data: currentUser } = useGetUser();
   const locale = useLocale();
   const t = useTranslations("Teachers");
   const router = useRouter();
@@ -151,12 +153,14 @@ const page = () => {
                       {t("seeClasses")}
                     </button>
 
-                    <p
-                      className=" text-lg  md:text-base md:hover:scale-125 transition cursor-pointer"
-                      onClick={() => copyToClipboard(teacher.id)}
-                    >
-                      {teacher.id}
-                    </p>
+                    {currentUser?.role !== "student" && (
+                      <p
+                        className=" text-lg  md:text-base md:hover:scale-125 transition cursor-pointer"
+                        onClick={() => copyToClipboard(teacher.id)}
+                      >
+                        {teacher.id}
+                      </p>
+                    )}
                   </CardFooter>
                 </Card>
               </div>

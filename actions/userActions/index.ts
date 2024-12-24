@@ -241,6 +241,7 @@ export const getTeacherProfile = async (teacherId: string) => {
     },
     include: {
       Class: true,
+      Blog: true,
     },
   });
   return { ...teacherProfile, ...teacherUser };

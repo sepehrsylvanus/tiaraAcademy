@@ -6,7 +6,6 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { getTeacherProfile } from "@/actions/userActions";
-import { User } from "@/utils/types";
 import { capitalizeFirstLetter } from "@/utils/helperFunctions";
 import PendingTeacher from "@/components/pendingTeacher/PendingTeacher";
 import { getMessages } from "next-intl/server";
@@ -17,6 +16,16 @@ export default async function Component({ params }: { params: Params }) {
   const teacherProfile = await getTeacherProfile(params.teacher);
   const translations = (await getMessages()) as any;
   const t = translations.TeacherProfile;
+  const extractFirstLine = (htmlContent: string): string => {
+    // Use a regular expression to extract the first <p> content
+    const match = htmlContent.match(/<p>(.*?)<\/p>/);
+    if (match && match[1]) {
+      const firstParagraphText = match[1];
+      // Extract the first sentence by splitting at the first period
+      return firstParagraphText.split(".")[0] + "...";
+    }
+    return "";
+  };
   if (teacherProfile) {
     return (
       <div className="w-full max-w-5xl mx-auto px-4 md:px-6 py-12 md:py-16">
@@ -79,50 +88,27 @@ export default async function Component({ params }: { params: Params }) {
           <div>
             <h2 className="text-2xl font-bold">{t.articles}</h2>
             <div className="grid gap-6 mt-6">
-              <div className="grid md:grid-cols-[200px_1fr] gap-4">
-                <img
-                  src="/placeholder.svg"
-                  width={200}
-                  height={150}
-                  alt="Article Thumbnail"
-                  className="rounded-lg object-cover"
-                  style={{ aspectRatio: "200/150", objectFit: "cover" }}
-                />
-                <div>
-                  <h3 className="text-xl font-semibold">
-                    Effective Strategies for Teaching Math
-                  </h3>
-                  <p className="text-muted-foreground">
-                    Discover proven techniques to make math engaging and
-                    accessible for students of all levels.
-                  </p>
-                  <Link href="#" className="text-primary" prefetch={false}>
-                    Read More
-                  </Link>
+              {teacherProfile.Blog?.map((blog) => (
+                <div className="grid md:grid-cols-[200px_1fr] gap-4">
+                  <img
+                    src={blog.image ?? "/articlePlaceholder.png"}
+                    width={200}
+                    height={150}
+                    alt={`${blog.title}`}
+                    className="rounded-lg object-cover"
+                    style={{ aspectRatio: "200/150", objectFit: "cover" }}
+                  />
+                  <div>
+                    <h3 className="text-xl font-semibold">{blog.title}</h3>
+                    <p className="text-muted-foreground">
+                      {extractFirstLine(blog.text)}
+                    </p>
+                    <Link href="#" className="text-primary" prefetch={false}>
+                      Read More
+                    </Link>
+                  </div>
                 </div>
-              </div>
-              <div className="grid md:grid-cols-[200px_1fr] gap-4">
-                <img
-                  src="/placeholder.svg"
-                  width={200}
-                  height={150}
-                  alt="Article Thumbnail"
-                  className="rounded-lg object-cover"
-                  style={{ aspectRatio: "200/150", objectFit: "cover" }}
-                />
-                <div>
-                  <h3 className="text-xl font-semibold">
-                    Integrating Technology in the Classroom
-                  </h3>
-                  <p className="text-muted-foreground">
-                    Explore how to effectively incorporate digital tools and
-                    resources to enhance student learning.
-                  </p>
-                  <Link href="#" className="text-primary" prefetch={false}>
-                    Read More
-                  </Link>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>
@@ -153,10 +139,6 @@ export default async function Component({ params }: { params: Params }) {
                   <MailIcon className="w-5 h-5" />
                   <span>{teacherProfile?.email}</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <PhoneIcon className="w-5 h-5" />
-                  <span>{teacherProfile?.pNumber}</span>
-                </div>
               </div>
             </div>
           </div>
@@ -166,110 +148,6 @@ export default async function Component({ params }: { params: Params }) {
   } else {
     return <PendingTeacher />;
   }
-}
-
-function AwardIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526" />
-      <circle cx="12" cy="8" r="6" />
-    </svg>
-  );
-}
-
-function BriefcaseIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
-      <rect width="20" height="14" x="2" y="6" rx="2" />
-    </svg>
-  );
-}
-
-function FlagIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" />
-      <line x1="4" x2="4" y1="22" y2="15" />
-    </svg>
-  );
-}
-
-function GraduationCapIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z" />
-      <path d="M22 10v6" />
-      <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5" />
-    </svg>
-  );
-}
-
-function LocateIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <line x1="2" x2="5" y1="12" y2="12" />
-      <line x1="19" x2="22" y1="12" y2="12" />
-      <line x1="12" x2="12" y1="2" y2="5" />
-      <line x1="12" x2="12" y1="19" y2="22" />
-      <circle cx="12" cy="12" r="7" />
-    </svg>
-  );
 }
 
 function MailIcon(props: any) {
