@@ -103,6 +103,7 @@ model Class {
   persianTitle  String
   type          String
   price         String?
+  discount      String       @default("0")
   capacity      Int?
   days          String[]
   date          DateTime?

@@ -183,7 +183,8 @@
     "className": "نام کلاس",
     "teacherName": "معلم مورد نظر را انتخاب کنید",
     "withoutFilter": "بدون فیلتر",
-    "join": "پیوستن به کلاس"
+    "join": "پیوستن به کلاس",
+    "succsessfulEdit": "ویرایش با موفقیت انجام شد"
   },
   "Writing": {
     "writingTitle": "تمرینات نوشتاری",

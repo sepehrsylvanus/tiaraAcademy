@@ -2,6 +2,7 @@
 
 import request from "request";
 import axios from "axios";
+import prisma from "@/utils/db";
 export const sendClassSms = async (
   className: string,
   link: string,
@@ -35,6 +36,28 @@ export const sendClassSms = async (
       .catch((error: any) => {
         console.log(error.message);
       });
+  } catch (error: any) {
+    console.log(error.message);
+    throw new Error(error.message);
+  }
+};
+export const editClass = async (
+  id: string,
+  title: string,
+  price: string,
+  discount: string
+) => {
+  try {
+    const editedClass = await prisma.class.update({
+      where: {
+        id,
+      },
+      data: {
+        title,
+        price,
+        discount,
+      },
+    });
   } catch (error: any) {
     console.log(error.message);
     throw new Error(error.message);

@@ -12,7 +12,7 @@ import ClassIcon from "@mui/icons-material/Class";
 import SchoolIcon from "@mui/icons-material/School";
 import { CustomClassTextField } from "./styledComponents";
 
-import { User } from "@/utils/types";
+import { Class, User } from "@/utils/types";
 import { useForm, Controller } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 
@@ -31,7 +31,7 @@ import {
 } from "@/components/ui/card";
 import { getToken } from "@/actions/actions";
 import { getSingleUser } from "@/actions/userActions";
-import { useGetClasses } from "@/hooks/useClasses";
+import { useEditClass, useGetClasses } from "@/hooks/useClasses";
 import { useGetTeacherNames } from "@/hooks/useUsers";
 import { useLocale, useTranslations } from "next-intl";
 import {
@@ -39,6 +39,16 @@ import {
   makeEnglishDaysUppercase,
 } from "@/utils/helperFunctions";
 import moment from "jalali-moment";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Pencil } from "lucide-react";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 type Props = {
   searchParams: {
     teacher: string;
@@ -46,9 +56,12 @@ type Props = {
 };
 const Classes = ({ searchParams: { teacher } }: Props) => {
   const [currentUser, setCurrentUser] = useState<User>();
+  const [editingClass, setEditingClass] = useState<Class | null>();
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const t = useTranslations("Class");
   const locale = useLocale();
   const { data: classes, isLoading: classesLoading } = useGetClasses();
+  const { mutate: editClass } = useEditClass();
   const { data: teachersName } = useGetTeacherNames();
 
   const [filteredClasses, setFilteredClasses] = useState(classes);
@@ -59,7 +72,7 @@ const Classes = ({ searchParams: { teacher } }: Props) => {
       setFilteredClasses(classes);
     }
   }, [classes]);
- 
+
   useEffect(() => {
     const fetchUser = async () => {
       const currentUser = await getSingleUser();
@@ -114,6 +127,38 @@ const Classes = ({ searchParams: { teacher } }: Props) => {
   }, [classNameInput, teacherNameInput]);
 
   // END FILTER DATA
+
+  // START EDITING CLASS
+
+  const handleEdit = (classInfo: Class) => {
+    setEditingClass({ ...classInfo });
+    setIsDialogOpen(true);
+  };
+  const handleSave = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+
+    formData.append("id", editingClass!.id);
+    formData.append("title", editingClass!.title);
+    formData.append("price", editingClass!.price);
+    formData.append("discount", editingClass!.discount);
+    if (editingClass) {
+      editClass(formData);
+      setIsDialogOpen(false);
+    }
+  };
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    field: keyof Class
+  ) => {
+    if (!editingClass) return;
+    const value = e.target.value;
+    setEditingClass((prev) => (prev ? { ...prev, [field]: value } : null));
+  };
+
+  // ENFD OF EDITING CLASS
+
   const copyToClipboard = async (text: string) => {
     try {
       await navigator.clipboard.writeText(text);
@@ -202,6 +247,66 @@ const Classes = ({ searchParams: { teacher } }: Props) => {
                     )}
                   </CardHeader>
                   <CardContent className=" relative overflow-hidden">
+                    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                      <DialogTrigger asChild>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="absolute top-2 right-2 hover:bg-accent"
+                          onClick={() => handleEdit(eachClass)}
+                        >
+                          <Pencil className="h-4 w-4" />
+                          <span className="sr-only">Edit class</span>
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent>
+                        <DialogHeader>
+                          <DialogTitle>Edit Class</DialogTitle>
+                        </DialogHeader>
+                        <form onSubmit={handleSave} className="grid gap-4 py-4">
+                          <div className="grid gap-2">
+                            <Label htmlFor="name">Class Name</Label>
+                            <Input
+                              id="name"
+                              value={editingClass?.title ?? ""}
+                              onChange={(e) => handleInputChange(e, "title")}
+                              required
+                            />
+                          </div>
+                          <div className="grid gap-2">
+                            <Label htmlFor="price">Price</Label>
+                            <Input
+                              id="price"
+                              step="0.01"
+                              min="0"
+                              value={editingClass?.price ?? 0}
+                              onChange={(e) => handleInputChange(e, "price")}
+                              required
+                            />
+                          </div>
+                          <div className="grid gap-2">
+                            <Label htmlFor="discount">Discount (%)</Label>
+                            <Input
+                              id="discount"
+                              min="0"
+                              max="100"
+                              value={editingClass?.discount ?? 0}
+                              onChange={(e) => handleInputChange(e, "discount")}
+                            />
+                          </div>
+                          <div className="flex gap-4 justify-end">
+                            <Button
+                              type="button"
+                              variant="outline"
+                              onClick={() => setIsDialogOpen(false)}
+                            >
+                              Cancel
+                            </Button>
+                            <Button type="submit">Save Changes</Button>
+                          </div>
+                        </form>
+                      </DialogContent>
+                    </Dialog>
                     <Meteors />
                     <div className="flex items-center justify-around gap-4">
                       <p>{`${eachClass.teacher!.fName} ${

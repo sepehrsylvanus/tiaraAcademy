@@ -186,7 +186,8 @@
     "className": "Class name",
     "teacherName": "Choose your teacher",
     "withoutFilter": "Without filter",
-    "join": "Join"
+    "join": "Join",
+    "succsessfulEdit": "Edit successful"
   },
   "Writing": {
     "writingTitle": "Writing Section",
