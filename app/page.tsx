@@ -140,10 +140,8 @@ export default async function Home() {
               href="https://trustseal.enamad.ir/?id=516151&Code=jCBpwjkJeshetgDotCMZkNrYm2zyiLUy"
             >
               <Image
-                referrerPolicy="origin"
-                src="https://trustseal.enamad.ir/logo.aspx?id=516151&Code=jCBpwjkJeshetgDotCMZkNrYm2zyiLUy"
-                alt=""
-                style={{ cursor: "pointer" }}
+                src={"/eNamad0.png"}
+                alt="eNamad"
                 width={100}
                 height={100}
               />
@@ -178,13 +176,19 @@ export default async function Home() {
               target="_blank"
               href="https://trustseal.enamad.ir/?id=516151&Code=jCBpwjkJeshetgDotCMZkNrYm2zyiLUy"
             >
-              <img
+              <Image
+                src={"/eNamad0.png"}
+                alt="eNamad"
+                width={100}
+                height={100}
+              />
+              {/* <img
                 referrerPolicy="origin"
                 src="https://trustseal.enamad.ir/logo.aspx?id=516151&Code=jCBpwjkJeshetgDotCMZkNrYm2zyiLUy"
                 alt=""
                 className="cursor-pointer"
                 data-code="jCBpwjkJeshetgDotCMZkNrYm2zyiLUy"
-              />
+              /> */}
             </a>
           </div>
         </div>
