@@ -24,6 +24,7 @@ const CommentsTable = () => {
   const { mutate: approveComment } = useApproveComment();
   const { mutate: deleteComment } = useDeleteComment();
   const t = useTranslations("Hub");
+
   if (comments) {
     return (
       <>

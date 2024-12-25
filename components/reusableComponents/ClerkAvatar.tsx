@@ -24,19 +24,21 @@ import PaymentsIcon from "@mui/icons-material/Payments";
 import Link from "next/link";
 import { useGetMyPayments } from "@/hooks/usePayments";
 import { useTranslations } from "next-intl";
+import { userAgent } from "next/server";
 const ClerkAvatar = () => {
   const { data: currentUser } = useGetCurrentUser();
   const { data: myPayments } = useGetMyPayments(currentUser?.id!);
   const [loading, setLoading] = useState(false);
   const [token, setToken] = useState<string>();
   const [user, setUser] = useState<UserProps>();
-
+  const [broswer, setBroswer] = useState("");
   const router = useRouter();
   const pathName = usePathname();
   const t = useTranslations("ClerkPanel");
   const signout = async () => {
     setLoading(true);
-    Axios.get("/signout")
+
+    Axios.post("/signout", { userAgent: broswer })
       .then((res) => {
         toast(res.data);
         if (pathName !== "/") {
@@ -51,6 +53,10 @@ const ClerkAvatar = () => {
         setLoading(false);
       });
   };
+  useEffect(() => {
+    const userAgent = window.navigator.userAgent;
+    setBroswer(userAgent);
+  }, []);
 
   useEffect(() => {
     const retrieveToken = async () => {

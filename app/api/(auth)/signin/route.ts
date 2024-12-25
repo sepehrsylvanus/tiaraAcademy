@@ -7,6 +7,7 @@ const { sign } = require("jsonwebtoken");
 type formDataProps = {
   email: string;
   password: string;
+  userAgent: string;
 };
 
 export const POST = async (req: NextRequest, res: NextResponse) => {
@@ -22,6 +23,9 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
   if (!user) {
     return NextResponse.json({ error: signInT.notFound }, { status: 404 });
   }
+  if (user.agents.length >= 2) {
+    return NextResponse.json({ error: signInT.tooManyDevice }, { status: 403 });
+  }
 
   const isPassValid = bcrypt.compareSync(formData.password, user.password);
 
@@ -31,6 +35,16 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
       { status: 403 }
     );
   }
+  await prisma.user.update({
+    where: {
+      email: formData.email,
+    },
+    data: {
+      agents: {
+        push: formData.userAgent,
+      },
+    },
+  });
 
   const token = sign(
     {

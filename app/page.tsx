@@ -1,6 +1,6 @@
 import Link from "next/link";
 import styles from "./page.module.css";
-
+import { userAgent } from "next/server";
 import { getLocale, getMessages } from "next-intl/server";
 import Navbar from "@/components/navbar/Navbar";
 import Image from "next/image";

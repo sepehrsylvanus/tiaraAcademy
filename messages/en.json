@@ -87,7 +87,8 @@
     "toast": "Login successful, You will be redirect to your Hub",
     "notFound": "User not found",
     "wrongCredentials": "Email or password is wrong",
-    "success": "User logged in successfully"
+    "success": "User logged in successfully",
+    "tooManyDevice": "You have too many devices connected to your account. Please log out from one of them and try again"
   },
   "SignUp": {
     "formDescription": "Create account in order to have access to your Hub and extra features",

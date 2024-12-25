@@ -26,7 +26,6 @@ export default function StudentHub() {
   const handleShowMore = () => {
     setDisplayCount((prev: number) => prev + 2);
   };
- 
 
   useEffect(() => {
     const featuredClasses = allClasses?.filter((cls) => {

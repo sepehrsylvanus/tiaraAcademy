@@ -82,6 +82,7 @@ model User {
   CommentAnswer       CommentAnswer[]
   CoursePayment       CoursePayment[]
   FreeVideoCourseUser FreeVideoCourseUser[]
+  agents              String[]
 }
 
 model TeacherProfile {

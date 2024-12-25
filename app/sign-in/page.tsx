@@ -16,13 +16,15 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { Axios } from "@/utils/axiosIn";
 import { useTranslations } from "next-intl";
+
 const formSchema = z.object({
   email: z.string().min(2).max(50),
   password: z.string(),
+  userAgent: z.string(),
 });
 const Login = () => {
   const t = useTranslations("SignIn");
-
+  const userAgent = window.navigator.userAgent;
   const router = useRouter();
   const [sending, setSending] = useState(false);
   const [error, setError] = useState("");
@@ -31,10 +33,12 @@ const Login = () => {
     defaultValues: {
       email: "",
       password: "",
+      userAgent: "",
     },
   });
   async function signin(values: z.infer<typeof formSchema>) {
     setSending(true);
+    values.userAgent = userAgent;
     Axios.post("/signin", values)
       .then((res) => {
         setSending(false);
