@@ -182,13 +182,6 @@ export default async function Home() {
                 width={100}
                 height={100}
               />
-              {/* <img
-                referrerPolicy="origin"
-                src="https://trustseal.enamad.ir/logo.aspx?id=516151&Code=jCBpwjkJeshetgDotCMZkNrYm2zyiLUy"
-                alt=""
-                className="cursor-pointer"
-                data-code="jCBpwjkJeshetgDotCMZkNrYm2zyiLUy"
-              /> */}
             </a>
           </div>
         </div>

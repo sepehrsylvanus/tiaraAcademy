@@ -352,6 +352,21 @@ export const sampleComments = [
 ];
 export const faqs = [
   {
+    question: "What is Tiara Academy?",
+    answer:
+      "Tiara Academy is a bilingual (English and Farsi) language learning platformoffering online classes, video courses, a blog, and professional writing services to help students improve their language skills.",
+  },
+  {
+    question: "Which languages can I learn at Tiara Academy?",
+    answer:
+      "For now, we offer courses for English & Spanish learning, catering to various proficiency levels. In the future, we plan to add other languages to the platform.",
+  },
+  {
+    question: "Is Tiara Academy suitable for beginners?",
+    answer:
+      "Yes, our courses are designed for all levels, from beginners to advanced learners.",
+  },
+  {
     question: "How do I book an online class?",
     answer:
       "Visit our Online Classes page, select your desired language and proficiency level, choose a convenient time slot, and complete the booking process.",
@@ -412,6 +427,21 @@ export const faqs = [
 ];
 
 export const persianFaqs = [
+  {
+    question: "تیارا آکادمی چیست؟",
+    answer:
+      "تیارا آکادمی یک پلتفرم دو زبانه )انگلیسی و فارسی( برای آموزش زبان است که کلاس های آنلاین، دوره های ویدیویی، بلاگ و خدمات نوشتاری حرفه ای را ارائه می دهد تا به دانشجویان در بهبود مهارت های زبانی شان کمک کند.",
+  },
+  {
+    question: "چه زبان هایی را می توانم در تیارا آکادمی یاد بگیرم؟",
+    answer:
+      "فعلاً دوره هایی برای یادگیری زبان انگلیسی و اسپانیایی ارائه می دهیم که تمامی سطوح مهارتی را پوشش می دهد. در آینده، قصد داریم زبان های دیگری نیز به پلتفرم اضافه کنیم.",
+  },
+  {
+    question: "آیا تیارا آکادمی برای مبتدیان مناسب است؟",
+    answer:
+      "بله، دوره های ما برای همه سطوح طراحی شده اند؛ از مبتدیان تا زبان آموزان پیشرفته.",
+  },
   {
     question: "چگونه می توانم یک کلاس آنلاین رزرو کنم؟",
     answer:
