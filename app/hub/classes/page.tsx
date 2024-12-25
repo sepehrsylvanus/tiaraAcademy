@@ -100,29 +100,56 @@ const Classes = ({ searchParams: { teacher } }: Props) => {
   const teacherNameInput = watch("teacherName", "");
 
   useEffect(() => {
-    if (classNameInput && teacherNameInput) {
-      setFilteredClasses(
-        classes?.filter(
-          (cls) =>
-            (cls.title.startsWith(classNameInput) &&
-              cls.teacher.fName.startsWith(teacherNameInput)) ||
-            cls.teacher.lName?.startsWith(teacherNameInput)
-        )
-      );
-    } else if (classNameInput) {
-      setFilteredClasses(
-        classes?.filter((cls) => cls.title.startsWith(classNameInput))
-      );
-    } else if (teacherNameInput) {
-      setFilteredClasses(
-        classes?.filter(
-          (cls) =>
-            cls.teacher.fName.startsWith(teacherNameInput) ||
-            cls.teacher.lName?.startsWith(teacherNameInput)
-        )
-      );
+    if (locale === "en") {
+      if (classNameInput && teacherNameInput) {
+        setFilteredClasses(
+          classes?.filter(
+            (cls) =>
+              (cls.title.includes(classNameInput) &&
+                cls.teacher.fName.includes(teacherNameInput)) ||
+              cls.teacher.lName?.includes(teacherNameInput)
+          )
+        );
+      } else if (classNameInput) {
+        setFilteredClasses(
+          classes?.filter((cls) => cls.title.includes(classNameInput))
+        );
+      } else if (teacherNameInput) {
+        setFilteredClasses(
+          classes?.filter(
+            (cls) =>
+              cls.teacher.fName.includes(teacherNameInput) ||
+              cls.teacher.lName?.includes(teacherNameInput)
+          )
+        );
+      } else {
+        setFilteredClasses(classes);
+      }
     } else {
-      setFilteredClasses(classes);
+      if (classNameInput && teacherNameInput) {
+        setFilteredClasses(
+          classes?.filter(
+            (cls) =>
+              (cls.persianTitle.includes(classNameInput) &&
+                cls.teacher.fName.includes(teacherNameInput)) ||
+              cls.teacher.lName?.includes(teacherNameInput)
+          )
+        );
+      } else if (classNameInput) {
+        setFilteredClasses(
+          classes?.filter((cls) => cls.persianTitle.includes(classNameInput))
+        );
+      } else if (teacherNameInput) {
+        setFilteredClasses(
+          classes?.filter(
+            (cls) =>
+              cls.teacher.fName.includes(teacherNameInput) ||
+              cls.teacher.lName?.includes(teacherNameInput)
+          )
+        );
+      } else {
+        setFilteredClasses(classes);
+      }
     }
   }, [classNameInput, teacherNameInput]);
 

@@ -8,8 +8,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Separator } from "@/components/ui/separator";
-import { VideoCourses } from "@/constants";
 import {
   Card,
   CardContent,
@@ -21,8 +19,6 @@ import {
 import { School, Person, Videocam } from "@mui/icons-material";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { getAllVideos } from "@/actions/videos/videos.action";
-import { getMessages, getTranslations } from "next-intl/server";
 import { useGetAllVideos } from "@/hooks/useVideos";
 import { useTranslations } from "next-intl";
 
@@ -37,10 +33,10 @@ const Videos = () => {
     const filteredVideos = videos?.filter((video) => {
       const matchedName = video.title
         .toLowerCase()
-        .startsWith(name.toLowerCase());
+        .includes(name.toLowerCase());
       const matchedCategory = video.category
         .toLowerCase()
-        .startsWith(category.toLowerCase());
+        .includes(category.toLowerCase());
       return matchedName && matchedCategory;
     });
     setFilteredVideos(filteredVideos);
