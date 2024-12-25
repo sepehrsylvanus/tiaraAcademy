@@ -1,4 +1,3 @@
-import { getToken } from "@/actions/actions";
 import StudentHub from "@/components/studentHub/StudentHub";
 
 import { Avatar, Divider } from "@mui/material";
@@ -25,7 +24,6 @@ import AddVideoCourse from "@/components/videoCourseComponents/AddVideoCourse";
 import CommentsTable from "@/components/commentsTable/CommentsTable";
 
 const Hub = async () => {
-  const token = await getToken();
   const currentUser: User | null = await getSingleUser();
   const messages = (await getMessages()) as any;
   const hubT = messages.Hub;
@@ -142,6 +140,7 @@ const Hub = async () => {
                 </div>
               </div>
             )}
+
             {(currentUser?.role.includes("admin") ||
               currentUser?.role.includes("adminTeacher")) && <CommentsTable />}
           </div>

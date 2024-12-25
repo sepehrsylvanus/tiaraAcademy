@@ -126,7 +126,8 @@
     "previous": "قبلی",
     "noResult": "رکوردی موجود نیست",
     "noNotif": "اعلان جدیدی ندارید",
-    "viewNotifs": "مشاهده‌ی همه‌ی اعلان‌ها"
+    "viewNotifs": "مشاهده‌ی همه‌ی اعلان‌ها",
+    "commentsTable": "نظرات"
   },
   "videoBox": {
     "dSuccessfully": "با موفقیت حذف شد",

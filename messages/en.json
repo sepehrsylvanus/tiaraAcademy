@@ -129,7 +129,8 @@
     "previous": "Previous",
     "noResult": "No result",
     "noNotif": "You have no new notifications",
-    "viewNotifs": "View all notifications"
+    "viewNotifs": "View all notifications",
+    "commentsTable": "Comments"
   },
   "videoBox": {
     "dSuccessfully": "deleted successfully",
