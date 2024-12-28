@@ -143,20 +143,38 @@ const MyClass = (details: DetailsProps) => {
       setTimeError(t("timeRequired"));
       return;
     }
-    const makePayment = await createNewPayment(
-      Number(singleClass?.price),
-      currentUser!,
-      "class",
-      chosenTime,
-      singleClass?.date! ?? singleClass?.duration[0],
-      params.class,
+    if (Number(singleClass?.discount) > 0) {
+      const makePayment = await createNewPayment(
+        Number(singleClass?.discountedPrice),
+        currentUser!,
+        "class",
+        chosenTime,
+        singleClass?.date! ?? singleClass?.duration[0],
+        params.class,
 
-      singleClass?.title
-    );
-    if (makePayment?.startsWith("https")) {
-      router.push(makePayment);
+        singleClass?.title
+      );
+      if (makePayment?.startsWith("https")) {
+        router.push(makePayment);
+      } else {
+        window.location.reload();
+      }
     } else {
-      window.location.reload();
+      const makePayment = await createNewPayment(
+        Number(singleClass?.price),
+        currentUser!,
+        "class",
+        chosenTime,
+        singleClass?.date! ?? singleClass?.duration[0],
+        params.class,
+
+        singleClass?.title
+      );
+      if (makePayment?.startsWith("https")) {
+        router.push(makePayment);
+      } else {
+        window.location.reload();
+      }
     }
   };
 
