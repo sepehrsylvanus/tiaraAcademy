@@ -235,6 +235,8 @@ model VideoCourse {
   Comment             Comment[]
   thumbnailLink       String
   price               Int
+  discountedPrice     String                @default("0")
+  discount            String                @default("0")
   materialsLink       String
   category            VideoCourseCat        @default(english)
   prerequisities      String[]

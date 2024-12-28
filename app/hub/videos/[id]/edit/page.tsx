@@ -34,6 +34,7 @@ const EditVideoCoursePage: FC<EditVideoProps> = ({ params }) => {
   const [rawvideo, setRawvideo] = useState<File>();
   const [sessionTitle, setSessionTitle] = useState<string>("");
   const [duration, setDuration] = useState<number>();
+  
   const [index, setIndex] = useState("");
   const [deleteLoading, setDeleteLoading] = useState(false);
   const { data: videoDetails, isLoading: videoDetailsLoading } =

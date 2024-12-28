@@ -3,6 +3,7 @@ import {
   adddFreeVideoCourse,
   createVideoCourseSession,
   deleteVideoSession,
+  editVideoCourse,
   fetchAllMyVideos,
   fetchRegisteredVideoCourse,
   getAllVideos,
@@ -117,6 +118,21 @@ export const useAddFreeVideoCourse = () => {
       queryClient.invalidateQueries({
         queryKey: ["getRegisteredFreeVideoCourse"],
       });
+    },
+  });
+};
+
+export const useEditvideoCourse = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (formData: FormData) => {
+      await editVideoCourse(formData);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["getVideoCourseDetails"],
+      });
+      toast.success("Video course updated successfully");
     },
   });
 };

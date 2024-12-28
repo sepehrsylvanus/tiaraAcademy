@@ -137,6 +137,8 @@ export interface VideoCourse {
   prerequisities: string[];
   teacher: User;
   videoCourseSession: VideoCourseSession[];
+  discount: string;
+  discountedPrice: string;
 }
 export interface Comment {
   id: string;

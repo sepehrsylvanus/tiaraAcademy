@@ -14,6 +14,7 @@ import AddComment from "@/components/addComment/AddComment";
 import EditIcon from "@mui/icons-material/Edit";
 import {
   useAddFreeVideoCourse,
+  useEditvideoCourse,
   useGetCourseVideosDetails,
   useGetRegisteredFreeVideoCourse,
   useGetVerifiedCoursePayment,
@@ -25,6 +26,18 @@ import { buyVideoCourse, getVerifiedCoursePayment } from "@/actions/payment";
 import { useTranslations } from "next-intl";
 import DOMPurify from "dompurify";
 import { fetchRegisteredVideoCourse } from "@/actions/videos/videos.action";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { VideoCourse } from "@/utils/types";
+import TextEditor from "@/components/TextEditor";
+import { Textarea } from "@/components/ui/textarea";
 
 type SingleVideoProps = {
   params: {
@@ -41,16 +54,27 @@ type verifiedCourse = {
 };
 const SingleVideo = ({ params }: SingleVideoProps) => {
   const t = useTranslations("VideoCourse");
+  const editDialogTranslations = useTranslations("EditDialog");
   const [openComment, setOpenComment] = useState(false);
   const [verifiedCourse, setVerifiedCourse] = useState<verifiedCourse[]>();
   const [registeredVideoCourse, setRegisteredVideoCourse] = useState<any>();
   const { data: videoDetails, isLoading: videoDetailsLoading } =
     useGetCourseVideosDetails(params.id);
+  const { mutate: editVideo } = useEditvideoCourse();
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [editingVideo, setEditingVideo] = useState<VideoCourse | null>();
+  useEffect(() => {
+    console.log(editingVideo);
+  }, [editingVideo]);
+
+  const [explenation, setExplenation] = useState<string>("");
   const router = useRouter();
   const { data: currentUser, isLoading: currentUserLoading } = useGetUser();
   useEffect(() => {
     const getRegisteredVideoCourse = async () => {
       if (currentUser && videoDetails) {
+        setExplenation(videoDetails?.explenation);
+
         const registeredVideos = await fetchRegisteredVideoCourse(
           currentUser.id,
           videoDetails.id
@@ -79,13 +103,24 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
   const pureHTML = DOMPurify.sanitize(videoDetails?.explenation!);
   const handleBuyCourse = async () => {
     if (videoDetails?.price !== 0) {
-      const buyVideo = await buyVideoCourse(
-        videoDetails!.price,
-        videoDetails!.title,
-        videoDetails!.id
-      );
-      if (buyVideo) {
-        router.push(buyVideo);
+      if (Number(videoDetails?.discount) > 0) {
+        const buyVideo = await buyVideoCourse(
+          Number(videoDetails?.discountedPrice),
+          videoDetails!.title,
+          videoDetails!.id
+        );
+        if (buyVideo) {
+          router.push(buyVideo);
+        }
+      } else {
+        const buyVideo = await buyVideoCourse(
+          videoDetails!.price,
+          videoDetails!.title,
+          videoDetails!.id
+        );
+        if (buyVideo) {
+          router.push(buyVideo);
+        }
       }
     } else {
       addFreeVideoCourse({
@@ -94,8 +129,45 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
       });
     }
   };
+
+  // START EDIT VIDEO COURSE
+
+  const handleEdit = (videoCourse: VideoCourse) => {
+    setEditingVideo({ ...videoCourse });
+    setIsDialogOpen(true);
+  };
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    field: keyof VideoCourse
+  ) => {
+    if (!editingVideo || !videoDetails) return;
+    const value = e.target.value;
+    setEditingVideo((prev) => (prev ? { ...prev, [field]: value } : null));
+  };
+
+  const handleSave = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("id", editingVideo?.id ?? "");
+    formData.append("title", editingVideo?.title ?? "");
+    formData.append("price", editingVideo?.price.toString() ?? "");
+    formData.append("discount", editingVideo?.discount.toString() ?? "");
+    formData.append("description", editingVideo?.description ?? "");
+    formData.append("explenation", explenation);
+    if (editingVideo) {
+      editVideo(formData);
+      setIsDialogOpen(false);
+    }
+  };
+
+  // END OF EDIT VIDEO COURSE
+
   const ifbuyed = verifiedCourse && verifiedCourse.length > 0;
   if (!videoDetailsLoading && registeredVideoCourse) {
+    const discountedPrice = Number(videoDetails?.discountedPrice);
+    const discount = Number(videoDetails?.discount);
+
     return (
       <div className="md:w-9/12  pb-[6em] mx-auto w-full md:px-0 px-4">
         <section
@@ -128,14 +200,103 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
               )}
 
               {!currentUserLoading && currentUser?.role !== "student" ? (
-                <Link
-                  href={`/hub/videos/${params.id}/edit`}
-                  className="w-full md:w-auto"
-                >
-                  <Button className="w-full md:w-auto mt-2 md:mt-0 flex gap-2 flex-1">
-                    <EditIcon /> {t("manageThisCourse")}
-                  </Button>
-                </Link>
+                <div className="flex flex-col gap-2">
+                  <Link
+                    href={`/hub/videos/${params.id}/edit`}
+                    className="w-full md:w-auto"
+                  >
+                    <Button className="w-full md:w-auto mt-2 md:mt-0 flex gap-2 flex-1">
+                      <EditIcon /> {t("manageThisCourse")}
+                    </Button>
+                  </Link>
+                  <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                    <DialogTrigger asChild>
+                      <Button
+                        className={`hover:bg-accent `}
+                        onClick={() => handleEdit(videoDetails!)}
+                      >
+                        {t("editCourse")}
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="h-[70vh] overflow-y-scroll">
+                      <DialogHeader>
+                        <DialogTitle>
+                          {editDialogTranslations("editVideoCourse")}
+                        </DialogTitle>
+                      </DialogHeader>
+                      <form onSubmit={handleSave} className="grid gap-4 py-4 ">
+                        <div className="grid gap-2">
+                          <Label htmlFor="name">
+                            {editDialogTranslations("videoCourseName")}
+                          </Label>
+                          <Input
+                            id="name"
+                            value={editingVideo?.title ?? ""}
+                            onChange={(e) => handleInputChange(e, "title")}
+                            required
+                          />
+                        </div>
+                        <div className="grid gap-2">
+                          <Label htmlFor="price">
+                            {editDialogTranslations("price")}
+                          </Label>
+                          <Input
+                            id="price"
+                            step="0.01"
+                            value={editingVideo?.price ?? 0}
+                            onChange={(e) => handleInputChange(e, "price")}
+                            required
+                          />
+                        </div>
+                        <div className="grid gap-2">
+                          <Label htmlFor="discount">
+                            {editDialogTranslations("discount")} (%)
+                          </Label>
+                          <Input
+                            id="discount"
+                            min="0"
+                            max="100"
+                            value={editingVideo?.discount ?? 0}
+                            onChange={(e) => handleInputChange(e, "discount")}
+                          />
+                        </div>
+                        <div className="grid gap-2">
+                          <Label htmlFor="description">
+                            {editDialogTranslations("description")}
+                          </Label>
+                          <Textarea
+                            id="description"
+                            value={editingVideo?.description ?? ""}
+                            onChange={(e) =>
+                              handleInputChange(e, "description")
+                            }
+                          />
+                        </div>
+                        <div className="grid gap-2 overflow-y-scroll">
+                          <Label htmlFor="discount">
+                            {editDialogTranslations("explenation")}
+                          </Label>
+                          <TextEditor
+                            textEditorContent={explenation}
+                            setTextEditorContent={setExplenation}
+                          />
+                        </div>
+                        <div className="flex gap-4 justify-end">
+                          <Button
+                            type="button"
+                            variant="outline"
+                            onClick={() => setIsDialogOpen(false)}
+                          >
+                            {editDialogTranslations("cancel")}
+                          </Button>
+                          <Button type="submit">
+                            {editDialogTranslations("saveChanges")}
+                          </Button>
+                        </div>
+                      </form>
+                    </DialogContent>
+                  </Dialog>
+                </div>
               ) : (
                 ifbuyed && (
                   <Link
@@ -149,10 +310,25 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
                 )
               )}
               {!ifbuyed && videoDetails?.price !== 0 && (
-                <p className="font-bold ">
-                  <span className="mr-1">{videoDetails?.price}</span>
-                  {t("toman")}
-                </p>
+                <div className="flex flex-col gap-2">
+                  <p
+                    className={`font-bold ${
+                      discount && discount > 0
+                        ? "line-through text-red-500"
+                        : ""
+                    }`}
+                  >
+                    <span className="mr-1">{videoDetails?.price}</span>
+                    {t("toman")}
+                  </p>
+
+                  {discount > 0 && (
+                    <p className="font-bold ">
+                      <span className="mr-1">{discountedPrice}</span>
+                      {t("toman")}
+                    </p>
+                  )}
+                </div>
               )}
               {videoDetails?.price === 0 && (
                 <p className="border border-lightText p-2 rounded-md pointer-events-none">

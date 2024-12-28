@@ -386,6 +386,17 @@
     "teacher": "Teacher of this course",
     "free": "Free",
     "addToAccount": "Add to account",
-    "alreadyAdd": "You already added this course to your account"
+    "alreadyAdd": "You already added this course to your account",
+    "editCourse": "Edit video course"
+  },
+  "EditDialog": {
+    "editVideoCourse": "Edit video course",
+    "videoCourseName": "Video course name",
+    "price": "Price",
+    "discount": "Discount",
+    "saveChanges": "Save changes",
+    "description": "Description",
+    "explenation": "Explenation",
+    "cancel": "Cancel"
   }
 }

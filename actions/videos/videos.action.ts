@@ -350,7 +350,6 @@ export const fetchAllMyVideos = async (userId: string) => {
     },
   });
 
-
   const freeVideosPromises = freeVideos.map(async (video) => {
     const eachVideo = await prisma.videoCourse.findUnique({
       where: {
@@ -386,4 +385,32 @@ export const fetchAllMyVideos = async (userId: string) => {
   );
 
   return allVideos;
+};
+
+export const editVideoCourse = async (FormData: FormData) => {
+  const id = FormData.get("id") as string;
+  const title = FormData.get("title") as string;
+  const priceString = FormData.get("price") as string;
+  const discount = FormData.get("discount") as string;
+  const description = FormData.get("description") as string;
+  const explenation = FormData.get("explenation") as string;
+  const price = Number(priceString);
+  try {
+    await prisma.videoCourse.update({
+      where: {
+        id,
+      },
+      data: {
+        title,
+        price,
+        discount,
+        discountedPrice: (price - (price * Number(discount)) / 100).toString(),
+        description,
+        explenation,
+      },
+    });
+  } catch (error: any) {
+    console.log(error.message);
+    throw new Error(error.message);
+  }
 };

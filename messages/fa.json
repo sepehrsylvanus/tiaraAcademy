@@ -390,6 +390,18 @@
     "teacher": "مدرس این دوره",
     "free": "رایگان",
     "addToAccount": "افزودن به حساب کاربری",
-    "alreadyAdd": "شما قبلا این دوره را به حساب کاربری خود افزوده‌اید"
+    "alreadyAdd": "شما قبلا این دوره را به حساب کاربری خود افزوده‌اید",
+    "editCourse": "ویرایش دوره‌ی ویدیویی"
+  },
+  "EditDialog": {
+    "editVideoCourse": "ویرایش دوره‌ی ویدیویی",
+
+    "videoCourseName": "اسم دوره‌ی ویدیویی",
+    "price": "قیمت",
+    "discount": "تخفیف",
+    "saveChanges": "ذخیره تغییرات",
+    "description": "توضیحات",
+    "explenation": "توضیحات بلند",
+    "cancel": "انصراف"
   }
 }

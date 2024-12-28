@@ -17,11 +17,8 @@ import { toast } from "react-toastify";
 import styles from "@/components/reusableComponents/components.module.css";
 import { Axios } from "@/utils/axiosIn";
 import { classesType, privateTimes, publicTimes } from "@/constants";
-import { Switch } from "@/components/ui/switch";
-import { TimePicker } from "@mui/x-date-pickers";
-import DatePicker, { getAllDatesInRange } from "react-multi-date-picker";
 
-import { Form, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
+import { Form, FormField } from "../ui/form";
 import QuizIcon from "@mui/icons-material/Quiz";
 import ClassIcon from "@mui/icons-material/Class";
 import GroupIcon from "@mui/icons-material/Group";
@@ -154,11 +151,8 @@ const CreateClass = () => {
       link: "",
     },
   });
-  const {
-    formState: { errors },
-  } = form;
+
   const duration = form.watch("duration");
-  const chosenDate = form.watch("date");
 
   const classType = form.watch("type");
   useEffect(() => {
@@ -499,7 +493,6 @@ const CreateClass = () => {
                 )}
               />
             </div>
-         
           </div>
           <div>
             <FormControl sx={{ width: "100%" }}>
