@@ -26,7 +26,7 @@ const SendToTeacher: FC<SendToTeacherProps> = ({ teacherId, teacherName }) => {
       teacherId,
       teacherName,
       currentUser.id,
-      teacherName
+      `${currentUser.fName} ${currentUser.lName}`
     );
     if (sentMessage) {
       toast.success(t("messageSentSuccess"));
