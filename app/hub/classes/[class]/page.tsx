@@ -68,12 +68,6 @@ const MyClass = (details: DetailsProps) => {
     }
   }, [classes]);
 
-  const [loading, setLoading] = useState(false);
-
-  const { data: token } = useQuery({
-    queryKey: ["getToken"],
-    queryFn: async () => await getToken(),
-  });
   const { data: currentUser, isLoading: currentUserLoading } = useGetUser();
   useEffect(() => {
     const fetchRegisteredClasses = async () => {
@@ -105,19 +99,32 @@ const MyClass = (details: DetailsProps) => {
     }
   };
   const onSubmit = async (values: z.infer<typeof classValidation>) => {
-    setLoading(true);
     if (singleClass?.price) {
-      const placementPayment = await createNewPayment(
-        Number(singleClass?.price),
-        currentUser!,
-        "placement",
-        classTime,
-        selectedDate,
-        singleClass?.id,
+      if (Number(singleClass.discount) > 0) {
+        const placementPayment = await createNewPayment(
+          Number(singleClass?.discountedPrice),
+          currentUser!,
+          "placement",
+          classTime,
+          selectedDate,
+          singleClass?.id,
 
-        singleClass?.title
-      );
-      router.push(placementPayment!);
+          singleClass?.title
+        );
+        router.push(placementPayment!);
+      } else {
+        const placementPayment = await createNewPayment(
+          Number(singleClass?.price),
+          currentUser!,
+          "placement",
+          classTime,
+          selectedDate,
+          singleClass?.id,
+
+          singleClass?.title
+        );
+        router.push(placementPayment!);
+      }
     } else {
       const registerFree = await reserveFreePlacement(
         singleClass?.id!,
