@@ -23,9 +23,14 @@ export const approveComment = async (id: string) => {
   });
 };
 export const deleteComment = async (id: string) => {
-  await prisma.comment.delete({
-    where: {
-      id,
-    },
-  });
+  try {
+    await prisma.teacherComment.delete({
+      where: {
+        id,
+      },
+    });
+  } catch (error: any) {
+    console.log(error.message);
+    throw new Error(error.message);
+  }
 };

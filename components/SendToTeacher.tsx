@@ -16,9 +16,11 @@ interface SendToTeacherProps {
 const SendToTeacher: FC<SendToTeacherProps> = ({ teacherId, teacherName }) => {
   const [message, setMessage] = useState("");
   const { data: currentUser } = useGetUser();
+  const [sendingMessage, setSendingMessage] = useState(false);
   const t = useTranslations("TeacherProfile");
   const sendMessage = async () => {
     if (!currentUser) return;
+    setSendingMessage(true);
     const sentMessage = await sendMessageforTeacher(
       message,
       teacherId,
@@ -28,6 +30,10 @@ const SendToTeacher: FC<SendToTeacherProps> = ({ teacherId, teacherName }) => {
     );
     if (sentMessage) {
       toast.success(t("messageSentSuccess"));
+      setSendingMessage(false);
+    } else {
+      toast.error(t("messageSentError"));
+      setSendingMessage(false);
     }
   };
   return (
@@ -41,7 +47,9 @@ const SendToTeacher: FC<SendToTeacherProps> = ({ teacherId, teacherName }) => {
           placeholder="Enter your message"
         />
       </div>
-      <Button onClick={sendMessage}>{t("sendMessage")}</Button>
+      <Button onClick={sendMessage}>
+        {sendingMessage ? t("sendPending") : t("sendMessage")}
+      </Button>
     </>
   );
 };

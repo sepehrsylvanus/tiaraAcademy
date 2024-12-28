@@ -265,8 +265,10 @@
     "email": "Email",
     "message": "Message",
     "sendMessage": "Send Message",
+    "sendPending": "Seding...",
     "getInTouch": "Get in Touch",
-    "messageSentSuccess": "Message sent successfully"
+    "messageSentSuccess": "Message sent successfully",
+    "messageSentError": "There was an error in sending message"
   },
   "StudentHub": {
     "landingPage": "Landing page",

@@ -2,9 +2,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+
 import { getTeacherProfile } from "@/actions/userActions";
 import { capitalizeFirstLetter } from "@/utils/helperFunctions";
 import PendingTeacher from "@/components/pendingTeacher/PendingTeacher";
@@ -18,11 +16,10 @@ export default async function Component({ params }: { params: Params }) {
   const translations = (await getMessages()) as any;
   const t = translations.TeacherProfile;
   const extractFirstLine = (htmlContent: string): string => {
-    // Use a regular expression to extract the first <p> content
     const match = htmlContent.match(/<p>(.*?)<\/p>/);
     if (match && match[1]) {
       const firstParagraphText = match[1];
-      // Extract the first sentence by splitting at the first period
+
       return firstParagraphText.split(".")[0] + "...";
     }
     return "";

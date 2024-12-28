@@ -11,14 +11,15 @@ import {
 import { Button } from "./ui/button";
 import { getTeacherComments } from "@/actions/teachers";
 import { useTranslations } from "next-intl";
-import { useGetTeacherComments } from "@/hooks/useTeacher";
+import { useDeletecomment, useGetTeacherComments } from "@/hooks/useTeacher";
 
-import { useDeleteComment } from "@/hooks/useComments";
+import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog";
 
-const TeacherContactTable = async () => {
+const TeacherContactTable = () => {
   const t = useTranslations("TeacherProfile");
   const { data: comments } = useGetTeacherComments();
-  const { mutate: deleteComment } = useDeleteComment();
+  const { mutate: deleteComment, isPending: deleteLoading } =
+    useDeletecomment();
   if (!comments) return;
   const handleDeleteComment = (id: string) => {
     deleteComment(id);
@@ -46,7 +47,16 @@ const TeacherContactTable = async () => {
                 {comment.id}
               </TableCell>
 
-              <TableCell className="text-center">{comment.message}</TableCell>
+              <TableCell className="text-center">
+                <Dialog>
+                  <DialogTrigger>
+                    {comment.message.split(" ").slice(0, 3).join(" ") + "..."}
+                  </DialogTrigger>
+                  <DialogContent className="pt-10">
+                    {comment.message}
+                  </DialogContent>
+                </Dialog>
+              </TableCell>
 
               <TableCell className="text-center">{comment.teacherId}</TableCell>
 
@@ -63,7 +73,7 @@ const TeacherContactTable = async () => {
                   onClick={() => handleDeleteComment(comment.id)}
                   className="bg-red-500"
                 >
-                  Delete
+                  {deleteLoading ? "Deleting..." : "Delete"}
                 </Button>
               </TableCell>
             </TableRow>
