@@ -64,7 +64,7 @@ export const editClass = async (
         price,
         discountedPrice:
           discountNumber > 0
-            ? String((Number(teargetedClass?.price) * discountNumber) / 100)!
+            ? String(Number(price) - (Number(price) * discountNumber) / 100)!
             : teargetedClass!.price!,
         discount,
       },

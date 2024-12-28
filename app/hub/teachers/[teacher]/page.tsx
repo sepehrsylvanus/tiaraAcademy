@@ -118,19 +118,13 @@ export default async function Component({ params }: { params: Params }) {
           <div className="grid md:grid-cols-2 gap-6">
             <div className="space-y-4">
               <p className="text-muted-foreground">{t.description}</p>
-              <div className="grid gap-2">
-                <Label htmlFor="name">{t.name}</Label>
-                <Input id="name" placeholder="Enter your name" />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="email">{t.email}</Label>
-                <Input id="email" type="email" placeholder="Enter your email" />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="message">{t.message}</Label>
-                <Textarea id="message" placeholder="Enter your message" />
-              </div>
-              <Button>{t.sendMessage}</Button>
+              <form className="space-y-4">
+                <div className="grid gap-2">
+                  <Label htmlFor="message">{t.message}</Label>
+                  <Textarea id="message" placeholder="Enter your message" />
+                </div>
+                <Button type="submit">{t.sendMessage}</Button>
+              </form>
             </div>
             <div className="bg-muted rounded-lg p-6">
               <h3 className="text-xl font-semibold">{t.getInTouch}</h3>
