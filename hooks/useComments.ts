@@ -32,7 +32,8 @@ export const useDeleteComment = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (id: string) => {
-      await deleteComment(id);
+      console.log(id);
+      // await deleteComment(id);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["getAllComments"] });

@@ -265,7 +265,8 @@
     "email": "Email",
     "message": "Message",
     "sendMessage": "Send Message",
-    "getInTouch": "Get in Touch"
+    "getInTouch": "Get in Touch",
+    "messageSentSuccess": "Message sent successfully"
   },
   "StudentHub": {
     "landingPage": "Landing page",

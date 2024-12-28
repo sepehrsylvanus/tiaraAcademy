@@ -83,7 +83,6 @@ model User {
   CoursePayment       CoursePayment[]
   FreeVideoCourseUser FreeVideoCourseUser[]
   agents              String[]
-  TeacherComment      TeacherComment[]
 }
 
 model TeacherProfile {
@@ -301,8 +300,10 @@ model CoursePayment {
 }
 
 model TeacherComment {
-  id        String @id @default(cuid()) @map("_id")
-  comment   String
-  teacherId String
-  teacher   User   @relation(fields: [teacherId], references: [id])
+  id          String @id @default(cuid()) @map("_id")
+  message     String
+  teacherId   String
+  teacherName String
+  userId      String
+  userName    String
 }

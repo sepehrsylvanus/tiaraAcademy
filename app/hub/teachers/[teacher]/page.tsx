@@ -9,6 +9,7 @@ import { getTeacherProfile } from "@/actions/userActions";
 import { capitalizeFirstLetter } from "@/utils/helperFunctions";
 import PendingTeacher from "@/components/pendingTeacher/PendingTeacher";
 import { getMessages } from "next-intl/server";
+import SendToTeacher from "@/components/SendToTeacher";
 type Params = {
   teacher: string;
 };
@@ -26,6 +27,7 @@ export default async function Component({ params }: { params: Params }) {
     }
     return "";
   };
+
   if (teacherProfile) {
     return (
       <div className="w-full max-w-5xl mx-auto px-4 md:px-6 py-12 md:py-16">
@@ -118,13 +120,11 @@ export default async function Component({ params }: { params: Params }) {
           <div className="grid md:grid-cols-2 gap-6">
             <div className="space-y-4">
               <p className="text-muted-foreground">{t.description}</p>
-              <form className="space-y-4">
-                <div className="grid gap-2">
-                  <Label htmlFor="message">{t.message}</Label>
-                  <Textarea id="message" placeholder="Enter your message" />
-                </div>
-                <Button type="submit">{t.sendMessage}</Button>
-              </form>
+
+              <SendToTeacher
+                teacherId={params.teacher}
+                teacherName={`${teacherProfile.fName} ${teacherProfile.lName}`}
+              />
             </div>
             <div className="bg-muted rounded-lg p-6">
               <h3 className="text-xl font-semibold">{t.getInTouch}</h3>
