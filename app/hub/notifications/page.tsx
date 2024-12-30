@@ -2,9 +2,7 @@
 import NotifTab from "@/components/notifTab/NotifTab";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useGetAllNotifs, useGetNotifs } from "@/hooks/useNotifs";
-import { formatTimeFromNow } from "@/utils/helperFunctions";
-import { debounce } from "@mui/material";
-import { NotifType } from "@prisma/client";
+
 import { Search } from "lucide-react";
 import React, { useEffect, useState } from "react";
 
@@ -21,6 +19,8 @@ const Notifications = () => {
             <TabsTrigger value="all">All</TabsTrigger>
             <TabsTrigger value="classRegister">Class register</TabsTrigger>
             <TabsTrigger value="websiteAccount">Website account </TabsTrigger>
+            <TabsTrigger value="videoCourse">Buy video courses</TabsTrigger>
+            <TabsTrigger value="writing">Upload writings</TabsTrigger>
           </TabsList>
 
           <div
@@ -45,6 +45,14 @@ const Notifications = () => {
         <NotifTab
           data={notifs?.filter((notif) => notif.type === "register")}
           value="websiteAccount"
+        />
+        <NotifTab
+          data={notifs?.filter((notif) => notif.type === "videoCourse")}
+          value="videoCourse"
+        />
+        <NotifTab
+          data={notifs?.filter((notif) => notif.type === "writing")}
+          value="writing"
         />
       </Tabs>
     </div>

@@ -36,6 +36,7 @@ enum NotifType {
   register
   joinClass
   videoCourse
+  writing
 }
 
 enum PaymentType {

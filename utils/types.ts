@@ -162,7 +162,7 @@ export interface Notif {
   id: string;
   title: string;
   status: "read" | "unread";
-  type: "register" | "joinClass";
+  type: "register" | "joinClass" | "videoCourse" | "writing";
   user: User;
   createdAt: Date;
   userId: string;

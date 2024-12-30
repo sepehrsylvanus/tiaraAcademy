@@ -151,7 +151,7 @@ export const postWriting = async (formData: FormData) => {
             writingLink: permanentSignedUrl,
           },
         });
-        const decreaseCharge = await prisma.writingCharge.update({
+        await prisma.writingCharge.update({
           where: {
             userId: creatorId,
           },
@@ -161,7 +161,13 @@ export const postWriting = async (formData: FormData) => {
             },
           },
         });
-
+        await prisma.notifs.create({
+          data: {
+            title: `${user?.fName} ${user?.lName} with id ${user?.id} uploaded a writing`,
+            type: "writing",
+            userId: user.id,
+          },
+        });
         return `Writing with name ${writingFile.name} created`;
       } else {
         await prisma.writing.delete({
