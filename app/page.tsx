@@ -102,13 +102,15 @@ export default async function Home() {
             </div>
             <div id="socials" className="flex gap-4">
               <Link
-                href={"#"}
+                href={
+                  "https://www.instagram.com/tiaraacademy.tehran?igsh=ZDMwbnBwMGIydjY1"
+                }
                 className="rounded-full p-2 border border-lightText bg-cardBg transition-all hover:bg-white"
               >
                 <InstagramIcon />
               </Link>
               <Link
-                href={"#"}
+                href={"https://youtube.com/@tiaraacademy"}
                 className="rounded-full p-2 border border-lightText bg-cardBg transition-all hover:bg-white"
               >
                 <YouTubeIcon />
@@ -120,7 +122,7 @@ export default async function Home() {
                 <XIcon />
               </Link>
               <Link
-                href={"#"}
+                href={"https://t.me/tiaraacademytehran"}
                 className="rounded-full p-2 border border-lightText bg-cardBg transition-all hover:bg-white"
               >
                 <TelegramIcon />
