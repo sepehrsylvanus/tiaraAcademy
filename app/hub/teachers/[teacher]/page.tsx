@@ -6,12 +6,13 @@ import Link from "next/link";
 import { getTeacherProfile } from "@/actions/userActions";
 import { capitalizeFirstLetter } from "@/utils/helperFunctions";
 import PendingTeacher from "@/components/pendingTeacher/PendingTeacher";
-import { getMessages } from "next-intl/server";
+import { getLocale, getMessages } from "next-intl/server";
 import SendToTeacher from "@/components/SendToTeacher";
 type Params = {
   teacher: string;
 };
 export default async function Component({ params }: { params: Params }) {
+  const locale = await getLocale();
   const teacherProfile = await getTeacherProfile(params.teacher);
   const translations = (await getMessages()) as any;
   const t = translations.TeacherProfile;
@@ -42,14 +43,20 @@ export default async function Component({ params }: { params: Params }) {
               <div className="grid gap-4">
                 <div>
                   <h2 className="text-xl font-semibold">{t.aboutMe}</h2>
-                  <p className="text-muted-foreground">{teacherProfile?.bio}</p>
+                  <p className="text-muted-foreground">
+                    {locale === "en"
+                      ? teacherProfile.bio
+                      : teacherProfile.persianBio}
+                  </p>
                 </div>
               </div>
               <div
                 className="text-muted-foreground"
-                dangerouslySetInnerHTML={{
-                  __html: teacherProfile?.description!,
-                }}
+                dangerouslySetInnerHTML={
+                  locale === "en"
+                    ? { __html: teacherProfile.description ?? "" }
+                    : { __html: teacherProfile.persianDescription ?? "" }
+                }
               />
             </div>
           </div>

@@ -191,9 +191,10 @@ export const removePhone = async (phoneToDelete: string) => {
 export const createTeacherProfile = async (formData: FormData) => {
   const description = formData.get("description") as string;
   const bio = formData.get("bio") as string;
-
+  const persianBio = formData.get("persianBio") as string;
+  const persianDescription = formData.get("persianDescription") as string;
   const teacherId = formData.get("teacherId") as string;
-
+  console.log(description, bio, persianBio, persianDescription);
   try {
     const alreadyHasProfile = await prisma.teacherProfile.findUnique({
       where: {
@@ -208,7 +209,8 @@ export const createTeacherProfile = async (formData: FormData) => {
         data: {
           description,
           bio,
-
+          persianBio,
+          persianDescription,
           teacherId,
         },
       });
@@ -217,7 +219,8 @@ export const createTeacherProfile = async (formData: FormData) => {
       data: {
         description,
         bio,
-
+        persianBio,
+        persianDescription,
         teacherId,
       },
     });

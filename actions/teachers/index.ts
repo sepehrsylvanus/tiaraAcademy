@@ -45,3 +45,12 @@ export const deleteTeacherComment = async (id: string) => {
     throw new Error(error.message);
   }
 };
+
+export const getOneTeacherProfile = async (teacherId: string) => {
+  const teacherProfile = await prisma.teacherProfile.findUnique({
+    where: {
+      teacherId,
+    },
+  });
+  return teacherProfile;
+};

@@ -86,12 +86,13 @@ model User {
 }
 
 model TeacherProfile {
-  id          String @id @default(cuid()) @map("_id")
-  description String
-  bio         String
-
-  teacher   User   @relation(fields: [teacherId], references: [id])
-  teacherId String @unique
+  id                 String  @id @default(cuid()) @map("_id")
+  description        String
+  persianDescription String?
+  bio                String
+  persianBio         String?
+  teacher            User    @relation(fields: [teacherId], references: [id])
+  teacherId          String  @unique
 }
 
 model Class {
