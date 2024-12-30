@@ -133,19 +133,13 @@ export default async function Home() {
               </Link>
             </div>
           </div>
+          <Image src={"/eNamad0.png"} alt="eNamad" width={100} height={100} />
           <div id="eNamad">
             <a
               referrerPolicy="origin"
               target="_blank"
               href="https://trustseal.enamad.ir/?id=516151&Code=jCBpwjkJeshetgDotCMZkNrYm2zyiLUy"
-            >
-              <Image
-                src={"/eNamad0.png"}
-                alt="eNamad"
-                width={100}
-                height={100}
-              />
-            </a>
+            ></a>
           </div>
         </div>
         <Link href={"https://sani-dev-portfolio.vercel.app/"}>
