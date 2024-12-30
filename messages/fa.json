@@ -128,7 +128,8 @@
     "noResult": "رکوردی موجود نیست",
     "noNotif": "اعلان جدیدی ندارید",
     "viewNotifs": "مشاهده‌ی همه‌ی اعلان‌ها",
-    "commentsTable": "نظرات"
+    "commentsTable": "نظرات",
+    "teacherMessages": "پیام‌های معلمان"
   },
   "videoBox": {
     "dSuccessfully": "با موفقیت حذف شد",

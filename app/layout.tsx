@@ -10,8 +10,8 @@ import ReactQueryProvider from "@/providers/ReactQueryProvider";
 import DateProvider from "@/providers/DateProvider";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
-import Navbar from "@/components/navbar/Navbar";
-import Link from "next/link";
+import { Analytics } from "@vercel/analytics/next";
+
 const inter = Inter({ subsets: ["latin"] });
 const tajawal = Almarai({ subsets: ["arabic"], weight: ["400", "700"] });
 export const metadata: Metadata = {
@@ -46,6 +46,7 @@ export default async function RootLayout({
             <ClientCookieProvider>
               <DateProvider>
                 <div className="pb-6 ">{children}</div>
+                <Analytics />
               </DateProvider>
             </ClientCookieProvider>
           </ReactQueryProvider>

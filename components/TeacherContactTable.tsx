@@ -16,7 +16,7 @@ import { useDeletecomment, useGetTeacherComments } from "@/hooks/useTeacher";
 import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog";
 
 const TeacherContactTable = () => {
-  const t = useTranslations("TeacherProfile");
+  const t = useTranslations("Hub");
   const { data: comments } = useGetTeacherComments();
   const { mutate: deleteComment, isPending: deleteLoading } =
     useDeletecomment();
@@ -26,7 +26,7 @@ const TeacherContactTable = () => {
   };
   return (
     <>
-      <p className="font-bold mt-4">{t("commentsTable")}</p>
+      <p className="font-bold mt-4">{t("teacherMessages")}</p>
       <Table className="mt-2 bg-cardBg ">
         <TableHeader>
           <TableRow>

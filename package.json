@@ -41,6 +41,7 @@
     "@tiptap/pm": "^2.9.1",
     "@tiptap/react": "^2.9.1",
     "@tiptap/starter-kit": "^2.9.1",
+    "@vercel/analytics": "^1.4.1",
     "aws-sdk": "^2.1687.0",
     "axios": "^1.7.7",
     "bcryptjs": "^2.4.3",

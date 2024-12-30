@@ -358,8 +358,9 @@ const Classes = ({ searchParams: { teacher } }: Props) => {
                         </p>
                         {ifHasDiscount && (
                           <p>
-                            {Number(eachClass.price) *
-                              (Number(eachClass.discount) / 100)}
+                            {Number(eachClass.price) -
+                              Number(eachClass.price) *
+                                (Number(eachClass.discount) / 100)}
                           </p>
                         )}
                       </div>

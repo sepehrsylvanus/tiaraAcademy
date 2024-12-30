@@ -131,7 +131,8 @@
     "noResult": "No result",
     "noNotif": "You have no new notifications",
     "viewNotifs": "View all notifications",
-    "commentsTable": "Comments"
+    "commentsTable": "Comments",
+    "teacherMessages": "Teacher Messages"
   },
   "videoBox": {
     "dSuccessfully": "deleted successfully",
