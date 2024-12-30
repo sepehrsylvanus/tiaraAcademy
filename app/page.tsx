@@ -133,13 +133,19 @@ export default async function Home() {
               </Link>
             </div>
           </div>
-          <Image src={"/eNamad0.png"} alt="eNamad" width={100} height={100} />
           <div id="eNamad">
             <a
               referrerPolicy="origin"
               target="_blank"
               href="https://trustseal.enamad.ir/?id=516151&Code=jCBpwjkJeshetgDotCMZkNrYm2zyiLUy"
-            ></a>
+            >
+              <Image
+                src={"/inamadd.jpg.webp"}
+                alt="eNamad"
+                width={100}
+                height={100}
+              />
+            </a>
           </div>
         </div>
         <Link href={"https://sani-dev-portfolio.vercel.app/"}>
@@ -163,13 +169,20 @@ export default async function Home() {
             <Image src={"/logo.png"} alt="logo" width={50} height={50} />
             <p>Tiara Academy</p>
           </div>
-          <Image src={"/eNamad0.png"} alt="eNamad" width={100} height={100} />
+
           <div id="eNamad">
             <a
               referrerPolicy="origin"
               target="_blank"
               href="https://trustseal.enamad.ir/?id=516151&Code=jCBpwjkJeshetgDotCMZkNrYm2zyiLUy"
-            ></a>
+            >
+              <Image
+                src={"/inamadd.jpg.webp"}
+                alt="eNamad"
+                width={100}
+                height={100}
+              />
+            </a>
           </div>
         </div>
         <div id="socials" className="flex gap-4">
