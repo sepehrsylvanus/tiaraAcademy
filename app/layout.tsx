@@ -10,13 +10,14 @@ import ReactQueryProvider from "@/providers/ReactQueryProvider";
 import DateProvider from "@/providers/DateProvider";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
-import { Analytics } from "@vercel/analytics/next";
+import { Analytics } from "@vercel/analytics/react";
 
 const inter = Inter({ subsets: ["latin"] });
 const tajawal = Almarai({ subsets: ["arabic"], weight: ["400", "700"] });
+
 export const metadata: Metadata = {
-  title: "Tiara academy",
-  description: "Learn english in smart way",
+  title: "Tiara Academy",
+  description: "Learn English in a smart way",
 };
 
 export default async function RootLayout({
@@ -30,7 +31,7 @@ export default async function RootLayout({
   return (
     <html
       lang={locale}
-      className=" scroll-smooth"
+      className="scroll-smooth"
       dir={locale === "fa" ? "rtl" : "ltr"}
     >
       <head>
@@ -40,17 +41,16 @@ export default async function RootLayout({
         <body
           className={`${
             locale === "fa" ? tajawal.className : inter.className
-          } text-lightText `}
+          } text-lightText`}
         >
           <ReactQueryProvider>
             <ClientCookieProvider>
               <DateProvider>
-                <div className="pb-6 ">{children}</div>
+                <div className="pb-6">{children}</div>
                 <Analytics />
               </DateProvider>
             </ClientCookieProvider>
           </ReactQueryProvider>
-
           <ToastContainer
             position="bottom-right"
             autoClose={5000}
