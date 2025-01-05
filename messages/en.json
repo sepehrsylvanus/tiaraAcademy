@@ -1,6 +1,12 @@
 {
   "Layout": {
-    "copyright": "All rights reserved for Tiara Academy. Designed and developed by the"
+    "copyright": "All rights reserved for Tiara Academy. Designed and developed by the",
+    "socials": "Socials",
+    "newsLetter": "Sign up for our newsletter",
+    "newsLetterDescription": "Stay up to date with the roadmap progress, announcements and exclusive discounts feel free to sign up with your email.",
+    "yourEmail": "Your email",
+    "ppDescription": "We care about the protection of your data. ",
+    "pp": "Read our Privacy Policy"
   },
   "LandingPage": {
     "enrollNow": "Enroll Now!",
@@ -319,7 +325,12 @@
     "writing": "Writing",
     "teachers": "Teachers",
     "blog": "Blog",
-    "videos": "Video courses"
+    "videos": "Video courses",
+    "aboutUs": "About us",
+    "contactUs": "Contact us",
+    "pp": "Privacy & Policy",
+    "websiteDescTitle": "Tiara Academy | Your All-in-One Language Learning Solution ",
+    "websiteDesc": "Tiara Academy specializes in providing a complete language learning experience with offline and online video courses, professional writing services for feedback and improvement, and reading services to enhance comprehension and fluency. Our expert resources and tailored support make achieving your language goals easier than ever."
   },
   "PaymentRedirect": {
     "paymentSuccessful": "Payment Successful",
