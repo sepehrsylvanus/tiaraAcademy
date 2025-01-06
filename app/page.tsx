@@ -92,7 +92,7 @@ export default async function Home() {
         <FaqPreview />
       </section>
 
-      <footer className="flex flex-col mt-6">
+      <footer className="flex flex-col mt-6 w-full px-6">
         <div className="flex flex-col md:flex-row">
           <Separator className="my-8 md:hidden" />
           <div className="flex flex-col flex-[4]">
