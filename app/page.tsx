@@ -190,7 +190,7 @@ export default async function Home() {
                       <div className="mx-auto max-w-screen-sm text-sm  text-gray-500 newsletter-form-footer dark:text-gray-300 text-center md:text-start">
                         {landingPageTranslations.ppDescription}{" "}
                         <a
-                          href="#"
+                          href="/privacyPolicy"
                           className="font-medium text-primary-600 dark:text-primary-500 hover:underline"
                         >
                           {landingPageTranslations.pp}
@@ -239,7 +239,10 @@ export default async function Home() {
           >
             <Link href={"#"}>{sBarTranslations.aboutUs}</Link>
 
-            <Link href={"#"} className="bg-slate-300  rounded-md w-10/12 py-2 ">
+            <Link
+              href={"/privacyPolicy"}
+              className="bg-slate-300  rounded-md w-10/12 py-2 "
+            >
               {sBarTranslations.pp}
             </Link>
             <Link href={"#"}>{sBarTranslations.contactUs}</Link>
