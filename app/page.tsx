@@ -237,7 +237,7 @@ export default async function Home() {
             id="details"
             className="flex flex-col gap-4 items-center w-full text-center border-t border-dashed md:border-none pt-8 mt-8 md:mt-0 md:pt-0 flex-[2]"
           >
-            <Link href={"#"}>{sBarTranslations.aboutUs}</Link>
+            <Link href={"/about"}>{sBarTranslations.aboutUs}</Link>
 
             <Link
               href={"/privacyPolicy"}
