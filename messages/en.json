@@ -39,7 +39,10 @@
   "About": {
     "title": "WHO WE ARE:",
     "description": "Get to know us.",
-    "readMore": "Get to know our institute and professional team"
+    "readMore": "Get to know our institute and professional team",
+    "ready": "Ready to Start Your Journey?",
+    "readyDesc": "Join our community of language  and start your transformation today. Explore our courses, connect with native speakers, and unlock new opportunities.",
+    "joinToday": "Join Us Today"
   },
   "Contact": {
     "title": "Contact us",
