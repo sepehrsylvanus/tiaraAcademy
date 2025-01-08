@@ -308,19 +308,31 @@
     "confirmPass": "Confirm new password"
   },
   "ContactUs": {
-    "contactInfo": "Contact Information",
+    "contactInfo": "We’d love to hear from you!",
+    "contactInfoDesc": "Whether you have a question, need support, or want to share your language learning journey, we’re here to help. Choose the method that works best for you to get in touch with us:",
     "phone": "Phone:",
+    "phoneDesc": "Prefer to call? You can reach us at ",
     "available": "Saturday to Thursday, 9 AM to 6 PM.",
     "address": "Address",
     "comingSoon": "We will be there for you soon",
     "email": "Email",
+
+    "general": "General Inquiries:",
+    "generalEmail": "For any questions or feedback, email us at: ",
+    "support": "Support Team: ",
+    "supportEmail": "Need assistance? Reach our dedicated support team at: ",
     "socialMedia": "Social Media",
-    "sendMessage": "Send Us a Message",
-    "firstName": "First name",
-    "lastName": "Last name",
-    "question": "Your message",
-    "send": "Send",
-    "return": "Return"
+    "sendMessage": "Contact Form",
+    "connectForm": "If you’d like to get in touch with our teachers directly, please fill out the contact form available on our ",
+    "visitTeachersPage": "Visit Teachers Page",
+    "faqs": "FAQs",
+    "faqsDesc1": "Looking for quick answers? Check out our FAQ page for solutions to common questions.",
+    "faqsLink": "FAQ page",
+    "faqsDesc2": "for solutions to common questions.",
+    "social": "Social Media",
+    "socialDesc": "Stay connected with us for updates, tips, and inspiration:",
+    "promise": "Our Promise",
+    "promiseDesc": "We strive to respond to all inquiries within 48 hours. Your feedback is invaluable to us and helps improve our services."
   },
   "SideBar": {
     "hub": "Hub",

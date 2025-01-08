@@ -43,6 +43,7 @@ export default function AboutPage() {
           fill
           priority
           style={{ filter: "brightness(50%)" }}
+          className="aspect-video"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-background/90" />
         <div className="absolute inset-0 flex items-center justify-center">
