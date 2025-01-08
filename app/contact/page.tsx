@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { getMessages } from "next-intl/server";
+import Image from "next/image";
 
 export default async function ContactPage() {
   const translations = (await getMessages()) as any;
@@ -24,6 +25,11 @@ export default async function ContactPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-muted/20">
       {/* Hero Section */}
+      <img
+        src={"/contactUsBanner.jpg"}
+        alt="Contact Tiara Academy"
+        className="mx-auto w-full mt-5"
+      />
       <div className="relative overflow-hidden">
         <div className="absolute inset-0 bg-grid-small-black/[0.2] -z-10" />
         <div className="container mx-auto px-4 py-16 md:py-24">

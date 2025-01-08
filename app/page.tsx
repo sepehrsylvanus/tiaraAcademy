@@ -245,7 +245,7 @@ export default async function Home() {
             >
               {sBarTranslations.pp}
             </Link>
-            <Link href={"#"}>{sBarTranslations.contactUs}</Link>
+            <Link href={"/contact"}>{sBarTranslations.contactUs}</Link>
           </div>
           <div
             id="enamad"
