@@ -50,6 +50,7 @@ export default async function PrivacyPolicy() {
 
         <Separator />
 
+        {/* Information We Collect */}
         <section className="space-y-4">
           <h2 className="text-2xl font-semibold">
             {locale === "en"
@@ -75,6 +76,9 @@ export default async function PrivacyPolicy() {
           </ul>
         </section>
 
+        <Separator />
+
+        {/* How We Collect Information */}
         <section className="space-y-4">
           <h2 className="text-2xl font-semibold">
             {locale === "en"
@@ -105,6 +109,9 @@ export default async function PrivacyPolicy() {
           </ul>
         </section>
 
+        <Separator />
+
+        {/* How We Use Your Information */}
         <section className="space-y-4">
           <h2 className="text-2xl font-semibold">
             {locale === "en"
@@ -140,36 +147,147 @@ export default async function PrivacyPolicy() {
           </ul>
         </section>
 
-        {/* Repeat similar sections for the remaining items */}
+        <Separator />
 
+        {/* Payment and Refund Policy */}
         <section className="space-y-4">
           <h2 className="text-2xl font-semibold">
-            {locale === "en" ? "11. Contact Us" : "۱۱. تماس با ما"}
+            {locale === "en"
+              ? "4. Payment and Refund Policy"
+              : "۴. سیاست پرداخت و بازپرداخت"}
           </h2>
-          <p className="leading-7 text-muted-foreground">
-            {locale === "en" ? (
-              <>
-                If you have questions or concerns about this Privacy Policy,
-                please contact us at{" "}
-                <a
-                  href="mailto:TiaraAcademyTehran@gmail.com"
-                  className="text-primary hover:underline"
-                >
-                  TiaraAcademyTehran@gmail.com
-                </a>
-              </>
-            ) : (
-              <>
-                اگر سؤال یا نگرانی‌ای در مورد این سیاست‌های حریم خصوصی دارید،
-                لطفاً از طریق آدرس ایمیل زیر با ما تماس بگیرید:{" "}
-                <a
-                  href="mailto:TiaraAcademyTehran@gmail.com"
-                  className="text-primary hover:underline"
-                >
-                  TiaraAcademyTehran@gmail.com
-                </a>
-              </>
-            )}
+          <ul className="list-disc list-inside space-y-2 pl-4 text-muted-foreground">
+            <li>
+              {locale === "en"
+                ? "No Refunds: All purchases are final. Refunds are not available once payment is completed, including video courses, classes, or writing services."
+                : "عدم بازپرداخت: تمامی خریدها نهایی هستند. بازپرداخت برای ویدیوهای آموزشی، کلاس‌ها یا خدمات تصحیح نوشته امکان‌پذیر نیست."}
+            </li>
+            <li>
+              {locale === "en"
+                ? "Class Rescheduling: Online class schedules can only be changed with at least 24 hours’ notice. Missed classes without prior notice will not be refunded or rescheduled."
+                : "تغییر زمان کلاس‌ها: زمان‌بندی کلاس‌ها فقط با حداقل ۲۴ ساعت اطلاع قبلی قابل تغییر است. کلاس‌هایی که بدون اطلاع قبلی از دست بروند، بازپرداخت یا مجدداً برنامه‌ریزی نخواهند شد."}
+            </li>
+            <li>
+              {locale === "en"
+                ? "Access to Courses: Purchased video courses are available for your account and cannot be transferred or shared."
+                : "دسترسی به دوره‌ها: دوره‌های ویدیویی خریداری شده فقط برای حساب کاربری شما در دسترس هستند و نمی‌توانند منتقل یا به اشتراک گذاشته شوند."}
+            </li>
+          </ul>
+        </section>
+
+        <Separator />
+
+        {/* Content Usage Rules */}
+        <section className="space-y-4">
+          <h2 className="text-2xl font-semibold">
+            {locale === "en"
+              ? "5. Content Usage Rules"
+              : "۵. قوانین استفاده از محتوا"}
+          </h2>
+          <ul className="list-disc list-inside space-y-2 pl-4 text-muted-foreground">
+            <li>
+              {locale === "en"
+                ? "Non-Transferable: Content (including videos, materials, and feedback) is for personal use only and may not be shared, reproduced, or distributed without written permission."
+                : "غیرقابل انتقال: محتوا (شامل ویدیوها، مطالب و بازخوردها) فقط برای استفاده شخصی است و بدون اجازه کتبی نمی‌تواند به اشتراک گذاشته شود، تکثیر شود یا توزیع شود."}
+            </li>
+            <li>
+              {locale === "en"
+                ? "Copyright: All content is the intellectual property of Tiara Academy. Unauthorized use will result in immediate suspension of services and potential legal action."
+                : "حق تألیف: تمام محتوا متعلق به آکادمی تیرا است. استفاده غیرمجاز منجر به تعلیق فوری خدمات و اقدام قانونی احتمالی خواهد شد."}
+            </li>
+          </ul>
+        </section>
+
+        <Separator />
+
+        {/* Account Usage Policy */}
+        <section className="space-y-4">
+          <h2 className="text-2xl font-semibold">
+            {locale === "en"
+              ? "6. Account Usage Policy"
+              : "۶. سیاست استفاده از حساب کاربری"}
+          </h2>
+          <p className="leading-7">
+            {locale === "en"
+              ? "Access to your Tiara Academy account is limited to you alone. Sharing login credentials with others is strictly prohibited and may result in account suspension or termination."
+              : "دسترسی به حساب کاربری شما در آکادمی تیرا فقط محدود به شما است. اشتراک‌گذاری اطلاعات ورود با دیگران به‌طور جدی ممنوع است و ممکن است منجر به تعلیق یا بسته شدن حساب کاربری شود."}
+          </p>
+        </section>
+
+        <Separator />
+
+        {/* User Responsibilities */}
+        <section className="space-y-4">
+          <h2 className="text-2xl font-semibold">
+            {locale === "en"
+              ? "7. User Responsibilities"
+              : "۷. مسئولیت‌های کاربران"}
+          </h2>
+          <ul className="list-disc list-inside space-y-2 pl-4 text-muted-foreground">
+            <li>
+              {locale === "en"
+                ? "Accurate Information: Users must provide accurate and up-to-date information during registration and purchases."
+                : "اطلاعات صحیح: کاربران باید اطلاعات دقیق و به‌روز را در هنگام ثبت‌نام و خرید ارائه دهند."}
+            </li>
+            <li>
+              {locale === "en"
+                ? "Account Security: Users are responsible for maintaining the confidentiality of their account login details. Any unauthorized use must be reported immediately."
+                : "امنیت حساب کاربری: کاربران مسئول حفظ محرمانگی اطلاعات ورود به حساب کاربری خود هستند. هرگونه استفاده غیرمجاز باید فوراً گزارش شود."}
+            </li>
+            <li>
+              {locale === "en"
+                ? "Respectful Behavior: Users must communicate respectfully with our staff and other users. Abusive behavior will not be tolerated and may result in service suspension."
+                : "رفتار محترمانه: کاربران باید با کارکنان و دیگر کاربران ما به‌طور محترمانه ارتباط برقرار کنند. رفتار توهین‌آمیز تحمل نخواهد شد و ممکن است منجر به تعلیق خدمات شود."}
+            </li>
+            <li>
+              {locale === "en"
+                ? "Prohibited Activities: Users must not engage in activities that disrupt the website or violate applicable laws, including hacking, spamming, or distributing malicious software."
+                : "فعالیت‌های ممنوعه: کاربران نباید در فعالیت‌هایی که موجب اختلال در وب‌سایت می‌شود یا قوانین جاری را نقض می‌کند، مانند هک کردن، ارسال اسپم یا توزیع نرم‌افزارهای مخرب، شرکت کنند."}
+            </li>
+          </ul>
+        </section>
+
+        <Separator />
+
+        {/* Data Security */}
+        <section className="space-y-4">
+          <h2 className="text-2xl font-semibold">
+            {locale === "en" ? "8. Data Security" : "۸. امنیت داده‌ها"}
+          </h2>
+          <p className="leading-7">
+            {locale === "en"
+              ? "We implement industry-standard measures to protect your data, including encryption and secure servers. However, no method of data transmission or storage is 100% secure, and we cannot guarantee absolute security."
+              : "ما اقدامات استاندارد صنعتی را برای محافظت از داده‌های شما، از جمله رمزگذاری و سرورهای امن، اجرا می‌کنیم. با این حال، هیچ روشی برای انتقال یا ذخیره‌سازی داده‌ها 100٪ امن نیست و ما نمی‌توانیم امنیت کامل را تضمین کنیم."}
+          </p>
+        </section>
+
+        <Separator />
+
+        {/* Changes to This Policy */}
+        <section className="space-y-4">
+          <h2 className="text-2xl font-semibold">
+            {locale === "en"
+              ? "9. Changes to This Policy"
+              : "۹. تغییرات در این سیاست"}
+          </h2>
+          <p className="leading-7">
+            {locale === "en"
+              ? "We reserve the right to modify or update this Privacy Policy at any time. Changes will be posted on this page, and the updated date will be indicated at the top."
+              : "ما حق داریم که این سیاست حریم خصوصی را در هر زمان تغییر دهیم یا به‌روزرسانی کنیم. تغییرات در این صفحه منتشر خواهد شد و تاریخ به‌روزرسانی در بالای صفحه نمایش داده خواهد شد."}
+          </p>
+        </section>
+
+        <Separator />
+
+        {/* Contact Information */}
+        <section className="space-y-4">
+          <h2 className="text-2xl font-semibold">
+            {locale === "en" ? "10. Contact Information" : "۱۰. اطلاعات تماس"}
+          </h2>
+          <p className="leading-7">
+            {locale === "en"
+              ? "If you have any questions or concerns about this Privacy Policy, please contact us at support@tiaraacademy.com."
+              : "اگر سوال یا نگرانی در مورد این سیاست حریم خصوصی دارید، لطفاً با ما از طریق ایمیل support@tiaraacademy.com تماس بگیرید."}
           </p>
         </section>
       </div>
