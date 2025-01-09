@@ -24,11 +24,17 @@ export default async function ContactPage() {
   const t = translations.ContactUs;
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-muted/20">
+      <Link
+        href={"/"}
+        className="absolute top-2 left-2 md:ltr:left-[5em] ltr:left-2"
+      >
+        <Image src={"/logo.png"} alt="Logo" width={60} height={60} />
+      </Link>
       {/* Hero Section */}
       <img
         src={"/contactUsBanner.jpg"}
         alt="Contact Tiara Academy"
-        className="mx-auto w-full mt-5"
+        className="mx-auto w-full mt-20"
       />
       <div className="relative overflow-hidden">
         <div className="absolute inset-0 bg-grid-small-black/[0.2] -z-10" />

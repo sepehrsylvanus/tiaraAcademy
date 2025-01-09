@@ -1,11 +1,19 @@
 import { Separator } from "@/components/ui/separator";
 import { getLocale } from "next-intl/server";
+import Image from "next/image";
+import Link from "next/link";
 
 export default async function PrivacyPolicy() {
   const locale = await getLocale();
 
   return (
     <div className="container max-w-4xl py-12">
+      <Link
+        href={"/"}
+        className="absolute top-2 left-2 md:ltr:left-[5em] ltr:left-2"
+      >
+        <Image src={"/logo.png"} alt="Logo" width={60} height={60} />
+      </Link>
       <div className="space-y-8">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">

@@ -35,6 +35,12 @@ export default function AboutPage() {
   const t = useTranslations("About");
   return (
     <div className="min-h-screen bg-background">
+      <Link
+        href={"/"}
+        className="absolute top-2 left-2 md:ltr:left-[5em] ltr:left-2"
+      >
+        <Image src={"/logo.png"} alt="Logo" width={60} height={60} />
+      </Link>
       {/* Hero Section */}
       <section className="relative h-[70vh] overflow-hidden">
         <Image
