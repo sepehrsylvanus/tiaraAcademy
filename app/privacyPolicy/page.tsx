@@ -263,12 +263,45 @@ export default async function PrivacyPolicy() {
 
         <Separator />
 
+        {/* Cookies and Tracking Technologies */}
+        <section className="space-y-4">
+          <h2 className="text-2xl font-semibold">
+            {locale === "en"
+              ? "9. Cookies and Tracking Technologies"
+              : "۹. کوکی‌ها و فناوری‌های ردیابی"}
+          </h2>
+          <p className="leading-7">
+            {locale === "en"
+              ? "We use cookies to:"
+              : "ما از کوکی‌ها برای موارد زیر استفاده می‌کنیم:"}
+          </p>
+          <ul className="list-disc list-inside space-y-2 pl-4 text-muted-foreground">
+            <li>
+              {locale === "en"
+                ? "Save your preferences and login details."
+                : "ذخیره تنظیمات و اطلاعات ورود شما."}
+            </li>
+            <li>
+              {locale === "en"
+                ? "Analyze website traffic and improve user experience."
+                : "تجزیه‌وتحلیل ترافیک وب‌سایت و بهبود تجربه کاربری."}
+            </li>
+          </ul>
+          <p className="leading-7">
+            {locale === "en"
+              ? "You can disable cookies through your browser settings, but this may limit certain features of the website."
+              : "شما می‌توانید کوکی‌ها را از طریق تنظیمات مرورگر خود غیرفعال کنید، اما ممکن است برخی از ویژگی‌های وب‌سایت محدود شود."}
+          </p>
+        </section>
+
+        <Separator />
+
         {/* Changes to This Policy */}
         <section className="space-y-4">
           <h2 className="text-2xl font-semibold">
             {locale === "en"
-              ? "9. Changes to This Policy"
-              : "۹. تغییرات در این سیاست"}
+              ? "10. Changes to This Policy"
+              : "۱۰. تغییرات در این سیاست"}
           </h2>
           <p className="leading-7">
             {locale === "en"
@@ -282,7 +315,7 @@ export default async function PrivacyPolicy() {
         {/* Contact Information */}
         <section className="space-y-4">
           <h2 className="text-2xl font-semibold">
-            {locale === "en" ? "10. Contact Information" : "۱۰. اطلاعات تماس"}
+            {locale === "en" ? "11. Contact Information" : "۱۱. اطلاعات تماس"}
           </h2>
           <p className="leading-7">
             {locale === "en"
