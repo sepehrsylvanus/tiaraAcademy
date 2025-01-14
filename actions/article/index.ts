@@ -27,8 +27,9 @@ export const createArticle = async (
       Key: name,
       Body: buffer,
     };
+    console.log("Uploading video starts");
     const response = await s3.upload(params).promise();
-
+    console.log(response, "uploading video finished");
     const imageLink = s3.getSignedUrl("getObject", {
       Bucket: process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME,
       Key: name,
@@ -46,6 +47,7 @@ export const createArticle = async (
         english: language,
       },
     });
+    console.log(newArticle);
     if (newArticle) {
       return "New article created successfully";
     }
