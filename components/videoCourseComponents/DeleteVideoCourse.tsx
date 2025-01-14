@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { Input } from "../ui/input";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -12,8 +12,11 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Button } from "../ui/button";
+import { deleteVideoCourse } from "@/actions/videos/videos.action";
+import { toast } from "react-toastify";
 
 const DeleteVideoCourse = () => {
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const formSchema = z.object({
     id: z.string(),
   });
@@ -23,8 +26,17 @@ const DeleteVideoCourse = () => {
       id: "",
     },
   });
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      setDeleteLoading(true);
+      const deleteCourse = await deleteVideoCourse(values.id);
+      toast.warning(deleteCourse);
+      setDeleteLoading(false);
+    } catch (error: any) {
+      console.log(error.message);
+      toast.error(error.message);
+      setDeleteLoading(false);
+    }
   }
   return (
     <div>
@@ -51,7 +63,9 @@ const DeleteVideoCourse = () => {
               </FormItem>
             )}
           />
-          <Button type="submit">Delete</Button>
+          <Button type="submit">
+            {deleteLoading ? "Deleting..." : "Delete"}
+          </Button>
         </form>
       </Form>
     </div>

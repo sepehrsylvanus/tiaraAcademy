@@ -294,7 +294,7 @@ export const deleteVideoCourse = async (id: string) => {
       },
     });
 
-    return true;
+    return "The desired video delete successfully";
   } catch (error: any) {
     console.log(error.message);
     throw new Error(error.message);
