@@ -37,6 +37,7 @@ const courseDetailsForm = z.object({
   price: z.number(),
   description: z.string(),
   explenation: z.string(),
+  googleDriveLink: z.string(),
 });
 
 import TextEditor from "../TextEditor";
@@ -80,6 +81,7 @@ const AddVideoCourse = () => {
 
       description: "",
       explenation: "",
+      googleDriveLink: "",
     },
     mode: "onChange",
     shouldUseNativeValidation: false,
@@ -209,6 +211,23 @@ const AddVideoCourse = () => {
                 </div>
               )}
             </div>
+            <FormField
+              control={form.control}
+              name="googleDriveLink"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input
+                      placeholder="Google Drive Link"
+                      {...field}
+                      className="text-lightText mt-5"
+                    />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
           <div className="flex flex-col justify-between gap-4">
             <Select

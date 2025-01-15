@@ -258,7 +258,6 @@ export const deleteVideoCourse = async (id: string) => {
       videoCourseSession: true,
     },
   });
-  
 
   const sessions = course?.videoCourseSession;
   const s3 = new S3({
@@ -420,4 +419,13 @@ export const editVideoCourse = async (FormData: FormData) => {
     console.log(error.message);
     throw new Error(error.message);
   }
+};
+
+export const getFreeVideoUsers = async (userId: string) => {
+  const freeVideoUser = await prisma.freeVideoCourseUser.findMany({
+    where: {
+      userId,
+    },
+  });
+  return freeVideoUser;
 };

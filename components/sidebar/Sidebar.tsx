@@ -112,12 +112,14 @@ const Sidebar = () => {
           </Link>
         </div>
       </div>
-      <p className="z-10 rotate-90 absolute ltr:-left-48 rtl:-right-52 top-1/2 flex gap-4 items-center">
-        {t("haveToLogin")}
-        <Link href={"/sign-in"}>
-          <Button>{t("login")}</Button>
-        </Link>
-      </p>
+      {!token && (
+        <p className="z-10 rotate-90 absolute ltr:-left-48 rtl:-right-52 top-1/2 flex gap-4 items-center">
+          {t("haveToLogin")}
+          <Link href={"/sign-in"}>
+            <Button>{t("login")}</Button>
+          </Link>
+        </p>
+      )}
     </div>
   );
 };

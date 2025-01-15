@@ -226,24 +226,25 @@ model Payment {
 }
 
 model VideoCourse {
-  id                  String                @id @default(cuid()) @map("_id")
-  title               String
-  description         String
-  updatedAt           DateTime              @default(now())
-  teacherId           String
-  teacher             User                  @relation(fields: [teacherId], references: [id])
-  explenation         String
-  videoCourseSession  VideoCourseSession[]
-  Comment             Comment[]
-  thumbnailLink       String
-  price               Int
-  discountedPrice     String                @default("0")
-  discount            String                @default("0")
-  materialsLink       String
-  category            VideoCourseCat        @default(english)
-  prerequisities      String[]
-  Notifs              Notifs[]
-  FreeVideoCourseUser FreeVideoCourseUser[]
+  id                       String                @id @default(cuid()) @map("_id")
+  title                    String
+  description              String
+  updatedAt                DateTime              @default(now())
+  teacherId                String
+  teacher                  User                  @relation(fields: [teacherId], references: [id])
+  explenation              String
+  videoCourseSession       VideoCourseSession[]
+  Comment                  Comment[]
+  thumbnailLink            String
+  price                    Int
+  discountedPrice          String                @default("0")
+  discount                 String                @default("0")
+  materialsLink            String
+  materialsGoogleDriveLink String?
+  category                 VideoCourseCat        @default(english)
+  prerequisities           String[]
+  Notifs                   Notifs[]
+  FreeVideoCourseUser      FreeVideoCourseUser[]
 }
 
 model VideoCourseSession {

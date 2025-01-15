@@ -16,16 +16,16 @@ import {
   useAddFreeVideoCourse,
   useEditvideoCourse,
   useGetCourseVideosDetails,
-  useGetRegisteredFreeVideoCourse,
-  useGetVerifiedCoursePayment,
 } from "@/hooks/useVideos";
-import { VideoCourses } from "@/constants";
 import { useGetUser } from "@/hooks/useUsers";
 import { useRouter } from "next/navigation";
 import { buyVideoCourse, getVerifiedCoursePayment } from "@/actions/payment";
 import { useTranslations } from "next-intl";
 import DOMPurify from "dompurify";
-import { fetchRegisteredVideoCourse } from "@/actions/videos/videos.action";
+import {
+  fetchRegisteredVideoCourse,
+  getFreeVideoUsers,
+} from "@/actions/videos/videos.action";
 import {
   Dialog,
   DialogContent,
@@ -38,13 +38,19 @@ import { Input } from "@/components/ui/input";
 import { VideoCourse } from "@/utils/types";
 import TextEditor from "@/components/TextEditor";
 import { Textarea } from "@/components/ui/textarea";
+import { Download } from "lucide-react";
+import { Google } from "@mui/icons-material";
 
 type SingleVideoProps = {
   params: {
     id: string;
   };
 };
-
+type freeVideoUsers = {
+  id: string;
+  videoCourseId: string;
+  userId: string;
+}[];
 type verifiedCourse = {
   id: string;
   courseId: string;
@@ -56,17 +62,14 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
   const t = useTranslations("VideoCourse");
   const editDialogTranslations = useTranslations("EditDialog");
   const [openComment, setOpenComment] = useState(false);
-  const [verifiedCourse, setVerifiedCourse] = useState<verifiedCourse[]>();
+  const [verifiedCourse, setVerifiedCourse] = useState<verifiedCourse[]>([]);
   const [registeredVideoCourse, setRegisteredVideoCourse] = useState<any>();
   const { data: videoDetails, isLoading: videoDetailsLoading } =
     useGetCourseVideosDetails(params.id);
   const { mutate: editVideo } = useEditvideoCourse();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingVideo, setEditingVideo] = useState<VideoCourse | null>();
-  useEffect(() => {
-    console.log(editingVideo);
-  }, [editingVideo]);
-
+  const [freeVideoUsers, setFreeVideoUsers] = useState<freeVideoUsers>([]);
   const [explenation, setExplenation] = useState<string>("");
   const router = useRouter();
   const { data: currentUser, isLoading: currentUserLoading } = useGetUser();
@@ -90,11 +93,14 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
   useEffect(() => {
     const getVerifiedCourse = async () => {
       if (currentUser) {
+        const freeVideoUsers = await getFreeVideoUsers(currentUser.id);
         const verifiedCourse = await getVerifiedCoursePayment({
           id: params.id,
           userId: currentUser.id,
         });
         setVerifiedCourse(verifiedCourse);
+
+        setFreeVideoUsers(freeVideoUsers);
       }
     };
     getVerifiedCourse();
@@ -163,7 +169,7 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
 
   // END OF EDIT VIDEO COURSE
 
-  const ifbuyed = verifiedCourse && verifiedCourse.length > 0;
+  const ifbuyed = verifiedCourse.length > 0 || freeVideoUsers?.length > 0;
   if (!videoDetailsLoading && registeredVideoCourse) {
     const discountedPrice = Number(videoDetails?.discountedPrice);
     const discount = Number(videoDetails?.discount);
@@ -179,7 +185,7 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
             <p>{videoDetails?.description}</p>
             <div
               id="price&register"
-              className="flex justify-between mt-4 flex-col-reverse md:flex-row items-center gap-5"
+              className="flex justify-between mt-4 flex-col-reverse  items-center gap-5"
             >
               {ifbuyed || registeredVideoCourse?.length > 0 ? (
                 <Button
@@ -299,14 +305,31 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
                 </div>
               ) : (
                 ifbuyed && (
-                  <Link
-                    href={videoDetails?.materialsLink ?? "#"}
-                    className="w-full md:w-auto"
-                  >
-                    <Button className="w-full md:w-auto mt-2 md:mt-0 flex gap-2 flex-1">
-                      <EditIcon /> {t("downloadMaterials")}
-                    </Button>
-                  </Link>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button className="w-full md:w-auto mt-2 md:mt-0 flex gap-2 flex-1">
+                        <Download /> {t("downloadMaterials")}
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="flex flex-col items-center">
+                      <Link
+                        href={videoDetails?.materialsGoogleDriveLink ?? "#"}
+                        className="w-full md:w-auto"
+                      >
+                        <Button className="w-full md:w-auto mt-2 md:mt-0 flex gap-2 flex-1">
+                          <Download /> {t("downloadFromGoogleDrive")}
+                        </Button>
+                      </Link>
+                      <Link
+                        href={videoDetails?.materialsLink ?? "#"}
+                        className="w-full md:w-auto"
+                      >
+                        <Button className="w-full md:w-auto mt-2 md:mt-0 flex gap-2 flex-1">
+                          <Google /> {t("downloadDirectly")}
+                        </Button>
+                      </Link>
+                    </DialogContent>
+                  </Dialog>
                 )
               )}
               {!ifbuyed && videoDetails?.price !== 0 && (
