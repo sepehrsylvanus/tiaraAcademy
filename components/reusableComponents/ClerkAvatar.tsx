@@ -46,12 +46,11 @@ const ClerkAvatar = () => {
         } else {
           router.refresh();
         }
-        setLoading(false);
       })
       .catch((e) => {
         console.log(e);
-        setLoading(false);
-      });
+      })
+      .finally(() => setLoading(false));
   };
   useEffect(() => {
     const userAgent = window.navigator.userAgent;

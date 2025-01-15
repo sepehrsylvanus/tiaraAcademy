@@ -18,11 +18,11 @@ import { CircularProgress } from "@mui/material";
 import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium";
 import { useTranslations } from "next-intl";
 import { Button } from "../ui/button";
+import { useGetUser } from "@/hooks/useUsers";
 const Sidebar = () => {
   const t = useTranslations("SideBar");
   const [token, setToken] = useState<string>();
-  const [user, setUser] = useState<UserProps>();
-  const [loading, setLoading] = useState(false);
+  const { data: user, isLoading: userLoading } = useGetUser();
   useEffect(() => {
     const retrieveToken = async () => {
       const token = await getToken();
@@ -34,20 +34,6 @@ const Sidebar = () => {
 
     retrieveToken();
   }, []);
-
-  useEffect(() => {
-    const getUserInformation = async () => {
-      const userInfo = await getSingleUser()!;
-
-      if (userInfo) {
-        setUser(userInfo);
-      }
-    };
-    if (token) {
-      getUserInformation();
-    }
-    setLoading(false);
-  }, [token]);
 
   return (
     <div>
@@ -61,7 +47,7 @@ const Sidebar = () => {
             <ClerkAvatar />
 
             <div className={styles.accountInfoDetails}>
-              {loading ? (
+              {!userLoading ? (
                 <>
                   {user ? (
                     <>
