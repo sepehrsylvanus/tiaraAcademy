@@ -345,7 +345,9 @@
     "contactUs": "Contact us",
     "pp": "Privacy & Policy",
     "websiteDescTitle": "Tiara Academy | Your All-in-One Language Learning Solution ",
-    "websiteDesc": "Tiara Academy specializes in providing a complete language learning experience with offline and online video courses, professional writing services for feedback and improvement, and reading services to enhance comprehension and fluency. Our expert resources and tailored support make achieving your language goals easier than ever."
+    "websiteDesc": "Tiara Academy specializes in providing a complete language learning experience with offline and online video courses, professional writing services for feedback and improvement, and reading services to enhance comprehension and fluency. Our expert resources and tailored support make achieving your language goals easier than ever.",
+    "haveToLogin": "You must be logged in to use website's features",
+    "login": "Login"
   },
   "PaymentRedirect": {
     "paymentSuccessful": "Payment Successful",

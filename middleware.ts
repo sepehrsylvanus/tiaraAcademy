@@ -3,7 +3,7 @@ import type { NextRequest } from "next/server";
 export function middleware(request: NextRequest) {
   const currentUser = request.cookies.get("token")?.value;
 
-  if (!currentUser && request.nextUrl.pathname.startsWith("/hub")) {
+  if (!currentUser && request.nextUrl.pathname === "/hub") {
     return Response.redirect(new URL("/sign-in", request.url));
   }
   if (

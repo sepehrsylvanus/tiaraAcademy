@@ -17,11 +17,12 @@ import ClerkAvatar from "../reusableComponents/ClerkAvatar";
 import { CircularProgress } from "@mui/material";
 import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium";
 import { useTranslations } from "next-intl";
+import { Button } from "../ui/button";
 const Sidebar = () => {
   const t = useTranslations("SideBar");
   const [token, setToken] = useState<string>();
   const [user, setUser] = useState<UserProps>();
-
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     const retrieveToken = async () => {
       const token = await getToken();
@@ -45,56 +46,78 @@ const Sidebar = () => {
     if (token) {
       getUserInformation();
     }
+    setLoading(false);
   }, [token]);
 
   return (
-    <div className={styles.sidebar}>
-      <div className={styles.userContainer}>
-        <div className={styles.accountInfo}>
-          <ClerkAvatar />
+    <div>
+      <div
+        className={`${styles.sidebar} ${
+          !user ? "opacity-20 relative pointer-events-none" : ""
+        }`}
+      >
+        <div className={styles.userContainer}>
+          <div className={styles.accountInfo}>
+            <ClerkAvatar />
 
-          <div className={styles.accountInfoDetails}>
-            {user ? (
-              <>
-                <span>{`${user?.fName} ${user?.lName}`}</span>
-                <span>{user?.email}</span>
-              </>
-            ) : (
-              <CircularProgress
-                sx={{ color: "black", transform: "scale(.7)" }}
-              />
-            )}
+            <div className={styles.accountInfoDetails}>
+              {loading ? (
+                <>
+                  {user ? (
+                    <>
+                      <span>{`${user?.fName} ${user?.lName}`}</span>
+                      <span>{user?.email}</span>
+                    </>
+                  ) : (
+                    <>
+                      <span></span>
+                      <span></span>
+                    </>
+                  )}
+                </>
+              ) : (
+                <CircularProgress
+                  sx={{ color: "black", transform: "scale(.7)" }}
+                />
+              )}
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className={styles.iconsContainer}>
-        <Link href={"/hub"} className={styles.iconContainer}>
-          <GridViewIcon />
-          <p className={styles.menuText}>{t("hub")}</p>
-        </Link>
-        <Link href={"/hub/classes"} className={styles.iconContainer}>
-          <AccessTimeIcon />
-          <p className={styles.menuText}>{t("classes")}</p>
-        </Link>
-        <Link href={"/hub/videos"} className={styles.iconContainer}>
-          <OndemandVideoIcon />
-          <p className={styles.menuText}>{t("videos")}</p>
-        </Link>
-        <Link href={"/hub/writing"} className={styles.iconContainer}>
-          <EditNoteIcon />
-          <p className={styles.menuText}>{t("writing")}</p>
-        </Link>
-        <Link href={"/hub/blogs"} className={styles.iconContainer}>
-          <NoteAltIcon />
-          <p className={styles.menuText}>{t("blog")}</p>
-        </Link>
+        <div className={styles.iconsContainer}>
+          <Link href={"/hub"} className={styles.iconContainer}>
+            <GridViewIcon />
+            <p className={styles.menuText}>{t("hub")}</p>
+          </Link>
+          <Link href={"/hub/classes"} className={styles.iconContainer}>
+            <AccessTimeIcon />
+            <p className={styles.menuText}>{t("classes")}</p>
+          </Link>
+          <Link href={"/hub/videos"} className={styles.iconContainer}>
+            <OndemandVideoIcon />
+            <p className={styles.menuText}>{t("videos")}</p>
+          </Link>
+          <Link href={"/hub/writing"} className={styles.iconContainer}>
+            <EditNoteIcon />
+            <p className={styles.menuText}>{t("writing")}</p>
+          </Link>
+          <Link href={"/hub/blogs"} className={styles.iconContainer}>
+            <NoteAltIcon />
+            <p className={styles.menuText}>{t("blog")}</p>
+          </Link>
 
-        <Link href={"/hub/teachers"} className={styles.iconContainer}>
-          <PeopleIcon />
-          <p className={styles.menuText}>{t("teachers")}</p>
-        </Link>
+          <Link href={"/hub/teachers"} className={styles.iconContainer}>
+            <PeopleIcon />
+            <p className={styles.menuText}>{t("teachers")}</p>
+          </Link>
+        </div>
       </div>
+      <p className="z-10 rotate-90 absolute ltr:-left-48 rtl:-right-52 top-1/2 flex gap-4 items-center">
+        {t("haveToLogin")}
+        <Link href={"/sign-in"}>
+          <Button>{t("login")}</Button>
+        </Link>
+      </p>
     </div>
   );
 };

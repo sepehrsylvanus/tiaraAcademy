@@ -258,6 +258,7 @@ export const deleteVideoCourse = async (id: string) => {
       videoCourseSession: true,
     },
   });
+  
 
   const sessions = course?.videoCourseSession;
   const s3 = new S3({
@@ -265,6 +266,12 @@ export const deleteVideoCourse = async (id: string) => {
     secretAccessKey: process.env.NEXT_PUBLIC_LIARA_SECRET_ACCESS_KEY,
     endpoint: process.env.NEXT_PUBLIC_LIARA_ENDPOINT,
   });
+  // s3
+  // .deleteObject({
+  //   Bucket: process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME!,
+  //   Key: course.,
+  // })
+  // .promise()
   try {
     if (sessions?.length) {
       await Promise.all(
