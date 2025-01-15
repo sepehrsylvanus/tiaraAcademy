@@ -313,6 +313,7 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
                     </DialogTrigger>
                     <DialogContent className="flex flex-col items-center">
                       <Link
+                        target="_blank"
                         href={videoDetails?.materialsGoogleDriveLink ?? "#"}
                         className="w-full md:w-auto"
                       >
