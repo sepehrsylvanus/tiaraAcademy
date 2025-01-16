@@ -10,7 +10,7 @@ import NoteAltIcon from "@mui/icons-material/NoteAlt";
 import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import { getToken } from "@/actions/actions";
-import { getSingleUser } from "@/actions/userActions";
+
 import { UserProps } from "@/utils/types";
 
 import ClerkAvatar from "../reusableComponents/ClerkAvatar";
@@ -18,36 +18,10 @@ import { CircularProgress } from "@mui/material";
 import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium";
 import { useTranslations } from "next-intl";
 import { Button } from "../ui/button";
+import { useGetUser } from "@/hooks/useUsers";
 const Sidebar = () => {
   const t = useTranslations("SideBar");
-  const [token, setToken] = useState<string>();
-  const [user, setUser] = useState<UserProps>();
-  const [loading, setLoading] = useState(false);
-  useEffect(() => {
-    const retrieveToken = async () => {
-      const token = await getToken();
-
-      if (token) {
-        setToken(token?.value);
-      }
-    };
-
-    retrieveToken();
-  }, []);
-
-  useEffect(() => {
-    const getUserInformation = async () => {
-      const userInfo = await getSingleUser()!;
-
-      if (userInfo) {
-        setUser(userInfo);
-      }
-    };
-    if (token) {
-      getUserInformation();
-    }
-    setLoading(false);
-  }, [token]);
+  const { data: user, isLoading: loading } = useGetUser();
 
   return (
     <div>
@@ -61,7 +35,7 @@ const Sidebar = () => {
             <ClerkAvatar />
 
             <div className={styles.accountInfoDetails}>
-              {loading ? (
+              {!loading ? (
                 <>
                   {user ? (
                     <>
@@ -112,12 +86,14 @@ const Sidebar = () => {
           </Link>
         </div>
       </div>
-      <p className="z-10 rotate-90 absolute ltr:-left-48 rtl:-right-52 top-1/2 flex gap-4 items-center">
-        {t("haveToLogin")}
-        <Link href={"/sign-in"}>
-          <Button>{t("login")}</Button>
-        </Link>
-      </p>
+      {!user && (
+        <p className="z-10 rotate-90 fixed ltr:-left-48 rtl:-right-52 top-1/2 flex gap-4 items-center">
+          {t("haveToLogin")}
+          <Link href={"/sign-in"}>
+            <Button>{t("login")}</Button>
+          </Link>
+        </p>
+      )}
     </div>
   );
 };
