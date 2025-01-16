@@ -4,13 +4,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useGetAllNotifs, useGetNotifs } from "@/hooks/useNotifs";
 
 import { Search } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 const Notifications = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
-  const { data: notifs } = useGetAllNotifs(searchQuery);
-
+  const { data: notifs } = useGetAllNotifs();
+  console.log(notifs);
   return (
     <div className="container">
       <Tabs defaultValue="all">

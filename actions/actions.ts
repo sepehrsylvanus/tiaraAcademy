@@ -534,20 +534,20 @@ export const getNotifs = async () => {
   }
 };
 
-export const getAllNotifs = async (userId: string): Promise<Notif[]> => {
-  const notifs = (await prisma.notifs.findMany({
-    where: {
-      userId: {
-        startsWith: userId,
+export const getAllNotifs = async () => {
+  try {
+    const notifs = await prisma.notifs.findMany({
+      include: {
+        cls: true,
+        user: true,
       },
-    },
-    include: {
-      cls: true,
-      user: true,
-    },
-  })) as unknown as Notif[];
+    });
 
-  return notifs;
+    return notifs;
+  } catch (error: any) {
+    console.log(error.message);
+    throw new Error(error.message);
+  }
 };
 
 export const readNotif = async (id: string) => {

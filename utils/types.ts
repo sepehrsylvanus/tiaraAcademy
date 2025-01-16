@@ -166,7 +166,7 @@ export interface Notif {
   user: User;
   createdAt: Date;
   userId: string;
-  classId?: string;
-  cls?: Class;
+  classId?: string | null;
+  cls?: Class | null;
   classTime: string;
 }
