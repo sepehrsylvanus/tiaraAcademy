@@ -16,10 +16,8 @@ import {
   useAddFreeVideoCourse,
   useEditvideoCourse,
   useGetCourseVideosDetails,
-  useGetRegisteredFreeVideoCourse,
-  useGetVerifiedCoursePayment,
 } from "@/hooks/useVideos";
-import { VideoCourses } from "@/constants";
+
 import { useGetUser } from "@/hooks/useUsers";
 import { useRouter } from "next/navigation";
 import { buyVideoCourse, getVerifiedCoursePayment } from "@/actions/payment";
@@ -38,6 +36,7 @@ import { Input } from "@/components/ui/input";
 import { VideoCourse } from "@/utils/types";
 import TextEditor from "@/components/TextEditor";
 import { Textarea } from "@/components/ui/textarea";
+import { extractPaths } from "@/utils/helperFunctions";
 
 type SingleVideoProps = {
   params: {
@@ -56,16 +55,19 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
   const t = useTranslations("VideoCourse");
   const editDialogTranslations = useTranslations("EditDialog");
   const [openComment, setOpenComment] = useState(false);
-  const [verifiedCourse, setVerifiedCourse] = useState<verifiedCourse[]>();
+  const [verifiedCourse, setVerifiedCourse] = useState<verifiedCourse[]>([]);
+  useEffect(() => {
+    console.log(verifiedCourse);
+  }, [verifiedCourse]);
+
   const [registeredVideoCourse, setRegisteredVideoCourse] = useState<any>();
+  const [registeredVideoCourseLoading, setRegisteredVideoCourseLoading] =
+    useState(true);
   const { data: videoDetails, isLoading: videoDetailsLoading } =
     useGetCourseVideosDetails(params.id);
   const { mutate: editVideo } = useEditvideoCourse();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [editingVideo, setEditingVideo] = useState<VideoCourse | null>();
-  useEffect(() => {
-    console.log(editingVideo);
-  }, [editingVideo]);
+  const [editingVideo, setEditingVideo] = useState<VideoCourse | null>(null);
 
   const [explenation, setExplenation] = useState<string>("");
   const router = useRouter();
@@ -95,7 +97,9 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
           userId: currentUser.id,
         });
         setVerifiedCourse(verifiedCourse);
+        setRegisteredVideoCourseLoading(false);
       }
+      setRegisteredVideoCourseLoading(false);
     };
     getVerifiedCourse();
   }, [currentUser, params]);
@@ -163,11 +167,12 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
 
   // END OF EDIT VIDEO COURSE
 
-  const ifbuyed = verifiedCourse && verifiedCourse.length > 0;
-  if (!videoDetailsLoading && registeredVideoCourse) {
+  const ifbuyed = verifiedCourse.length > 0;
+
+  if (!videoDetailsLoading && !registeredVideoCourseLoading) {
     const discountedPrice = Number(videoDetails?.discountedPrice);
     const discount = Number(videoDetails?.discount);
-
+    console.log(extractPaths());
     return (
       <div className="md:w-9/12  pb-[6em] mx-auto w-full md:px-0 px-4">
         <section
@@ -199,7 +204,9 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
                 </Button>
               )}
 
-              {!currentUserLoading && currentUser?.role !== "student" ? (
+              {!currentUserLoading &&
+              currentUser &&
+              currentUser?.role !== "student" ? (
                 <div className="flex flex-col gap-2">
                   <Link
                     href={`/hub/videos/${params.id}/edit`}

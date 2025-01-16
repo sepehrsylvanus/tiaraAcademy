@@ -1,5 +1,3 @@
-import { getAllVideos } from "@/actions/videos/videos.action";
-
 export const formatTimeFromNow = (createdAt: Date): string => {
   const now = new Date();
   const diffMilliseconds = now.getTime() - createdAt.getTime();
@@ -78,3 +76,31 @@ export function makeEnglishDaysUppercase(days: string[]) {
     .join(" / ");
   return newDays;
 }
+const getPathsFromInternalTree = (tree: any): string[] => {
+  const paths: string[] = [];
+
+  const traverseTree = (node: any): void => {
+    if (!node) return;
+
+    if (Array.isArray(node)) {
+      node.forEach((child) => traverseTree(child));
+    } else if (typeof node === "string") {
+      paths.push(node);
+    } else if (typeof node === "object") {
+      Object.values(node).forEach((child) => traverseTree(child));
+    }
+  };
+
+  traverseTree(tree);
+  return paths;
+};
+
+export const extractPaths = (): string[] => {
+  if (typeof window !== "undefined" && history.state) {
+    const tree = (history.state as any).__PRIVATE_NEXTJS_INTERNALS_TREE;
+    if (tree) {
+      return getPathsFromInternalTree(tree);
+    }
+  }
+  return [];
+};

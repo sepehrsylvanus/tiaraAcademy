@@ -16,6 +16,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { Axios } from "@/utils/axiosIn";
 import { useTranslations } from "next-intl";
+import { extractPaths } from "@/utils/helperFunctions";
 
 const formSchema = z.object({
   email: z.string().min(2).max(50),
@@ -51,6 +52,7 @@ const Login = () => {
         setSending(false);
       });
   }
+  console.log(extractPaths());
   return (
     <div className={styles.container}>
       <div className={`${styles.details} bg-lightText text-lightPrime `}>

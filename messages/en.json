@@ -419,7 +419,8 @@
     "free": "Free",
     "addToAccount": "Add to account",
     "alreadyAdd": "You already added this course to your account",
-    "editCourse": "Edit video course"
+    "editCourse": "Edit video course",
+    "loginFirst": "First login by this button in order to put comment"
   },
   "EditDialog": {
     "editVideoCourse": "Edit video course",
