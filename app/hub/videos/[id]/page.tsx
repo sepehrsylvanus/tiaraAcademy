@@ -37,6 +37,7 @@ import { VideoCourse } from "@/utils/types";
 import TextEditor from "@/components/TextEditor";
 import { Textarea } from "@/components/ui/textarea";
 import { extractPaths } from "@/utils/helperFunctions";
+import { CircularProgress } from "@mui/material";
 
 type SingleVideoProps = {
   params: {
@@ -172,7 +173,6 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
   if (!videoDetailsLoading && !registeredVideoCourseLoading) {
     const discountedPrice = Number(videoDetails?.discountedPrice);
     const discount = Number(videoDetails?.discount);
-    console.log(extractPaths());
     return (
       <div className="md:w-9/12  pb-[6em] mx-auto w-full md:px-0 px-4">
         <section
@@ -182,167 +182,193 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
           <div id="text " className="order-2 md:order-none">
             <h2 className="mb-4">{videoDetails?.title}</h2>
             <p>{videoDetails?.description}</p>
-            <div
-              id="price&register"
-              className="flex justify-between mt-4 flex-col-reverse md:flex-row items-center gap-5"
-            >
-              {ifbuyed || registeredVideoCourse?.length > 0 ? (
-                <Button
-                  className=" md:w-auto mt-2 md:mt-0 bg-green-500 pointer-events-none  break-all flex-1"
-                  onClick={handleBuyCourse}
-                >
-                  {videoDetails?.price !== 0
-                    ? t("alreadyBought")
-                    : t("alreadyAdd")}
-                </Button>
-              ) : (
-                <Button
-                  className="w-full md:w-auto mt-2 md:mt-0 flex-1"
-                  onClick={handleBuyCourse}
-                >
-                  {videoDetails?.price !== 0 ? t("buy") : t("addToAccount")}
-                </Button>
-              )}
-
-              {!currentUserLoading &&
-              currentUser &&
-              currentUser?.role !== "student" ? (
-                <div className="flex flex-col gap-2">
-                  <Link
-                    href={`/hub/videos/${params.id}/edit`}
-                    className="w-full md:w-auto"
+            {!currentUserLoading && currentUser && (
+              <div
+                id="price&register"
+                className="flex justify-between mt-4 flex-col-reverse md:flex-row items-center gap-5"
+              >
+                {ifbuyed || registeredVideoCourse?.length > 0 ? (
+                  <Button
+                    className=" md:w-auto mt-2 md:mt-0 bg-green-500 pointer-events-none  break-all flex-1"
+                    onClick={handleBuyCourse}
                   >
-                    <Button className="w-full md:w-auto mt-2 md:mt-0 flex gap-2 flex-1">
-                      <EditIcon /> {t("manageThisCourse")}
-                    </Button>
-                  </Link>
-                  <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                    <DialogTrigger asChild>
-                      <Button
-                        className={`hover:bg-accent `}
-                        onClick={() => handleEdit(videoDetails!)}
-                      >
-                        {t("editCourse")}
+                    {videoDetails?.price !== 0
+                      ? t("alreadyBought")
+                      : t("alreadyAdd")}
+                  </Button>
+                ) : (
+                  <Button
+                    className="w-full md:w-auto mt-2 md:mt-0 flex-1"
+                    onClick={handleBuyCourse}
+                  >
+                    {videoDetails?.price !== 0 ? t("buy") : t("addToAccount")}
+                  </Button>
+                )}
+
+                {!currentUserLoading &&
+                currentUser &&
+                currentUser?.role !== "student" ? (
+                  <div className="flex flex-col gap-2">
+                    <Link
+                      href={`/hub/videos/${params.id}/edit`}
+                      className="w-full md:w-auto"
+                    >
+                      <Button className="w-full md:w-auto mt-2 md:mt-0 flex gap-2 flex-1">
+                        <EditIcon /> {t("manageThisCourse")}
                       </Button>
-                    </DialogTrigger>
-                    <DialogContent className="h-[70vh] overflow-y-scroll">
-                      <DialogHeader>
-                        <DialogTitle>
-                          {editDialogTranslations("editVideoCourse")}
-                        </DialogTitle>
-                      </DialogHeader>
-                      <form onSubmit={handleSave} className="grid gap-4 py-4 ">
-                        <div className="grid gap-2">
-                          <Label htmlFor="name">
-                            {editDialogTranslations("videoCourseName")}
-                          </Label>
-                          <Input
-                            id="name"
-                            value={editingVideo?.title ?? ""}
-                            onChange={(e) => handleInputChange(e, "title")}
-                            required
-                          />
-                        </div>
-                        <div className="grid gap-2">
-                          <Label htmlFor="price">
-                            {editDialogTranslations("price")}
-                          </Label>
-                          <Input
-                            id="price"
-                            step="0.01"
-                            value={editingVideo?.price ?? 0}
-                            onChange={(e) => handleInputChange(e, "price")}
-                            required
-                          />
-                        </div>
-                        <div className="grid gap-2">
-                          <Label htmlFor="discount">
-                            {editDialogTranslations("discount")} (%)
-                          </Label>
-                          <Input
-                            id="discount"
-                            min="0"
-                            max="100"
-                            value={editingVideo?.discount ?? 0}
-                            onChange={(e) => handleInputChange(e, "discount")}
-                          />
-                        </div>
-                        <div className="grid gap-2">
-                          <Label htmlFor="description">
-                            {editDialogTranslations("description")}
-                          </Label>
-                          <Textarea
-                            id="description"
-                            value={editingVideo?.description ?? ""}
-                            onChange={(e) =>
-                              handleInputChange(e, "description")
-                            }
-                          />
-                        </div>
-                        <div className="grid gap-2 overflow-y-scroll">
-                          <Label htmlFor="discount">
-                            {editDialogTranslations("explenation")}
-                          </Label>
-                          <TextEditor
-                            textEditorContent={explenation}
-                            setTextEditorContent={setExplenation}
-                          />
-                        </div>
-                        <div className="flex gap-4 justify-end">
-                          <Button
-                            type="button"
-                            variant="outline"
-                            onClick={() => setIsDialogOpen(false)}
-                          >
-                            {editDialogTranslations("cancel")}
-                          </Button>
-                          <Button type="submit">
-                            {editDialogTranslations("saveChanges")}
-                          </Button>
-                        </div>
-                      </form>
-                    </DialogContent>
-                  </Dialog>
-                </div>
-              ) : (
-                ifbuyed && (
-                  <Link
-                    href={videoDetails?.materialsLink ?? "#"}
-                    className="w-full md:w-auto"
-                  >
-                    <Button className="w-full md:w-auto mt-2 md:mt-0 flex gap-2 flex-1">
-                      <EditIcon /> {t("downloadMaterials")}
-                    </Button>
-                  </Link>
-                )
-              )}
-              {!ifbuyed && videoDetails?.price !== 0 && (
-                <div className="flex flex-col gap-2">
-                  <p
-                    className={`font-bold ${
-                      discount && discount > 0
-                        ? "line-through text-red-500"
-                        : ""
-                    }`}
-                  >
-                    <span className="mr-1">{videoDetails?.price}</span>
-                    {t("toman")}
-                  </p>
-
-                  {discount > 0 && (
-                    <p className="font-bold ">
-                      <span className="mr-1">{discountedPrice}</span>
+                    </Link>
+                    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                      <DialogTrigger asChild>
+                        <Button
+                          className={`hover:bg-accent `}
+                          onClick={() => handleEdit(videoDetails!)}
+                        >
+                          {t("editCourse")}
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent className="h-[70vh] overflow-y-scroll">
+                        <DialogHeader>
+                          <DialogTitle>
+                            {editDialogTranslations("editVideoCourse")}
+                          </DialogTitle>
+                        </DialogHeader>
+                        <form
+                          onSubmit={handleSave}
+                          className="grid gap-4 py-4 "
+                        >
+                          <div className="grid gap-2">
+                            <Label htmlFor="name">
+                              {editDialogTranslations("videoCourseName")}
+                            </Label>
+                            <Input
+                              id="name"
+                              value={editingVideo?.title ?? ""}
+                              onChange={(e) => handleInputChange(e, "title")}
+                              required
+                            />
+                          </div>
+                          <div className="grid gap-2">
+                            <Label htmlFor="price">
+                              {editDialogTranslations("price")}
+                            </Label>
+                            <Input
+                              id="price"
+                              step="0.01"
+                              value={editingVideo?.price ?? 0}
+                              onChange={(e) => handleInputChange(e, "price")}
+                              required
+                            />
+                          </div>
+                          <div className="grid gap-2">
+                            <Label htmlFor="discount">
+                              {editDialogTranslations("discount")} (%)
+                            </Label>
+                            <Input
+                              id="discount"
+                              min="0"
+                              max="100"
+                              value={editingVideo?.discount ?? 0}
+                              onChange={(e) => handleInputChange(e, "discount")}
+                            />
+                          </div>
+                          <div className="grid gap-2">
+                            <Label htmlFor="description">
+                              {editDialogTranslations("description")}
+                            </Label>
+                            <Textarea
+                              id="description"
+                              value={editingVideo?.description ?? ""}
+                              onChange={(e) =>
+                                handleInputChange(e, "description")
+                              }
+                            />
+                          </div>
+                          <div className="grid gap-2 overflow-y-scroll">
+                            <Label htmlFor="discount">
+                              {editDialogTranslations("explenation")}
+                            </Label>
+                            <TextEditor
+                              textEditorContent={explenation}
+                              setTextEditorContent={setExplenation}
+                            />
+                          </div>
+                          <div className="flex gap-4 justify-end">
+                            <Button
+                              type="button"
+                              variant="outline"
+                              onClick={() => setIsDialogOpen(false)}
+                            >
+                              {editDialogTranslations("cancel")}
+                            </Button>
+                            <Button type="submit">
+                              {editDialogTranslations("saveChanges")}
+                            </Button>
+                          </div>
+                        </form>
+                      </DialogContent>
+                    </Dialog>
+                  </div>
+                ) : (
+                  ifbuyed && (
+                    <Link
+                      href={videoDetails?.materialsLink ?? "#"}
+                      className="w-full md:w-auto"
+                    >
+                      <Button className="w-full md:w-auto mt-2 md:mt-0 flex gap-2 flex-1">
+                        <EditIcon /> {t("downloadMaterials")}
+                      </Button>
+                    </Link>
+                  )
+                )}
+                {!ifbuyed && videoDetails?.price !== 0 && (
+                  <div className="flex flex-col gap-2">
+                    <p
+                      className={`font-bold ${
+                        discount && discount > 0
+                          ? "line-through text-red-500"
+                          : ""
+                      }`}
+                    >
+                      <span className="mr-1">{videoDetails?.price}</span>
                       {t("toman")}
                     </p>
-                  )}
+
+                    {discount > 0 && (
+                      <p className="font-bold ">
+                        <span className="mr-1">{discountedPrice}</span>
+                        {t("toman")}
+                      </p>
+                    )}
+                  </div>
+                )}
+                {videoDetails?.price === 0 && (
+                  <p className="border border-lightText p-2 rounded-md pointer-events-none">
+                    {t("free")}
+                  </p>
+                )}
+              </div>
+            )}
+
+            {!currentUserLoading ? (
+              !currentUser && (
+                <div className="flex justify-between mt-4 flex-col-reverse  items-center gap-5 w-full">
+                  <Link href={"/sign-in"} className="w-full">
+                    <Button
+                      className=" md:w-auto mt-2 md:mt-0  pointer-events-none  break-all flex-1 !w-full"
+                      onClick={handleBuyCourse}
+                    >
+                      {t("loginFirst")}
+                    </Button>
+                  </Link>
                 </div>
-              )}
-              {videoDetails?.price === 0 && (
-                <p className="border border-lightText p-2 rounded-md pointer-events-none">
-                  {t("free")}
-                </p>
-              )}
-            </div>
+              )
+            ) : (
+              <div
+                className={`flex justify-center mt-4 flex-col-reverse  items-center gap-5 `}
+              >
+                <CircularProgress />
+              </div>
+            )}
           </div>
 
           <div
