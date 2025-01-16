@@ -50,7 +50,7 @@ const Videos = () => {
     });
     setFilteredVideos(filteredVideos);
   }, [name, category, videos]);
-  console.log(window.history);
+
   if (videos) {
     return (
       <div>

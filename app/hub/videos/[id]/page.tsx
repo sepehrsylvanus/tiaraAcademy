@@ -357,7 +357,7 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
                       className=" md:w-auto mt-2 md:mt-0  pointer-events-none  break-all flex-1 !w-full"
                       onClick={handleBuyCourse}
                     >
-                      {t("loginFirst")}
+                      {t("loginFirstBuy")}
                     </Button>
                   </Link>
                 </div>
