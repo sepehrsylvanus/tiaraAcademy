@@ -54,6 +54,11 @@ type verifiedCourse = {
   resnumber: string;
   verified: boolean;
 };
+type FreeCourseUser = {
+  id: string;
+  videoCourseId: string;
+  userId: string;
+}[];
 const SingleVideo = ({ params }: SingleVideoProps) => {
   const t = useTranslations("VideoCourse");
   const editDialogTranslations = useTranslations("EditDialog");
@@ -71,7 +76,7 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
   const { mutate: editVideo } = useEditvideoCourse();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  const [freeVideoUsers, setFreeVideoUsers] = useState<freeVideoUsers>([]);
+  const [freeVideoUsers, setFreeVideoUsers] = useState<FreeCourseUser>([]);
   const [editingVideo, setEditingVideo] = useState<VideoCourse | null>(null);
 
   const [explenation, setExplenation] = useState<string>("");
@@ -103,6 +108,7 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
         });
         setVerifiedCourse(verifiedCourse);
 
+        console.log(freeVideoUsers);
         setFreeVideoUsers(freeVideoUsers);
         setRegisteredVideoCourseLoading(false);
       }
