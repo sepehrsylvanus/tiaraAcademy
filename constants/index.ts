@@ -151,7 +151,7 @@ export const classesType = [
   },
   {
     title: "1-to-1 Classes",
-    type: "1v1",
+    type: "oneVOne",
   },
   {
     title: "Group Classes",

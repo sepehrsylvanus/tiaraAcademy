@@ -74,8 +74,8 @@ export default function StudentHub() {
                 >
                   <div className="relative">
                     <img
-                      src={featuredClass.imageLink}
-                      alt={featuredClass.imageName}
+                      src={featuredClass.imageLink ?? ""}
+                      alt={featuredClass.imageName ?? ""}
                       width="400"
                       height="200"
                       className="w-full h-52 object-cover"

@@ -18,24 +18,24 @@ export interface User {
 export interface Class {
   id: string;
 
-  ClassUsers: UserClasses;
+  ClassUsers?: UserClasses;
   teacher: User;
   teacherId: string;
   title: string;
   persianTitle: string;
-  type: "placement" | "1v1" | "group" | "workshop";
-  price: string;
+  type: "placement" | "oneVOne" | "group" | "workshop";
+  price: string | null;
   discountedPrice: string;
   capacity: number;
   days: string[];
-  date: Date;
+  date: Date | null;
   duration: string[];
   times: string[];
-  description: string;
+
   prerequisites: string[];
   outline: string[];
-  imageLink?: string;
-  imageName?: string;
+  imageLink?: string | null;
+  imageName?: string | null;
   createdAt: Date;
   link: string;
   discount: string;
@@ -168,5 +168,5 @@ export interface Notif {
   userId: string;
   classId?: string | null;
   cls?: Class | null;
-  classTime: string;
+  classTime: string | null;
 }

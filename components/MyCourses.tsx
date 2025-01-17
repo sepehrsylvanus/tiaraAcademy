@@ -113,7 +113,7 @@ const MyCourses = () => {
                   {myCourse.imageLink && (
                     <img
                       src={myCourse.imageLink}
-                      alt={myCourse.imageName}
+                      alt={myCourse.imageName ?? ""}
                       width="400"
                       height="200"
                       className="w-full h-52 object-cover"

@@ -408,7 +408,7 @@ const CreateClass = () => {
             <div
               className={`  col-span-2 ${
                 chosenType === "group" ||
-                chosenType === "1v1" ||
+                chosenType === "oneVOne" ||
                 chosenType === "workshop"
                   ? ""
                   : "opacity-50"

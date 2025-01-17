@@ -168,7 +168,7 @@ const Classes = ({ searchParams: { teacher } }: Props) => {
 
     formData.append("id", editingClass!.id);
     formData.append("title", editingClass!.title);
-    formData.append("price", editingClass!.price);
+    formData.append("price", editingClass!.price ?? "");
     formData.append("discount", editingClass!.discount);
     if (editingClass) {
       editClass(formData);

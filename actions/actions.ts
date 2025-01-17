@@ -538,7 +538,12 @@ export const getAllNotifs = async () => {
   try {
     const notifs = await prisma.notifs.findMany({
       include: {
-        cls: true,
+        cls: {
+          include: {
+            teacher: true,
+          },
+        },
+
         user: true,
       },
     });

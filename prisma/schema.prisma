@@ -57,6 +57,13 @@ enum VideoCourseCat {
   general
 }
 
+enum ClassType {
+  placement
+  oneVOne
+  group
+  workshop
+}
+
 model User {
   id                  String       @id @default(cuid()) @map("_id")
   fName               String
@@ -104,11 +111,11 @@ model Class {
   teacherId       String
   title           String
   persianTitle    String
-  type            String
+  type            ClassType
   price           String?
   discountedPrice String       @default("0")
   discount        String       @default("0")
-  capacity        Int?
+  capacity        Int
   days            String[]
   date            DateTime?
   duration        String[]

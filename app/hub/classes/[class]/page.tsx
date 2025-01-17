@@ -470,7 +470,7 @@ const MyClass = (details: DetailsProps) => {
                   )}
                 </div>
                 <img
-                  src={singleClass?.imageLink}
+                  src={singleClass?.imageLink ?? ""}
                   alt="class pic"
                   className="w-full"
                 />
