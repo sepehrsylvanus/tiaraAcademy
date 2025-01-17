@@ -23,7 +23,8 @@ const formSchema = z.object({
   password: z.string(),
   userAgent: z.string(),
 });
-const Login = () => {
+const Login = ({ searchParams }: { searchParams: { referrer?: string } }) => {
+  const referrer = searchParams.referrer || "/";
   const t = useTranslations("SignIn");
   const userAgent = window.navigator.userAgent;
   const router = useRouter();
@@ -44,7 +45,11 @@ const Login = () => {
       .then((res) => {
         setSending(false);
         toast.success(t("toast"));
-        router.push("/hub");
+        if (referrer === "/") {
+          router.push("/hub");
+        } else {
+          router.push(referrer);
+        }
       })
       .catch((e) => {
         setError(e.response.data.error);
