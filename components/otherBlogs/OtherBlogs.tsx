@@ -15,6 +15,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useChangeTrend } from "@/hooks/useArticles";
 import { useLocale, useTranslations } from "next-intl";
 import moment from "jalali-moment";
+import { useGetUser } from "@/hooks/useUsers";
 const OtherBlogs = ({ articles }: { articles?: Blogs[] }) => {
   const t = useTranslations("Articles");
   const locale = useLocale();
@@ -25,6 +26,7 @@ const OtherBlogs = ({ articles }: { articles?: Blogs[] }) => {
   const { mutate } = useChangeTrend();
 
   const handleToggleTrend = async (id: string) => {
+    const { data: currentUser } = useGetUser();
     const isAlreadyTrending = trendArticles?.some(
       (article) => article.id === id
     );
@@ -61,43 +63,49 @@ const OtherBlogs = ({ articles }: { articles?: Blogs[] }) => {
               className="transition hover:shadow-xl bg-extraBg text-lightPrime h-fit  relative"
               key={index}
             >
-              {article.trend ? (
-                <div
-                  className="absolute top-4 right-4"
-                  onClick={() => handleToggleTrend(article.id)}
-                >
-                  <Whatshot
-                    sx={{
-                      color: "#f1c40f",
-                      borderRadius: 5,
-                      border: "1px solid black",
-                      cursor: "pointer",
-                      "&:hover": {
-                        transition: ".5s all",
-                        color: "black",
-                      },
-                    }}
-                  />
-                </div>
-              ) : (
-                <div
-                  className="absolute top-4 right-4"
-                  onClick={() => handleToggleTrend(article.id)}
-                >
-                  <WhatshotOutlined
-                    sx={{
-                      color: "black",
-                      border: "1px solid  black",
-                      borderRadius: 5,
-                      cursor: "pointer",
-                      "&:hover": {
-                        transition: ".5s all",
-                        color: "#f1c40f",
-                      },
-                    }}
-                  />
-                </div>
-              )}
+              {currentUser &&
+                (currentUser.role === "admin" ||
+                  currentUser?.role === "adminTeacher") && (
+                  <>
+                    {article.trend ? (
+                      <div
+                        className="absolute top-4 right-4"
+                        onClick={() => handleToggleTrend(article.id)}
+                      >
+                        <Whatshot
+                          sx={{
+                            color: "#f1c40f",
+                            borderRadius: 5,
+                            border: "1px solid black",
+                            cursor: "pointer",
+                            "&:hover": {
+                              transition: ".5s all",
+                              color: "black",
+                            },
+                          }}
+                        />
+                      </div>
+                    ) : (
+                      <div
+                        className="absolute top-4 right-4"
+                        onClick={() => handleToggleTrend(article.id)}
+                      >
+                        <WhatshotOutlined
+                          sx={{
+                            color: "black",
+                            border: "1px solid  black",
+                            borderRadius: 5,
+                            cursor: "pointer",
+                            "&:hover": {
+                              transition: ".5s all",
+                              color: "#f1c40f",
+                            },
+                          }}
+                        />
+                      </div>
+                    )}
+                  </>
+                )}
 
               <Link href={`/hub/blogs/${article.id}`}>
                 {article.image && (
