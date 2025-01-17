@@ -87,7 +87,7 @@ const Sidebar = () => {
         </div>
       </div>
       {!user && (
-        <p className="z-10 rotate-90 fixed ltr:-left-48 rtl:-right-40 top-1/2 flex gap-4 items-center">
+        <p className="z-10 rotate-90 fixed ltr:-left-44 rtl:-right-52 top-1/2 flex gap-4 items-center">
           {t("haveToLogin")}
           <Link href={"/sign-in"}>
             <Button>{t("login")}</Button>
