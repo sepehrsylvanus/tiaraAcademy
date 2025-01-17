@@ -23,6 +23,7 @@ import { useGetAllVideos } from "@/hooks/useVideos";
 import { useTranslations } from "next-intl";
 import { toast } from "react-toastify";
 import { useGetUser } from "@/hooks/useUsers";
+import { extractPaths } from "@/utils/helperFunctions";
 
 const copyToClipboard = (text: string) => {
   navigator.clipboard.writeText(text).then(() => {

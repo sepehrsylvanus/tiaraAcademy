@@ -10,12 +10,15 @@ import TelegramIcon from "@mui/icons-material/Telegram";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import FaqPreview from "@/components/FaqPreview";
 import { Separator } from "@/components/ui/separator";
+import { extractPaths } from "@/utils/helperFunctions";
 export default async function Home() {
   const translations = (await getMessages()) as any;
 
   const t = translations.LandingPage;
   const landingPageTranslations = translations.Layout;
   const sBarTranslations = translations.SideBar;
+  console.log(extractPaths());
+
   return (
     <div
       className={`${styles.container} bg-lightPrime flex flex-col items-center `}

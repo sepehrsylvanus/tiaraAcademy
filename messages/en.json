@@ -255,7 +255,8 @@
     "alreadyPlacement": "Your placement appointment is",
     "at": "at",
     "classLink": "Your class link",
-    "clickToEnter": "Click to enter"
+    "clickToEnter": "Click to enter",
+    "loginFirstBuy": "First login by this button in order to reserve this class"
   },
 
   "PendingTeacher": {
@@ -421,7 +422,9 @@
     "free": "Free",
     "addToAccount": "Add to account",
     "alreadyAdd": "You already added this course to your account",
-    "editCourse": "Edit video course"
+    "editCourse": "Edit video course",
+    "loginFirst": "First login by this button in order to put comment",
+    "loginFirstBuy": "First login by this button in order to buy this course"
   },
   "EditDialog": {
     "editVideoCourse": "Edit video course",

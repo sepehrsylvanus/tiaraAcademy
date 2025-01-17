@@ -17,7 +17,6 @@ import { FormProvider, useForm } from "react-hook-form";
 import { Class } from "@/utils/types";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useQuery } from "@tanstack/react-query";
 import { useGetClasses } from "@/hooks/useClasses";
 import { Button } from "@/components/ui/button";
 import { useLocale, useTranslations } from "next-intl";
@@ -37,6 +36,7 @@ import {
   convertDaysToPersian,
   makeEnglishDaysUppercase,
 } from "@/utils/helperFunctions";
+import Image from "next/image";
 
 type DetailsProps = {
   params: {
@@ -51,7 +51,7 @@ const classValidation = z.object({
 });
 const MyClass = (details: DetailsProps) => {
   const [chosenTime, setChosenTime] = useState("");
-  const [registeredClasses, setRegisteredClasses] = useState<ClassUsers[]>();
+  const [registeredClasses, setRegisteredClasses] = useState<ClassUsers[]>([]);
   const [allRegistered, setAllRegistered] = useState<ClassUsers[]>();
   const [timeError, setTimeError] = useState("");
   const t = useTranslations("SingleClass");
@@ -177,109 +177,122 @@ const MyClass = (details: DetailsProps) => {
       }
     }
   };
-
-  return (
-    <FormProvider {...registerForm}>
-      <form
-        className={styles.container}
-        onSubmit={registerForm.handleSubmit(onSubmit)}
-      >
-        <section className={styles.header}>
-          <div className={styles.navbar}>
-            <h1 className="font-bold text-2xl md:h1">English Lessons</h1>
-            <Link className="brownLink" href={"/hub/classes"}>
-              تغییر کلاس جاری
-            </Link>
-          </div>
-          {singleClass?.teacher ? (
-            <h2 className={`${styles.title} `}>
-              {locale === "en"
-                ? `${singleClass?.title
-                    .split("-")
-                    .map(
-                      (word: string) =>
-                        word.charAt(0).toUpperCase() + word.slice(1)
-                    )
-                    .join(" ")} - ${singleClass?.teacher.fName} ${
-                    singleClass?.teacher.lName
-                  }`
-                : `${singleClass?.persianTitle
-                    .split("-")
-                    .map(
-                      (word: string) =>
-                        word.charAt(0).toUpperCase() + word.slice(1)
-                    )
-                    .join(" ")} - ${singleClass?.teacher.fName} ${
-                    singleClass?.teacher.lName
-                  }`}
-            </h2>
-          ) : (
-            <div className="flex justify-center">
-              <CircularProgress
-                sx={{ color: "#072d44", transform: "scale(.7)" }}
-              />
+  console.log(currentUserLoading);
+  if (!currentUserLoading) {
+    return (
+      <FormProvider {...registerForm}>
+        <form
+          className={styles.container}
+          onSubmit={registerForm.handleSubmit(onSubmit)}
+        >
+          <section className={styles.header}>
+            <div className={styles.navbar}>
+              <h1 className="font-bold text-2xl md:h1">English Lessons</h1>
+              <Link className="brownLink" href={"/hub/classes"}>
+                تغییر کلاس جاری
+              </Link>
             </div>
-          )}
-        </section>
-        <Divider sx={{ marginTop: "1em" }} />
-        {singleClass?.type === "placement" &&
-          registeredClasses &&
-          registeredClasses?.length > 0 && (
-            <p className="text-center text-xl mt-4 border p-4  border-green-500">
-              {t("alreadyPlacement")} {renderAppointementDate()} {t("at")}{" "}
-              {registeredClasses[0].time}
-              <p className="font-bold">
-                <Link href={singleClass.link}>{t("clickToEnter")}</Link>
+            {singleClass?.teacher ? (
+              <h2 className={`${styles.title} `}>
+                {locale === "en"
+                  ? `${singleClass?.title
+                      .split("-")
+                      .map(
+                        (word: string) =>
+                          word.charAt(0).toUpperCase() + word.slice(1)
+                      )
+                      .join(" ")} - ${singleClass?.teacher.fName} ${
+                      singleClass?.teacher.lName
+                    }`
+                  : `${singleClass?.persianTitle
+                      .split("-")
+                      .map(
+                        (word: string) =>
+                          word.charAt(0).toUpperCase() + word.slice(1)
+                      )
+                      .join(" ")} - ${singleClass?.teacher.fName} ${
+                      singleClass?.teacher.lName
+                    }`}
+              </h2>
+            ) : (
+              <div className="flex justify-center">
+                <CircularProgress
+                  sx={{ color: "#072d44", transform: "scale(.7)" }}
+                />
+              </div>
+            )}
+          </section>
+          <Divider sx={{ marginTop: "1em" }} />
+          {singleClass?.type === "placement" &&
+            registeredClasses &&
+            registeredClasses?.length > 0 && (
+              <p className="text-center text-xl mt-4 border p-4  border-green-500">
+                {t("alreadyPlacement")} {renderAppointementDate()} {t("at")}{" "}
+                {registeredClasses[0].time}
+                <p className="font-bold">
+                  <Link href={singleClass.link}>{t("clickToEnter")}</Link>
+                </p>
               </p>
-            </p>
-          )}
+            )}
 
-        {singleClass?.type === "placement" &&
-          registeredClasses &&
-          registeredClasses.length === 0 && (
-            <section className={styles.body}>
-              <div className={styles.classDetailsContainer}>
-                <div className={styles.nextClassContainer}></div>
-                <div className={styles.accessContainer}>
-                  {singleClass && (
-                    <div className=" scale-125 md:scale-150 my-[4em]">
-                      <ClassesDate
-                        selectedDate={selectedDate?.toISOString()}
-                        classId={params.class}
-                        classDates={singleClass?.days}
-                        singleClass={singleClass}
-                      />
-                    </div>
-                  )}
-                  {selectedDate && singleClass && (
-                    <div className={styles.chooseClassTime}>
-                      <div
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "1em",
-                        }}
-                      >
-                        <AccessTimeIcon />
-                        {classTime ? (
-                          classTime
-                        ) : (
-                          <span>زمانی انتخاب نشده است</span>
-                        )}
-                      </div>
-                      <div>
-                        <CustomSelect
-                          setChosenTime={setChosenTime}
-                          classId={params.class}
+          {singleClass?.type === "placement" &&
+            registeredClasses &&
+            registeredClasses.length === 0 && (
+              <section className={styles.body}>
+                <div className={styles.classDetailsContainer}>
+                  <div className={styles.nextClassContainer}></div>
+                  <div className={styles.accessContainer}>
+                    {singleClass && (
+                      <div className=" scale-125 md:scale-150 my-[4em]">
+                        <ClassesDate
                           selectedDate={selectedDate?.toISOString()}
-                          times={singleClass.times}
+                          classId={params.class}
+                          classDates={singleClass?.days}
+                          singleClass={singleClass}
                         />
                       </div>
-                    </div>
-                  )}
-                  {classTime &&
-                    selectedDate &&
-                    registeredClasses.length === 0 && (
+                    )}
+                    {selectedDate && singleClass && (
+                      <div className={styles.chooseClassTime}>
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "1em",
+                          }}
+                        >
+                          <AccessTimeIcon />
+                          {classTime ? (
+                            classTime
+                          ) : (
+                            <span>زمانی انتخاب نشده است</span>
+                          )}
+                        </div>
+                        <div>
+                          <CustomSelect
+                            setChosenTime={setChosenTime}
+                            classId={params.class}
+                            selectedDate={selectedDate?.toISOString()}
+                            times={singleClass.times}
+                          />
+                        </div>
+                      </div>
+                    )}
+                    {currentUser &&
+                      classTime &&
+                      selectedDate &&
+                      registeredClasses.length === 0 && (
+                        <Button
+                          onClick={registerForm.handleSubmit(onSubmit)}
+                          className={`mt-6 w-fit ${
+                            registeredClasses.length > 0 &&
+                            "bg-green-500 pointer-events-none"
+                          }`}
+                        >
+                          {t("reserve")}
+                        </Button>
+                      )}
+                    {!currentUser && (
                       <Button
                         onClick={registerForm.handleSubmit(onSubmit)}
                         className={`mt-6 w-fit ${
@@ -287,16 +300,14 @@ const MyClass = (details: DetailsProps) => {
                           "bg-green-500 pointer-events-none"
                         }`}
                       >
-                        {t("reserve")}
+                        {t("loginFirstBuy")}
                       </Button>
                     )}
+                  </div>
                 </div>
-              </div>
-            </section>
-          )}
-        {currentUser &&
-          registeredClasses &&
-          singleClass?.type !== "placement" && (
+              </section>
+            )}
+          {registeredClasses && singleClass?.type !== "placement" && (
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 mb-10">
               <div className="grid md:grid-cols-2 gap-8">
                 <div className="space-y-6">
@@ -432,17 +443,31 @@ const MyClass = (details: DetailsProps) => {
                       )}
                     </div>
                   </div>
-                  <Button
-                    onClick={handleRegister}
-                    className={`mt-6 w-full ${
-                      registeredClasses.length > 0 &&
-                      "bg-green-500 pointer-events-none"
-                    }`}
-                  >
-                    {registeredClasses.length > 0
-                      ? t("alreadyRegister")
-                      : t("join")}
-                  </Button>
+                  {currentUser ? (
+                    <Button
+                      onClick={handleRegister}
+                      className={`mt-6 w-full ${
+                        registeredClasses.length > 0 &&
+                        "bg-green-500 pointer-events-none"
+                      }`}
+                    >
+                      {registeredClasses.length > 0
+                        ? t("alreadyRegister")
+                        : t("join")}
+                    </Button>
+                  ) : (
+                    <Link href={"/sign-in"}>
+                      <Button
+                        onClick={handleRegister}
+                        className={`mt-6 w-full ${
+                          registeredClasses.length > 0 &&
+                          "bg-green-500 pointer-events-none"
+                        }`}
+                      >
+                        {t("loginFirstBuy")}
+                      </Button>
+                    </Link>
+                  )}
                 </div>
                 <img
                   src={singleClass?.imageLink}
@@ -452,14 +477,26 @@ const MyClass = (details: DetailsProps) => {
               </div>
             </div>
           )}
-        {currentUserLoading && (
-          <div className="w-full h-full grid place-content-center">
-            <CircularProgress sx={{ color: "#072d44" }} />
-          </div>
-        )}
-      </form>
-    </FormProvider>
-  );
+          {currentUserLoading && (
+            <div className="w-full h-full grid place-content-center">
+              <CircularProgress sx={{ color: "#072d44" }} />
+            </div>
+          )}
+        </form>
+      </FormProvider>
+    );
+  } else {
+    return (
+      <div className="grid place-content-center">
+        <Image
+          src={"/pageLoader.svg"}
+          alt="Page Loader"
+          width={500}
+          height={500}
+        />
+      </div>
+    );
+  }
 };
 
 export default MyClass;

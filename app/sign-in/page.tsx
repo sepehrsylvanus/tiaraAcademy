@@ -16,13 +16,15 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { Axios } from "@/utils/axiosIn";
 import { useTranslations } from "next-intl";
+import { extractPaths } from "@/utils/helperFunctions";
 
 const formSchema = z.object({
   email: z.string().min(2).max(50),
   password: z.string(),
   userAgent: z.string(),
 });
-const Login = () => {
+const Login = ({ searchParams }: { searchParams: { referrer?: string } }) => {
+  const referrer = searchParams.referrer || "/";
   const t = useTranslations("SignIn");
   const userAgent = window.navigator.userAgent;
   const router = useRouter();
@@ -43,7 +45,11 @@ const Login = () => {
       .then((res) => {
         setSending(false);
         toast.success(t("toast"));
-        router.push("/hub");
+        if (referrer === "/") {
+          router.push("/hub");
+        } else {
+          router.push(referrer);
+        }
       })
       .catch((e) => {
         setError(e.response.data.error);
@@ -51,6 +57,7 @@ const Login = () => {
         setSending(false);
       });
   }
+  console.log(extractPaths());
   return (
     <div className={styles.container}>
       <div className={`${styles.details} bg-lightText text-lightPrime `}>

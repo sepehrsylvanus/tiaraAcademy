@@ -10,7 +10,7 @@ import NoteAltIcon from "@mui/icons-material/NoteAlt";
 import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import { getToken } from "@/actions/actions";
-import { getSingleUser } from "@/actions/userActions";
+
 import { UserProps } from "@/utils/types";
 
 import ClerkAvatar from "../reusableComponents/ClerkAvatar";
@@ -21,20 +21,7 @@ import { Button } from "../ui/button";
 import { useGetUser } from "@/hooks/useUsers";
 const Sidebar = () => {
   const t = useTranslations("SideBar");
-  const [token, setToken] = useState<string>();
   const { data: user, isLoading: userLoading } = useGetUser();
-  useEffect(() => {
-    const retrieveToken = async () => {
-      const token = await getToken();
-
-      if (token) {
-        setToken(token?.value);
-      }
-    };
-
-    retrieveToken();
-  }, []);
-
   return (
     <div>
       <div
@@ -98,8 +85,8 @@ const Sidebar = () => {
           </Link>
         </div>
       </div>
-      {!token && (
-        <p className="z-10 rotate-90 absolute ltr:-left-48 rtl:-right-52 top-1/2 flex gap-4 items-center">
+      {!user && (
+        <p className="z-10 rotate-90 fixed ltr:-left-[11.3rem] rtl:-right-[13.7rem] top-1/2 flex gap-4 items-center">
           {t("haveToLogin")}
           <Link href={"/sign-in"}>
             <Button>{t("login")}</Button>
