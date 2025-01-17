@@ -14,8 +14,6 @@ export default async function RootLayout({
 }>) {
   const messages = (await getMessages()) as any;
   const writingT = messages.Writing;
-  const user = (await getSingleUser()) as User;
-  const writingCharge = await getMyWritingCharge(user?.id!);
 
   return (
     <div className="flex flex-col px-4 md:pl-[5em] pb-6">

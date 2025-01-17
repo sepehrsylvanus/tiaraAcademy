@@ -26,9 +26,5 @@ export function useGetUser() {
       const currentUser = await getSingleUser();
       return currentUser;
     },
-    staleTime: Infinity,
-
-    refetchOnWindowFocus: false,
-    refetchOnReconnect: false,
   });
 }

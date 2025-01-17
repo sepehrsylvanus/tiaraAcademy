@@ -1,6 +1,3 @@
-import { getRegisterdClasses } from "@/actions/actions";
-import { TracingBeam } from "@/components/ui/tracing-beam";
-import { howTooStudy } from "@/constants";
 import { getLocale } from "next-intl/server";
 import Image from "next/image";
 import React from "react";
