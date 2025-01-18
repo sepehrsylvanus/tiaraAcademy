@@ -20,6 +20,11 @@ const nextConfig = {
       {
         hostname: "trustseal.enamad.ir",
       },
+      {
+        protocol: "https",
+        hostname: "my-blob-store.public.blob.vercel-storage.com",
+        port: "",
+      },
     ],
   },
 };
