@@ -124,7 +124,7 @@ export interface VideoCourse {
 
   teacherId: string;
 
-  explenation: string;
+  explenation: string | null;
 
   thumbnailLink: string;
 

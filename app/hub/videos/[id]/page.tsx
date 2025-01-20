@@ -85,7 +85,7 @@ const SingleVideo = ({ params }: SingleVideoProps) => {
   useEffect(() => {
     const getRegisteredVideoCourse = async () => {
       if (currentUser && videoDetails) {
-        setExplenation(videoDetails?.explenation);
+        setExplenation(videoDetails?.explenation ?? "");
 
         const registeredVideos = await fetchRegisteredVideoCourse(
           currentUser.id,

@@ -29,7 +29,6 @@ import {
 } from "@/components/ui/select";
 import CloseIcon from "@mui/icons-material/Close";
 import { Textarea } from "@/components/ui/textarea";
-import { createVideoCourse } from "@/actions/videos/videos.action";
 import { toast } from "react-toastify";
 
 const courseDetailsForm = z.object({
@@ -41,6 +40,13 @@ const courseDetailsForm = z.object({
 });
 
 import TextEditor from "../TextEditor";
+import { getSingleUser } from "@/actions/userActions";
+import { upload } from "@vercel/blob/client";
+import prisma from "@/utils/db";
+import {
+  createVideoCourse,
+  createVideoCourseSession,
+} from "@/actions/videos/videos.action";
 const AddVideoCourse = () => {
   const [loading, setLoading] = useState(false);
   const [materialsFile, setMaterialsFile] = useState<File>();
@@ -90,12 +96,27 @@ const AddVideoCourse = () => {
   });
   async function onSubmit(values: z.infer<typeof courseDetailsForm>) {
     setLoading(true);
+    if (!thumbnailRaw || !materialsFile)
+      return toast.error("Please add thumbnail or materials");
+    const imageName = new Date().getTime() + thumbnailRaw.name;
+    const materialsName = new Date().toString() + materialsFile.name;
+    const thumbnailBlob = await upload(imageName, thumbnailRaw, {
+      access: "public",
+      handleUploadUrl: "/api/thumbnail/upload",
+    });
+    const materialsBlob = await upload(materialsName, materialsFile, {
+      access: "public",
+      handleUploadUrl: "/api/materials/upload",
+    });
+
+    const thumbnailLink = thumbnailBlob.url;
+    const materialsLink = materialsBlob.url;
     const videoCourseFormData = new FormData();
     videoCourseFormData.set("normalValues", JSON.stringify(values));
-    videoCourseFormData.set("image", thumbnailRaw!);
     videoCourseFormData.set("language", selectedLanguage);
-    videoCourseFormData.set("materials", materialsFile!);
     videoCourseFormData.set("tags", JSON.stringify(tags));
+    videoCourseFormData.set("thumbnailLink", thumbnailLink);
+    videoCourseFormData.set("materialsLink", materialsLink);
 
     try {
       const ifCourseCreated = await createVideoCourse(videoCourseFormData);

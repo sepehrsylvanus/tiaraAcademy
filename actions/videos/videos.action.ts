@@ -6,6 +6,7 @@ import { getSingleUser } from "../userActions";
 import { VideoCourse } from "@prisma/client";
 import { useMutation } from "@tanstack/react-query";
 import { del, put } from "@vercel/blob";
+import { upload } from "@vercel/blob/client";
 export const getAllVideos = async (name?: string, category?: string) => {
   const videos = await prisma.videoCourse.findMany({
     include: {
@@ -92,36 +93,23 @@ export const postComments = async (
 
 export const createVideoCourse = async (formData: FormData) => {
   const normalValues = JSON.parse(formData.get("normalValues") as string);
-  const image = formData.get("image") as File;
   const language = formData.get("language") as
     | "english"
     | "spanish"
     | "general";
-  const materials = formData.get("materials") as File;
   const prerequisities = JSON.parse(formData.get("tags") as string) as string[];
-
+  const thumbnailLink = formData.get("thumbnailLink") as string;
+  const materialsLink = formData.get("materialsLink") as string;
   try {
     const currentUser = await getSingleUser();
-    const imageName = new Date().getTime() + image.name;
-    const materialsName = new Date().toString() + materials.name;
 
     // Convert files to buffers
-    const imageBuffer = Buffer.from(await image.arrayBuffer());
-    const materialsBuffer = Buffer.from(await materials.arrayBuffer());
 
     // =========== VERCEL UPLOAD =================
-    const thumbnailBlob = await put(imageName, imageBuffer, {
-      access: "public",
-    });
-    const materialsBlob = await put(materialsName, materialsBuffer, {
-      access: "public",
-    });
 
-    const thumbnailLink = thumbnailBlob.url;
-    const materialsLink = materialsBlob.url;
     // =========== END OF VERCEL UPLOAD =================
 
-    const newVideoCourse = await prisma.videoCourse.create({
+    await prisma.videoCourse.create({
       data: {
         title: normalValues.title,
         description: normalValues.description,
@@ -141,7 +129,6 @@ export const createVideoCourse = async (formData: FormData) => {
     throw new Error(error.message);
   }
 };
-
 export const createVideoCourseSession = async (formData: FormData) => {
   const video = formData.get("video") as File;
   const title = formData.get("title") as string;
@@ -257,8 +244,8 @@ export const deleteVideoCourse = async (id: string) => {
   // .promise()
 
   if (course) {
-    await del(course.thumbnailLink);
-    await del(course.materialsLink);
+    await del(course.thumbnailLink!);
+    await del(course.materialsLink!);
   }
   try {
     if (sessions?.length) {

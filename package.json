@@ -43,6 +43,7 @@
     "@tiptap/starter-kit": "^2.9.1",
     "@vercel/analytics": "^1.4.1",
     "@vercel/blob": "^0.27.1",
+    "@vercel/functions": "^1.5.2",
     "aws-sdk": "^2.1687.0",
     "axios": "^1.7.7",
     "bcryptjs": "^2.4.3",
