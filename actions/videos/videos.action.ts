@@ -130,33 +130,21 @@ export const createVideoCourse = async (formData: FormData) => {
   }
 };
 export const createVideoCourseSession = async (formData: FormData) => {
-  const video = formData.get("video") as File;
+  const videoLink = formData.get("videoLink") as string;
   const title = formData.get("title") as string;
   const duration = formData.get("duration") as string;
   const useFullDuration = parseInt(duration);
   const videoCourseId = formData.get("videoCourseId") as string;
   const index = formData.get("index") as string;
+  const videoName = formData.get("videoName") as string;
   const rawDuration = Number(duration);
   try {
-    const s3 = new S3({
-      accessKeyId: process.env.NEXT_PUBLIC_LIARA_ACCESS_KEY_ID,
-      secretAccessKey: process.env.NEXT_PUBLIC_LIARA_SECRET_ACCESS_KEY,
-      endpoint: process.env.NEXT_PUBLIC_LIARA_ENDPOINT,
-    });
-    const videoName = new Date().getTime() + video.name;
-    const videoBit = await video.arrayBuffer();
-    const videoBuffer = Buffer.from(videoBit);
-    const params = {
-      Bucket: process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME!,
-      Key: videoName,
-      Body: videoBuffer,
-    };
-    const response = await s3.upload(params).promise();
-    const videoLink = s3.getSignedUrl("getObject", {
-      Bucket: process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME!,
-      Key: videoName,
-      Expires: 31536000, // 1 year
-    });
+    // const s3 = new S3({
+    //   accessKeyId: process.env.NEXT_PUBLIC_LIARA_ACCESS_KEY_ID,
+    //   secretAccessKey: process.env.NEXT_PUBLIC_LIARA_SECRET_ACCESS_KEY,
+    //   endpoint: process.env.NEXT_PUBLIC_LIARA_ENDPOINT,
+    // });
+
     const newSession = await prisma.videoCourseSession.create({
       data: {
         title,
@@ -208,6 +196,12 @@ export const postVideoCourse = async (
 
 export const deleteVideoSession = async (id: string) => {
   try {
+    const targetedVideo = await prisma.videoCourseSession.findUnique({
+      where: {
+        id,
+      },
+    });
+    await del(targetedVideo!.video!);
     await prisma.videoCourseSession.delete({
       where: {
         id,

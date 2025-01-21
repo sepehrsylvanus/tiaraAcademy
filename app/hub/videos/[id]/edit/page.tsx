@@ -22,6 +22,7 @@ import {
 import { toast } from "react-toastify";
 import { deleteVideoCourse } from "@/actions/videos/videos.action";
 import { useRouter } from "next/navigation";
+import { upload } from "@vercel/blob/client";
 
 interface EditVideoProps {
   params: {
@@ -34,12 +35,12 @@ const EditVideoCoursePage: FC<EditVideoProps> = ({ params }) => {
   const [rawvideo, setRawvideo] = useState<File>();
   const [sessionTitle, setSessionTitle] = useState<string>("");
   const [duration, setDuration] = useState<number>();
-  
+  const [uploadSessionProgress, setUploadSessionProgress] = useState<number>(0);
   const [index, setIndex] = useState("");
   const [deleteLoading, setDeleteLoading] = useState(false);
-  const { data: videoDetails, isLoading: videoDetailsLoading } =
-    useGetCourseVideosDetails(params.id);
-  const { mutate: postSession, isPending: sessionLoading } = usePostSession();
+  const [sessionPostLoading, setSessionPostLoading] = useState(false);
+  const { data: videoDetails } = useGetCourseVideosDetails(params.id);
+  const { mutate: postSession } = usePostSession();
   const { mutate: deleteSession, isPending: deleteSessionLoading } =
     useDeleteSession();
   const courseSessions = videoDetails?.videoCourseSession;
@@ -53,7 +54,8 @@ const EditVideoCoursePage: FC<EditVideoProps> = ({ params }) => {
     }
   };
 
-  const handleAddSession = () => {
+  const handleAddSession = async () => {
+    setSessionPostLoading(true);
     if (
       videoDetails?.videoCourseSession.some(
         (item) => item.index === parseInt(index)
@@ -68,13 +70,24 @@ const EditVideoCoursePage: FC<EditVideoProps> = ({ params }) => {
     newSessionFormData.set("duration", duration!.toString());
     newSessionFormData.set("videoCourseId", params.id);
     newSessionFormData.set("index", index);
-
-    postSession(newSessionFormData);
+    const videoName = new Date().getTime() + rawvideo!.name;
+    newSessionFormData.set("videoName", videoName);
+    const videoBlob = await upload(videoName, rawvideo!, {
+      access: "public",
+      handleUploadUrl: "/api/sessions/upload",
+      onUploadProgress: (progressEvent) => {
+        console.log(progressEvent.percentage);
+        setUploadSessionProgress(progressEvent.percentage);
+      },
+    });
+    newSessionFormData.set("videoLink", videoBlob.url);
+    await postSession(newSessionFormData);
     setVideoUrl("");
     setRawvideo(undefined);
     setSessionTitle("");
     setDuration(undefined);
     setIndex("");
+    setSessionPostLoading(false);
   };
 
   return (
@@ -114,7 +127,7 @@ const EditVideoCoursePage: FC<EditVideoProps> = ({ params }) => {
           </div>
 
           <Button className="w-full" onClick={handleAddSession}>
-            {sessionLoading ? "Loading..." : "Add Session"}
+            {sessionPostLoading ? `${uploadSessionProgress}%` : "Add Session"}
           </Button>
           <Button
             variant={"destructive"}

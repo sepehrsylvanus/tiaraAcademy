@@ -50,6 +50,8 @@ import {
 const AddVideoCourse = () => {
   const [loading, setLoading] = useState(false);
   const [materialsFile, setMaterialsFile] = useState<File>();
+  const [thumbnailUpload, setThumbnailUpload] = useState(0);
+  const [materialUpload, setMaterialUpload] = useState(0);
   // COURSE IMAGE CHOOSING
   const [selectedImage, setSelectedImage] = useState<string>();
   const [thumbnailRaw, setThumbnailRaw] = useState<File>();
@@ -103,10 +105,16 @@ const AddVideoCourse = () => {
     const thumbnailBlob = await upload(imageName, thumbnailRaw, {
       access: "public",
       handleUploadUrl: "/api/thumbnail/upload",
+      onUploadProgress: (progressEvent) => {
+        setThumbnailUpload(progressEvent.percentage);
+      },
     });
     const materialsBlob = await upload(materialsName, materialsFile, {
       access: "public",
       handleUploadUrl: "/api/materials/upload",
+      onUploadProgress: (progressEvent) => {
+        setMaterialUpload(progressEvent.percentage);
+      },
     });
 
     const thumbnailLink = thumbnailBlob.url;
@@ -366,7 +374,18 @@ const AddVideoCourse = () => {
         />
 
         <Button type="submit" className="col-span-2">
-          {loading ? "Loading..." : "Submit"}
+          {loading ? (
+            <>
+              {thumbnailUpload > 0 && (
+                <span>Thumbnail upload: {thumbnailUpload}%</span>
+              )}
+              {materialUpload > 0 && (
+                <span>Materials upload: {materialUpload}%</span>
+              )}
+            </>
+          ) : (
+            "Submit"
+          )}
         </Button>
       </form>
     </Form>
