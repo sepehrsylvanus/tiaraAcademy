@@ -45,13 +45,11 @@ import { createVideoCourse } from "@/actions/videos/videos.action";
 const AddVideoCourse = () => {
   const [loading, setLoading] = useState(false);
   const [materialsFile, setMaterialsFile] = useState<File>();
-  const [thumbnailUpload, setThumbnailUpload] = useState(0);
-  const [materialUpload, setMaterialUpload] = useState(0);
   // COURSE IMAGE CHOOSING
   const [selectedImage, setSelectedImage] = useState<string>();
   const [thumbnailRaw, setThumbnailRaw] = useState<File>();
-  const [thumbnailProgress, setThumbnailProgress] = useState<number>();
-  const [materialsProgress, setMaterialsProgress] = useState<number>();
+  const [thumbnailProgress, setThumbnailProgress] = useState<number>(0);
+  const [materialsProgress, setMaterialsProgress] = useState<number>(0);
   const fileInputRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
     return () => {

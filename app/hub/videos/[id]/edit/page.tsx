@@ -39,10 +39,10 @@ const EditVideoCoursePage: FC<EditVideoProps> = ({ params }) => {
   const [index, setIndex] = useState("");
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [sessionPostLoading, setSessionPostLoading] = useState(false);
+
   const { data: videoDetails } = useGetCourseVideosDetails(params.id);
   const { mutate: postSession } = usePostSession();
-  const { mutate: deleteSession, isPending: deleteSessionLoading } =
-    useDeleteSession();
+  const { mutate: deleteSession } = useDeleteSession();
   const courseSessions = videoDetails?.videoCourseSession;
 
   const handleVideoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -65,7 +65,6 @@ const EditVideoCoursePage: FC<EditVideoProps> = ({ params }) => {
     }
 
     const newSessionFormData = new FormData();
-    newSessionFormData.set("video", rawvideo!);
     newSessionFormData.set("title", sessionTitle);
     newSessionFormData.set("duration", duration!.toString());
     newSessionFormData.set("videoCourseId", params.id);
@@ -73,14 +72,46 @@ const EditVideoCoursePage: FC<EditVideoProps> = ({ params }) => {
     const videoName = new Date().getTime() + rawvideo!.name;
     newSessionFormData.set("videoName", videoName);
 
-    // newSessionFormData.set("videoLink", videoBlob.url);
-    await postSession(newSessionFormData);
-    setVideoUrl("");
-    setRawvideo(undefined);
-    setSessionTitle("");
-    setDuration(undefined);
-    setIndex("");
-    setSessionPostLoading(false);
+    try {
+      const videoBytes = await rawvideo!.arrayBuffer();
+
+      const videoBuffer = await Buffer.from(videoBytes!);
+      const s3 = new S3({
+        accessKeyId: process.env.NEXT_PUBLIC_LIARA_ACCESS_KEY_ID,
+        secretAccessKey: process.env.NEXT_PUBLIC_LIARA_SECRET_ACCESS_KEY,
+        endpoint: process.env.NEXT_PUBLIC_LIARA_ENDPOINT,
+      });
+      console.log(videoName, videoBuffer);
+      const uploadeParams = {
+        Bucket: process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME!,
+        Key: videoName,
+        Body: videoBuffer,
+      };
+      const uploadSession = s3.upload(uploadeParams);
+      uploadSession.on("httpUploadProgress", (event) => {
+        const progress = Math.round((event.loaded / event.total) * 100);
+        setUploadSessionProgress(progress);
+      });
+
+      await uploadSession.promise();
+      const sessionUrl = s3.getSignedUrl("getObject", {
+        Bucket: process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME!,
+        Key: videoName,
+        Expires: 31536000, // 1 year
+      });
+
+      newSessionFormData.set("videoLink", sessionUrl);
+      await postSession(newSessionFormData);
+      setVideoUrl("");
+      setRawvideo(undefined);
+      setSessionTitle("");
+      setDuration(undefined);
+      setIndex("");
+      setSessionPostLoading(false);
+    } catch (error: any) {
+      console.log(error.message);
+      toast.error(error.message);
+    }
   };
 
   return (
