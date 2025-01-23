@@ -41,6 +41,7 @@ const courseDetailsForm = z.object({
 
 import TextEditor from "../TextEditor";
 import { S3 } from "aws-sdk";
+import { createVideoCourse } from "@/actions/videos/videos.action";
 const AddVideoCourse = () => {
   const [loading, setLoading] = useState(false);
   const [materialsFile, setMaterialsFile] = useState<File>();
@@ -96,25 +97,7 @@ const AddVideoCourse = () => {
     setLoading(true);
     if (!thumbnailRaw || !materialsFile)
       return toast.error("Please add thumbnail or materials");
-    const imageName = new Date().getTime() + thumbnailRaw.name;
-    const materialsName = new Date().toString() + materialsFile.name;
-    const thumbnailBlob = await upload(imageName, thumbnailRaw, {
-      access: "public",
-      handleUploadUrl: "/api/thumbnail/upload",
-      onUploadProgress: (progressEvent) => {
-        setThumbnailUpload(progressEvent.percentage);
-      },
-    });
-    const materialsBlob = await upload(materialsName, materialsFile, {
-      access: "public",
-      handleUploadUrl: "/api/materials/upload",
-      onUploadProgress: (progressEvent) => {
-        setMaterialUpload(progressEvent.percentage);
-      },
-    });
 
-    const thumbnailLink = thumbnailBlob.url;
-    const materialsLink = materialsBlob.url;
     const videoCourseFormData = new FormData();
     videoCourseFormData.set("normalValues", JSON.stringify(values));
     videoCourseFormData.set("language", selectedLanguage);

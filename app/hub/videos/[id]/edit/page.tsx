@@ -72,15 +72,8 @@ const EditVideoCoursePage: FC<EditVideoProps> = ({ params }) => {
     newSessionFormData.set("index", index);
     const videoName = new Date().getTime() + rawvideo!.name;
     newSessionFormData.set("videoName", videoName);
-    const videoBlob = await upload(videoName, rawvideo!, {
-      access: "public",
-      handleUploadUrl: "/api/sessions/upload",
-      onUploadProgress: (progressEvent) => {
-        console.log(progressEvent.percentage);
-        setUploadSessionProgress(progressEvent.percentage);
-      },
-    });
-    newSessionFormData.set("videoLink", videoBlob.url);
+
+    // newSessionFormData.set("videoLink", videoBlob.url);
     await postSession(newSessionFormData);
     setVideoUrl("");
     setRawvideo(undefined);
