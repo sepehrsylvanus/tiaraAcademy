@@ -22,6 +22,7 @@ import {
 import { toast } from "react-toastify";
 import { deleteVideoCourse } from "@/actions/videos/videos.action";
 import { useRouter } from "next/navigation";
+import { S3 } from "aws-sdk";
 
 interface EditVideoProps {
   params: {
@@ -34,7 +35,7 @@ const EditVideoCoursePage: FC<EditVideoProps> = ({ params }) => {
   const [rawvideo, setRawvideo] = useState<File>();
   const [sessionTitle, setSessionTitle] = useState<string>("");
   const [duration, setDuration] = useState<number>();
-  
+
   const [index, setIndex] = useState("");
   const [deleteLoading, setDeleteLoading] = useState(false);
   const { data: videoDetails, isLoading: videoDetailsLoading } =
@@ -53,7 +54,7 @@ const EditVideoCoursePage: FC<EditVideoProps> = ({ params }) => {
     }
   };
 
-  const handleAddSession = () => {
+  const handleAddSession = async () => {
     if (
       videoDetails?.videoCourseSession.some(
         (item) => item.index === parseInt(index)

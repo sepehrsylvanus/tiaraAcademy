@@ -41,13 +41,15 @@ const courseDetailsForm = z.object({
 });
 
 import TextEditor from "../TextEditor";
+import { S3 } from "aws-sdk";
 const AddVideoCourse = () => {
   const [loading, setLoading] = useState(false);
   const [materialsFile, setMaterialsFile] = useState<File>();
   // COURSE IMAGE CHOOSING
   const [selectedImage, setSelectedImage] = useState<string>();
   const [thumbnailRaw, setThumbnailRaw] = useState<File>();
-
+  const [thumbnailProgress, setThumbnailProgress] = useState<number>();
+  const [materialsProgress, setMaterialsProgress] = useState<number>();
   const fileInputRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
     return () => {
@@ -88,14 +90,74 @@ const AddVideoCourse = () => {
     criteriaMode: "all",
     reValidateMode: "onBlur",
   });
+
   async function onSubmit(values: z.infer<typeof courseDetailsForm>) {
     setLoading(true);
     const videoCourseFormData = new FormData();
     videoCourseFormData.set("normalValues", JSON.stringify(values));
-    videoCourseFormData.set("image", thumbnailRaw!);
     videoCourseFormData.set("language", selectedLanguage);
-    videoCourseFormData.set("materials", materialsFile!);
     videoCourseFormData.set("tags", JSON.stringify(tags));
+
+    // =========== uploading video to liara ===========
+    const s3 = new S3({
+      accessKeyId: process.env.NEXT_PUBLIC_LIARA_ACCESS_KEY_ID,
+      secretAccessKey: process.env.NEXT_PUBLIC_LIARA_SECRET_ACCESS_KEY,
+      endpoint: process.env.NEXT_PUBLIC_LIARA_ENDPOINT,
+    });
+    const imageName = new Date().getTime() + thumbnailRaw!.name;
+    const materialsName = new Date().toString() + materialsFile!.name;
+    const thumbnailBit = await thumbnailRaw!.arrayBuffer();
+    videoCourseFormData.set("thumbnailName", imageName);
+    videoCourseFormData.set("materialsName", materialsName);
+    const thumbnailBuffer = Buffer.from(thumbnailBit);
+    const materialbut = await materialsFile!.arrayBuffer();
+    const materialsBuffer = Buffer.from(materialbut);
+    console.log(process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME);
+    if (process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME) {
+      const params = {
+        Bucket: process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME!,
+        Key: imageName,
+        Body: thumbnailBuffer,
+      };
+      const params2 = {
+        Bucket: process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME!,
+        Key: materialsName,
+        Body: materialsBuffer,
+      };
+
+      const uploadImage = s3.upload(params);
+      const uploadMaterials = s3.upload(params2);
+
+      uploadImage.on("httpUploadProgress", function (evt) {
+        const progress = Math.round((evt.loaded / evt.total) * 100);
+        setThumbnailProgress(progress);
+      });
+
+      uploadMaterials.on("httpUploadProgress", function (evt) {
+        const progress = Math.round((evt.loaded / evt.total) * 100);
+        setMaterialsProgress(progress);
+      });
+
+      const response1 = await uploadImage.promise();
+      const response2 = await uploadMaterials.promise();
+
+      const thumbnailLink = s3.getSignedUrl("getObject", {
+        Bucket: process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME!,
+        Key: imageName,
+        Expires: 31536000, // 1 year
+      });
+
+      const materialsLink = s3.getSignedUrl("getObject", {
+        Bucket: process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME!,
+        Key: materialsName,
+        Expires: 31536000, // 1 year
+      });
+
+      videoCourseFormData.set("thumbnailLink", thumbnailLink);
+      videoCourseFormData.set("materialsLink", materialsLink);
+    }
+
+    // =========== end of uploading video to liara ===========
 
     try {
       const ifCourseCreated = await createVideoCourse(videoCourseFormData);
@@ -345,7 +407,9 @@ const AddVideoCourse = () => {
         />
 
         <Button type="submit" className="col-span-2">
-          {loading ? "Loading..." : "Submit"}
+          {loading
+            ? `Thumbnail upload ${thumbnailProgress}% /  Materials upload ${materialsProgress}%`
+            : "Submit"}
         </Button>
       </form>
     </Form>

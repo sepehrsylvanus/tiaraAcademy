@@ -99,44 +99,14 @@ export const createVideoCourse = async (formData: FormData) => {
     | "general";
   const materials = formData.get("materials") as File;
   const prerequisities = JSON.parse(formData.get("tags") as string) as string[];
+  const thumbnailLink = formData.get("thumbnailLink") as string;
+  const materialsLink = formData.get("materialsLink") as string;
+  const thumbnailName = formData.get("thumbnailName") as string;
+  const materialsName = formData.get("materialsName") as string;
   try {
     const currentUser = await getSingleUser();
-    const s3 = new S3({
-      accessKeyId: process.env.NEXT_PUBLIC_LIARA_ACCESS_KEY_ID,
-      secretAccessKey: process.env.NEXT_PUBLIC_LIARA_SECRET_ACCESS_KEY,
-      endpoint: process.env.NEXT_PUBLIC_LIARA_ENDPOINT,
-    });
-    const imageName = new Date().getTime() + image.name;
-    const materialsName = new Date().toString() + materials.name;
-    const thumbnailBit = await image.arrayBuffer();
 
-    const thumbnailBuffer = Buffer.from(thumbnailBit);
-    const materialbut = await materials.arrayBuffer();
-    const materialsBuffer = Buffer.from(materialbut);
     if (process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME) {
-      const params = {
-        Bucket: process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME!,
-        Key: imageName,
-        Body: thumbnailBuffer,
-      };
-      const params2 = {
-        Bucket: process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME!,
-        Key: materialsName,
-        Body: materialsBuffer,
-      };
-
-      const response1 = await s3.upload(params).promise();
-      const response2 = await s3.upload(params2).promise();
-      const thumbnailLink = s3.getSignedUrl("getObject", {
-        Bucket: process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME!,
-        Key: imageName,
-        Expires: 31536000, // 1 year
-      });
-      const materialsLink = s3.getSignedUrl("getObject", {
-        Bucket: process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME!,
-        Key: materialsName,
-        Expires: 31536000, // 1 year
-      });
       const newVideoCourse = await prisma.videoCourse.create({
         data: {
           title: normalValues.title,
@@ -144,8 +114,11 @@ export const createVideoCourse = async (formData: FormData) => {
           teacherId: currentUser!.id,
           explenation: normalValues.explenation,
           thumbnailLink,
+          thumbnailName,
+
           price: normalValues.price,
           materialsLink,
+          materialsName,
           category: language,
           prerequisities,
         },
@@ -265,12 +238,14 @@ export const deleteVideoCourse = async (id: string) => {
     secretAccessKey: process.env.NEXT_PUBLIC_LIARA_SECRET_ACCESS_KEY,
     endpoint: process.env.NEXT_PUBLIC_LIARA_ENDPOINT,
   });
-  // s3
-  // .deleteObject({
-  //   Bucket: process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME!,
-  //   Key: course.,
-  // })
-  // .promise()
+  s3.deleteObject({
+    Bucket: process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME!,
+    Key: course!.thumbnailName!,
+  });
+  s3.deleteObject({
+    Bucket: process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME!,
+    Key: course!.materialsName!,
+  }).promise();
   try {
     if (sessions?.length) {
       await Promise.all(

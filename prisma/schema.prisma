@@ -243,10 +243,12 @@ model VideoCourse {
   videoCourseSession       VideoCourseSession[]
   Comment                  Comment[]
   thumbnailLink            String
+  thumbnailName            String?
   price                    Int
   discountedPrice          String                @default("0")
   discount                 String                @default("0")
   materialsLink            String
+  materialsName            String?
   materialsGoogleDriveLink String?
   category                 VideoCourseCat        @default(english)
   prerequisities           String[]
