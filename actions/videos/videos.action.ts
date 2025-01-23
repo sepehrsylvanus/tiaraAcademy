@@ -100,30 +100,30 @@ export const createVideoCourse = async (formData: FormData) => {
   const prerequisities = JSON.parse(formData.get("tags") as string) as string[];
   const thumbnailLink = formData.get("thumbnailLink") as string;
   const materialsLink = formData.get("materialsLink") as string;
+  const thumbnailName = formData.get("thumbnailName") as string;
+  const materialsName = formData.get("materialsName") as string;
   try {
     const currentUser = await getSingleUser();
 
-    // Convert files to buffers
+    if (process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME) {
+      const newVideoCourse = await prisma.videoCourse.create({
+        data: {
+          title: normalValues.title,
+          description: normalValues.description,
+          teacherId: currentUser!.id,
+          explenation: normalValues.explenation,
+          thumbnailLink,
+          thumbnailName,
 
-    // =========== VERCEL UPLOAD =================
-
-    // =========== END OF VERCEL UPLOAD =================
-
-    await prisma.videoCourse.create({
-      data: {
-        title: normalValues.title,
-        description: normalValues.description,
-        teacherId: currentUser!.id,
-        explenation: normalValues.explenation,
-        thumbnailLink: thumbnailLink,
-        price: normalValues.price,
-        materialsLink: materialsLink,
-        category: language,
-        prerequisities: prerequisities,
-      },
-    });
-
-    return "Your video course has been created";
+          price: normalValues.price,
+          materialsLink,
+          materialsName,
+          category: language,
+          prerequisities,
+        },
+      });
+      return "Your video course has been created";
+    }
   } catch (error: any) {
     console.log(error.message);
     throw new Error(error.message);
@@ -230,17 +230,14 @@ export const deleteVideoCourse = async (id: string) => {
     secretAccessKey: process.env.NEXT_PUBLIC_LIARA_SECRET_ACCESS_KEY,
     endpoint: process.env.NEXT_PUBLIC_LIARA_ENDPOINT,
   });
-  // s3
-  // .deleteObject({
-  //   Bucket: process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME!,
-  //   Key: course.,
-  // })
-  // .promise()
-
-  if (course) {
-    await del(course.thumbnailLink!);
-    await del(course.materialsLink!);
-  }
+  s3.deleteObject({
+    Bucket: process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME!,
+    Key: course!.thumbnailName!,
+  });
+  s3.deleteObject({
+    Bucket: process.env.NEXT_PUBLIC_LIARA_BUCKET_NAME!,
+    Key: course!.materialsName!,
+  }).promise();
   try {
     if (sessions?.length) {
       await Promise.all(

@@ -22,7 +22,7 @@ import {
 import { toast } from "react-toastify";
 import { deleteVideoCourse } from "@/actions/videos/videos.action";
 import { useRouter } from "next/navigation";
-import { upload } from "@vercel/blob/client";
+import { S3 } from "aws-sdk";
 
 interface EditVideoProps {
   params: {
