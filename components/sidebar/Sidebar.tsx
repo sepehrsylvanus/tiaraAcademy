@@ -22,79 +22,81 @@ import { useGetUser } from "@/hooks/useUsers";
 const Sidebar = () => {
   const t = useTranslations("SideBar");
   const { data: user, isLoading: userLoading } = useGetUser();
-  return (
-    <div>
-      <div
-        className={`${styles.sidebar} ${
-          !user ? "opacity-20 relative pointer-events-none" : ""
-        }`}
-      >
-        <div className={styles.userContainer}>
-          <div className={styles.accountInfo}>
-            <ClerkAvatar />
+  if (!userLoading) {
+    return (
+      <div>
+        <div
+          className={`${styles.sidebar} ${
+            !user ? "opacity-20 relative pointer-events-none" : ""
+          }`}
+        >
+          <div className={styles.userContainer}>
+            <div className={styles.accountInfo}>
+              <ClerkAvatar />
 
-            <div className={styles.accountInfoDetails}>
-              {!userLoading ? (
-                <>
-                  {user ? (
-                    <>
-                      <span>{`${user?.fName} ${user?.lName}`}</span>
-                      <span>{user?.email}</span>
-                    </>
-                  ) : (
-                    <>
-                      <span></span>
-                      <span></span>
-                    </>
-                  )}
-                </>
-              ) : (
-                <CircularProgress
-                  sx={{ color: "black", transform: "scale(.7)" }}
-                />
-              )}
+              <div className={styles.accountInfoDetails}>
+                {!userLoading ? (
+                  <>
+                    {user ? (
+                      <>
+                        <span>{`${user?.fName} ${user?.lName}`}</span>
+                        <span>{user?.email}</span>
+                      </>
+                    ) : (
+                      <>
+                        <span></span>
+                        <span></span>
+                      </>
+                    )}
+                  </>
+                ) : (
+                  <CircularProgress
+                    sx={{ color: "black", transform: "scale(.7)" }}
+                  />
+                )}
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className={styles.iconsContainer}>
-          <Link href={"/hub"} className={styles.iconContainer}>
-            <GridViewIcon />
-            <p className={styles.menuText}>{t("hub")}</p>
-          </Link>
-          <Link href={"/hub/classes"} className={styles.iconContainer}>
-            <AccessTimeIcon />
-            <p className={styles.menuText}>{t("classes")}</p>
-          </Link>
-          <Link href={"/hub/videos"} className={styles.iconContainer}>
-            <OndemandVideoIcon />
-            <p className={styles.menuText}>{t("videos")}</p>
-          </Link>
-          <Link href={"/hub/writing"} className={styles.iconContainer}>
-            <EditNoteIcon />
-            <p className={styles.menuText}>{t("writing")}</p>
-          </Link>
-          <Link href={"/hub/blogs"} className={styles.iconContainer}>
-            <NoteAltIcon />
-            <p className={styles.menuText}>{t("blog")}</p>
-          </Link>
+          <div className={styles.iconsContainer}>
+            <Link href={"/hub"} className={styles.iconContainer}>
+              <GridViewIcon />
+              <p className={styles.menuText}>{t("hub")}</p>
+            </Link>
+            <Link href={"/hub/classes"} className={styles.iconContainer}>
+              <AccessTimeIcon />
+              <p className={styles.menuText}>{t("classes")}</p>
+            </Link>
+            <Link href={"/hub/videos"} className={styles.iconContainer}>
+              <OndemandVideoIcon />
+              <p className={styles.menuText}>{t("videos")}</p>
+            </Link>
+            <Link href={"/hub/writing"} className={styles.iconContainer}>
+              <EditNoteIcon />
+              <p className={styles.menuText}>{t("writing")}</p>
+            </Link>
+            <Link href={"/hub/blogs"} className={styles.iconContainer}>
+              <NoteAltIcon />
+              <p className={styles.menuText}>{t("blog")}</p>
+            </Link>
 
-          <Link href={"/hub/teachers"} className={styles.iconContainer}>
-            <PeopleIcon />
-            <p className={styles.menuText}>{t("teachers")}</p>
-          </Link>
+            <Link href={"/hub/teachers"} className={styles.iconContainer}>
+              <PeopleIcon />
+              <p className={styles.menuText}>{t("teachers")}</p>
+            </Link>
+          </div>
         </div>
+        {!user && (
+          <p className="z-10 rotate-90 fixed ltr:-left-[11.3rem] rtl:-right-[13.7rem] top-1/2 flex gap-4 items-center">
+            {t("haveToLogin")}
+            <Link href={"/sign-in"}>
+              <Button>{t("login")}</Button>
+            </Link>
+          </p>
+        )}
       </div>
-      {!user && (
-        <p className="z-10 rotate-90 fixed ltr:-left-[11.3rem] rtl:-right-[13.7rem] top-1/2 flex gap-4 items-center">
-          {t("haveToLogin")}
-          <Link href={"/sign-in"}>
-            <Button>{t("login")}</Button>
-          </Link>
-        </p>
-      )}
-    </div>
-  );
+    );
+  }
 };
 
 export default Sidebar;
