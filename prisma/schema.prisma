@@ -319,3 +319,8 @@ model TeacherComment {
   userId      String
   userName    String
 }
+
+model Email {
+  id    String @id @default(cuid()) @map("_id")
+  email String
+}

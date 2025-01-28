@@ -1,12 +1,14 @@
 {
   "Layout": {
-    "copyright": "All rights reserved for Tiara Academy. Designed and developed by the",
+    "copyright": "All rights reserved for Tiara Academy. Designed and developed by ❤️ by",
     "socials": "Socials",
     "newsLetter": "Sign up for our newsletter",
     "newsLetterDescription": "Stay up to date with the roadmap progress, announcements and exclusive discounts feel free to sign up with your email.",
     "yourEmail": "Your email",
     "ppDescription": "We care about the protection of your data. ",
-    "pp": "Read our Privacy Policy"
+    "pp": "Read our Privacy Policy",
+    "emailSuccess": "Email successfully added",
+    "emailAlreadyThere": "Email already added"
   },
   "LandingPage": {
     "enrollNow": "Enroll Now!",

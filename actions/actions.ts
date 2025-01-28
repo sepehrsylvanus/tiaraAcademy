@@ -7,6 +7,8 @@ import { Notif, User } from "@/utils/types";
 import { requestToBodyStream } from "next/dist/server/body-streams";
 import { ArrowUpward } from "@mui/icons-material";
 import request from "request";
+import nodemailer from "nodemailer";
+import { getMessages } from "next-intl/server";
 type WritingAnswerToSend = {
   band: string;
   writingSelf: string;
@@ -643,4 +645,69 @@ export const reserveFreePlacement = async (
     },
   });
   return `https://tiaraacademy.com/hub/classes/${classId}`;
+};
+
+export const sendEmail = async (to: string, subject: string, html: string) => {
+  try {
+    const transposter = nodemailer.createTransport({
+      service: "Gmail",
+      auth: {
+        user: process.env.NEXT_PUBLIC_GMAIL_USER,
+        pass: process.env.NEXT_PUBLIC_GMAIL_PASS,
+      },
+    });
+    const mailOptions = {
+      from: process.env.NEXT_PUBLIC_GMAIL_USER,
+      to,
+      subject,
+      html,
+    };
+
+    const sendEmail = await transposter.sendMail(mailOptions);
+    console.log({ sendEmail });
+    if (sendEmail) {
+      return true;
+    }
+  } catch (error: any) {
+    console.log(error.message);
+    throw new Error(error.message);
+  }
+};
+export const saveEmail = async (email: string) => {
+  const translations = (await getMessages()) as any;
+  console.log(translations);
+  const t = translations.Layout;
+  console.log(t.emailAlreadyThere);
+  console.log({ email });
+  const alreadyEmailThere = await prisma.email.findMany({
+    where: {
+      email,
+    },
+  });
+  if (alreadyEmailThere.length > 0) {
+    console.log({ first: t.emailAlreadyThere });
+    return t.emailAlreadyThere;
+  }
+  try {
+    const newEmail = await prisma.email.create({
+      data: {
+        email,
+      },
+    });
+    if (newEmail) {
+      console.log({ second: t.emailSuccess });
+      return t.emailSuccess;
+    }
+  } catch (error: any) {
+    console.log(error.message);
+    throw new Error(error.message);
+  }
+};
+
+export const getEmails = async () => {
+  const emails = await prisma.email.findMany({
+    skip: 0,
+    take: 400,
+  });
+  return emails;
 };

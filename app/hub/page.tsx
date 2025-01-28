@@ -22,6 +22,7 @@ import DeleteVideoCourse from "@/components/videoCourseComponents/DeleteVideoCou
 import AddVideoCourse from "@/components/videoCourseComponents/AddVideoCourse";
 import CommentsTable from "@/components/commentsTable/CommentsTable";
 import TeacherContactTable from "@/components/TeacherContactTable";
+import EmailTest from "@/components/EmailTest";
 
 const Hub = async () => {
   const currentUser: User | null = await getSingleUser();
@@ -149,6 +150,7 @@ const Hub = async () => {
               <TeacherContactTable />
             )}
           </div>
+          <EmailTest />
         </div>
       )}
 
