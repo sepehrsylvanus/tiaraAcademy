@@ -150,7 +150,9 @@ const Hub = async () => {
               <TeacherContactTable />
             )}
           </div>
-          <EmailTest />
+          <div className="mt-4">
+            <EmailTest />
+          </div>
         </div>
       )}
 
