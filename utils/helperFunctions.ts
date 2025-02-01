@@ -59,10 +59,10 @@ export function convertDaysToPersian(days: string[]) {
     sunday: "یک‌شنبه",
   };
 
-  if (days.length === 1) {
+  if (days?.length === 1) {
     // If a single day string is provided, return the corresponding Persian day.
     return dayMapping[days[0].toLowerCase()] || days;
-  } else if (days.length > 1) {
+  } else if (days?.length > 1) {
     // If an array of days is provided, map each day to its Persian equivalent.
     return days
       .map((day: string) => dayMapping[day.toLowerCase()] || day)

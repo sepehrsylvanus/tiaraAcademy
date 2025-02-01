@@ -86,11 +86,7 @@ const MyClass = (details: DetailsProps) => {
   const classTime = registerForm.watch("time");
   const selectedDate = registerForm.watch("date");
   const renderAppointementDate = () => {
-    if (
-      registeredClasses &&
-      registeredClasses?.length > 0 &&
-      singleClass?.type === "placement"
-    ) {
+    if (registeredClasses!.length > 0 && singleClass?.type === "placement") {
       if (locale === "en") {
         return `${new Date(registeredClasses![0].date).toLocaleDateString()}`;
       } else {
@@ -241,7 +237,7 @@ const MyClass = (details: DetailsProps) => {
 
           {singleClass?.type === "placement" &&
             registeredClasses &&
-            registeredClasses?.length === 0 && (
+            registeredClasses.length === 0 && (
               <section className={styles.body}>
                 <div className={styles.classDetailsContainer}>
                   <div className={styles.nextClassContainer}></div>
@@ -285,13 +281,11 @@ const MyClass = (details: DetailsProps) => {
                     {currentUser &&
                       classTime &&
                       selectedDate &&
-                      registeredClasses &&
-                      registeredClasses?.length === 0 && (
+                      registeredClasses.length === 0 && (
                         <Button
                           onClick={registerForm.handleSubmit(onSubmit)}
                           className={`mt-6 w-fit ${
-                            registeredClasses &&
-                            registeredClasses?.length > 0 &&
+                            registeredClasses.length > 0 &&
                             "bg-green-500 pointer-events-none"
                           }`}
                         >
@@ -302,8 +296,7 @@ const MyClass = (details: DetailsProps) => {
                       <Button
                         onClick={registerForm.handleSubmit(onSubmit)}
                         className={`mt-6 w-fit ${
-                          registeredClasses &&
-                          registeredClasses?.length > 0 &&
+                          registeredClasses.length > 0 &&
                           "bg-green-500 pointer-events-none"
                         }`}
                       >
@@ -405,7 +398,7 @@ const MyClass = (details: DetailsProps) => {
                         {t("toman")}{" "}
                         {Number(singleClass?.price).toLocaleString()}{" "}
                       </p>
-                      {registeredClasses && registeredClasses?.length > 0 && (
+                      {registeredClasses.length > 0 && (
                         <>
                           <h2 className="text-xl font-semibold mt-4">
                             {t("yourTime")}
@@ -413,7 +406,7 @@ const MyClass = (details: DetailsProps) => {
                           <p> {registeredClasses[0].time}</p>
                         </>
                       )}
-                      {registeredClasses && registeredClasses?.length === 0 && (
+                      {registeredClasses.length === 0 && (
                         <Select onValueChange={setChosenTime}>
                           <SelectTrigger className="w-fit mt-6">
                             <SelectValue placeholder={t("chooseTime")} />
@@ -434,7 +427,7 @@ const MyClass = (details: DetailsProps) => {
                           </SelectContent>
                         </Select>
                       )}
-                      {registeredClasses && registeredClasses?.length > 0 && (
+                      {registeredClasses.length > 0 && (
                         <div>
                           <p className="h3 mb-0">{t("classLink")}</p>
                           <Link className="underline" href={singleClass?.link!}>
@@ -454,12 +447,11 @@ const MyClass = (details: DetailsProps) => {
                     <Button
                       onClick={handleRegister}
                       className={`mt-6 w-full ${
-                        registeredClasses &&
-                        registeredClasses?.length > 0 &&
+                        registeredClasses.length > 0 &&
                         "bg-green-500 pointer-events-none"
                       }`}
                     >
-                      {registeredClasses && registeredClasses?.length > 0
+                      {registeredClasses.length > 0
                         ? t("alreadyRegister")
                         : t("join")}
                     </Button>
@@ -468,8 +460,7 @@ const MyClass = (details: DetailsProps) => {
                       <Button
                         onClick={handleRegister}
                         className={`mt-6 w-full ${
-                          registeredClasses &&
-                          registeredClasses?.length > 0 &&
+                          registeredClasses.length > 0 &&
                           "bg-green-500 pointer-events-none"
                         }`}
                       >
