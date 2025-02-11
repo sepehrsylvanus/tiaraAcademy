@@ -14,16 +14,21 @@ import { Podcast } from "@/utils/types";
 interface PodcastCardProps {
   podcast: Podcast;
   isPlaying?: boolean;
+  handlePodcastClick: (podcast: Podcast) => void;
 }
 
-export function PodcastCard({ podcast, isPlaying }: PodcastCardProps) {
+export function PodcastCard({
+  podcast,
+  isPlaying,
+  handlePodcastClick,
+}: PodcastCardProps) {
   return (
     <Card className="relative group">
       <CardHeader className="p-0">
         <div className="relative aspect-[4/3] overflow-hidden rounded-t-lg">
           <Image
-            src={podcast.image || "/placeholder.svg"}
-            alt={podcast.title}
+            src={podcast.imageLink || "/placeholder.svg"}
+            alt={podcast.name}
             className="object-cover transition-transform group-hover:scale-105"
             fill
           />
@@ -35,7 +40,12 @@ export function PodcastCard({ podcast, isPlaying }: PodcastCardProps) {
             {isPlaying ? (
               <Pause className="h-4 w-4" />
             ) : (
-              <Play className="h-4 w-4" />
+              <Play
+                className="h-4 w-4"
+                onClick={() => {
+                  handlePodcastClick(podcast);
+                }}
+              />
             )}
           </Button>
           {isPlaying && (
@@ -52,20 +62,16 @@ export function PodcastCard({ podcast, isPlaying }: PodcastCardProps) {
       </CardHeader>
       <CardContent className="p-4">
         <div className="flex items-center gap-2 mb-2">
-          <Badge variant="secondary">{podcast.category}</Badge>
+          {podcast.categories.map((category) => (
+            <Badge variant="secondary">{category}</Badge>
+          ))}
         </div>
-        <CardTitle className="line-clamp-1">{podcast.title}</CardTitle>
-        <CardDescription className="line-clamp-2 mt-2">
-          {podcast.description}
-        </CardDescription>
+        <CardTitle className="line-clamp-1">{podcast.name}</CardTitle>
+
         <div className="flex items-center gap-4 mt-4 text-sm text-gray-500 dark:text-gray-400">
           <span className="flex items-center gap-1">
             <Clock className="h-4 w-4" />
             {podcast.duration} min
-          </span>
-          <span className="flex items-center gap-1">
-            <BookOpen className="h-4 w-4" />
-            {podcast.level}
           </span>
         </div>
       </CardContent>

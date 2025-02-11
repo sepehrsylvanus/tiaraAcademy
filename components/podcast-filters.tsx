@@ -31,21 +31,6 @@ export function PodcastFilters({
       </div>
       <div className="flex flex-wrap gap-4">
         <Select
-          value={filters.level}
-          onValueChange={(value) => onFilterChange("level", value)}
-        >
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Select Level" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Levels</SelectItem>
-            <SelectItem value="Beginner">Beginner</SelectItem>
-            <SelectItem value="Intermediate">Intermediate</SelectItem>
-            <SelectItem value="Advanced">Advanced</SelectItem>
-          </SelectContent>
-        </Select>
-
-        <Select
           value={filters.duration}
           onValueChange={(value) => onFilterChange("duration", value)}
         >

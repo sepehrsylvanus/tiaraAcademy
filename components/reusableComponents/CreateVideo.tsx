@@ -6,11 +6,6 @@ import React, { useEffect, useState } from "react";
 
 import { CircularProgress } from "@mui/material";
 
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import { useQueryClient } from "@tanstack/react-query";
-
-import { useGetCategory } from "@/hooks/useCategory";
 import { useTranslations } from "next-intl";
 import { Label } from "../ui/label";
 import { Checkbox } from "../ui/checkbox";

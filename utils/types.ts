@@ -171,12 +171,15 @@ export interface Notif {
   classTime: string | null;
 }
 export interface Podcast {
-  title: string;
-  description: string;
-  image: string;
-  duration: string;
-  level: string;
-  category: string;
+  name: string;
+
+  imageLink: string;
+  imageName: string;
+  voiceLink: string;
+  voiceName: string;
+  duration: number;
+
+  categories: string[];
 }
 
 export type Filter = {

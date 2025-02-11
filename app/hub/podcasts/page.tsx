@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Headphones } from "lucide-react";
 import Image from "next/image";
@@ -8,8 +8,11 @@ import { Filter, Podcast } from "@/utils/types";
 import { PodcastCard } from "@/components/podcast-card";
 import { PodcastFilters } from "@/components/podcast-filters";
 import { AudioPlayer } from "@/components/audio-player";
+import { useGetPodcasts } from "@/hooks/usePodcast";
 
 export default function PodcastPage() {
+  const { data: podcasts } = useGetPodcasts();
+  const topPodcasts = podcasts?.filter((podcast) => podcast.trend);
   const [filters, setFilters] = useState<Filter>({
     search: "",
     level: "",
@@ -23,20 +26,25 @@ export default function PodcastPage() {
     setFilters((prev) => ({ ...prev, [key]: value }));
   };
 
-  const filteredPodcasts = useMemo(() => {
-    return otherPodcasts.filter((podcast) => {
-      const matchesSearch =
-        podcast.title.toLowerCase().includes(filters.search.toLowerCase()) ||
-        podcast.description
-          .toLowerCase()
-          .includes(filters.search.toLowerCase());
+  const areFiltersApplied = useMemo(() => {
+    return (
+      filters.search || filters.level || filters.duration || filters.category
+    );
+  }, [filters]);
 
-      const matchesLevel = !filters.level || podcast.level === filters.level;
+  const filteredPodcasts = useMemo(() => {
+    if (!areFiltersApplied) {
+      return podcasts;
+    }
+    return podcasts?.filter((podcast) => {
+      const matchesSearch = podcast.name
+        .toLowerCase()
+        .includes(filters.search.toLowerCase());
 
       const matchesDuration =
         !filters.duration ||
         (() => {
-          const duration = Number.parseInt(podcast.duration);
+          const duration = podcast.duration;
           switch (filters.duration) {
             case "0-15":
               return duration <= 15;
@@ -50,17 +58,19 @@ export default function PodcastPage() {
         })();
 
       const matchesCategory =
-        !filters.category || podcast.category === filters.category;
+        !filters.category || podcast.categories.includes(filters.category);
 
-      return (
-        matchesSearch && matchesLevel && matchesDuration && matchesCategory
-      );
+      return matchesSearch && matchesDuration && matchesCategory;
     });
-  }, [filters]);
+  }, [filters, areFiltersApplied, podcasts]);
 
   const handlePodcastClick = (podcast: Podcast) => {
     setCurrentPodcast(podcast);
   };
+
+  useEffect(() => {
+    console.log(currentPodcast);
+  }, [currentPodcast]);
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -114,18 +124,20 @@ export default function PodcastPage() {
             </div>
           </div>
           <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-3">
-            {topPodcasts.map((podcast, index) => (
-              <div
-                key={index}
-                onClick={() => handlePodcastClick(podcast)}
-                className="cursor-pointer"
-              >
-                <PodcastCard
-                  podcast={podcast}
-                  isPlaying={currentPodcast?.title === podcast.title}
-                />
-              </div>
-            ))}
+            {topPodcasts &&
+              topPodcasts.map((podcast, index) => (
+                <div
+                  key={index}
+                  onClick={() => handlePodcastClick(podcast)}
+                  className="cursor-pointer"
+                >
+                  <PodcastCard
+                    handlePodcastClick={handlePodcastClick}
+                    podcast={podcast}
+                    isPlaying={currentPodcast?.name === podcast.name}
+                  />
+                </div>
+              ))}
           </div>
         </div>
       </section>
@@ -154,9 +166,13 @@ export default function PodcastPage() {
 
           {/* Podcast Grid */}
           <div className="mx-auto grid max-w-5xl items-center gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {filteredPodcasts.length > 0 ? (
+            {filteredPodcasts && filteredPodcasts.length > 0 ? (
               filteredPodcasts.map((podcast, index) => (
-                <PodcastCard key={index} podcast={podcast} />
+                <PodcastCard
+                  handlePodcastClick={handlePodcastClick}
+                  key={index}
+                  podcast={podcast}
+                />
               ))
             ) : (
               <div className="col-span-full text-center py-12">
@@ -180,82 +196,3 @@ export default function PodcastPage() {
     </div>
   );
 }
-
-const topPodcasts: Podcast[] = [
-  {
-    title: "Daily Conversations in English",
-    description:
-      "Learn common phrases and expressions used in everyday situations",
-    image: "/placeholder.svg?height=400&width=600",
-    duration: "15",
-    level: "Beginner",
-    category: "Conversation",
-  },
-  {
-    title: "Business English Essentials",
-    description: "Master professional vocabulary and communication skills",
-    image: "/placeholder.svg?height=400&width=600",
-    duration: "20",
-    level: "Intermediate",
-    category: "Business",
-  },
-  {
-    title: "Advanced English Literature",
-    description: "Explore classic works and improve advanced comprehension",
-    image: "/placeholder.svg?height=400&width=600",
-    duration: "25",
-    level: "Advanced",
-    category: "Literature",
-  },
-];
-
-const otherPodcasts: Podcast[] = [
-  {
-    title: "English Grammar Made Easy",
-    description: "Simple explanations of complex grammar rules",
-    image: "/placeholder.svg?height=400&width=600",
-    duration: "10",
-    level: "Beginner",
-    category: "Grammar",
-  },
-  {
-    title: "Travel English Guide",
-    description: "Essential phrases for your next adventure",
-    image: "/placeholder.svg?height=400&width=600",
-    duration: "15",
-    level: "Intermediate",
-    category: "Travel",
-  },
-  {
-    title: "English Idioms & Slang",
-    description: "Understanding common expressions and casual speech",
-    image: "/placeholder.svg?height=400&width=600",
-    duration: "20",
-    level: "Advanced",
-    category: "Conversation",
-  },
-  {
-    title: "IELTS Preparation",
-    description: "Tips and strategies for IELTS success",
-    image: "/placeholder.svg?height=400&width=600",
-    duration: "30",
-    level: "Advanced",
-    category: "IELTS",
-  },
-  {
-    title: "English Pronunciation",
-    description: "Perfect your accent and speaking skills",
-    image: "/placeholder.svg?height=400&width=600",
-    duration: "15",
-    level: "Intermediate",
-    category: "Conversation",
-  },
-  {
-    title: "English for Kids",
-    description: "Fun and engaging lessons for young learners",
-    image: "/placeholder.svg?height=400&width=600",
-    duration: "10",
-    level: "Beginner",
-    category: "Kids",
-  },
-];

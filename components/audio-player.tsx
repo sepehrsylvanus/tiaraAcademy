@@ -86,7 +86,7 @@ export function AudioPlayer({
 
   return (
     <div
-      className={`fixed bottom-0 left-0 right-0 bg-background border-t shadow-lg transition-all duration-300 ${
+      className={`fixed bottom-0 left-0 right-0 bg-white border-t shadow-lg transition-all duration-300 ${
         isMinimized ? "h-16" : "h-24 sm:h-32"
       }`}
     >
@@ -98,25 +98,20 @@ export function AudioPlayer({
               className={`relative ${isMinimized ? "w-12 h-12" : "w-20 h-20"}`}
             >
               <Image
-                src={podcast.image || "/placeholder.svg"}
-                alt={podcast.title}
+                src={podcast.imageLink || "/placeholder.svg"}
+                alt={podcast.name}
                 className="rounded-lg object-cover"
                 fill
               />
             </div>
             <div className="min-w-0">
-              <h3 className="font-semibold truncate">{podcast.title}</h3>
-              {!isMinimized && (
-                <p className="text-sm text-muted-foreground truncate">
-                  {podcast.description}
-                </p>
-              )}
+              <h3 className="font-semibold truncate">{podcast.name}</h3>
             </div>
           </div>
 
           {/* Audio Controls */}
           <div className="flex flex-col justify-center flex-1 max-w-2xl gap-2">
-            <div className="flex items-center justify-center gap-2">
+            <div className="flex rtl:flex-row-reverse items-center justify-center gap-2">
               <Button
                 variant="ghost"
                 size="icon"
@@ -182,7 +177,7 @@ export function AudioPlayer({
 
           {/* Volume Controls */}
           <div className="flex items-center gap-4 flex-1 justify-end">
-            <div className="hidden sm:flex items-center gap-2">
+            <div className="hidden sm:flex items-center gap-2 rtl:flex-row-reverse">
               <Button variant="ghost" size="icon" onClick={toggleMute}>
                 {isMuted ? (
                   <VolumeX className="h-5 w-5" />
@@ -195,7 +190,7 @@ export function AudioPlayer({
                 max={1}
                 step={0.1}
                 onValueChange={handleVolumeChange}
-                className="w-24"
+                className="w-24  "
               />
             </div>
             <Button variant="ghost" size="icon" onClick={onToggleMinimize}>
@@ -212,7 +207,7 @@ export function AudioPlayer({
       {/* Hidden Audio Element */}
       <audio
         ref={audioRef}
-        src="/example-podcast.mp3"
+        src={podcast.voiceLink} // Use the voiceLink property here
         onTimeUpdate={handleTimeUpdate}
         onLoadedMetadata={handleTimeUpdate}
       />
