@@ -23,6 +23,8 @@ import AddVideoCourse from "@/components/videoCourseComponents/AddVideoCourse";
 import CommentsTable from "@/components/commentsTable/CommentsTable";
 import TeacherContactTable from "@/components/TeacherContactTable";
 import EmailTest from "@/components/EmailTest";
+import { Input } from "@/components/ui/input";
+import PodcastForm from "@/components/PodcastForm";
 
 const Hub = async () => {
   const currentUser: User | null = await getSingleUser();
@@ -114,6 +116,11 @@ const Hub = async () => {
                   <p className="mb-2 text-start font-bold">{hubT.cArticle}</p>
                   <CreateVideo title="article" />
                 </div>
+              </div>
+              <div className="space-y-4 text-center border shadow-md rounded-md p-4 bg-extraText text-lightPrime">
+                <p>Upload podcast</p>
+
+                <PodcastForm />
               </div>
             </div>
           </div>

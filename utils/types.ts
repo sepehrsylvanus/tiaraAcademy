@@ -170,3 +170,18 @@ export interface Notif {
   cls?: Class | null;
   classTime: string | null;
 }
+export interface Podcast {
+  title: string;
+  description: string;
+  image: string;
+  duration: string;
+  level: string;
+  category: string;
+}
+
+export type Filter = {
+  search: string;
+  level: string;
+  duration: string;
+  category: string;
+};
