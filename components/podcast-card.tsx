@@ -1,15 +1,11 @@
+"use client";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Play, Pause, Clock, BookOpen } from "lucide-react";
+import { Play, Pause, Clock } from "lucide-react";
 import Image from "next/image";
 import { Podcast } from "@/utils/types";
+import { useTrendPodcast } from "@/hooks/usePodcast";
 
 interface PodcastCardProps {
   podcast: Podcast;
@@ -22,6 +18,7 @@ export function PodcastCard({
   isPlaying,
   handlePodcastClick,
 }: PodcastCardProps) {
+  const { mutate: makeThisTrend } = useTrendPodcast();
   return (
     <Card className="relative group">
       <CardHeader className="p-0">
@@ -62,8 +59,10 @@ export function PodcastCard({
       </CardHeader>
       <CardContent className="p-4">
         <div className="flex items-center gap-2 mb-2">
-          {podcast.categories.map((category) => (
-            <Badge variant="secondary">{category}</Badge>
+          {podcast.categories.map((category, index) => (
+            <Badge key={index} variant="secondary">
+              {category}
+            </Badge>
           ))}
         </div>
         <CardTitle className="line-clamp-1">{podcast.name}</CardTitle>
@@ -73,6 +72,17 @@ export function PodcastCard({
             <Clock className="h-4 w-4" />
             {podcast.duration} min
           </span>
+        </div>
+
+        {/* Button to toggle trending status */}
+        <div className="mt-4">
+          <Button
+            onClick={() => makeThisTrend(podcast.id)}
+            variant="outline"
+            className={podcast.trend ? "trending-button" : ""}
+          >
+            Trend this
+          </Button>
         </div>
       </CardContent>
     </Card>

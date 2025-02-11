@@ -51,3 +51,31 @@ export const createNewPodcast = async (data: FormData) => {
     throw new Error(error.message);
   }
 };
+
+export const makePodcastTrend = async (id: string) => {
+  try {
+    const podcast = await prisma.podcast.findUnique({
+      where: {
+        id,
+      },
+      select: { trend: true },
+    });
+    const newTrend = !podcast?.trend;
+    await prisma.podcast.update({
+      where: {
+        id,
+      },
+      data: {
+        trend: newTrend,
+      },
+    });
+    if (newTrend) {
+      return "Podcast marked as trend";
+    } else {
+      return "Podcast unmarked as trend";
+    }
+  } catch (error: any) {
+    console.log(error.message);
+    throw new Error(error.message);
+  }
+};

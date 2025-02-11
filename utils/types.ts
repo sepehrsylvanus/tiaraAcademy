@@ -171,6 +171,7 @@ export interface Notif {
   classTime: string | null;
 }
 export interface Podcast {
+  id: string;
   name: string;
 
   imageLink: string;
@@ -178,7 +179,7 @@ export interface Podcast {
   voiceLink: string;
   voiceName: string;
   duration: number;
-
+  trend: boolean;
   categories: string[];
 }
 

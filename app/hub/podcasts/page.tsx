@@ -2,7 +2,7 @@
 
 import { useState, useMemo, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Headphones } from "lucide-react";
+import { Headphones, Loader } from "lucide-react";
 import Image from "next/image";
 import { Filter, Podcast } from "@/utils/types";
 import { PodcastCard } from "@/components/podcast-card";
@@ -11,7 +11,7 @@ import { AudioPlayer } from "@/components/audio-player";
 import { useGetPodcasts } from "@/hooks/usePodcast";
 
 export default function PodcastPage() {
-  const { data: podcasts } = useGetPodcasts();
+  const { data: podcasts, isLoading } = useGetPodcasts(); // Destructure isLoading from the hook
   const topPodcasts = podcasts?.filter((podcast) => podcast.trend);
   const [filters, setFilters] = useState<Filter>({
     search: "",
@@ -165,23 +165,29 @@ export default function PodcastPage() {
           </div>
 
           {/* Podcast Grid */}
-          <div className="mx-auto grid max-w-5xl items-center gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {filteredPodcasts && filteredPodcasts.length > 0 ? (
-              filteredPodcasts.map((podcast, index) => (
-                <PodcastCard
-                  handlePodcastClick={handlePodcastClick}
-                  key={index}
-                  podcast={podcast}
-                />
-              ))
-            ) : (
-              <div className="col-span-full text-center py-12">
-                <p className="text-gray-500 dark:text-gray-400">
-                  No podcasts found matching your criteria.
-                </p>
-              </div>
-            )}
-          </div>
+          {isLoading ? (
+            <div className="flex justify-center items-center animate-spin">
+              <Loader />
+            </div>
+          ) : (
+            <div className="mx-auto grid max-w-5xl items-center gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {filteredPodcasts && filteredPodcasts.length > 0 ? (
+                filteredPodcasts.map((podcast, index) => (
+                  <PodcastCard
+                    handlePodcastClick={handlePodcastClick}
+                    key={index}
+                    podcast={podcast}
+                  />
+                ))
+              ) : (
+                <div className="col-span-full text-center py-12">
+                  <p className="text-gray-500 dark:text-gray-400">
+                    No podcasts found matching your criteria.
+                  </p>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </section>
 
