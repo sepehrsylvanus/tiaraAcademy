@@ -9,9 +9,6 @@ import PeopleIcon from "@mui/icons-material/People";
 import NoteAltIcon from "@mui/icons-material/NoteAlt";
 import OndemandVideoIcon from "@mui/icons-material/OndemandVideo";
 import EditNoteIcon from "@mui/icons-material/EditNote";
-import { getToken } from "@/actions/actions";
-
-import { UserProps } from "@/utils/types";
 
 import ClerkAvatar from "../reusableComponents/ClerkAvatar";
 import { CircularProgress } from "@mui/material";
@@ -19,6 +16,7 @@ import WorkspacePremiumIcon from "@mui/icons-material/WorkspacePremium";
 import { useTranslations } from "next-intl";
 import { Button } from "../ui/button";
 import { useGetUser } from "@/hooks/useUsers";
+import { Podcast } from "lucide-react";
 const Sidebar = () => {
   const t = useTranslations("SideBar");
   const { data: user, isLoading: userLoading } = useGetUser();
@@ -83,6 +81,10 @@ const Sidebar = () => {
             <Link href={"/hub/teachers"} className={styles.iconContainer}>
               <PeopleIcon />
               <p className={styles.menuText}>{t("teachers")}</p>
+            </Link>
+            <Link href={"/hub/podcasts"} className={styles.iconContainer}>
+              <Podcast />
+              <p className={styles.menuText}>{t("podcast")}</p>
             </Link>
           </div>
         </div>

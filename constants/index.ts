@@ -504,3 +504,21 @@ export const persianFaqs = [
       "بله، تیم پشتیبانی ما می تواند به هر دو زبان انگلیسی و فارسی به شما کمک کند.",
   },
 ];
+export const podcastCats = [
+  {
+    title: "Language Hacks & Tips",
+    value: "lHacks",
+  },
+  {
+    title: "Cultural Deep Dives",
+    value: "cDD",
+  },
+  {
+    title: "Language Challenges & Fun",
+    value: "lFun",
+  },
+  {
+    title: "Polyglot Stories",
+    value: "pS",
+  },
+];

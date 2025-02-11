@@ -324,3 +324,13 @@ model Email {
   id    String @id @default(cuid()) @map("_id")
   email String
 }
+
+model Podcast {
+  id        String  @id @default(cuid()) @map("_id")
+  imageLink String
+  imageName String
+  voiceLink String
+  voiceName String
+  duration  Int
+  trend     Boolean
+}
