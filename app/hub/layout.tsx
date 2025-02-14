@@ -18,7 +18,7 @@ const layout = async ({ children }: { children: React.ReactNode }) => {
       </div>
       <Link
         href={"/"}
-        className="absolute top-2 left-2 md:ltr:left-[5em] ltr:left-2"
+        className="absolute top-2 left-2 md:ltr:left-[5em] ltr:left-2 z-10"
       >
         <Image src={"/logo.png"} alt="Logo" width={60} height={60} />
       </Link>
