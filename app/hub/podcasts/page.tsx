@@ -8,10 +8,13 @@ import { Filter, Podcast } from "@/utils/types";
 import { PodcastCard } from "@/components/podcast-card";
 import { PodcastFilters } from "@/components/podcast-filters";
 import { AudioPlayer } from "@/components/audio-player";
-import { useGetPodcasts } from "@/hooks/usePodcast";
+import { useGetLivePodcast, useGetPodcasts } from "@/hooks/usePodcast";
+import Link from "next/link";
 
 export default function PodcastPage() {
-  const { data: podcasts, isLoading } = useGetPodcasts(); // Destructure isLoading from the hook
+  const { data: podcasts, isLoading } = useGetPodcasts();
+  const { data: livePodcast, isLoading: livePodcastLoading } =
+    useGetLivePodcast();
   const topPodcasts = podcasts?.filter((podcast) => podcast.trend);
   const [filters, setFilters] = useState<Filter>({
     search: "",
@@ -69,8 +72,8 @@ export default function PodcastPage() {
   };
 
   useEffect(() => {
-    console.log(currentPodcast);
-  }, [currentPodcast]);
+    console.log(livePodcast);
+  }, [livePodcast]);
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -89,10 +92,24 @@ export default function PodcastPage() {
                 </p>
               </div>
               <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                <Button className="inline-flex items-center gap-2">
-                  <Headphones className="h-4 w-4" />
-                  Start Listening
-                </Button>
+                {!livePodcastLoading && (
+                  <Link
+                    className={
+                      livePodcast && livePodcast.length === 0
+                        ? "pointer-events-none"
+                        : ""
+                    }
+                    href={livePodcast?.[0]?.link ?? "#"}
+                  >
+                    <Button
+                      className="inline-flex items-center gap-2"
+                      disabled={livePodcast && livePodcast.length === 0}
+                    >
+                      <Headphones className="h-4 w-4" />
+                      Start Listening
+                    </Button>
+                  </Link>
+                )}
                 <Button variant="outline">View All Podcasts</Button>
               </div>
             </div>
@@ -112,9 +129,11 @@ export default function PodcastPage() {
         <div className="container px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
-              <div className="inline-block rounded-lg bg-primary/10 px-3 py-1 text-sm text-primary">
-                🔴 Live Now
-              </div>
+              {livePodcast && livePodcast.length > 0 && (
+                <div className="inline-block rounded-lg bg-primary/10 px-3 py-1 text-sm text-primary">
+                  <span className="animate-pulse">🔴</span> Live Now
+                </div>
+              )}
               <h2 className="text-3xl font-bold tracking-tighter md:text-4xl">
                 Top Podcasts
               </h2>

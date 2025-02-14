@@ -336,3 +336,8 @@ model Podcast {
   trend      Boolean  @default(false)
   categories String[]
 }
+
+model livePodcast {
+  id   String @id @default(cuid()) @map("_id")
+  link String @unique
+}

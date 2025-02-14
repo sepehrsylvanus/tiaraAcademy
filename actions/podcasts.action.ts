@@ -79,3 +79,38 @@ export const makePodcastTrend = async (id: string) => {
     throw new Error(error.message);
   }
 };
+export const uploadLivePodcast = async (link: string) => {
+  try {
+    const podcastLive = await prisma.livePodcast.create({
+      data: {
+        link,
+      },
+    });
+    if (podcastLive) {
+      return "Live podcast uploaded successfully";
+    }
+  } catch (error: any) {
+    console.log(error.message);
+    throw new Error(error.message);
+  }
+};
+
+export const deleteLivePodcast = async (link: string) => {
+  try {
+    const deleteLivePodcast = await prisma.livePodcast.delete({
+      where: {
+        link,
+      },
+    });
+    if (deleteLivePodcast) {
+      return "You live podcast deleted successfully";
+    }
+  } catch (error: any) {
+    console.log(error.message);
+    throw new Error(error.message);
+  }
+};
+export const getLivePodcastLink = async () => {
+  const liveLink = await prisma.livePodcast.findMany();
+  return liveLink;
+};

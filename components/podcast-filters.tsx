@@ -37,7 +37,7 @@ export function PodcastFilters({
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Select Duration" />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent className="bg-white">
             <SelectItem value="any">Any Duration</SelectItem>
             <SelectItem value="0-15">0-15 minutes</SelectItem>
             <SelectItem value="15-30">15-30 minutes</SelectItem>
@@ -52,7 +52,7 @@ export function PodcastFilters({
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Select Category" />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent className="bg-white">
             <SelectItem value="all">All Categories</SelectItem>
             <SelectItem value="Conversation">Conversation</SelectItem>
             <SelectItem value="Grammar">Grammar</SelectItem>
