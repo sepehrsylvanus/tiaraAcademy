@@ -110,7 +110,9 @@ export default function PodcastPage() {
                     </Button>
                   </Link>
                 )}
-                <Button variant="outline">View All Podcasts</Button>
+                <Link href={"#allPodcasts"}>
+                  <Button variant="outline">View All Podcasts</Button>
+                </Link>
               </div>
             </div>
             <Image
@@ -189,7 +191,10 @@ export default function PodcastPage() {
               <Loader />
             </div>
           ) : (
-            <div className="mx-auto grid max-w-5xl items-center gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <div
+              id="allPodcasts"
+              className="mx-auto grid max-w-5xl items-center gap-6 md:grid-cols-2 lg:grid-cols-3"
+            >
               {filteredPodcasts && filteredPodcasts.length > 0 ? (
                 filteredPodcasts.map((podcast, index) => (
                   <PodcastCard
