@@ -6,6 +6,7 @@ import { Play, Pause, Clock } from "lucide-react";
 import Image from "next/image";
 import { Podcast } from "@/utils/types";
 import { useTrendPodcast } from "@/hooks/usePodcast";
+import { useGetUser } from "@/hooks/useUsers";
 
 interface PodcastCardProps {
   podcast: Podcast;
@@ -19,6 +20,7 @@ export function PodcastCard({
   handlePodcastClick,
 }: PodcastCardProps) {
   const { mutate: makeThisTrend } = useTrendPodcast();
+  const { data: currentUser, isLoading: currentUserLoading } = useGetUser();
   return (
     <Card className="relative group">
       <CardHeader className="p-0">
@@ -75,15 +77,19 @@ export function PodcastCard({
         </div>
 
         {/* Button to toggle trending status */}
-        <div className="mt-4">
-          <Button
-            onClick={() => makeThisTrend(podcast.id)}
-            variant="outline"
-            className={podcast.trend ? "trending-button" : ""}
-          >
-            Trend this
-          </Button>
-        </div>
+        {!currentUserLoading &&
+          (currentUser?.role === "admin" ||
+            currentUser?.role === "adminTeacher") && (
+            <div className="mt-4">
+              <Button
+                onClick={() => makeThisTrend(podcast.id)}
+                variant="outline"
+                className={podcast.trend ? "trending-button" : ""}
+              >
+                Trend this
+              </Button>
+            </div>
+          )}
       </CardContent>
     </Card>
   );
