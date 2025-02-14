@@ -13,6 +13,7 @@ import Link from "next/link";
 
 export default function PodcastPage() {
   const { data: podcasts, isLoading } = useGetPodcasts();
+  console.log(podcasts);
   const { data: livePodcast, isLoading: livePodcastLoading } =
     useGetLivePodcast();
   const topPodcasts = podcasts?.filter((podcast) => podcast.trend);
@@ -44,6 +45,11 @@ export default function PodcastPage() {
         .toLowerCase()
         .includes(filters.search.toLowerCase());
 
+      const matchesLevel =
+        !filters.level ||
+        filters.level === "all" ||
+        podcast.level === filters.level;
+
       const matchesDuration =
         !filters.duration ||
         (() => {
@@ -63,7 +69,9 @@ export default function PodcastPage() {
       const matchesCategory =
         !filters.category || podcast.categories.includes(filters.category);
 
-      return matchesSearch && matchesDuration && matchesCategory;
+      return (
+        matchesSearch && matchesDuration && matchesCategory && matchesLevel
+      );
     });
   }, [filters, areFiltersApplied, podcasts]);
 

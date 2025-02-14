@@ -173,7 +173,7 @@ export interface Notif {
 export interface Podcast {
   id: string;
   name: string;
-
+  level: string;
   imageLink: string;
   imageName: string;
   voiceLink: string;

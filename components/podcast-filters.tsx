@@ -63,6 +63,20 @@ export function PodcastFilters({
             <SelectItem value="Kids">Kids</SelectItem>
           </SelectContent>
         </Select>
+        <Select
+          value={filters.level}
+          onValueChange={(value) => onFilterChange("level", value)}
+        >
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Select Level" />
+          </SelectTrigger>
+          <SelectContent className="bg-white">
+            <SelectItem value="all">All Levels</SelectItem>
+            <SelectItem value="beginner">Beginner</SelectItem>
+            <SelectItem value="intermediate">Intermediate</SelectItem>
+            <SelectItem value="advanced">Advanced</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
     </div>
   );

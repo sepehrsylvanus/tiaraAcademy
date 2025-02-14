@@ -196,14 +196,14 @@ export default async function Home() {
             <Link href={"/hub/podcasts"} className=" rounded-md w-10/12 py-2 ">
               {sBarTranslations.podcast}
             </Link>
-            <Link href={"/hub/blog"}>{sBarTranslations.blog}</Link>
-
             <Link
-              href={"/hub/teachers"}
               className="bg-slate-300  rounded-md w-10/12 py-2 "
+              href={"/hub/blog"}
             >
-              {sBarTranslations.teachers}
+              {sBarTranslations.blog}
             </Link>
+
+            <Link href={"/hub/teachers"}>{sBarTranslations.teachers}</Link>
           </div>
 
           <div

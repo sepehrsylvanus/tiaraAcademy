@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Play, Pause, Clock } from "lucide-react";
+import { Play, Pause, Clock, BookOpen } from "lucide-react";
 import Image from "next/image";
 import { Podcast } from "@/utils/types";
 import { useTrendPodcast } from "@/hooks/usePodcast";
@@ -88,6 +88,16 @@ export function PodcastCard({
               >
                 Trend this
               </Button>
+              <div className="flex items-center gap-4 mt-4 text-sm text-gray-500 dark:text-gray-400">
+                <span className="flex items-center gap-1">
+                  <Clock className="h-4 w-4" />
+                  {podcast.duration} min
+                </span>
+                <span className="flex items-center gap-1">
+                  <BookOpen className="h-4 w-4" />
+                  {podcast.level}
+                </span>
+              </div>
             </div>
           )}
       </CardContent>
