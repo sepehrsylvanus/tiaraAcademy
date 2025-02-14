@@ -73,6 +73,10 @@ const Sidebar = () => {
               <EditNoteIcon />
               <p className={styles.menuText}>{t("writing")}</p>
             </Link>
+            <Link href={"/hub/podcasts"} className={styles.iconContainer}>
+              <Podcast />
+              <p className={styles.menuText}>{t("podcast")}</p>
+            </Link>
             <Link href={"/hub/blogs"} className={styles.iconContainer}>
               <NoteAltIcon />
               <p className={styles.menuText}>{t("blog")}</p>
@@ -81,10 +85,6 @@ const Sidebar = () => {
             <Link href={"/hub/teachers"} className={styles.iconContainer}>
               <PeopleIcon />
               <p className={styles.menuText}>{t("teachers")}</p>
-            </Link>
-            <Link href={"/hub/podcasts"} className={styles.iconContainer}>
-              <Podcast />
-              <p className={styles.menuText}>{t("podcast")}</p>
             </Link>
           </div>
         </div>

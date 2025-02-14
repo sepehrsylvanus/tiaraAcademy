@@ -193,7 +193,11 @@ export default async function Home() {
             >
               {sBarTranslations.writing}
             </Link>
+            <Link href={"/hub/podcasts"} className=" rounded-md w-10/12 py-2 ">
+              {sBarTranslations.podcast}
+            </Link>
             <Link href={"/hub/blog"}>{sBarTranslations.blog}</Link>
+
             <Link
               href={"/hub/teachers"}
               className="bg-slate-300  rounded-md w-10/12 py-2 "
