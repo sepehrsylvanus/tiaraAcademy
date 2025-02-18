@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react";
 import Image from "next/image";
-import { Check, Key, Upload, X } from "lucide-react";
+import { Check, CircleGauge, Key, Upload, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -23,19 +23,32 @@ import { cn } from "@/lib/utils";
 import { createNewPodcast } from "@/actions/podcasts.action";
 import { toast } from "react-toastify";
 import { Separator } from "./ui/separator";
-import { useDeleteLivePodcast, useUploadLivePodcast } from "@/hooks/usePodcast";
+
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
+import { PodcastLevel } from "@prisma/client";
+import PodcastLiveLink from "./PodcastLiveLink";
+import PodcastDelete from "./PodcastDelete";
 
 const categories = [
-  { value: "technology", label: "Technology" },
-  { value: "business", label: "Business" },
-  { value: "education", label: "Education" },
-  { value: "entertainment", label: "Entertainment" },
+  { value: "Conversation", label: "Conversation" },
+  { value: "Grammar", label: "Grammar" },
+  { value: "Business", label: "Business" },
+  { value: "IELTS", label: "IELTS" },
   { value: "health", label: "Health & Wellness" },
-  { value: "sports", label: "Sports" },
-  { value: "news", label: "News & Politics" },
-  { value: "music", label: "Music" },
-  { value: "comedy", label: "Comedy" },
-  { value: "arts", label: "Arts & Culture" },
+  { value: "Literature", label: "Literature" },
+  { value: "Travel", label: "Travel" },
+  { value: "Kids", label: "Kids" },
+];
+const levels = [
+  { value: "beginner", label: "Beginner" },
+  { value: "inermediate", label: "Intermediate" },
+  { value: "advanced", label: "Advanced" },
 ];
 export default function PodcastUploadForm() {
   const [thumbnail, setThumbnail] = useState<string | null>(null);
@@ -48,33 +61,15 @@ export default function PodcastUploadForm() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const audioInputRef = useRef<HTMLInputElement>(null);
   const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
   const [duration, setDuration] = useState("");
   const [audioFile, setAudioFile] = useState<File | null>(null);
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [selectedLevel, setSelectedLevel] = useState<PodcastLevel>("beginner");
   const [open, setOpen] = useState(false);
+  const [openLevel, setopenLevel] = useState(false);
   const [uploading, setUploading] = useState(false);
-  const [livePodcast, setLivePodcast] = useState("");
 
-  const { mutate: uploadLivePodcast, isPending: uploadLiveLoading } =
-    useUploadLivePodcast();
-  const { mutate: deleteLivePodcast, isPending: deleteLiveLoading } =
-    useDeleteLivePodcast();
-
-  const handleUploadLive = () => {
-    try {
-      uploadLivePodcast(livePodcast);
-    } catch (error: any) {
-      return toast.error(error.message);
-    }
-  };
-
-  const handleDeleteLive = async () => {
-    try {
-      deleteLivePodcast(livePodcast);
-    } catch (error: any) {
-      toast.error(error.message);
-    }
-  };
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
@@ -207,6 +202,8 @@ export default function PodcastUploadForm() {
       formData.append("voiceName", podcastName);
       formData.append("duration", duration);
       formData.append("categories", selectedCategories.join(","));
+      formData.append("description", description);
+      formData.append("level", selectedLevel);
       const newPodcast = await createNewPodcast(formData);
       if (newPodcast) {
         toast.success(newPodcast);
@@ -290,6 +287,22 @@ export default function PodcastUploadForm() {
                 </Command>
               </PopoverContent>
             </Popover>
+          </div>
+          <div className="space-y-2">
+            <Label>Level</Label>
+            <Select
+              value={selectedLevel}
+              onValueChange={(value: PodcastLevel) => setSelectedLevel(value)}
+            >
+              <SelectTrigger className="flex flex-row-reverse">
+                <SelectValue placeholder="Select Level" />
+              </SelectTrigger>
+              <SelectContent className="bg-white">
+                <SelectItem value="beginner">Beginner</SelectItem>
+                <SelectItem value="intermediate">Intermediate</SelectItem>
+                <SelectItem value="advanced">Advanced</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
 
           <div className="space-y-2">
@@ -392,6 +405,16 @@ export default function PodcastUploadForm() {
               required
             />
           </div>
+          <div className="space-y-2">
+            <Label htmlFor="name">Podcast Description</Label>
+            <Input
+              id="description"
+              placeholder="Enter a simple description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              required
+            />
+          </div>
 
           <Button type="submit" className="w-full" disabled={uploading}>
             {uploading
@@ -401,31 +424,9 @@ export default function PodcastUploadForm() {
         </form>
 
         <Separator className="my-4" />
-        <Input
-          id="livePodcast"
-          type="text"
-          placeholder="Enter live podcast link"
-          value={livePodcast}
-          onChange={(e) => setLivePodcast(e.target.value)}
-          className="mb-4"
-        />
-        <div className="flex flex-col gap-3">
-          <Button
-            onClick={handleUploadLive}
-            className="w-full"
-            disabled={uploadLiveLoading}
-          >
-            {uploadLiveLoading ? `Uploading live link...` : "Upload live link"}
-          </Button>
-          <Button
-            onClick={handleDeleteLive}
-            variant={"destructive"}
-            className="w-full"
-            disabled={deleteLiveLoading}
-          >
-            {deleteLiveLoading ? `Deleting live link...` : "Delete live link"}
-          </Button>
-        </div>
+        <PodcastLiveLink />
+        <Separator className="my-4" />
+        <PodcastDelete />
       </CardContent>
     </Card>
   );

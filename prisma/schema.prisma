@@ -66,7 +66,7 @@ enum ClassType {
 
 enum PodcastLevel {
   beginner
-  inermediate
+  intermediate
   advanced
 }
 
@@ -332,16 +332,17 @@ model Email {
 }
 
 model Podcast {
-  id         String       @id @default(cuid()) @map("_id")
-  name       String
-  imageLink  String
-  imageName  String
-  voiceLink  String
-  voiceName  String
-  duration   Int
-  trend      Boolean      @default(false)
-  categories String[]
-  level      PodcastLevel @default(beginner)
+  id          String       @id @default(cuid()) @map("_id")
+  name        String
+  imageLink   String
+  imageName   String
+  voiceLink   String
+  voiceName   String
+  duration    Int
+  trend       Boolean      @default(false)
+  categories  String[]
+  level       PodcastLevel @default(beginner)
+  description String       @default("Test description")
 }
 
 model livePodcast {

@@ -1,12 +1,20 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Play, Pause, Clock, BookOpen } from "lucide-react";
 import Image from "next/image";
 import { Podcast } from "@/utils/types";
 import { useTrendPodcast } from "@/hooks/usePodcast";
 import { useGetUser } from "@/hooks/useUsers";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface PodcastCardProps {
   podcast: Podcast;
@@ -21,6 +29,12 @@ export function PodcastCard({
 }: PodcastCardProps) {
   const { mutate: makeThisTrend } = useTrendPodcast();
   const { data: currentUser, isLoading: currentUserLoading } = useGetUser();
+
+  const copyToClipboard = (id: string) => {
+    navigator.clipboard.writeText(id);
+    toast("Desired podcast id copied");
+  };
+
   return (
     <Card className="relative group">
       <CardHeader className="p-0">
@@ -101,6 +115,16 @@ export function PodcastCard({
             </div>
           )}
       </CardContent>
+      {!currentUserLoading &&
+        (currentUser?.role === "admin" ||
+          currentUser?.role === "adminTeacher") && (
+          <CardFooter
+            className="p-4 cursor-pointer transition-transform hover:scale-105"
+            onClick={() => copyToClipboard(podcast.id)}
+          >
+            <span>{`Podcast ID: ${podcast.id}`}</span>
+          </CardFooter>
+        )}
     </Card>
   );
 }

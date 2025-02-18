@@ -1,5 +1,6 @@
 import {
   deleteLivePodcast,
+  deletePodcast,
   getAllPodcasts,
   getLivePodcastLink,
   makePodcastTrend,
@@ -62,6 +63,19 @@ export const useDeleteLivePodcast = () => {
     onSuccess: (data) => {
       toast.warning(data);
       queryClient.invalidateQueries({ queryKey: ["getLivePodcastLink"] });
+    },
+  });
+};
+export const useDeletePodcast = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const deletedPodcast = await deletePodcast(id);
+      return deletedPodcast;
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["getPodcasts"] });
+      toast.warning(data);
     },
   });
 };

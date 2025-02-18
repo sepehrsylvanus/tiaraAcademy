@@ -74,7 +74,7 @@ export default function PodcastPage() {
       );
     });
   }, [filters, areFiltersApplied, podcasts]);
-
+  console.log({ podcasts, filteredPodcasts });
   const handlePodcastClick = (podcast: Podcast) => {
     setCurrentPodcast(podcast);
   };
