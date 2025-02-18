@@ -16,6 +16,7 @@ import ClerkAvatar from "../reusableComponents/ClerkAvatar";
 import { getToken } from "@/actions/actions";
 import Notifs from "../Notifs";
 import { useGetUser } from "@/hooks/useUsers";
+import { Podcast } from "lucide-react";
 
 const CustomHamburger = ({
   sidebar,
@@ -69,22 +70,6 @@ const CustomHamburger = ({
           </div>
         )}
 
-        {/* 
-        <SignedIn>
-          <div
-            className={` mb-3 ${
-              navbar ? "border-t-2 border-dashed pt-4" : ""
-            } flex items-center justify-between gap-6`}
-          >
-            <Link href={"/hub"} className="brownLink">
-              Enter Hub
-            </Link>
-
-            <div className=" scale-150">
-              <UserButton afterSignOutUrl="/" />
-            </div>
-          </div>
-        </SignedIn> */}
         <div
           className={` ${
             sidebar ? "flex" : "hidden"
@@ -96,17 +81,21 @@ const CustomHamburger = ({
           <Link href={"/hub/classes"} className="navLinkContainer">
             <AccessTime />
           </Link>
+          <Link href={"/hub/videos"} className="navLinkContainer">
+            <OndemandVideo />
+          </Link>
+
           <Link href={"/hub/writing"} className="navLinkContainer">
             <EditNote />
           </Link>
-          <Link href={"/hub/teachers"} className="navLinkContainer">
-            <People />
+          <Link href={"/hub/podcasts"} className="navLinkContainer">
+            <Podcast />
           </Link>
           <Link href={"/hub/blogs"} className="navLinkContainer">
             <NoteAlt />
           </Link>
-          <Link href={"/hub/videos"} className="navLinkContainer">
-            <OndemandVideo />
+          <Link href={"/hub/teachers"} className="navLinkContainer">
+            <People />
           </Link>
         </div>
       </div>
