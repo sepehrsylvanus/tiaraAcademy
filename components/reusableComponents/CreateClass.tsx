@@ -515,7 +515,6 @@ const CreateClass = () => {
                     multiple
                     sx={{ backgroundColor: "#c6d9e6", width: "100%" }}
                   >
-                    {console.log({ chosenType })}
                     {(chosenType === "oneVOne" || chosenType === "group") &&
                       publicTimes.map((time) => (
                         <MenuItem key={time} value={time}>
