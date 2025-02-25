@@ -452,7 +452,7 @@ const CreateClass = () => {
                                 .format("YYYY/MM/DD")}`}</p>
                             ) : chosenType == "workshop" ||
                               chosenType === "group" ||
-                              chosenType === "1v1" ? (
+                              chosenType === "oneVOne" ? (
                               <p> {t("pickDate")}</p>
                             ) : (
                               <p>{t("deactive")}</p>
@@ -515,7 +515,8 @@ const CreateClass = () => {
                     multiple
                     sx={{ backgroundColor: "#c6d9e6", width: "100%" }}
                   >
-                    {(chosenType === "1v1" || chosenType === "group") &&
+                    {console.log({ chosenType })}
+                    {(chosenType === "oneVOne" || chosenType === "group") &&
                       publicTimes.map((time) => (
                         <MenuItem key={time} value={time}>
                           {time}
