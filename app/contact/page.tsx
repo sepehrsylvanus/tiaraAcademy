@@ -103,11 +103,11 @@ export default async function ContactPage() {
                 <div className="space-y-2">
                   <h3 className="font-medium">{t.phoneDesc}</h3>
                   <Link
-                    href="tel:09102905410"
+                    href="tel:09912967619"
                     className="text-sm text-muted-foreground hover:text-primary transition-colors flex items-center gap-2 group-hover:translate-x-1 duration-300"
                   >
                     <Phone className="h-4 w-4" />
-                    09102905410
+                    09912967619
                   </Link>
                 </div>
               </div>
