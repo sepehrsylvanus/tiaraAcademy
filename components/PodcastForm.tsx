@@ -36,14 +36,13 @@ import PodcastLiveLink from "./PodcastLiveLink";
 import PodcastDelete from "./PodcastDelete";
 
 const categories = [
-  { value: "Conversation", label: "Conversation" },
-  { value: "Grammar", label: "Grammar" },
   { value: "Business", label: "Business" },
-  { value: "IELTS", label: "IELTS" },
-  { value: "health", label: "Health & Wellness" },
-  { value: "Literature", label: "Literature" },
-  { value: "Travel", label: "Travel" },
-  { value: "Kids", label: "Kids" },
+  { value: "Technology", label: "Technology" },
+  { value: "Education", label: "Education" },
+  { value: "Entertainment", label: "Entertainment" },
+  { value: "News", label: "News" },
+  { value: "Sports", label: "Sports" },
+  { value: "SocietyAndCulture", label: "Society & Culture" },
 ];
 const levels = [
   { value: "beginner", label: "Beginner" },

@@ -54,13 +54,13 @@ export function PodcastFilters({
           </SelectTrigger>
           <SelectContent className="bg-white">
             <SelectItem value="all">All Categories</SelectItem>
-            <SelectItem value="Conversation">Conversation</SelectItem>
-            <SelectItem value="Grammar">Grammar</SelectItem>
             <SelectItem value="Business">Business</SelectItem>
-            <SelectItem value="IELTS">IELTS</SelectItem>
-            <SelectItem value="Literature">Literature</SelectItem>
-            <SelectItem value="Travel">Travel</SelectItem>
-            <SelectItem value="Kids">Kids</SelectItem>
+            <SelectItem value="Technology">Technology</SelectItem>
+            <SelectItem value="Education">Education</SelectItem>
+            <SelectItem value="Entertainment">Entertainment</SelectItem>
+            <SelectItem value="News">News</SelectItem>
+            <SelectItem value="Sports">Sports</SelectItem>
+            <SelectItem value="SocietyAndCulture">Society & Culture</SelectItem>
           </SelectContent>
         </Select>
         <Select
