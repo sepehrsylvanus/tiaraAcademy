@@ -358,7 +358,9 @@
     "paymentUnsuccessful": "Payment Unsuccessul",
     "description1": "Your payment of",
     "description2": "has been processed successfully. Thank you for your purchase!",
-    "return": "Click and to course Page"
+    "return": "Click and to course Page",
+    "writingCharge": "Your writing token charged to",
+    "videoCourse": "You bought the video course successfully"
   },
   "Payments": {
     "payments": "Payments",

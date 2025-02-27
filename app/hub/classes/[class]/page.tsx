@@ -8,11 +8,7 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import ClassesDate from "@/components/classesDate/ClassesDate";
 import CustomSelect from "@/components/customSelect/CustomSelect";
 
-import {
-  getRegisterdClasses,
-  getToken,
-  reserveFreePlacement,
-} from "@/actions/actions";
+import { getRegisterdClasses, reserveFreePlacement } from "@/actions/actions";
 import { FormProvider, useForm } from "react-hook-form";
 import { Class } from "@/utils/types";
 import { z } from "zod";
