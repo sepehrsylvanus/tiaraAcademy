@@ -16,14 +16,14 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
   const signInT = messages.SignIn;
   const user = await prisma.user.findUnique({
     where: {
-      email: formData.email,
+      email: formData.email.toLowerCase(),
     },
   });
   const agentAlreadyExists = user?.agents.includes(formData.userAgent);
   if (agentAlreadyExists) {
     const token = sign(
       {
-        data: formData.email,
+        data: formData.email.toLowerCase(),
       },
       process.env.NEXT_PUBLIC_TOKEN_SERCRET,
       {
@@ -65,7 +65,7 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
   }
   await prisma.user.update({
     where: {
-      email: formData.email,
+      email: formData.email.toLowerCase(),
     },
     data: {
       agents: {
@@ -76,7 +76,7 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
 
   const token = sign(
     {
-      data: formData.email,
+      data: formData.email.toLowerCase(),
     },
     process.env.NEXT_PUBLIC_TOKEN_SERCRET,
     {
