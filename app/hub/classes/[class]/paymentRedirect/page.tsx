@@ -56,7 +56,7 @@ export default async function PaymentRedirect(params: Params) {
     </div>
   );
 }
-// http://localhost:4000/hub/cm00lbuyn000pk16s6dke6inq/paymentRedirect?Authority=A000000000000000000000000000ydjwxllj&Status=OK
+
 
 function CircleCheckIcon(props: any) {
   return (

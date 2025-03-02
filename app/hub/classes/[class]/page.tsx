@@ -45,6 +45,7 @@ const classValidation = z.object({
 
   time: z.string(),
 });
+
 const MyClass = (details: DetailsProps) => {
   const [chosenTime, setChosenTime] = useState("");
   const [registeredClasses, setRegisteredClasses] = useState<ClassUsers[]>([]);
@@ -110,7 +111,7 @@ const MyClass = (details: DetailsProps) => {
         router.push(placementPayment!);
       } else {
         const placementPayment = await createNewPayment(
-          Number(singleClass?.price),
+          Number(singleClass?.discountedPrice),
           currentUser!,
           "placement",
           classTime,
@@ -157,7 +158,7 @@ const MyClass = (details: DetailsProps) => {
       }
     } else {
       const makePayment = await createNewPayment(
-        Number(singleClass?.price),
+        Number(singleClass?.discountedPrice),
         currentUser!,
         "class",
         chosenTime,

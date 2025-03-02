@@ -46,7 +46,8 @@ export default async function PaymentRedirect(params: Params) {
             : t.paymentUnsuccessful}
         </h1>
         <p className="mt-4 text-muted-foreground">
-          {type === "writingCharge" && "Your writing token charged to"}
+          {type === "writingCharge" && t.writingCharge}
+          {type === 'videoCourse' && t.videoCourse}
         </p>
         <div className="mt-8">
           {type === "writingCharge" && (

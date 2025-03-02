@@ -354,13 +354,15 @@ const Classes = ({ searchParams: { teacher } }: Props) => {
                             ifHasDiscount ? "line-through text-red-500" : ""
                           }
                         >
-                          {eachClass.price}
+                          {Number(eachClass.price).toLocaleString()}
                         </p>
                         {ifHasDiscount && (
                           <p>
-                            {Number(eachClass.price) -
+                            {(
+                              Number(eachClass.price) -
                               Number(eachClass.price) *
-                                (Number(eachClass.discount) / 100)}
+                                (Number(eachClass.discount) / 100)
+                            ).toLocaleString()}
                           </p>
                         )}
                       </div>

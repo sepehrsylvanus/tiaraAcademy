@@ -38,7 +38,7 @@ import TextEditor from "@/components/TextEditor";
 import { Textarea } from "@/components/ui/textarea";
 import { Download } from "lucide-react";
 import { Google } from "@mui/icons-material";
-import { extractPaths } from "@/utils/helperFunctions";
+
 import { CircularProgress } from "@mui/material";
 
 type SingleVideoProps = {
